@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccionCorrectScreen;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\DatosAX;
+use App\Models\OpcionesDefectosScreen;
 use App\Models\ScreenPrint;
 use App\Models\Tecnicos;
 use App\Models\Tipo_Fibra;
@@ -104,8 +106,25 @@ class CalidadScreenPrintController extends Controller
         // Filtrar registros con la fecha actual
         $screen = ScreenPrint::whereDate('created_at', $today)->get();
 
+        // Obtener opciones predeterminadas
+        $defaultTipoProblema = "OpciónPredeterminadaTipoProblema";
+        $defaultAcCorrectiva = "OpciónPredeterminadaAcCorrectiva";
+
+        // Añadir opciones predeterminadas a cada registro
+        foreach ($screen as &$item) {
+            // Verificar y asignar el valor predeterminado si Tipo_Problema no está definido
+            $item['Tipo_Problema'] = isset($item['Tipo_Problema']) ? $item['Tipo_Problema'] : $defaultTipoProblema;
+
+            // Verificar y asignar el valor predeterminado si Ac_Correctiva no está definido
+            $item['Ac_Correctiva'] = isset($item['Ac_Correctiva']) ? $item['Ac_Correctiva'] : $defaultAcCorrectiva;
+        }
+
+        // Crear un array asociativo con los datos a retornar
         return response()->json($screen);
     }
+
+
+
     public function SendScreenPrint(Request $request)
 {
     // Obtener la marca addRowClicked del formulario
@@ -179,7 +198,19 @@ class CalidadScreenPrintController extends Controller
 
        return response()->json(['mensaje' => 'Datos actualizados exitosamente']);
    }
+   public function obtenerOpcionesACCorrectiva()
+   {
+       $data = AccionCorrectScreen::pluck('AccionCorrectiva');
 
+       return response()->json($data);
+   }
+
+   public function obtenerOpcionesTipoProblema()
+   {
+    $data = OpcionesDefectosScreen::pluck('Defecto');
+
+    return response()->json($data);
+   }
 
 }
 

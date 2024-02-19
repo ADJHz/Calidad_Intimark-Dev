@@ -379,6 +379,7 @@
                 error: function(error) {
                     console.error('Error al cargar opciones de Tecnicos: ', error);
                 }
+
             });
             $.ajax({
                 url: '/TipoTecnica', // Ajusta la URL según tu ruta
@@ -488,10 +489,10 @@
             });
         });
     </script>
-
     <script>
         var lastRegisteredId = 0;
         var addRowClicked = false;
+
         $(document).ready(function() {
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
@@ -499,241 +500,298 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    // Limpiar la tabla antes de agregar nuevas filas
-                    $('#miTabla tbody').empty();
+                    try {
+                        // Limpiar la tabla antes de agregar nuevas filas
+                        $('#miTabla tbody').empty();
 
-                    // Iterar sobre los datos recibidos y agregar filas a la tabla
-                    $.each(data, function(index, item) {
-                        var isGuardado = item.Status === 'Nuevo' ||  item.Status === 'Update';
-                        var readonlyAttribute = isGuardado ? '' : 'readonly';
-                        var disabledAttribute = isGuardado ? '' : 'style="display:none;"';
+                        // Iterar sobre los datos recibidos y agregar filas a la tabla
+                        $.each(data, function(index, item) {
+                            var isGuardado = item.Status === 'Nuevo' || item.Status ==='Update';
+                            var readonlyAttribute = isGuardado ? '' : 'readonly';
+                            var disabledAttribute = isGuardado ? '' : 'disabled';
 
-                        var row = '<tr>' +
-                            '<td><input type="text" name = "id" class="form-control" value="' + item
-                            .id + '" readonly></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Auditor + '" readonly></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Cliente + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Estilo + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .OP_Defec + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Tecnico + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item.Color +
-                            '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Num_Grafico + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Tecnica + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Fibras + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Porcen_Fibra + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Tipo_Problema + '" ' + readonlyAttribute + '></td>' +
-                            '<td><input type="text" class="form-control" value="' + item
-                            .Ac_Correctiva + '" ' + readonlyAttribute + '></td>' +
-                            '<td><button type="button" class="btn btn-primary guardarFila" ' +
-                            disabledAttribute + '>Guardar</button></td>' +
-                            '</tr>';
+                            var row = '<tr>' +
+                                '<td><input type="text" name="id" class="form-control" value="' +
+                                item.id +
+                                '" readonly></td>' +
+                                '<td><input type="text" name="Auditor" class="form-control" value="' +
+                                item.Auditor +
+                                '" readonly></td>' +
+                                '<td><input type="text" name="Cliente" class="form-control" value="' +
+                                item.Cliente +
+                                '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Estilo" class="form-control" value="' +
+                                item.Estilo +
+                                '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="OP_Defec" class="form-control" value="' +
+                                item
+                                .OP_Defec + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Tecnico" class="form-control" value="' +
+                                item
+                                .Tecnico + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Color" class="form-control" value="' +
+                                item.Color +
+                                '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
+                                item
+                                .Num_Grafico + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Tecnica" class="form-control" value="' +
+                                item
+                                .Tecnica + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Fibras" class="form-control" value="' +
+                                item
+                                .Fibras + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
+                                item
+                                .Porcen_Fibra + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Tipo_Problema" class="form-control" value="' +
+                                item
+                                .Tipo_Problema + '" ' + readonlyAttribute + '></td>' +
+                                '<td><input type="text" name="Ac_Correctiva" class="form-control" value="' +
+                                item
+                                .Ac_Correctiva + '" ' + readonlyAttribute + '></td>' +
+                                '<td><button type="button" class="btn btn-primary guardarFila updateFile" ' +
+                                disabledAttribute + '>Guardar</button></td>' +
+                                '</tr>';
 
-                        $('#miTabla tbody').append(row);
-                        lastRegisteredId = item.id;
-                    });
-
+                            $('#miTabla tbody').append(row);
+                            lastRegisteredId = item.id;
+                        });
+                    } catch (error) {
+                        console.error('Error al procesar los datos:', error);
+                    }
                 },
-                error: function(error) {
-                    console.log('Error en la llamada Ajax:', error);
+                error: function(xhr, status, error) {
+                    console.error('Error en la llamada Ajax:', status, error);
                 }
             });
         });
     </script>
-  <script>
-  // Variable para rastrear si se hizo clic en el botón "AddRow"
-var addRowClicked = false;
 
-// Evento de clic en el botón "AddRow"
-$('#insertarFila').on('click', function() {
-    console.log('Se hizo clic en el botón "AddRow"');
-    addRowClicked = true;
 
-    // Incrementar el último ID generado
-    lastRegisteredId++;
+    <script>
+        var addRowClicked = false;
 
-    // Resto del código...
-    // Obtener los valores seleccionados
+        function cargarOpcionesACCorrectiva() {
+            $.ajax({
+                url: '/obtenerOpcionesACCorrectiva', // Ajusta la ruta según tu configuración
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    llenarSelect('ac_correctivaR[]', data, 'Seleccione Acción Correctiva');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener opciones de ac_correctivaR[]:', status, error);
+                }
+            });
+        }
 
-    var auditor = '{{ Auth::user()->name }}';
-    var cliente = $('#clienteSelect').val();
-    var estilo = $('#estiloSelect').val();
-    var op = $('#ordenSelect').val();
-    var tecnico = $('#tecnicosSelect').val();
-    var color = $('#inputColor').val();
-    var numGrafico = $('#inputGrafico').val();
-    var tecnica = $('#tecnicaSelect').val();
-    var fibras = $('#fibraSelect').val();
-    var tipoProblema = $('#tipoProblemaSelect').val();
-    var acCorrectiva = $('#acCorrectivaSelect').val();
+        function cargarOpcionesTipoProblema() {
+            $.ajax({
+                url: '/obtenerOpcionesTipoProblema', // Ajusta la ruta según tu configuración
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    llenarSelect('tipo_problemaR[]', data, 'Seleccione Tipo de Problema');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener opciones de tipo_problemaR[]:', status, error);
+                }
+            });
+        }
 
-    // Obtener los valores de porcentaje de fibra
-    var porcentajes = [];
-    $('.porcentajeInput').each(function() {
-        porcentajes.push($(this).val());
-    });
+        function llenarSelect(nombreSelect, opciones) {
+            var select = $('.form-control[name="' + nombreSelect + '"]');
+            select.empty();
 
-    // Crear la nueva fila con los valores seleccionados y los porcentajes de fibra
-    var newRow = '<tr>' +
-        '<td><input type="hidden" name="id[]" value="' + lastRegisteredId + '"></td>' +
-        '<td><input type="text" name="auditor[]" class="form-control" value="' + auditor +
-        '" readonly></td>' +
-        '<td><input type="text" name="cliente[]" class="form-control" value="' + cliente +
-        '"></td>' +
-        '<td><input type="text" name="estilo[]" class="form-control" value="' + estilo +
-        '"></td>' +
-        '<td><input type="text" name="op_defec[]" class="form-control" value="' + op +
-        '"></td>' +
-        '<td><input type="text" name="tecnico[]" class="form-control" value="' + tecnico +
-        '"></td>' +
-        '<td><input type="text" name="color[]" class="form-control" value="' + color +
-        '"></td>' +
-        '<td><input type="text" name="num_grafico[]" class="form-control" value="' +
-        numGrafico + '"></td>' +
-        '<td><input type="text" name="tecnica[]" class="form-control" value="' + tecnica +
-        '"></td>' +
-        '<td><input type="text" name="fibras[]" class="form-control" value="' + fibras.join(
-            ', ') + '"></td>' +
-        '<td><input type="text" name="porcentaje_fibra[]" class="form-control" value="' +
-        porcentajes.join(', ') + '"></td>' +
-        '<td><input type="text" name="tipo_problema[]" class="form-control" value="' +
-        tipoProblema + '"></td>' +
-        '<td><input type="text" name="ac_correctiva[]" class="form-control" value="' +
-        acCorrectiva + '"></td>' +
-        '<td><button type="button" class="btn btn-primary guardarFila">Guardar</button></td>' +
-        '</tr>';
+            select.select2({
+                placeholder: 'Seleccione una opcion',
+                allowClear: true
+            });
 
-    // Agregar la nueva fila a la tabla
-    $('#miTabla tbody').append(newRow);
-});
 
-// Evento de clic en el botón "Guardar"
-$(document).on('click', '.guardarFila', function() {
-    console.log('Se hizo clic en el botón "Guardar"');
+            opciones.forEach(function(opcion) {
+                select.append('<option value="' + opcion + '">' + opcion + '</option>');
+            });
 
-    // Obtener el ID del registro desde el primer campo de entrada
-    var idValue = $(this).closest('tr').find('[name="auditor[]"]').val();
+            select.select2();
+        }
 
-    // Obtener el token CSRF
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-alert(idValue);
-    // Verificar si se hizo clic en el botón "AddRow"
-    if (addRowClicked) {
-        // Obtener los valores de la fila desde los campos de entrada
-        var auditorValue = $(this).closest('tr').find('[name="auditor[]"]').val();
-        var clienteValue = $(this).closest('tr').find('[name="cliente[]"]').val();
-        var estiloValue = $(this).closest('tr').find('[name="estilo[]"]').val();
-        var opDefecValue = $(this).closest('tr').find('[name="op_defec[]"]').val();
-        var tecnicoValue = $(this).closest('tr').find('[name="tecnico[]"]').val();
-        var colorValue = $(this).closest('tr').find('[name="color[]"]').val();
-        var numGraficoValue = $(this).closest('tr').find('[name="num_grafico[]"]').val();
-        var tecnicaValue = $(this).closest('tr').find('[name="tecnica[]"]').val();
-        var fibrasValue = $(this).closest('tr').find('[name="fibras[]"]').val();
-        var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibra[]"]').val();
-        var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problema[]"]').val();
-        var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctiva[]"]').val();
+        $('#insertarFila').on('click', function() {
+            console.log('Se hizo clic en el botón "AddRow"');
+            addRowClicked = true;
 
-        $.ajax({
-            url: '/SendScreenPrint',
-            method: 'POST',
-            data: {
-                _token: csrfToken,
-                addRowClicked: addRowClicked,
-                id: idValue,
-                Auditor: auditorValue,
-                Cliente: clienteValue,
-                Estilo: estiloValue,
-                OP_Defec: opDefecValue,
-                Tecnico: tecnicoValue,
-                Color: colorValue,
-                Num_Grafico: numGraficoValue,
-                Tecnica: tecnicaValue,
-                Fibras: fibrasValue,
-                Porcen_Fibra: porcentajeFibraValue,
-                Tipo_Problema: tipoProblemaValue,
-                Ac_Correctiva: acCorrectivaValue
-            },
-            success: function(response) {
-                // Realizar acciones adicionales si es necesario después de la respuesta exitosa
-                console.log(response);
+            lastRegisteredId++;
 
-                // Actualizar lastRegisteredId después de guardar
+            var auditor = '{{ Auth::user()->name }}';
+            var cliente = $('#clienteSelect').val();
+            var estilo = $('#estiloSelect').val();
+            var op = $('#ordenSelect').val();
+            var tecnico = $('#tecnicosSelect').val();
+            var color = $('#inputColor').val();
+            var numGrafico = $('#inputGrafico').val();
+            var tecnica = $('#tecnicaSelect').val();
+            var fibras = $('#fibraSelect').val();
+            var tipoProblema = $('#tipoProblemaSelect').val();
+            var acCorrectiva = $('#acCorrectivaSelect').val();
 
-                console.log('ID del registro:', idValue);
+            var porcentajes = [];
+            $('.porcentajeInput').each(function() {
+                porcentajes.push($(this).val());
+            });
 
-// Llamar a la función de actualización solo si el ID es válido
-if (idValue !== undefined && idValue !== '') {
-    updateRecord(idValue);
-} else {
-    console.log('ID no válido');
-}
-                // Recargar la página para restablecer addRowClicked
-                location.reload();
-            },
-            error: function(error) {
-                // Manejar errores si es necesario
-                console.log('Error en la solicitud POST:', error);
+            var newRow = '<tr>' +
+                '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
+                '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
+                '" readonly></td>' +
+                '<td><input type="text" name="clienteR[]" class="form-control" value="' + cliente +
+                '"></td>' +
+                '<td><input type="text" name="estiloR[]" class="form-control" value="' + estilo +
+                '"></td>' +
+                '<td><input type="text" name="op_defecR[]" class="form-control" value="' + op +
+                '"></td>' +
+                '<td><input type="text" name="tecnicoR[]" class="form-control" value="' + tecnico +
+                '"></td>' +
+                '<td><input type="text" name="colorR[]" class="form-control" value="' + color +
+                '"></td>' +
+                '<td><input type="text" name="num_graficoR[]" class="form-control" value="' +
+                numGrafico + '"></td>' +
+                '<td><input type="text" name="tecnicaR[]" class="form-control" value="' + tecnica +
+                '"></td>' +
+                '<td><input type="text" name="fibrasR[]" class="form-control" value="' + fibras.join(', ') +
+                '"></td>' +
+                '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
+                porcentajes.join(', ') + '"></td>' +
+                '<td><select class="form-control" name="tipo_problemaR[]"></select></td>' +
+                '<td><select class="form-control" name="ac_correctivaR[]"></select></td>' +
+                '<td><button type="button" class="btn btn-primary guardarFila updateFile">Guardar</button></td>' +
+                '</tr>';
+
+            $('#miTabla tbody').append(newRow);
+
+            // Cargar opciones de los nuevos select
+            cargarOpcionesACCorrectiva();
+            cargarOpcionesTipoProblema();
+        });
+
+        $(document).ready(function() {
+            cargarOpcionesACCorrectiva();
+            cargarOpcionesTipoProblema();
+        });
+        // Evento de clic en el botón "Guardar"
+        $(document).on('click', '.guardarFila', function() {
+            console.log('Se hizo clic en el botón "Guardar"');
+            // Obtener el token CSRF
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            // Verificar si se hizo clic en el botón "AddRow"
+            if (addRowClicked) {
+                // Obtener los valores de la fila desde los campos de entrada
+                var auditorValue = $(this).closest('tr').find('[name="auditorR[]"]').val();
+                var clienteValue = $(this).closest('tr').find('[name="clienteR[]"]').val();
+                var estiloValue = $(this).closest('tr').find('[name="estiloR[]"]').val();
+                var opDefecValue = $(this).closest('tr').find('[name="op_defecR[]"]').val();
+                var tecnicoValue = $(this).closest('tr').find('[name="tecnicoR[]"]').val();
+                var colorValue = $(this).closest('tr').find('[name="colorR[]"]').val();
+                var numGraficoValue = $(this).closest('tr').find('[name="num_graficoR[]"]').val();
+                var tecnicaValue = $(this).closest('tr').find('[name="tecnicaR[]"]').val();
+                var fibrasValue = $(this).closest('tr').find('[name="fibrasR[]"]').val();
+                var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibraR[]"]').val();
+                var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
+                var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
+                $.ajax({
+                    url: '/SendScreenPrint',
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken,
+                        addRowClicked: addRowClicked,
+                        Auditor: auditorValue,
+                        Cliente: clienteValue,
+                        Estilo: estiloValue,
+                        OP_Defec: opDefecValue,
+                        Tecnico: tecnicoValue,
+                        Color: colorValue,
+                        Num_Grafico: numGraficoValue,
+                        Tecnica: tecnicaValue,
+                        Fibras: fibrasValue,
+                        Porcen_Fibra: porcentajeFibraValue,
+                        Tipo_Problema: tipoProblemaValue,
+                        Ac_Correctiva: acCorrectivaValue
+                    },
+                    success: function(response) {
+                        // Realizar acciones adicionales si es necesario después de la respuesta exitosa
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        // Manejar errores si es necesario
+                        console.log('Error en la solicitud POST:', error);
+                    }
+                });
             }
         });
-    } else {
-        // Si no se hizo clic en el botón "AddRow", ejecutar la función de actualización
-        updateRecord(idValue);
-    }
-});
-// Función para actualizar el registro en el controlador
-function updateRecord(idValue) {
-    // Obtener los valores de la fila desde los campos de entrada
-    var nuevoCliente = $(`tr[data-id="${idValue}"] [name="cliente[]"]`).val();
-    var nuevoEstilo = $(`tr[data-id="${idValue}"] [name="estilo[]"]`).val();
-    var nuevoOp = $(`tr[data-id="${idValue}"] [name="op_defec[]"]`).val();
-    var nuevoTecnico = $(`tr[data-id="${idValue}"] [name="tecnico[]"]`).val();
-    var nuevoColor = $(`tr[data-id="${idValue}"] [name="color[]"]`).val();
-    var nuevoNumGrafico = $(`tr[data-id="${idValue}"] [name="num_grafico[]"]`).val();
-    var nuevaTecnica = $(`tr[data-id="${idValue}"] [name="tecnica[]"]`).val();
-    var nuevasFibras = $(`tr[data-id="${idValue}"] [name="fibras[]"]`).val();
-    var nuevosPorcentajes = $(`tr[data-id="${idValue}"] [name="porcentaje_fibra[]"]`).val();
-    var nuevoTipoProblema = $(`tr[data-id="${idValue}"] [name="tipo_problema[]"]`).val();
-    var nuevaAcCorrectiva = $(`tr[data-id="${idValue}"] [name="ac_correctiva[]"]`).val();
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    // Obtener el token CSRF
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    $.ajax({
-        url: '/UpdateScreenPrint/' + idValue,
-        method: 'PUT',
-        data: {
-            _token: csrfToken,
-            Cliente: nuevoCliente,
-            Estilo: nuevoEstilo,
-            OP_Defec: nuevoOp,
-            Tecnico: nuevoTecnico,
-            Color: nuevoColor,
-            Num_Grafico: nuevoNumGrafico,
-            Tecnica: nuevaTecnica,
-            Fibras: nuevasFibras,
-            Porcen_Fibra: nuevosPorcentajes,
-            Tipo_Problema: nuevoTipoProblema,
-            Ac_Correctiva: nuevaAcCorrectiva
-        },
-        success: function(response) {
-            console.log(response);
-            location.reload();
-        },
-        error: function(error) {
-            console.log('Error en la solicitud PUT:', error);
-        }
-    });
-}
-</script>
+    </script>
+    <script>
+        var lastRegisteredId = 0;
 
+        // Evento de clic en el botón "Guardar"
+        $(document).on('click', '.updateFile', function() {
+            console.log('Se hizo clic en el botón "Guardar"');
+            // Obtener el token CSRF
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+            // Obtener los valores de la fila desde los campos de entrada
+            var row = $(this).closest('tr');
+            var idValue = row.find('input[name="id"]')
+                .val(); // Asegúrate de obtener el valor correcto del campo "id"
+            var addRowClicked = row.find('input[name="id"]').length === 0; // Verifica si es una fila agregada
+
+            // Obtener otros valores de la fila
+            var auditorValue = row.find('input[name="Auditor"]').val();
+            var clienteValue = row.find('input[name="Cliente"]').val();
+            var estiloValue = row.find('input[name="Estilo"]').val();
+            var opDefecValue = row.find('input[name="OP_Defec"]').val();
+            var tecnicoValue = row.find('input[name="Tecnico"]').val();
+            var colorValue = row.find('input[name="Color"]').val();
+            var numGraficoValue = row.find('input[name="Num_Grafico"]').val();
+            var tecnicaValue = row.find('input[name="Tecnica"]').val();
+            var fibrasValue = row.find('input[name="Fibras"]').val();
+            var porcentajeFibraValue = row.find('input[name="Porcen_Fibra"]').val();
+            var tipoProblemaValue = row.find('input[name="Tipo_Problema"]').val();
+            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
+            // Continuar con la solicitud AJAX
+            $.ajax({
+                url: '/UpdateScreenPrint/' + idValue,
+                method: 'PUT',
+                data: {
+                    _token: csrfToken,
+                    addRowClicked: false,
+                    id: idValue,
+                    Auditor: auditorValue,
+                    Cliente: clienteValue,
+                    Estilo: estiloValue,
+                    OP_Defec: opDefecValue,
+                    Tecnico: tecnicoValue,
+                    Color: colorValue,
+                    Num_Grafico: numGraficoValue,
+                    Tecnica: tecnicaValue,
+                    Fibras: fibrasValue,
+                    Porcen_Fibra: porcentajeFibraValue,
+                    Tipo_Problema: tipoProblemaValue,
+                    Ac_Correctiva: acCorrectivaValue
+                },
+                success: function(response) {
+                    // Realizar acciones adicionales si es necesario después de la respuesta exitosa
+                    console.log(response);
+                },
+                error: function(error) {
+                    // Manejar errores si es necesario
+                    console.log(addRowClicked ? 'Error en la solicitud POST:' :
+                        'Error en la solicitud PUT:', error);
+                },
+                complete: function() {
+                    // Recargar la página después de completar la solicitud
+                    location.reload();
+                }
+            });
+        });
+    </script>
 @endsection

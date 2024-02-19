@@ -117,5 +117,9 @@ Route::post('/AgregarFibra', [CalidadScreenPrintController::class, 'AgregarFibra
 Route::get('/viewTable', [CalidadScreenPrintController::class, 'viewTable']);
 
 Route::post('/SendScreenPrint', [CalidadScreenPrintController::class, 'SendScreenPrint']);
-Route::put('/UpdateScreenPrint/{id}', [CalidadScreenPrintController::class, 'UpdateScreenPrint']);
+Route::put('/UpdateScreenPrint/{idValue}', [CalidadScreenPrintController::class, 'UpdateScreenPrint']);
 
+// Archivo routes/web.php
+
+Route::get('/obtenerOpcionesACCorrectiva',[CalidadScreenPrintController::class, 'obtenerOpcionesACCorrectiva']);
+Route::get('/obtenerOpcionesTipoProblema', [CalidadScreenPrintController::class, 'obtenerOpcionesTipoProblema']);
