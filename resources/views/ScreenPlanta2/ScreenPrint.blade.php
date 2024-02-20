@@ -494,6 +494,7 @@
         var addRowClicked = false;
 
         $(document).ready(function() {
+
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
                 url: '/viewTable', // Ruta de tu servidor Laravel
