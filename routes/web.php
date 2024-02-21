@@ -123,3 +123,8 @@ Route::put('/UpdateScreenPrint/{idValue}', [CalidadScreenPrintController::class,
 
 Route::get('/obtenerOpcionesACCorrectiva',[CalidadScreenPrintController::class, 'obtenerOpcionesACCorrectiva']);
 Route::get('/obtenerOpcionesTipoProblema', [CalidadScreenPrintController::class, 'obtenerOpcionesTipoProblema']);
+
+Route::get('/OpcionesACCorrectiva',[CalidadScreenPrintController::class, 'OpcionesACCorrectiva']);
+Route::get('/OpcionesTipoProblema', [CalidadScreenPrintController::class, 'OpcionesTipoProblema']);
+
+Route::post('/actualizarEstado/{id}', [CalidadScreenPrintController::class, 'actualizarEstado']);

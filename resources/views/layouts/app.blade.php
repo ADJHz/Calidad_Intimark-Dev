@@ -23,7 +23,34 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('material') }}/js/plugins/jquery-jvectormap.js"></script>
 
+    <script>
+        jQuery.event.special.touchstart = {
+          setup: function (_, ns, handle) {
+            this.addEventListener("touchstart", handle, { passive: !ns.includes("noPreventDefault") });
+          }
+        };
+
+        jQuery.event.special.touchmove = {
+          setup: function (_, ns, handle) {
+            this.addEventListener("touchmove", handle, { passive: !ns.includes("noPreventDefault") });
+          }
+        };
+
+        jQuery.event.special.wheel = {
+          setup: function (_, ns, handle) {
+            this.addEventListener("wheel", handle, { passive: true });
+          }
+        };
+
+        jQuery.event.special.mousewheel = {
+          setup: function (_, ns, handle) {
+            this.addEventListener("mousewheel", handle, { passive: true });
+          }
+        };
+      </script>
+    <script src="{{ asset('material') }}/js/plugins/arrive.min.js"></script>
     <!-- Core Scripts -->
     <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
     <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
@@ -105,10 +132,8 @@
     <script src="{{ asset('material') }}/js/plugins/bootstrap-tagsinput.js"></script>
     <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/fullcalendar.min.js"></script>
-    <script src="{{ asset('material') }}/js/plugins/jquery-jvectormap.js"></script>
     <script src="{{ asset('material') }}/js/plugins/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-    <script src="{{ asset('material') }}/js/plugins/arrive.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/chartist.min.js"></script>
     <script src="{{ asset('material') }}/js/plugins/bootstrap-notify.js"></script>
     <script src="{{ asset('material') }}/demo/demo.js"></script>

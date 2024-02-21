@@ -74,7 +74,7 @@
         </div>
         <div class="content">
             <div class="container-fluid">
-                <div class="card">
+                <div class="card" style="width: auto;">
                     <div class="card-header card-header-primary">
                         <div class="row">
                             <div class="col-md-6">
@@ -82,61 +82,83 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table id="miTabla" class="table">
-                            <thead class="text-info">
-                                <th style="text-align: center">ID</th>
-                                <th style="text-align: center">Auditor</th>
-                                <th style="text-align: center">Cliente</th>
-                                <th style="text-align: center">Estilo</th>
-                                <th style="text-align: center">OP</th>
-                                <th style="text-align: center">Tecnico</th>
-                                <th style="text-align: center">Color</th>
-                                <th style="text-align: center"># Grafico</th>
-                                <th style="text-align: center">Tecnica</th>
-                                <th style="text-align: center">Fibras</th>
-                                <th style="text-align: center">% de Fibras</th>
-                                <th style="text-align: center">Tipo Defectos</th>
-                                <th style="text-align: center">Acciones Correctivas</th>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="8" style="text-align: left;">
-                                        <button type="button" class="button" id="insertarFila">
-                                            <span class="button__text">Add row</span>
-                                            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"
-                                                    height="24" fill="none" class="svg">
-                                                    <line y2="19" y1="5" x2="12" x1="12">
-                                                    </line>
-                                                    <line y2="12" y1="12" x2="19" x1="5">
-                                                    </line>
-                                                </svg></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                            <div style="text-align: right; float: right;">
-                                <button type="button" class="button" id="Finalizar">
-                                    <div class="svg-wrapper-1">
-                                        <div class="svg-wrapper">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                                                height="24">
-                                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                                <path fill="currentColor"
-                                                    d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
-                                                </path>
-                                            </svg>
+
+
+                    <div class="tab-pane" id="messages">
+                        <div class="card-body table-responsive">
+                            <table class="table-cebra table-fixed" id="miTabla">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="card">
+                                        <div class="card-header card-header-tabs card-header-success">
+                                            Planta I: Ixtlahuaca
                                         </div>
                                     </div>
-                                    <span>Finalizar</span>
-                                </button>
-                            </div>
-                        </table>
+                                </div>
+                                <div class="col-lg-1 col-md-1">
+                                    <div class="card" style="width: 100%;">
+                                        <div style="text-align: left; float: right; width: 30%;">
+                                            <button type="button" class="button" id="Finalizar">
+                                                <div class="svg-wrapper-1">
+                                                    <div class="svg-wrapper">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                                            <path fill="currentColor"
+                                                                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <span>Finalizar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <thead class="text-primary">
+                                    <th style="text-align: center; white-space: nowrap; width: 2px;" class="sticky sticky-2">ID</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Auditor</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Cliente</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Estilo</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 80px;" class="sticky sticky-2">OP</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Tecnico</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Color</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 100px;" class="sticky sticky-2"># Grafico</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Tecnica</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Fibras</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 100px;" class="sticky sticky-2">% de Fibras</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Tipo Defectos</th>
+                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Acciones Correctivas</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;">
+                                            <button type="button" class="button" id="insertarFila">
+                                                <span class="button__text">Add row</span>
+                                                <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg"
+                                                        width="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke-linejoin="round" stroke-linecap="round"
+                                                        stroke="currentColor" height="24" fill="none"
+                                                        class="svg">
+                                                        <line y2="19" y1="5" x2="12"
+                                                            x1="12">
+                                                        </line>
+                                                        <line y2="12" y1="12" x2="19"
+                                                            x1="5">
+                                                        </line>
+                                                    </svg></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -501,62 +523,100 @@
                 dataType: 'json',
                 success: function(data) {
                     try {
+                        console.log('Datos recibidos de /viewTable:', data);
                         // Limpiar la tabla antes de agregar nuevas filas
                         $('#miTabla tbody').empty();
 
                         // Iterar sobre los datos recibidos y agregar filas a la tabla
                         $.each(data, function(index, item) {
-                            var isGuardado = item.Status === 'Nuevo' || item.Status ==='Update';
+                            // Verificar si es una fila guardada o nueva
+                            var isGuardado = item.Status === 'Nuevo' || item.Status ===
+                                'Update';
+                            var isFinalizado = item.Status === 'Finalizado';
                             var readonlyAttribute = isGuardado ? '' : 'readonly';
                             var disabledAttribute = isGuardado ? '' : 'disabled';
+                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :
+                                '';
 
+
+                            // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
+                            var tipoProblemaCell = isFinalizado ? '' :
+                                '<td><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                readonlyAttribute +
+                                ' style="white-space: nowrap;"></select></td>';
+                            var acCorrectivaCell = isFinalizado ? '' :
+                                '<td><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                readonlyAttribute +
+                                ' style="white-space: nowrap;"></select></td>';
+
+
+                            // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
                                 '<td><input type="text" name="id" class="form-control" value="' +
-                                item.id +
-                                '" readonly></td>' +
+                                item.id + '" readonly text-align: center; white-space: nowrap; width: .5cm;"></td>' +
                                 '<td><input type="text" name="Auditor" class="form-control" value="' +
-                                item.Auditor +
-                                '" readonly></td>' +
+                                item.Auditor + '" readonly style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Cliente" class="form-control" value="' +
-                                item.Cliente +
-                                '" ' + readonlyAttribute + '></td>' +
+                                item.Cliente + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Estilo" class="form-control" value="' +
-                                item.Estilo +
-                                '" ' + readonlyAttribute + '></td>' +
+                                item.Estilo + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="OP_Defec" class="form-control" value="' +
-                                item
-                                .OP_Defec + '" ' + readonlyAttribute + '></td>' +
+                                item.OP_Defec + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Tecnico" class="form-control" value="' +
-                                item
-                                .Tecnico + '" ' + readonlyAttribute + '></td>' +
+                                item.Tecnico + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Color" class="form-control" value="' +
-                                item.Color +
-                                '" ' + readonlyAttribute + '></td>' +
+                                item.Color + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
-                                item
-                                .Num_Grafico + '" ' + readonlyAttribute + '></td>' +
+                                item.Num_Grafico + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Tecnica" class="form-control" value="' +
-                                item
-                                .Tecnica + '" ' + readonlyAttribute + '></td>' +
+                                item.Tecnica + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Fibras" class="form-control" value="' +
-                                item
-                                .Fibras + '" ' + readonlyAttribute + '></td>' +
+                                item.Fibras + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
-                                item
-                                .Porcen_Fibra + '" ' + readonlyAttribute + '></td>' +
-                                '<td><input type="text" name="Tipo_Problema" class="form-control" value="' +
-                                item
-                                .Tipo_Problema + '" ' + readonlyAttribute + '></td>' +
-                                '<td><input type="text" name="Ac_Correctiva" class="form-control" value="' +
-                                item
-                                .Ac_Correctiva + '" ' + readonlyAttribute + '></td>' +
+                                item.Porcen_Fibra + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
+                                item.Tipo_Problema + '" ' +
+                                'readonly style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
+                                item.Ac_Correctiva + '" ' +
+                                'readonly style="white-space: nowrap;"></td>' +
+                                tipoProblemaCell +
+                                acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-primary guardarFila updateFile" ' +
-                                disabledAttribute + '>Guardar</button></td>' +
+                                disabledAttribute + ' ' + hiddenAttribute +
+                                '>Guardar</button></td>' +
                                 '</tr>';
 
+                            // Agregar la fila a la tabla
                             $('#miTabla tbody').append(row);
                             lastRegisteredId = item.id;
+
+                            if (!isFinalizado) {
+                                $('.tipoProblemaSelect').select2({
+                                    placeholder: 'Seleccione Tipo de Problema',
+                                    allowClear: true,
+                                });
+
+                                $('.acCorrectivaSelect').select2({
+                                    placeholder: 'Seleccione Acción Correctiva',
+                                    allowClear: true,
+                                });
+                            }
                         });
+
+                        // Cargar opciones para los nuevos select2
+                        OpcionesTipoProblema('Seleccione Tipo de Problema');
+                        OpcionesACCorrectiva('Seleccione Acción Correctiva');
+
                     } catch (error) {
                         console.error('Error al procesar los datos:', error);
                     }
@@ -566,6 +626,62 @@
                 }
             });
         });
+
+        function OpcionesTipoProblema(placeholder) {
+            $.ajax({
+                url: '/OpcionesTipoProblema',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Agregar una opción vacía al principio con el placeholder como texto
+                    data.unshift('Seleccione Tipo de Problema');
+                    llenarSelect('tipoProblemaSelect', data);
+                    // Establecer el valor en nulo después de cargar los datos
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener opciones de tipo_problemaR[]:', status, error);
+                }
+            });
+        }
+
+        // Función para cargar opciones de Acción Correctiva en un select2 específico
+        function OpcionesACCorrectiva(placeholder) {
+            $.ajax({
+                url: '/OpcionesACCorrectiva',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Agregar una opción vacía al principio con el placeholder como texto
+                    data.unshift('Seleccione Acción Correctiva');
+                    llenarSelect('acCorrectivaSelect', data);
+                    // Establecer el valor en nulo después de cargar los datos
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener opciones de ac_correctivaR[]:', status, error);
+                }
+            });
+        }
+        // Función para llenar un select2 con opciones
+        function llenarSelect(nombreSelect, opciones, placeholder) {
+            var select = $('.form-control[name="' + nombreSelect + '"]');
+            select.empty();
+
+            // Agregar una opción vacía al principio con el placeholder como texto
+            select.append('<option value="" selected disabled>' + placeholder + '</option>');
+
+            select.select2({
+                placeholder: placeholder,
+                allowClear: true
+            });
+
+            opciones.forEach(function(opcion) {
+                select.append('<option value="' + opcion + '">' + opcion + '</option>');
+            });
+
+            select.val(null).trigger('change'); // Esto asegura que la opción vacía esté seleccionada
+        }
     </script>
 
 
@@ -643,29 +759,30 @@
             var newRow = '<tr>' +
                 '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
                 '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
-                '" readonly></td>' +
+                '" readonly style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="clienteR[]" class="form-control" value="' + cliente +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="estiloR[]" class="form-control" value="' + estilo +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="op_defecR[]" class="form-control" value="' + op +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="tecnicoR[]" class="form-control" value="' + tecnico +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="colorR[]" class="form-control" value="' + color +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="num_graficoR[]" class="form-control" value="' +
-                numGrafico + '"></td>' +
+                numGrafico + '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="tecnicaR[]" class="form-control" value="' + tecnica +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="fibrasR[]" class="form-control" value="' + fibras.join(', ') +
-                '"></td>' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
-                porcentajes.join(', ') + '"></td>' +
-                '<td><select class="form-control" name="tipo_problemaR[]"></select></td>' +
-                '<td><select class="form-control" name="ac_correctivaR[]"></select></td>' +
-                '<td><button type="button" class="btn btn-primary guardarFila updateFile">Guardar</button></td>' +
+                porcentajes.join(', ') + '" style="white-space: nowrap;"></td>' +
+                '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td><button type="button" class="btn btn-primary guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '</tr>';
+
 
             $('#miTabla tbody').append(newRow);
 
@@ -755,8 +872,9 @@
             var tecnicaValue = row.find('input[name="Tecnica"]').val();
             var fibrasValue = row.find('input[name="Fibras"]').val();
             var porcentajeFibraValue = row.find('input[name="Porcen_Fibra"]').val();
-            var tipoProblemaValue = row.find('input[name="Tipo_Problema"]').val();
-            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
+            // Obtener valores de los elementos select
+            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
+            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
             // Continuar con la solicitud AJAX
             $.ajax({
                 url: '/UpdateScreenPrint/' + idValue,
@@ -792,6 +910,49 @@
                     location.reload();
                 }
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#Finalizar').click(function() {
+                // Iterar sobre cada fila de la tabla
+                $('#miTabla tbody tr').each(function() {
+                    var id = $(this).find('input[name="id"]').val();
+
+                    // Hacer una solicitud POST para cada fila para actualizar el estado a "Finalizado"
+                    $.ajax({
+                        url: '/actualizarEstado/' + id, // Ruta de tu servidor Laravel
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}', // Añade el token CSRF aquí
+                            status: 'Finalizado'
+                        },
+                        success: function(response) {
+                            console.log(
+                                'Estado actualizado con éxito para la fila con id ' +
+                                id + ':', response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(
+                                'Error al actualizar el estado para la fila con id ' +
+                                id + ':', status, error);
+                        },
+                        complete: function() {
+                            // Recargar la página después de completar la solicitud
+                            location.reload();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#dtHorizontalVerticalExample').DataTable({
+                "scrollX": true,
+                "scrollY": 200,
+            });
+            $('.dataTables_length').addClass('bs-select');
         });
     </script>
 @endsection
