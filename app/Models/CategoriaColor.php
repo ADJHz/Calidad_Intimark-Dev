@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DatosAX extends Model
+class CategoriaColor extends Model
 {
     use HasFactory;
-    protected $table = 'datos_ax';
+
+    protected $table = 'categoria_colores';
+    // ... otras propiedades y métodos del modelo ... 
+
 }

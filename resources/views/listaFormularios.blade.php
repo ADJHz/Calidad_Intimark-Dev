@@ -28,7 +28,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">CONTROL DE CALIDAD EN CORTE <br>FCC-010</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaCortes') }}" class="btn btn-info" target="_blank">INICIAR</a>
+                                            <a href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}" class="btn btn-info" target="_blank">INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
