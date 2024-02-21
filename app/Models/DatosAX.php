@@ -9,7 +9,11 @@ class DatoAX extends Model
 {
     use HasFactory;
     protected $table = 'datos_ax';
-
+    protected $fillable = [
+        'id',
+        'cliente',
+    'estilo'
+    ];
 
 
 }
