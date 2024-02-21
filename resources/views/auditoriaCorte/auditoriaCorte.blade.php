@@ -656,12 +656,12 @@
                                                     @endforeach
                                                 </select>
                                                 -
-                                                <select name="nombre" id="nombre" class="form-control"
+                                                <select name="nombre2" id="nombre2" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
                                                     @endforeach
                                                 </select>

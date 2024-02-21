@@ -345,6 +345,7 @@ class AuditoriaCorteController extends Controller
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
             $existeOrden->nombre = $request->input('nombre');
+            $existeOrden->nombre2 = $request->input('nombre2');
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->codigo_material = $request->input('codigo_material');
@@ -380,6 +381,7 @@ class AuditoriaCorteController extends Controller
             //dd($existeOrden);
             return back()->with('sobre-escribir', 'Actualilzacion realizada con exito');
         }
+       // dd($existeOrden->nombre2);
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
