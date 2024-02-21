@@ -86,16 +86,19 @@
 
                     <div class="tab-pane" id="messages">
                         <div class="card-body table-responsive">
-                            <table class="table-cebra table-fixed" id="miTabla">
-                                <div class="col-lg-1 col-md-1">
-                                    <div class="card" style="width: 100%;">
+                            <table class="table-cebra" id="miTabla">
+                                <div class="col-lg-2 col-md-2">
+                                    <div class="card" style="width: 60%;">
                                         <div style="text-align: left; float: right; width: 30%;">
                                             <button type="button" class="btn btn-danger" id="Finalizar">
                                                 <div class="svg-wrapper-1">
                                                     <div class="svg-wrapper">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            width="24" height="24">
                                                             <path fill="none" d="M0 0h24v24H0z"></path>
-                                                            <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                                                            <path fill="currentColor"
+                                                                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+                                                            </path>
                                                         </svg>
                                                     </div>
                                                 </div>
@@ -104,24 +107,27 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
                                 <thead class="text-primary">
-                                    <th style="text-align: center; white-space: nowrap; width: 2px;" class="sticky sticky-2">ID</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Auditor</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Cliente</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Estilo</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 80px;" class="sticky sticky-2">OP</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Tecnico</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Color</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 100px;" class="sticky sticky-2"># Grafico</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 120px;" class="sticky sticky-2">Tecnica</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Fibras</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 100px;" class="sticky sticky-2">% de Fibras</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Tipo Defectos</th>
-                                    <th style="text-align: center; white-space: nowrap; width: 150px;" class="sticky sticky-2">Acciones Correctivas</th>
+                                    <tr>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;">ID</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Auditor</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Cliente</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Estilo</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">OP</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">Tecnico</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 80px;">Color</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 70px;"># Grafico</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 80px;">Tecnica</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 100px;">Fibras</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 70px;">% de Fibras</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 100px;">Tipo Defectos</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 120px;">Acciones Correctivas</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;"> </th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;"> </th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;"> </th>
+                                    </tr>
                                 </thead>
+                                
                                 <tbody>
                                 </tbody>
                                 <tfoot>
@@ -129,18 +135,17 @@
                                         <td colspan="8" style="text-align: left;">
                                             <button type="button" class="button" id="insertarFila">
                                                 <span class="button__text">Add row</span>
-                                                <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg"
-                                                        width="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke-linejoin="round" stroke-linecap="round"
-                                                        stroke="currentColor" height="24" fill="none"
-                                                        class="svg">
+                                                <span class="button__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
+                                                        stroke-linecap="round" stroke="currentColor" height="24"
+                                                        fill="none" class="svg">
                                                         <line y2="19" y1="5" x2="12"
-                                                            x1="12">
-                                                        </line>
+                                                            x1="12"></line>
                                                         <line y2="12" y1="12" x2="19"
-                                                            x1="5">
-                                                        </line>
-                                                    </svg></span>
+                                                            x1="5"></line>
+                                                    </svg>
+                                                </span>
                                             </button>
                                         </td>
                                     </tr>
@@ -148,6 +153,7 @@
                             </table>
                         </div>
                     </div>
+
 
 
                 </div>
@@ -533,59 +539,59 @@
 
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
-                                readonlyAttribute +
-                                ' style="white-space: nowrap;"></select></td>';
+                                '<td style="text-align: center; white-space: normal; width: 1.5%; overflow: auto;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                readonlyAttribute +'"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
-                                readonlyAttribute +
-                                ' style="white-space: nowrap;"></select></td>';
+                                '<td style="text-align: center; white-space: normal; width: 1.5%; overflow: auto;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                readonlyAttribute +'"></select></td>';
+
 
 
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
-                                '<td><input type="text" name="id" class="form-control" value="' +
-                                item.id + '" readonly text-align: center; white-space: nowrap; width: .5cm;"></td>' +
-                                '<td><input type="text" name="Auditor" class="form-control" value="' +
-                                item.Auditor + '" readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Cliente" class="form-control" value="' +
-                                item.Cliente + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Estilo" class="form-control" value="' +
-                                item.Estilo + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="OP_Defec" class="form-control" value="' +
-                                item.OP_Defec + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tecnico" class="form-control" value="' +
-                                item.Tecnico + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Color" class="form-control" value="' +
-                                item.Color + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
-                                item.Num_Grafico + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tecnica" class="form-control" value="' +
-                                item.Tecnica + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Fibras" class="form-control" value="' +
-                                item.Fibras + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
-                                item.Porcen_Fibra + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
-                                item.Tipo_Problema + '" ' +
-                                'readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
-                                item.Ac_Correctiva + '" ' +
-                                'readonly style="white-space: nowrap;"></td>' +
+                                '<td style="text-align: center; white-space: normal; width: .5%; overflow: auto;"><input type="text" name="id" class="form-control" value="' +
+                                item.id +'" readonly></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 2.5%; overflow: auto;"><input type="text" name="Auditor" class="form-control" value="' +
+                                item.Auditor + '" readonly></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Cliente" class="form-control" value="' +
+                                item.Cliente + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Estilo" class="form-control" value="' +
+                                item.Estilo + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="OP_Defec" class="form-control" value="' +
+                                item.OP_Defec + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Tecnico" class="form-control" value="' +
+                                item.Tecnico + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Color" class="form-control" value="' +
+                                item.Color + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Num_Grafico" class="form-control" value="' +
+                                item.Num_Grafico + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Tecnica" class="form-control" value="' +
+                                item.Tecnica + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Fibras" class="form-control" value="' +
+                                item.Fibras + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><input type="text" name="Porcen_Fibra" class="form-control" value="' +
+                                item.Porcen_Fibra + '" ' + readonlyAttribute + '></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1.5%; overflow: auto;"><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
+                                item.Tipo_Problema + '" readonly></td>' +
+
+                                '<td style="text-align: center; white-space: normal; width: 1.5%; overflow: auto;"><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
+                                item.Ac_Correctiva + '" readonly></td>' +
                                 tipoProblemaCell +
                                 acCorrectivaCell +
-                                '<td><button type="button" class="btn btn-primary guardarFila updateFile" ' +
+                                '<td style="text-align: center; white-space: normal; width: 1%; overflow: auto;"><button type="button" class="btn btn-primary guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
-                                '>Guardar</button></td>' +
+                                '>Guardar</button></td>'
                                 '</tr>';
 
                             // Agregar la fila a la tabla
