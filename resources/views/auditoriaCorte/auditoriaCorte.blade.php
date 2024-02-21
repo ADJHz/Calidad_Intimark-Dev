@@ -101,9 +101,6 @@
                         <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->pieza : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->trazo : '' }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->lienzo : '' }}</h4>
                     </div>
                 </div>
@@ -141,17 +138,17 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="material" class="col-sm-6 col-form-label">Material</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="material" id="material"
-                                    placeholder="nombre del material" required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="color" class="col-sm-6 col-form-label">Color</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" name="color" id="color"
                                     placeholder="codigo del color" required/>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+                            <label for="material" class="col-sm-6 col-form-label">Material</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" name="material" id="material"
+                                    placeholder="nombre del material" required/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
@@ -161,6 +158,7 @@
                                     placeholder="..." required/>
                             </div>
                         </div>
+                        {{-- 
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="trazo" class="col-sm-6 col-form-label">TRAZO</label>
                             <div class="col-sm-12">
@@ -168,13 +166,7 @@
                                     placeholder="..." required/>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="lienzo" class="col-sm-6 col-form-label">LIENZOS</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="lienzo" id="lienzo"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
+                        --}}
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="evento" class="col-sm-9 col-form-label">CANTIDAD EVENTOS</label>
                             <div class="col-sm-12">
@@ -183,6 +175,13 @@
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+                            <label for="lienzo" class="col-sm-6 col-form-label">LIENZOS</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" name="lienzo" id="lienzo"
+                                    placeholder="..." required/>
                             </div>
                         </div>
                     </div>
@@ -650,7 +649,17 @@
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaNoRecibo as $nombre)
+                                                    @foreach ($CategoriaTecnico as $nombre)
+                                                        <option value="{{ $nombre->nombre }}"
+                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                                            {{ $nombre->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                                -
+                                                <select name="nombre" id="nombre" class="form-control"
+                                                    title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
                                                             {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>

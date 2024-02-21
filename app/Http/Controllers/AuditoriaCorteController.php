@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CategoriaAuditor;
+use App\Models\CategoriaTecnico;
 use App\Models\CategoriaCliente;
 use App\Models\CategoriaColor;
 use App\Models\CategoriaEstilo;
@@ -39,6 +40,7 @@ class AuditoriaCorteController extends Controller
             'CategoriaDefecto' => CategoriaDefecto::where('estado', 1)->get(),
             'CategoriaTipoDefecto' => CategoriaTipoDefecto::where('estado', 1)->get(),
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
+            'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'DatoAX' => DatoAX::where(function($query) {
                 $query->whereNull('estatus')
                       ->orWhere('estatus', '');
