@@ -98,32 +98,60 @@ class CalidadScreenPrintController extends Controller
 
         return response()->json($addFibra);
     }
-    public function viewTable()
+    public function OpcionesACCorrectiva()
     {
-        // Obtener la fecha actual
-        $today = Carbon::today();
+        $data = AccionCorrectScreen::pluck('AccionCorrectiva');
 
-        // Filtrar registros con la fecha actual
-        $screen = ScreenPrint::whereDate('created_at', $today)->get();
-
-        // Obtener opciones predeterminadas
-        $defaultTipoProblema = "OpciónPredeterminadaTipoProblema";
-        $defaultAcCorrectiva = "OpciónPredeterminadaAcCorrectiva";
-
-        // Añadir opciones predeterminadas a cada registro
-        foreach ($screen as &$item) {
-            // Verificar y asignar el valor predeterminado si Tipo_Problema no está definido
-            $item['Tipo_Problema'] = isset($item['Tipo_Problema']) ? $item['Tipo_Problema'] : $defaultTipoProblema;
-
-            // Verificar y asignar el valor predeterminado si Ac_Correctiva no está definido
-            $item['Ac_Correctiva'] = isset($item['Ac_Correctiva']) ? $item['Ac_Correctiva'] : $defaultAcCorrectiva;
-        }
-
-        // Crear un array asociativo con los datos a retornar
-        return response()->json($screen);
+        return response()->json($data);
     }
 
+    public function OpcionesTipoProblema()
+    {
+     $data = OpcionesDefectosScreen::pluck('Defecto');
 
+     return response()->json($data);
+    }
+    public function viewTable()
+{
+    // Obtener la fecha actual
+    $today = Carbon::today();
+
+    // Filtrar registros con la fecha actual
+    $screen = ScreenPrint::whereDate('created_at', $today)->get();
+
+    // Crear un array asociativo con los datos a retornar
+    $responseData = [];
+
+    foreach ($screen as $item) {
+        // Verificar y asignar el valor de Tipo_Problema si está definido, de lo contrario, establecer como nulo
+        $tipoProblema = isset($item->Tipo_Problema) ? $item->Tipo_Problema : null;
+
+        // Verificar y asignar el valor de Ac_Correctiva si está definido, de lo contrario, establecer como nulo
+        $acCorrectiva = isset($item->Ac_Correctiva) ? $item->Ac_Correctiva : null;
+
+        $responseData[] = [
+            'id' => $item->id,
+            'Auditor' => $item->Auditor,
+            'Cliente' => $item->Cliente,
+            'Estilo' => $item->Estilo,
+            'OP_Defec' => $item->OP_Defec,
+            'Tecnico' => $item->Tecnico,
+            'Color' => $item->Color,
+            'Num_Grafico' => $item->Num_Grafico,
+            'Tecnica' => $item->Tecnica,
+            'Fibras' => $item->Fibras,
+            'Porcen_Fibra' => $item->Porcen_Fibra,
+            'Tipo_Problema' => $tipoProblema,
+            'Ac_Correctiva' => $acCorrectiva,
+            'Status' => $item->Status,
+        ];
+    }
+
+    // Agregar logs para verificar los valores
+    Log::info('Datos de /viewTable:', $responseData);
+
+    return response()->json($responseData);
+}
 
     public function SendScreenPrint(Request $request)
 {
@@ -168,8 +196,6 @@ class CalidadScreenPrintController extends Controller
     }
    }
 
-
-
    public function UpdateScreenPrint(Request $request, $id)
    {
        // Verificar si el registro existe
@@ -211,6 +237,27 @@ class CalidadScreenPrintController extends Controller
 
     return response()->json($data);
    }
+   public function actualizarEstado($id, Request $request)
+   {
+       // Buscar el registro por id
+       $screenPrint = ScreenPrint::find($id);
+
+       // Verificar si el registro existe
+       if ($screenPrint) {
+           // Actualizar el estado
+           $screenPrint->Status = $request->input('status');
+
+           // Guardar los cambios
+           $screenPrint->save();
+
+           // Devolver una respuesta exitosa
+           return response()->json(['message' => 'Estado actualizado con éxito'], 200);
+       } else {
+           // Devolver una respuesta de error
+           return response()->json(['message' => 'Registro no encontrado'], 404);
+       }
+   }
+
 
 }
 
