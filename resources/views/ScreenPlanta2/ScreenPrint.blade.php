@@ -87,13 +87,6 @@
                     <div class="tab-pane" id="messages">
                         <div class="card-body table-responsive">
                             <table class="table-cebra table-fixed" id="miTabla">
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="card">
-                                        <div class="card-header card-header-tabs card-header-success">
-                                            Planta I: Ixtlahuaca
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-lg-1 col-md-1">
                                     <div class="card" style="width: 100%;">
                                         <div style="text-align: left; float: right; width: 30%;">
