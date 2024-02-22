@@ -86,9 +86,6 @@
                         <h4>Estilo: {{ $datoAX->estilo }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Planta: {{ $datoAX->planta }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Temporada: {{ $datoAX->temporada }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -98,10 +95,13 @@
                         <h4>Material: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->material : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->pieza : '' }}</h4>
+                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->color : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->lienzo : '' }}</h4>
+                        <h4>Lienzo: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->lienzo : '' }}</h4>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <h4>Piezas: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->pieza : '' }}</h4>
                     </div>
                 </div>
                 @else
@@ -655,7 +655,7 @@
                                                             {{ $nombre->nombre }}</option>
                                                     @endforeach
                                                 </select>
-                                                -
+                                                &nbsp;&nbsp;
                                                 <select name="nombre2" id="nombre2" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
@@ -676,14 +676,10 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="mesa" class="col-sm-6 col-form-label">MESA</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="mesa" id="mesa" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaEstilo as $mesa)
-                                                        <option value="{{ $mesa->nombre }}"
-                                                            {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == $mesa->nombre ? 'selected' : '' }}>
-                                                            {{ $mesa->nombre }}</option>
-                                                    @endforeach
+                                                    <option value="1 : Mesa" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == '1 : Mesa' ? 'selected' : '' }}>1 : Manual</option>
+                                                    <option value="2 - 6 : Bro" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == '2 - 6 : Bro' ? 'selected' : '' }}>2 - 6 : Bro</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -725,11 +721,11 @@
                                                     <label class="label-tache" for="codigo_material_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                    <input type="text" class="form-control me-2"
                                                         name="codigo_material" id="codigo_material" placeholder="..."
                                                         value="{{ isset($auditoriaTendido) ? $auditoriaTendido->codigo_material : '' }}"
                                                         required />
-                                                </div>
+                                                </div>                                              
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -755,10 +751,9 @@
                                                         <label class="label-tache" for="codigo_color_estatus2">✖ </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input type="number" step="0.0001" class="form-control me-2"
-                                                            name="codigo_color" id="codigo_color" placeholder="..."
-                                                            value="{{ isset($auditoriaTendido) ? $auditoriaTendido->codigo_color : '' }}"
-                                                            required />
+                                                        <input type="text" class="form-control me-2" name="codigo_color" id="codigo_color"
+                                                               placeholder="..." value="{{ $encabezadoAuditoriaCorte->color }}" readonly required />
+                                                        <input type="hidden" name="codigo_color" value="{{ $encabezadoAuditoriaCorte->color }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -785,10 +780,11 @@
                                                     <label class="label-tache" for="informacion_trazo_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="informacion_trazo" id="informacion_trazo" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->informacion_trazo : '' }}"
-                                                        required />
+                                                    <select name="informacion_trazo" id="informacion_trazo" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value="">Selecciona una opción</option>
+                                                        <option value="Si" {{ isset($auditoriaTendido) && $auditoriaTendido->informacion_trazo == 'Si' ? 'selected' : '' }}>Si</option>
+                                                        <option value="No" {{ isset($auditoriaTendido) && $auditoriaTendido->informacion_trazo == 'No' ? 'selected' : '' }}>No</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -813,10 +809,9 @@
                                                     <label class="label-tache" for="cantidad_lienzo_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="cantidad_lienzo" id="cantidad_lienzo" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->cantidad_lienzo : '' }}"
-                                                        required />
+                                                    <input type="text" class="form-control me-2" name="cantidad_lienzo" id="cantidad_lienzo"
+                                                           value="{{ $encabezadoAuditoriaCorte->lienzo }}" readonly required />
+                                                    <input type="hidden" name="cantidad_lienzo" value="{{ $encabezadoAuditoriaCorte->lienzo }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -841,10 +836,9 @@
                                                     <label class="label-tache" for="longitud_tendido_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="longitud_tendido" id="longitud_tendido" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->longitud_tendido : '' }}"
-                                                        required />
+                                                    <input type="text" class="form-control me-2" name="longitud_tendido" id="longitud_tendido"
+                                                           value="{{ $auditoriaMarcada->largo_trazo }}" readonly required />
+                                                    <input type="hidden" name="longitud_tendido" value="{{ $auditoriaMarcada->largo_trazo }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -869,10 +863,9 @@
                                                     <label class="label-tache" for="ancho_tendido_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="ancho_tendido" id="ancho_tendido" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->ancho_tendido : '' }}"
-                                                        required />
+                                                    <input type="text" class="form-control me-2" name="ancho_tendido" id="ancho_tendido"
+                                                           value="{{ $auditoriaMarcada->ancho_trazo }}" readonly required />
+                                                    <input type="hidden" name="ancho_tendido" value="{{ $auditoriaMarcada->ancho_trazo }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -898,7 +891,7 @@
                                                     <label class="label-tache" for="material_relajado_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                    <input type="text" class="form-control me-2"
                                                         name="material_relajado" id="material_relajado" placeholder="..."
                                                         value="{{ isset($auditoriaTendido) ? $auditoriaTendido->material_relajado : '' }}"
                                                         required />
@@ -922,12 +915,14 @@
                                                         required />
                                                     <label class="label-tache" for="empalme_estatus2">✖ </label>
                                                 </div>
+                                                {{-- 
                                                 <div class="form-check form-check-inline">
                                                     <input type="number" step="0.0001" class="form-control me-2"
                                                         name="empalme" id="empalme" placeholder="..."
                                                         value="{{ isset($auditoriaTendido) ? $auditoriaTendido->empalme : '' }}"
                                                         required />
                                                 </div>
+                                                --}}
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -950,12 +945,14 @@
                                                         required />
                                                     <label class="label-tache" for="cara_material_estatus2">✖ </label>
                                                 </div>
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input type="number" step="0.0001" class="form-control me-2"
                                                         name="cara_material" id="cara_material" placeholder="..."
                                                         value="{{ isset($auditoriaTendido) ? $auditoriaTendido->cara_material : '' }}"
                                                         required />
                                                 </div>
+                                                --}}
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -976,7 +973,7 @@
                                                     <label class="label-tache" for="tono_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                    <input type="text" class="form-control me-2"
                                                         name="tono" id="tono" placeholder="..."
                                                         value="{{ isset($auditoriaTendido) ? $auditoriaTendido->tono : '' }}"
                                                         required />
@@ -984,10 +981,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="alineacion_tendido" class="col-sm-6 col-form-label">11. Alineacion
-                                                de
-                                                tendido</label>
+                                            <label for="alineacion_tendido" class="col-sm-6 col-form-label">11. Alineacion de tendido</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
                                                         name="alineacion_tendido_estatus" id="alineacion_tendido_estatus1"
@@ -1006,12 +1002,13 @@
                                                     <label class="label-tache" for="alineacion_tendido_estatus2">✖
                                                     </label>
                                                 </div>
+                                                --}}
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="alineacion_tendido" id="alineacion_tendido"
-                                                        placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->alineacion_tendido : '' }}"
-                                                        required />
+                                                    <select name="alineacion_tendido" id="alineacion_tendido" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value="">Selecciona una opción</option>
+                                                        <option value="Regular" {{ isset($auditoriaTendido) && $auditoriaTendido->alineacion_tendido == 'Regular' ? 'selected' : '' }}>Regular </option>
+                                                        <option value="Mal" {{ isset($auditoriaTendido) && $auditoriaTendido->alineacion_tendido == 'Mal' ? 'selected' : '' }}>Mal </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -1019,6 +1016,7 @@
                                             <label for="arruga_tendido" class="col-sm-6 col-form-label">12. Arrugas de
                                                 tendido</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
                                                         name="arruga_tendido_estatus" id="arruga_tendido_estatus1"
@@ -1035,11 +1033,13 @@
                                                         required />
                                                     <label class="label-tache" for="arruga_tendido_estatus2">✖ </label>
                                                 </div>
+                                                --}}
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="arruga_tendido" id="arruga_tendido" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->arruga_tendido : '' }}"
-                                                        required />
+                                                    <select name="arruga_tendido" id="arruga_tendido" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value="">Selecciona una opción</option>
+                                                        <option value="Algunas" {{ isset($auditoriaTendido) && $auditoriaTendido->arruga_tendido == 'Algunas' ? 'selected' : '' }}>Algunas </option>
+                                                        <option value="Pocas" {{ isset($auditoriaTendido) && $auditoriaTendido->arruga_tendido == 'Pocas' ? 'selected' : '' }}>Pocas </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -1047,6 +1047,7 @@
                                             <label for="defecto_material" class="col-sm-6 col-form-label">13. defecto de
                                                 material</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
                                                         name="defecto_material_estatus" id="defecto_material_estatus1"
@@ -1063,15 +1064,24 @@
                                                         required />
                                                     <label class="label-tache" for="defecto_material_estatus2">✖ </label>
                                                 </div>
+                                                --}}
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="defecto_material" id="defecto_material" placeholder="..."
-                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->defecto_material : '' }}"
-                                                        required />
+                                                    <select name="defecto_material" id="defecto_material" class="form-control"
+                                                    title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($CategoriaDefecto as $defectoMaterial)
+                                                        <option value="{{ $defectoMaterial->nombre }}"
+                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->defecto_material) == trim($defectoMaterial->nombre) ? 'selected' : '' }}>
+                                                            {{ $defectoMaterial->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="accion_correctiva" class="col-sm-6 col-form-label">Accion
                                                 correctiva </label>
@@ -1082,7 +1092,6 @@
                                                     required />
                                             </div>
                                         </div>
-                                        <hr>
                                         {{--
                                         <div class="col-md-6 mb-3">
                                             <label for="libera_tendido" class="col-sm-6 col-form-label">¿Se libera el
@@ -1156,7 +1165,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="mesa" class="col-sm-6 col-form-label">MESA</label>
+                                            <label for="mesa" class="col-sm-6 col-form-label">Maquina Lectra: </label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="mesa" id="mesa" class="form-control"
                                                     title="Por favor, selecciona una opción">
@@ -1166,6 +1175,11 @@
                                                             {{ isset($Lectra) && $Lectra->mesa == $mesa->nombre ? 'selected' : '' }}>
                                                             {{ $mesa->nombre }}</option>
                                                     @endforeach
+                                                </select>
+                                                <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="IH8" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == 'IH8' ? 'selected' : '' }}>IH8</option>
+                                                    <option value="IX6" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == 'IX6' ? 'selected' : '' }}>IX6</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -1187,8 +1201,9 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="simetria_pieza" class="col-sm-6 col-form-label">1. Simetria de piezas</label>
+                                            <label for="simetria_pieza1" class="col-sm-6 col-form-label">1. Simetria de piezas</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
                                                         name="simetria_pieza_estatus" id="simetria_pieza_estatus1"
@@ -1205,12 +1220,49 @@
                                                         required />
                                                     <label class="label-tache" for="simetria_pieza_estatus2">✖ </label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="simetria_pieza" id="simetria_pieza" placeholder="..."
-                                                        value="{{ isset($Lectra) ? $Lectra->simetria_pieza : '' }}"
-                                                        required />
-                                                </div>
+                                                --}}
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="text" class="form-control me-2"
+                                                    name="simetria_pieza1" id="simetria_pieza1" placeholder="panel"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza1 : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="x1" id="x1" placeholder="x1"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="y1" id="y1" placeholder="y1"
+                                                    value="{{ isset($Lectra) ? $Lectra->y1 : '' }}"
+                                                    required />
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="text" class="form-control me-2"
+                                                    name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 2"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="x2" id="x2" placeholder="x2"
+                                                    value="{{ isset($Lectra) ? $Lectra->x2 : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="y2" id="y2" placeholder="y2"
+                                                    value="{{ isset($Lectra) ? $Lectra->y2 : '' }}"
+                                                    required />
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="text" class="form-control me-2"
+                                                    name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="x3" id="x3" placeholder="y3"
+                                                    value="{{ isset($Lectra) ? $Lectra->x3 : '' }}"
+                                                    required />
+                                                <input type="text" class="form-control me-2"
+                                                    name="y3" id="y3" placeholder="y3"
+                                                    value="{{ isset($Lectra) ? $Lectra->y3 : '' }}"
+                                                    required />
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">

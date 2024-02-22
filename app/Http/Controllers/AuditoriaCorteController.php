@@ -323,19 +323,11 @@ class AuditoriaCorteController extends Controller
             return back()->with('cambio-estatus', 'Se Cambio a estatus: LECTRA.')->with('activePage', $activePage);
         }
 
-        $allChecked = trim($request->input('codigo_material_estatus')) === "1" &&
-              trim($request->input('codigo_color_estatus')) === "1" &&
-              trim($request->input('informacion_trazo_estatus')) === "1" &&
-              trim($request->input('cantidad_lienzo_estatus')) === "1" &&
-              trim($request->input('longitud_tendido_estatus')) === "1" &&
-              trim($request->input('ancho_tendido_estatus')) === "1" &&
+        $allChecked = trim($request->input('informacion_trazo_estatus')) === "1" &&
               trim($request->input('material_relajado_estatus')) === "1" &&
               trim($request->input('empalme_estatus')) === "1" &&
               trim($request->input('cara_material_estatus')) === "1" &&
-              trim($request->input('tono_estatus')) === "1" &&
-              trim($request->input('alineacion_tendido_estatus')) === "1" &&
-              trim($request->input('arruga_tendido_estatus')) === "1" &&
-              trim($request->input('defecto_material_estatus')) === "1";
+              trim($request->input('tono_estatus')) === "1";
 
         $request->session()->put('estatus_checked_AuditoriaTendido', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
@@ -369,11 +361,11 @@ class AuditoriaCorteController extends Controller
             $existeOrden->tono = $request->input('tono');
             $existeOrden->tono_estatus = $request->input('tono_estatus');
             $existeOrden->alineacion_tendido = $request->input('alineacion_tendido');
-            $existeOrden->alineacion_tendido_estatus = $request->input('alineacion_tendido_estatus');
+            $existeOrden->alineacion_tendido_estatus = "1";
             $existeOrden->arruga_tendido = $request->input('arruga_tendido');
-            $existeOrden->arruga_tendido_estatus = $request->input('arruga_tendido_estatus');
+            $existeOrden->arruga_tendido_estatus = "1";
             $existeOrden->defecto_material = $request->input('defecto_material');
-            $existeOrden->defecto_material_estatus = $request->input('defecto_material_estatus');
+            $existeOrden->defecto_material_estatus = "1";
             $existeOrden->accion_correctiva = $request->input('accion_correctiva');
             //$existeOrden->libera_tendido = $request->input('libera_tendido');
 
