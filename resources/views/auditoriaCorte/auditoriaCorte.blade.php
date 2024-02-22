@@ -1231,58 +1231,125 @@
                                     </div>
                                     <hr>
                                     <div class="row">
+                                        @php
+                                            $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
+                                            $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
+                                        @endphp
                                         <div class="col-md-6 mb-3">
                                             <label class="col-sm-6 col-form-label">1. Simetria de piezas</label>
                                             <div class="form-check form-check-inline">
                                                 <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 1</label>
                                                 <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza1" id="simetria_pieza1" placeholder="panel"
+                                                    name="simetria_pieza1" id="simetria_pieza1" placeholder="panel 1"
                                                     value="{{ isset($Lectra) ? $Lectra->simetria_pieza1 : '' }}"
                                                     required />
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_x1" id="panel1_x1" placeholder="x1"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel1_x1 : '' }}"
-                                                     />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_x2" id="panel1_x2" placeholder="x2"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel2_x2 : '' }}"
-                                                     />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_x3" id="panel1_x3" placeholder="x3"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel3_x3 : '' }}"
-                                                    />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_x4" id="panel1_x4" placeholder="x4"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel4_x4 : '' }}"
-                                                     />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_x5" id="panel1_x5" placeholder="x5"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel1_x5 : '' }}"
-                                                    />
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel1_x{{ $i }}" id="panel1_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> X{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
                                             </div>
                                             <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel1_y{{ $i }}" id="panel1_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> Y{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
                                                 <input type="text" class="form-control me-2"
-                                                    name="panel1_y1" id="panel1_y1" placeholder="y1"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel1_y1 : '' }}"
-                                                     />
+                                                    name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}"
+                                                    required />
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel2_x{{ $i }}" id="panel2_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> X{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel2_y{{ $i }}" id="panel2_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> Y{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <label for="simetria_pieza3" class="col-sm-6 col-form-label">Panel 3</label>
                                                 <input type="text" class="form-control me-2"
-                                                    name="panel1_y2" id="panel1_y2" placeholder="y2"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel2_y2 : '' }}"
-                                                     />
+                                                    name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}"
+                                                    required />
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel3_x{{ $i }}" id="panel3_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> X{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel3_y{{ $i }}" id="panel3_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> Y{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <label for="simetria_pieza4" class="col-sm-6 col-form-label">Panel 4</label>
                                                 <input type="text" class="form-control me-2"
-                                                    name="panel1_y3" id="panel1_y3" placeholder="y3"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel3_y3 : '' }}"
-                                                    />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_y4" id="panel1_y4" placeholder="y4"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel4_y4 : '' }}"
-                                                     />
-                                                <input type="text" class="form-control me-2"
-                                                    name="panel1_y5" id="panel1_y5" placeholder="y5"
-                                                    value="{{ isset($Lectra) ? $Lectra->panel1_y5 : '' }}"
-                                                    />
+                                                    name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4"
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}"
+                                                    required />
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel4_x{{ $i }}" id="panel4_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> X{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <select name="panel4_y{{ $i }}" id="panel4_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value=""> Y{{$i}}° </option>
+                                                        @foreach($options as $option)
+                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endfor
                                             </div>
                                         </div>
                                         
