@@ -69,6 +69,22 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <button type="button" class="button" id="insertarFila">
+                            <span class="button__text">Añadir</span>
+                            <span class="button__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
+                                    stroke-linecap="round" stroke="currentColor" height="24"
+                                    fill="none" class="svg">
+                                    <line y2="19" y1="5" x2="12"
+                                        x1="12"></line>
+                                    <line y2="12" y1="12" x2="19"
+                                        x1="5"></line>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,67 +103,36 @@
                     <div class="tab-pane" id="messages">
                         <div class="card-body table-responsive">
                             <table class="table-cebra" id="miTabla">
-                                <div class="col-lg-2 col-md-2">
-                                    <div class="card" style="width: 60%;">
-                                        <div style="text-align: left; float: right; width: 30%;">
-                                            <button type="button" class="btn btn-danger" id="Finalizar">
-                                                <div class="svg-wrapper-1">
-                                                    <div class="svg-wrapper">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                            width="24" height="24">
-                                                            <path fill="none" d="M0 0h24v24H0z"></path>
-                                                            <path fill="currentColor"
-                                                                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
-                                                            </path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <span>Finalizar</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                                 <thead class="text-primary">
                                     <tr>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;">ID</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">ID</th>
                                         <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">Auditor</th>
                                         <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Cliente</th>
                                         <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Estilo</th>
                                         <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">OP</th>
                                         <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">Tecnico</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 80px;">Color</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 70px;"># Grafico</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 80px;">Tecnica</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 100px;">Fibras</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 70px;">% de Fibras</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 100px;">Tipo Defectos</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 120px;">Acciones Correctivas</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;"> </th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 9%;"> </th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2%;"> </th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">Color</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;"># Grafico</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">Tecnica</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">Fibras</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">% de Fibras</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">Tipo Defectos</th>
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">Acciones Correctivas</th> 
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;"></th> 
+                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;"></th> 
                                     </tr>
-                                </thead>
-                                
+                                </thead>  
                                 <tbody>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8" style="text-align: left;">
-                                            <button type="button" class="button" id="insertarFila">
-                                                <span class="button__text">Add row</span>
-                                                <span class="button__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
-                                                        stroke-linecap="round" stroke="currentColor" height="24"
-                                                        fill="none" class="svg">
-                                                        <line y2="19" y1="5" x2="12"
-                                                            x1="12"></line>
-                                                        <line y2="12" y1="12" x2="19"
-                                                            x1="5"></line>
-                                                    </svg>
-                                                </span>
+                                        <div class="col-md-2">
+                                        <td>
+                                            <button type="button" class="btn btn-danger" id="Finalizar">
+                                                <span>Finalizar</span>
                                             </button>
                                         </td>
+                                        </div>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -528,21 +513,19 @@
                         // Iterar sobre los datos recibidos y agregar filas a la tabla
                         $.each(data, function(index, item) {
                             // Verificar si es una fila guardada o nueva
-                            var isGuardado = item.Status === 'Nuevo' || item.Status ===
-                                'Update';
+                            var isGuardado = item.Status === 'Nuevo' || item.Status ==='Update';
                             var isFinalizado = item.Status === 'Finalizado';
                             var readonlyAttribute = isGuardado ? '' : 'readonly';
                             var disabledAttribute = isGuardado ? '' : 'disabled';
-                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :
-                                '';
+                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :'';
 
 
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="text-align: center; white-space: normal; width: .1%; overflow: auto;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
                                 readonlyAttribute +'"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="text-align: center; white-space: normal; width: .5%; overflow: auto;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
                                 readonlyAttribute +'"></select></td>';
 
 
@@ -588,7 +571,7 @@
                                 'readonly style="white-space: nowrap;"></td>' +
                                 tipoProblemaCell +
                                 acCorrectivaCell +
-                                '<td><button type="button" class="btn btn-primary guardarFila updateFile" ' +
+                                '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
                                 '>Guardar</button></td>' +
                                 '</tr>';
@@ -777,10 +760,9 @@
                 porcentajes.join(', ') + '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
-                '<td><button type="button" class="btn btn-primary guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
+                '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
+                '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>'+
                 '</tr>';
-
-
             $('#miTabla tbody').append(newRow);
 
             // Cargar opciones de los nuevos select
@@ -952,4 +934,9 @@
             $('.dataTables_length').addClass('bs-select');
         });
     </script>
+    <script>
+        function descartarClicked() {
+          location.reload();
+        }
+      </script>
 @endsection

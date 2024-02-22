@@ -187,10 +187,6 @@
             transform: translateX(1.2em) rotate(45deg) scale(1.1);
         }
         
-        button:hover span {
-            transform: translateX(5em);
-        }
-        
         button:active {
             transform: scale(0.95);
         }
@@ -234,10 +230,6 @@
         
         .button:hover {
             background: #34974d;
-        }
-        
-        .button:hover .button__text {
-            color: transparent;
         }
         
         .button:hover .button__icon {
