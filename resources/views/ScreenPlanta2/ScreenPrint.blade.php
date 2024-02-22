@@ -1,6 +1,11 @@
 @extends('layouts.app', ['activePage' => 'ScreenPrint', 'titlePage' => __('Screen Print')])
 
 @section('content')
+    <style>
+        .negative-image {
+            filter: invert(100%);
+        }
+    </style>
     <div class="content">
         <div class="container-fluid">
             <div class="card">
@@ -73,14 +78,11 @@
                         <button type="button" class="button" id="insertarFila">
                             <span class="button__text">Añadir</span>
                             <span class="button__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
-                                    stroke-linecap="round" stroke="currentColor" height="24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
                                     fill="none" class="svg">
-                                    <line y2="19" y1="5" x2="12"
-                                        x1="12"></line>
-                                    <line y2="12" y1="12" x2="19"
-                                        x1="5"></line>
+                                    <line y2="19" y1="5" x2="12" x1="12"></line>
+                                    <line y2="12" y1="12" x2="19" x1="5"></line>
                                 </svg>
                             </span>
                         </button>
@@ -98,48 +100,168 @@
                             </div>
                         </div>
                     </div>
-
-
+                    <!-- Tabla de resultados -->
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 mx-auto">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                    <div class="card-icon">
+                                        <i class="material-icons">fact_check</i>
+                                    </div>
+                                    <h3 class="card-title">Gran total revisando.
+                                        <br>
+                                        <small id="granTotalRevisando"> </small>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 mx-auto">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                    <div class="card-icon">
+                                        <i><img style="width:50px" class="negative-image"
+                                                src="{{ asset('material') }}/img/breaking_news_alt_1.svg"></i>
+                                    </div>
+                                    <h3 class="card-title">Gran total defectos.
+                                        <br>
+                                        <small id="granTotalDefectos"> </small>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 mx-auto">
+                            <div class="card card-stats">
+                                <div class="card-header card-header-warning card-header-icon">
+                                    <div class="card-icon">
+                                        <i><img style="width:50px" class="negative-image"
+                                                src="{{ asset('material') }}/img/swap_driving_apps_wheel.svg"></i>
+                                    </div>
+                                    <h3 class="card-title">% Defectos totales.
+                                        <br>
+                                        <small id="porcentajeDefectos"> </small>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane" id="messages">
                         <div class="card-body table-responsive">
                             <table class="table-cebra" id="miTabla">
                                 <thead class="text-primary">
                                     <tr>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">ID</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">Auditor</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Cliente</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">Estilo</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">OP</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">Tecnico</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">Color</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;"># Grafico</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">Tecnica</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">Fibras</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">% de Fibras</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">Tipo Defectos</th>
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">Acciones Correctivas</th> 
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;"></th> 
-                                        <th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;"></th> 
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%;">
+                                            ID</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
+                                            Auditor</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
+                                            Cliente</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
+                                            Estilo</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
+                                            OP</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">
+                                            Tecnico</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
+                                            Color</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            # Grafico</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
+                                            Tecnica</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                            Fibras</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">
+                                            % de Fibras</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                            Tipo Defectos</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
+                                            Acciones Correctivas</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                        </th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;">
+                                        </th>
                                     </tr>
-                                </thead>  
+                                </thead>
                                 <tbody>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <div class="col-md-2">
                                         <td>
                                             <button type="button" class="btn btn-danger" id="Finalizar">
                                                 <span>Finalizar</span>
                                             </button>
                                         </td>
-                                        </div>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
-
-
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card" style="width: auto;">
+                    <div class="card-header card-header-primary">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="card-title">{{ __('Control de Horno.') }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table  CtrHorno" id="CtrHorno">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th style="width: auto;">
+                                        TEMPERATURA DE HORNO</th>
+                                    <th style="width: auto;">
+                                        VELOCIDAD DE BANDA</th>
+                                    <th style="width: auto;">
+                                        HORARIO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <div class="col-md-2">
+                                        <td>
+                                            <button type="button" class="button" id="anadir">
+                                                <span class="button__text">Añadir</span>
+                                                <span class="button__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
+                                                        stroke-linecap="round" stroke="currentColor" height="24"
+                                                        fill="none" class="svg">
+                                                        <line y2="19" y1="5" x2="12"
+                                                            x1="12"></line>
+                                                        <line y2="12" y1="12" x2="19"
+                                                            x1="5"></line>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </div>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
                 </div>
             </div>
@@ -183,22 +305,18 @@
                 allowClear: true,
                 multiple: true // Esta opción permite la selección múltiple
             });
-
-            // Función para crear los inputs
             function crearInputs(selectedOptions) {
                 // Limpiar contenedor anterior
                 contenedorInputs.empty();
-
                 // Crear un input para cada opción seleccionada
                 if (selectedOptions && selectedOptions.length > 0) {
                     // Contenedor para los inputs en línea
                     var contenedorInputsEnLinea = $('<div>', {
                         class: 'col-md-12 d-flex'
                     });
-
                     // Variable para almacenar la suma de los porcentajes
                     var sumaPorcentajes = 0;
-
+                    var inputs = [];
                     $.each(selectedOptions, function(index, fibra) {
                         var porcentajeInput = $('<input>', {
                             type: 'number',
@@ -210,73 +328,76 @@
                             required: true,
                             style: 'width: 150px;' // Ajusta el ancho según tus preferencias
                         });
-
                         // Etiqueta para el nombre de la fibra
                         var etiquetaFibra = $('<label>', {
                             text: fibra + ': ',
                             class: 'mr-2'
                         });
-
                         // Contenedor individual para cada fibra
                         var contenedorFibra = $('<div>', {
                             class: 'd-flex align-items-center'
                         });
-
                         contenedorFibra.append(etiquetaFibra);
                         contenedorFibra.append(porcentajeInput);
-
                         // Agregar el contenedor de fibra al contenedor general
                         contenedorInputsEnLinea.append(contenedorFibra);
-
-                        // Evento de cambio en el input de porcentaje
-                        porcentajeInput.on('input', function() {
-                            // Actualizar la suma de los porcentajes al cambiar el valor
-                            sumaPorcentajes = calcularSumaPorcentajes();
-                            validarSumaPorcentajes();
-                        });
+                        // Guardar referencia al input
+                        inputs.push(porcentajeInput);
                     });
-
                     // Agregar el contenedor de inputs en línea al contenedor general
                     contenedorInputs.append(contenedorInputsEnLinea);
 
+                    // Evento de cambio en el input de porcentaje
+                    inputs.forEach(function(input) {
+                        input.on('input', function() {
+                            // No hacer nada aquí
+                        });
+                    });
+                    // Evento al salir del último input
+                    inputs[inputs.length - 1].on('blur', function() {
+                        // Actualizar la suma de los porcentajes al salir del último input
+                        sumaPorcentajes = calcularSumaPorcentajes();
+                        validarSumaPorcentajes();
+                    });
                     // Función para calcular la suma de los porcentajes
                     function calcularSumaPorcentajes() {
                         var suma = 0;
-                        $('.porcentajeInput').each(function() {
-                            suma += parseFloat($(this).val()) || 0;
+                        inputs.forEach(function(input) {
+                            suma += parseFloat(input.val()) || 0;
                         });
                         return suma;
                     }
-
                     // Función para validar y ajustar la suma de los porcentajes
                     function validarSumaPorcentajes() {
-                        if (sumaPorcentajes > 100) {
+                        if (sumaPorcentajes < 100) {
+                            alert(
+                                'La suma de los porcentajes no puede ser menor al 100%. Se ajustará automáticamente.'
+                            );
+                            // Ajustar automáticamente el último porcentaje ingresado
+                            var ultimoInput = inputs[inputs.length - 1];
+                            var nuevoValor = 100 - (sumaPorcentajes - parseFloat(ultimoInput.val()));
+                            ultimoInput.val(nuevoValor);
+                        } else if (sumaPorcentajes > 100) {
                             alert(
                                 'La suma de los porcentajes no puede superar el 100%. Se ajustará automáticamente.'
                             );
                             // Ajustar automáticamente el último porcentaje ingresado
-                            var ultimoInput = $('.porcentajeInput').last();
+                            var ultimoInput = inputs[inputs.length - 1];
                             var nuevoValor = 100 - (sumaPorcentajes - parseFloat(ultimoInput.val()));
                             ultimoInput.val(nuevoValor);
-                            sumaPorcentajes = calcularSumaPorcentajes();
                         }
                     }
                 }
             }
             // Inicializar los inputs al cargar la página
             crearInputs($('#fibraSelect').val());
-
             $('#fibraSelect').on('select2:select select2:unselect', function(e) {
                 var selectedOptions = $(this).val();
-
                 // Crear o actualizar los inputs al seleccionar o quitar opciones
                 crearInputs(selectedOptions);
             });
-
             // Agregar el contenedor de inputs después del último div dentro de card-body
             $('.card-body .row').append(contenedorInputs);
-
-
             // Cargar las opciones de los clientes desde la base de datos
             $.ajax({
                 url: '/Clientes', // Ajusta la URL según tu ruta
@@ -301,11 +422,9 @@
                     console.error('Error al cargar opciones de clientes: ', error);
                 }
             });
-
             // Evento de cambio en el select de clientes
             $('#clienteSelect').on('change', function() {
                 var clienteSeleccionado = $(this).val();
-
                 // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
                 $.ajax({
                     url: '/Estilo/' +
@@ -334,7 +453,6 @@
             });
             $('#estiloSelect').on('change', function() {
                 var estiloSeleccionado = $(this).val();
-
                 // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
                 $.ajax({
                     url: '/Ordenes/' +
@@ -426,14 +544,11 @@
                     console.error('Error al cargar opciones de clientes: ', error);
                 }
             });
-
             $('#tecnicaSelect').on('change', function() {
                 var tecnicaSeleccionada = $(this).val();
-
                 // Si el usuario selecciona 'Otra', mostrar un prompt para ingresar una nueva opción
                 if (tecnicaSeleccionada === 'Otra') {
                     var nuevaTecnica = prompt('Por favor, ingresa la nueva técnica');
-
                     // Si el usuario ingresó una nueva técnica, enviarla al servidor
                     if (nuevaTecnica) {
                         $.ajax({
@@ -460,7 +575,6 @@
             });
             $('#fibraSelect').on('change', function() {
                 var fibrasSeleccionadas = $(this).val();
-
                 // Verificar si 'Otra' está entre las opciones seleccionadas
                 if (Array.isArray(fibrasSeleccionadas) && fibrasSeleccionadas.includes('Otra')) {
                     var nuevafibra = prompt('Por favor, ingresa la nueva fibra');
@@ -496,9 +610,7 @@
     <script>
         var lastRegisteredId = 0;
         var addRowClicked = false;
-
         $(document).ready(function() {
-
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
                 url: '/viewTable', // Ruta de tu servidor Laravel
@@ -506,30 +618,23 @@
                 dataType: 'json',
                 success: function(data) {
                     try {
-                        console.log('Datos recibidos de /viewTable:', data);
-                        // Limpiar la tabla antes de agregar nuevas filas
-                        $('#miTabla tbody').empty();
-
                         // Iterar sobre los datos recibidos y agregar filas a la tabla
                         $.each(data, function(index, item) {
                             // Verificar si es una fila guardada o nueva
-                            var isGuardado = item.Status === 'Nuevo' || item.Status ==='Update';
+                            var isGuardado = item.Status === 'Nuevo' || item.Status ===
+                                'Update';
                             var isFinalizado = item.Status === 'Finalizado';
                             var readonlyAttribute = isGuardado ? '' : 'readonly';
                             var disabledAttribute = isGuardado ? '' : 'disabled';
-                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :'';
-
-
+                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :
+                                '';
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
                                 '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
-                                readonlyAttribute +'"></select></td>';
+                                readonlyAttribute + '"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
                                 '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
-                                readonlyAttribute +'"></select></td>';
-
-
-
+                                readonlyAttribute + '"></select></td>';
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
                                 '<td><input type="text" name="id" class="form-control" value="' +
@@ -592,7 +697,6 @@
                                 });
                             }
                         });
-
                         // Cargar opciones para los nuevos select2
                         OpcionesTipoProblema('Seleccione Tipo de Problema');
                         OpcionesACCorrectiva('Seleccione Acción Correctiva');
@@ -606,7 +710,6 @@
                 }
             });
         });
-
         function OpcionesTipoProblema(placeholder) {
             $.ajax({
                 url: '/OpcionesTipoProblema',
@@ -617,14 +720,12 @@
                     data.unshift('Seleccione Tipo de Problema');
                     llenarSelect('tipoProblemaSelect', data);
                     // Establecer el valor en nulo después de cargar los datos
-
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener opciones de tipo_problemaR[]:', status, error);
                 }
             });
         }
-
         // Función para cargar opciones de Acción Correctiva en un select2 específico
         function OpcionesACCorrectiva(placeholder) {
             $.ajax({
@@ -636,7 +737,6 @@
                     data.unshift('Seleccione Acción Correctiva');
                     llenarSelect('acCorrectivaSelect', data);
                     // Establecer el valor en nulo después de cargar los datos
-
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener opciones de ac_correctivaR[]:', status, error);
@@ -655,19 +755,14 @@
                 placeholder: placeholder,
                 allowClear: true
             });
-
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
             });
-
             select.val(null).trigger('change'); // Esto asegura que la opción vacía esté seleccionada
         }
     </script>
-
-
     <script>
         var addRowClicked = false;
-
         function cargarOpcionesACCorrectiva() {
             $.ajax({
                 url: '/obtenerOpcionesACCorrectiva', // Ajusta la ruta según tu configuración
@@ -681,7 +776,6 @@
                 }
             });
         }
-
         function cargarOpcionesTipoProblema() {
             $.ajax({
                 url: '/obtenerOpcionesTipoProblema', // Ajusta la ruta según tu configuración
@@ -695,30 +789,34 @@
                 }
             });
         }
-
         function llenarSelect(nombreSelect, opciones) {
             var select = $('.form-control[name="' + nombreSelect + '"]');
             select.empty();
-
             select.select2({
                 placeholder: 'Seleccione una opcion',
                 allowClear: true
             });
-
-
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
             });
-
             select.select2();
         }
-
         $('#insertarFila').on('click', function() {
-            console.log('Se hizo clic en el botón "AddRow"');
+            console.log('Se hizo clic en el botón "Añadir"');
             addRowClicked = true;
-
+            // Verificar si todos los campos están llenos
+            var camposVacios = false;
+            $('select, input').each(function() {
+                if ($(this).val() === "") {
+                    camposVacios = true;
+                    return false; // Salir del bucle si se encuentra un campo vacío
+                }
+            });
+            if (camposVacios) {
+                alert('Por favor, complete todos los campos antes de añadir una nueva fila.');
+                return; // Detener la ejecución si hay campos vacíos
+            }
             lastRegisteredId++;
-
             var auditor = '{{ Auth::user()->name }}';
             var cliente = $('#clienteSelect').val();
             var estilo = $('#estiloSelect').val();
@@ -735,7 +833,6 @@
             $('.porcentajeInput').each(function() {
                 porcentajes.push($(this).val());
             });
-
             var newRow = '<tr>' +
                 '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
                 '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
@@ -761,7 +858,7 @@
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
-                '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>'+
+                '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
                 '</tr>';
             $('#miTabla tbody').append(newRow);
 
@@ -769,14 +866,12 @@
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
-
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
-            console.log('Se hizo clic en el botón "Guardar"');
             // Obtener el token CSRF
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             // Verificar si se hizo clic en el botón "AddRow"
@@ -827,19 +922,15 @@
     </script>
     <script>
         var lastRegisteredId = 0;
-
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.updateFile', function() {
-            console.log('Se hizo clic en el botón "Guardar"');
             // Obtener el token CSRF
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             // Obtener los valores de la fila desde los campos de entrada
             var row = $(this).closest('tr');
             var idValue = row.find('input[name="id"]')
                 .val(); // Asegúrate de obtener el valor correcto del campo "id"
             var addRowClicked = row.find('input[name="id"]').length === 0; // Verifica si es una fila agregada
-
             // Obtener otros valores de la fila
             var auditorValue = row.find('input[name="Auditor"]').val();
             var clienteValue = row.find('input[name="Cliente"]').val();
@@ -897,7 +988,6 @@
                 // Iterar sobre cada fila de la tabla
                 $('#miTabla tbody tr').each(function() {
                     var id = $(this).find('input[name="id"]').val();
-
                     // Hacer una solicitud POST para cada fila para actualizar el estado a "Finalizado"
                     $.ajax({
                         url: '/actualizarEstado/' + id, // Ruta de tu servidor Laravel
@@ -935,8 +1025,109 @@
         });
     </script>
     <script>
+        $(document).ready(function() {
+            // Hacer la llamada Ajax al servidor para obtener datos
+            $.ajax({
+                url: '/horno_banda', // Ruta de tu servidor Laravel
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    try {
+                        // Iterar sobre los datos recibidos y agregar filas a la tabla
+                        $.each(data, function(index, item) {
+                            // Formatear la hora utilizando el formato deseado
+                            var horaFormateada = moment(item.created_at).format('H:mm:ss');
+
+                            // Crear la fila con la hora formateada
+                            var row = '<tr>' +
+                                '<td>' +
+                                item.Vel_Banda + '</td>' +
+                                '<td>' +
+                                item.Tem_Horno + '</td>' +
+                                '<td>' +
+                                horaFormateada + '</td>' +
+                                '</tr>';
+                            // Agregar la fila a la tabla
+                            $('#CtrHorno tbody').append(row);
+                        });
+
+                    } catch (error) {
+                        console.error('Error al procesar los datos:', error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la llamada Ajax:', status, error);
+                }
+            });
+        });
+        $('#anadir').on('click', function() {
+            var newRow = '<tr>' +
+                '<td><select class="form-control select-temperatura">' +
+                '<option selected>Selecciona temperatura de horno</option>' +
+                '<option value="160°c">160°c</option>' +
+                '<option value="180°c">180°c</option>' +
+                '</select></td>' +
+                '<td><select class="form-control select-velocidad">' +
+                '<option selected>Selecciona velocidad de banda</option>' +
+                '<option value="01m:10s">01m:10s</option>' +
+                '<option value="04m:00s">04m:00s</option>' +
+                '</select></td>' +
+                '<td><button type="button" class="btn btn-success saved">Guardar</button></td>' +
+                '</tr>';
+            // Agrega la nueva fila clonada a la tabla con ID 'CtrHorno'
+            $('#CtrHorno tbody').append(newRow);
+        });
+        $(document).on('click', '.saved', function() {
+            // Obtener el token CSRF
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var temperaturaSeleccionada = $(this).closest('tr').find('.select-temperatura').val();
+            var velocidadSeleccionada = $(this).closest('tr').find('.select-velocidad').val();
+            // Continuar con la solicitud AJAX
+            $.ajax({
+                url: '/savedatahorno_banda',
+                method: 'POST',
+                data: {
+                    _token: csrfToken,
+                    Temperatura: temperaturaSeleccionada,
+                    Velocidad: velocidadSeleccionada,
+                },
+                success: function(response) {
+                    // Realizar acciones adicionales si es necesario después de la respuesta exitosa
+                    console.log(response);
+                    location.reload();
+                },
+                error: function(error) {
+                    // Manejar errores si es necesario
+                    console.log('Error en la solicitud POST:', error);
+                },
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Hacer la llamada Ajax al servidor para obtener datos
+            $.ajax({
+                url: '/PorcenTotalDefec', // Ruta de tu servidor Laravel
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    try {
+                        $('#granTotalRevisando').text(response.totalRegistros);
+                        $('#granTotalDefectos').text(response.totalDefectos);
+                        $('#porcentajeDefectos').text(response.porcentaje.toFixed(2) + '%');
+                    } catch (error) {
+                        console.error('Error al procesar los datos:', error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la llamada Ajax:', status, error);
+                }
+            });
+        });
+    </script>
+    <script>
         function descartarClicked() {
-          location.reload();
+            location.reload();
         }
-      </script>
+    </script>
 @endsection

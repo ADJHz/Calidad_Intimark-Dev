@@ -16,6 +16,11 @@
         /* Añade estilos para el tema oscuro */
         /* Estilos personalizados para los elementos de tipo "radio" */
         
+        .table-cebra1 .CtrHorno {
+            border: solid 1px #ccc;
+            border-spacing: 0;
+        }
+        
         .table-cebra {
             border: solid 1px #ccc;
             border-spacing: 0;

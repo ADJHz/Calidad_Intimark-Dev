@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\DatosAX;
+use App\Models\Horno_Banda;
 use App\Models\OpcionesDefectosScreen;
 use App\Models\ScreenPrint;
 use App\Models\Tecnicos;
@@ -257,7 +258,100 @@ class CalidadScreenPrintController extends Controller
            return response()->json(['message' => 'Registro no encontrado'], 404);
        }
    }
+   public function horno_banda()
+   {
+   // Obtener la fecha actual
+   $today = Carbon::today();
 
+   // Filtrar registros con la fecha actual
+   $data = Horno_Banda::whereDate('created_at', $today)->get();
+    return response()->json($data);
+   }
+   public function savedatahorno_banda(Request $request)
+{
+    try {
+        // Validar los datos si es necesario
+        $request->validate([
+            'Temperatura' => 'required',
+            'Velocidad' => 'required',
+        ]);
 
+        // Obtener los datos del request
+        $temperatura = $request->input('Temperatura');
+        $velocidad = $request->input('Velocidad');
+
+        // Crear una nueva instancia del modelo Horno_Banda
+        $hornoBanda = new Horno_Banda();
+
+        // Asignar los valores a las columnas del modelo
+        $hornoBanda->Tem_Horno = $temperatura;
+        $hornoBanda->Vel_Banda = $velocidad;
+
+        // Guardar el modelo en la base de datos
+        $hornoBanda->save();
+
+        // Log de los datos recibidos
+        Log::info('Datos recibidos - Temperatura: ' . $temperatura . ', Velocidad: ' . $velocidad);
+
+        // Puedes devolver una respuesta JSON si es necesario
+        $data = [
+            'success' => true,
+            'message' => 'Datos guardados correctamente.',
+        ];
+
+        return response()->json($data);
+    } catch (\Exception $e) {
+        // Log de errores
+        Log::error('Error en savedatahorno_banda: ' . $e->getMessage());
+
+        // Manejar el error y devolver una respuesta JSON
+        $data = [
+            'success' => false,
+            'message' => 'Error al procesar los datos.',
+        ];
+
+        return response()->json($data, 500);
+    }
+}
+public function PorcenTotalDefec()
+{
+    try {
+        // Obtener la fecha actual
+        $today = Carbon::today();
+
+        // Obtener la cantidad total de registros para el día actual
+        $totalRegistros = ScreenPrint::whereDate('created_at', $today)->count();
+
+        // Obtener la cantidad de registros con Tipo_Problema diferente de 'N/A'
+        $defectos = ScreenPrint::whereDate('created_at', $today)
+            ->where('Tipo_Problema', '<>', 'N/A')
+            ->count();
+
+        // Calcular el porcentaje
+        $porcentaje = ($defectos / $totalRegistros) * 100;
+
+        // Puedes devolver la respuesta JSON con los datos adicionales
+        $data = [
+            'success' => true,
+            'totalRegistros' => $totalRegistros,
+            'totalDefectos' => $defectos,
+            'porcentaje' => $porcentaje,
+            'message' => 'Datos calculados correctamente.',
+        ];
+
+        return response()->json($data);
+    } catch (\Exception $e) {
+        // Log de errores
+        Log::error('Error en PorcenTotalDefec: ' . $e->getMessage());
+
+        // Manejar el error y devolver una respuesta JSON
+        $data = [
+            'success' => false,
+            'message' => 'Error al calcular los datos.',
+        ];
+
+        return response()->json($data, 500);
+    }
 }
 
+}
