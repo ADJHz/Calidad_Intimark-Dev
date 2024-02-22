@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\CategoriaAuditor;
 use App\Models\CategoriaTecnico;
 use App\Models\CategoriaCliente;
@@ -13,6 +15,8 @@ use App\Models\CategoriaTallaCantidad;
 use App\Models\CategoriaTamañoMuestra;
 use App\Models\CategoriaDefecto;
 use App\Models\CategoriaTipoDefecto;
+use App\Models\CategoriaMaterialRelajado;
+use App\Models\CategoriaDefectoCorte;
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
 use App\Models\AuditoriaTendido;
@@ -30,17 +34,19 @@ class AuditoriaCorteController extends Controller
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
-        return [
+        return [ 
             'CategoriaCliente' => CategoriaCliente::where('estado', 1)->get(),
             'CategoriaColor' => CategoriaColor::where('estado', 1)->get(),
             'CategoriaEstilo' => CategoriaEstilo::where('estado', 1)->get(),
             'CategoriaNoRecibo' => CategoriaNoRecibo::where('estado', 1)->get(),
             'CategoriaTallaCantidad' => CategoriaTallaCantidad::where('estado', 1)->get(),
             'CategoriaTamañoMuestra' => CategoriaTamañoMuestra::where('estado', 1)->get(),
+            'CategoriaMaterialRelajado' => CategoriaMaterialRelajado::where('estado', 1)->get(),
             'CategoriaDefecto' => CategoriaDefecto::where('estado', 1)->get(),
             'CategoriaTipoDefecto' => CategoriaTipoDefecto::where('estado', 1)->get(),
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
+            'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
             'DatoAX' => DatoAX::where(function($query) {
                 $query->whereNull('estatus')
                       ->orWhere('estatus', '');
@@ -79,6 +85,8 @@ class AuditoriaCorteController extends Controller
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
+        $auditorDato = Auth::user()->name;
+        //dd($userName);
         // Obtener el dato con el id seleccionado y el valor de la columna "orden"
         $datoAX = DatoAX::where('op', $orden)->first();
         //dd($datoAX);
@@ -86,7 +94,7 @@ class AuditoriaCorteController extends Controller
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
         // Obtener el registro correspondiente en la tabla AuditoriaMarcada si existe
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $id)->first();
         $auditoriaMarcada = AuditoriaMarcada::where('id', $id)->first();
         $auditoriaTendido = AuditoriaTendido::where('id', $id)->first();
         $Lectra = Lectra::where('id', $id)->first();
@@ -122,7 +130,8 @@ class AuditoriaCorteController extends Controller
             'mostrarFinalizarLectra' => $mostrarFinalizarLectra,
             'mostrarFinalizarBulto' => $mostrarFinalizarBulto,
             'mostrarFinalizarFinal' => $mostrarFinalizarFinal,
-            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte]));
+            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
+            'auditorDato' => $auditorDato]));
     }
 
 
@@ -135,29 +144,22 @@ class AuditoriaCorteController extends Controller
         // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
         $idSeleccionado = $request->input('id');
+        $idEncabezadoAuditoriaCorte = $request->input('idEncabezadoAuditoriaCorte');
         $orden = $request->input('orden');
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
+        //dd($encabezadoAuditoriaCorte);
         // Verificar si ya existen datos para el dato_ax_id especificado
-        if (EncabezadoAuditoriaCorte::where('dato_ax_id', $idSeleccionado)->exists()) {
+        if ($encabezadoAuditoriaCorte) {
             //dd($request->all());
+            $encabezadoAuditoriaCorte->pieza = $request->input('pieza');
+            $encabezadoAuditoriaCorte->lienzo = $request->input('lienzo');
+            $encabezadoAuditoriaCorte->estatus = 'estatusAuditoriaMarcada';
+            $encabezadoAuditoriaCorte->save();
+
             return back()->with('sobre-escribir', 'Ya existen datos para este registro.');
         }
 
-        // Realizar la actualización en la base de datos
-        $auditoria= new EncabezadoAuditoriaCorte();
-        $auditoria->dato_ax_id = $idSeleccionado;
-        $auditoria->orden_id = $orden;
-        $auditoria->cliente = $request->input('cliente');
-        $auditoria->material = $request->input('material');
-        $auditoria->color = $request->input('color');
-        $auditoria->pieza = $request->input('pieza');
-        $auditoria->trazo = $request->input('trazo');
-        $auditoria->lienzo = $request->input('lienzo');
-        $auditoria->evento = $request->input('evento');
-        // Establecer fecha_inicio con la fecha y hora actual
-        $auditoria->fecha_inicio = Carbon::now()->format('Y-m-d H:i:s');
-        $auditoria->estatus = "estatusAuditoriaMarcada";
-        $auditoria->save();
-
+        
         $datoAX = DatoAX::findOrFail($idSeleccionado);
         // Actualizar el valor de la columna deseada
         $datoAX->estatus = 'estatusAuditoriaMarcada';
@@ -167,10 +169,36 @@ class AuditoriaCorteController extends Controller
 
         // Generar múltiples registros en auditoria_marcadas según el valor de evento
         for ($i = 0; $i < $request->input('evento'); $i++) {
+
+            // Realizar la actualización en la base de datos
+            $auditoria= new EncabezadoAuditoriaCorte();
+            $auditoria->dato_ax_id = $idSeleccionado;
+            $auditoria->orden_id = $orden;
+            $auditoria->cliente = $request->input('cliente');
+            $auditoria->material = $request->input('material');
+            $auditoria->color = $request->input('color');
+            $auditoria->pieza = $request->input('pieza');
+            $auditoria->trazo = $request->input('trazo');
+            $auditoria->lienzo = $request->input('lienzo');
+            $auditoria->evento = $i+1;
+            // Establecer fecha_inicio con la fecha y hora actual
+            $auditoria->fecha_inicio = Carbon::now()->format('Y-m-d H:i:s');
+            if ($i === 0) {
+                $auditoria->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
+            } else {
+                $auditoria->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
+            }
+            $auditoria->save();
+
+
             $auditoriaMarcada = new AuditoriaMarcada();
             $auditoriaMarcada->dato_ax_id = $idSeleccionado;
             $auditoriaMarcada->orden_id = $orden;
-            $auditoriaMarcada->estatus = "proceso";
+            if ($i === 0) {
+                $auditoriaMarcada->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
+            } else {
+                $auditoriaMarcada->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
+            }
             $auditoriaMarcada->evento = $i+1;
             // Otros campos que necesites para cada registro...
             
@@ -403,22 +431,31 @@ class AuditoriaCorteController extends Controller
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA EN BULTOS.')->with('activePage', $activePage);
         }
 
-        $allChecked = trim($request->input('simetria_pieza_estatus')) === "1" &&
-              trim($request->input('pieza_completa_estatus')) === "1" &&
+        $allChecked = trim($request->input('pieza_completa_estatus')) === "1" &&
               trim($request->input('pieza_contrapatron_estatus')) === "1";
 
         $request->session()->put('estatus_checked_Lectra', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
         $existeOrden = Lectra::where('id', $idLectra)->first();
-        //dd($existeOrden);
+        //dd($request->input('x1'), $request->input('y1'));
 
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
             $existeOrden->nombre = $request->input('nombre');
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
-            $existeOrden->simetria_pieza = $request->input('simetria_pieza');
-            $existeOrden->simetria_pieza_estatus = $request->input('simetria_pieza_estatus');
+            $existeOrden->simetria_pieza1 = $request->input('simetria_pieza1');
+            $existeOrden->x1 = $request->input('x1');
+            $existeOrden->y1 = $request->input('y1');
+            $existeOrden->simetria_pieza2 = $request->input('simetria_pieza2');
+            $existeOrden->x2 = $request->input('x2');
+            $existeOrden->y2 = $request->input('y2');
+            $existeOrden->simetria_pieza3 = $request->input('simetria_pieza3');
+            $existeOrden->x3 = $request->input('x3');
+            $existeOrden->y3 = $request->input('y3');
+            $existeOrden->simetria_pieza4 = $request->input('simetria_pieza4');
+            $existeOrden->x4 = $request->input('x4');
+            $existeOrden->y4 = $request->input('y4');
             $existeOrden->pieza_completa = $request->input('pieza_completa');
             $existeOrden->pieza_completa_estatus = $request->input('pieza_completa_estatus');
             $existeOrden->pieza_contrapatron = $request->input('pieza_contrapatron');
@@ -429,7 +466,7 @@ class AuditoriaCorteController extends Controller
 
         
             $existeOrden->save();
-            
+            //dd($existeOrden);
             return back()->with('sobre-escribir', 'Actualilzacion realizada con exito');
         }
 
