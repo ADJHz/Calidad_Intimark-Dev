@@ -1196,7 +1196,7 @@
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaNoRecibo as $nombre)
+                                                    @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
                                                             {{ isset($Lectra) && trim($Lectra->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
@@ -1266,6 +1266,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
+                                            <label class="col-sm-6 col-form-label">&nbsp;</label>
                                             <div class="form-check form-check-inline">
                                                 <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
                                                 <input type="text" class="form-control me-2"
@@ -1417,32 +1418,62 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2" name="pieza_inspeccionada" id="pieza_inspeccionada"
-                                                        value="{{ $encabezadoAuditoriaCorte->pieza }}" readonly required />
-                                                <input type="hidden" name="pieza_inspeccionada" value="{{ $encabezadoAuditoriaCorte->pieza }}">
+                                                <select name="pieza_inspeccionada" id="pieza_inspeccionada" class="form-control" title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="2" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '2' ? 'selected' : '' }}>2 - 8 => 2</option>
+                                                    <option value="3" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '3' ? 'selected' : '' }}>9 - 15 => 3 </option>
+                                                    <option value="5" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '5' ? 'selected' : '' }}>16 - 25 => 5 </option>
+                                                    <option value="8" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '8' ? 'selected' : '' }}>26 - 50 => 8 </option>
+                                                    <option value="13" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '13' ? 'selected' : '' }}>51 - 90 => 13 </option>
+                                                    <option value="20" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '20' ? 'selected' : '' }}>91 - 150 => 20 </option>
+                                                    <option value="32" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '32' ? 'selected' : '' }}>151 - 280 => 32 </option>
+                                                    <option value="50" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '50' ? 'selected' : '' }}>281 - 500 => 50 </option>
+                                                    <option value="80" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '80' ? 'selected' : '' }}>501 - 1,200 => 80 </option>
+                                                    <option value="125" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '125' ? 'selected' : '' }}>1,201 - 3,200 => 125 </option>
+                                                    <option value="200" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '200' ? 'selected' : '' }}>3,201 - 10,000 => 200 </option>
+                                                    <option value="315" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '315' ? 'selected' : '' }}>10,001 - 35,000 => 315 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cantidad_defecto" class="col-sm-6 col-form-label">Cantidad de Defectos </label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <input type="text" class="form-control me-2" name="cantidad_defecto"
+                                                    id="cantidad_defecto" placeholder="..."
+                                                    value="{{ isset($Lectra) ? $Lectra->cantidad_defecto : '' }}"
+                                                    required />
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="defecto" class="col-sm-6 col-form-label">Defectos </label>
                                             <div class="col-sm-12 d-flex align-items-center">
+                                                <input type="text" class="form-control me-2" name="defecto"
+                                                    id="defecto" placeholder="..."
+                                                    value="{{ isset($Lectra) ? $Lectra->defecto : '' }}"
+                                                    required />
+                                                {{--
                                                 <select name="defecto" id="defecto" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    
                                                     @foreach ($CategoriaDefectoCorte as $defectoCorte)
                                                         <option value="{{ $defectoCorte->nombre }}"
                                                             {{ isset($Lectra) && trim($Lectra->defecto) == trim($defectoCorte->nombre) ? 'selected' : '' }}>
                                                             {{ $defectoCorte->nombre }}</option>
                                                     @endforeach
                                                 </select>
+                                                --}}
                                             </div>
                                         </div>
+                                        @php
+                                            $calculoPorcentaje = ($Lectra->cantidad_defecto / $Lectra->pieza_inspeccionada)*100; 
+                                        @endphp
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2" name="porcentaje"
-                                                    id="porcentaje" placeholder="..."
-                                                    value="{{ isset($Lectra) ? $Lectra->porcentaje : '' }}"
-                                                    required />
+                                                <input type="text" class="form-control me-2" name="porcentaje" id="porcentaje" placeholder="..."
+                                                    value="{{ isset($calculoPorcentaje) ? $calculoPorcentaje : '' }}" readonly />
+                                                <span>%</span>
                                             </div>
                                         </div>
                                     </div>
