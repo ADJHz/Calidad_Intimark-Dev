@@ -548,9 +548,7 @@ class AuditoriaCorteController extends Controller
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->cantidad_bulto = $request->input('cantidad_bulto');
-            $existeOrden->cantidad_bulto_estatus = $request->input('cantidad_bulto_estatus');
             $existeOrden->pieza_paquete = $request->input('pieza_paquete');
-            $existeOrden->pieza_paquete_estatus = $request->input('pieza_paquete_estatus');
             $existeOrden->ingreso_ticket = $request->input('ingreso_ticket');
             $existeOrden->ingreso_ticket_estatus = $request->input('ingreso_ticket_estatus');
             $existeOrden->sellado_paquete = $request->input('sellado_paquete');

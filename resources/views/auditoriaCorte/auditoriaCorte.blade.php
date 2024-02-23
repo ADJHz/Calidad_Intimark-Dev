@@ -1466,7 +1466,7 @@
                                             </div>
                                         </div>
                                         @php
-                                            $calculoPorcentaje = ($Lectra->cantidad_defecto / $Lectra->pieza_inspeccionada)*100; 
+                                            $calculoPorcentaje = intval(($Lectra->cantidad_defecto / $Lectra->pieza_inspeccionada) * 100);
                                         @endphp
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
@@ -1521,7 +1521,7 @@
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaNoRecibo as $nombre)
+                                                    @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
                                                             {{ isset($auditoriaBulto) && trim($auditoriaBulto->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
@@ -1536,17 +1536,13 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
+                                            @php
+                                                $nombreMesa = "SELLADO";
+                                            @endphp
                                             <label for="mesa" class="col-sm-6 col-form-label">MESA</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="mesa" id="mesa" class="form-control"
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaEstilo as $mesa)
-                                                        <option value="{{ $mesa->nombre }}"
-                                                            {{ isset($auditoriaBulto) && $auditoriaBulto->mesa == $mesa->nombre ? 'selected' : '' }}>
-                                                            {{ $mesa->nombre }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" class="form-control me-2" name="mesa" id="mesa" placeholder="..."
+                                                    value="{{ isset($nombreMesa) ? $nombreMesa : '' }}" readonly />
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -1563,8 +1559,19 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
+                                            @php
+                                                // Primero, verificamos si la variable existe
+                                                $calculoPorcentajeBulto = isset($auditoriaBulto->pieza_paquete) ?
+
+                                                // Si existe, verificamos si es igual a 0
+                                                ($auditoriaBulto->pieza_paquete === 0 ? 0 : intval(($encabezadoAuditoriaCorte->pieza / $auditoriaBulto->pieza_paquete)))
+
+                                                // Si no existe, asignamos 0
+                                                : 0;
+                                            @endphp
                                             <label for="cantidad_bulto" class="col-sm-6 col-form-label">1. Cantidad de Bultos</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
                                                         name="cantidad_bulto_estatus" id="cantidad_bulto_estatus1"
@@ -1581,11 +1588,10 @@
                                                         required />
                                                     <label class="label-tache" for="cantidad_bulto_estatus2">✖ </label>
                                                 </div>
+                                                --}}
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="cantidad_bulto" id="cantidad_bulto" placeholder="..."
-                                                        value="{{ isset($auditoriaBulto) ? $auditoriaBulto->cantidad_bulto : '' }}"
-                                                        required />
+                                                    <input type="text" class="form-control me-2" name="cantidad_bulto" id="cantidad_bulto" placeholder="..."
+                                                        value="{{ isset($calculoPorcentajeBulto) ? $calculoPorcentajeBulto : '' }}" readonly />
                                                 </div>
                                             </div>
                                         </div>
@@ -1594,6 +1600,7 @@
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <div class="col-sm-12 d-flex align-items-center"
                                                     style="margin-right: -5px;">
+                                                    {{--
                                                     <div class="form-check form-check-inline">
                                                         <input class="quitar-espacio" type="radio"
                                                             name="pieza_paquete_estatus" id="pieza_paquete_estatus1"
@@ -1610,6 +1617,7 @@
                                                             required />
                                                         <label class="label-tache" for="pieza_paquete_estatus2">✖ </label>
                                                     </div>
+                                                    --}}
                                                     <div class="form-check form-check-inline">
                                                         <input type="number" step="0.0001" class="form-control me-2"
                                                             name="pieza_paquete" id="pieza_paquete" placeholder="..."
@@ -1639,12 +1647,14 @@
                                                         required />
                                                     <label class="label-tache" for="ingreso_ticket_estatus2">✖ </label>
                                                 </div>
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input type="number" step="0.0001" class="form-control me-2"
                                                         name="ingreso_ticket" id="ingreso_ticket" placeholder="..."
                                                         value="{{ isset($auditoriaBulto) ? $auditoriaBulto->ingreso_ticket : '' }}"
                                                         required />
                                                 </div>
+                                                --}}
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -1667,12 +1677,14 @@
                                                         required />
                                                     <label class="label-tache" for="sellado_paquete_estatus2">✖ </label>
                                                 </div>
+                                                {{--
                                                 <div class="form-check form-check-inline">
                                                     <input type="number" step="0.0001" class="form-control me-2"
                                                         name="sellado_paquete" id="sellado_paquete" placeholder="..."
                                                         value="{{ isset($auditoriaBulto) ? $auditoriaBulto->sellado_paquete : '' }}"
                                                         required />
                                                 </div>
+                                                --}}
                                             </div>
                                         </div>
                                     </div>
