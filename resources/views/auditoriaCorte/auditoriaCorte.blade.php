@@ -1251,7 +1251,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -1261,7 +1261,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                         </div>
@@ -1271,8 +1271,7 @@
                                                 <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
                                                 <input type="text" class="form-control me-2"
                                                     name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}"
-                                                    required />
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}" />
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 @for ($i = 1; $i <= 5; $i++)
@@ -1281,7 +1280,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -1291,7 +1290,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                         </div>
@@ -1300,8 +1299,7 @@
                                                 <label for="simetria_pieza3" class="col-sm-6 col-form-label">Panel 3</label>
                                                 <input type="text" class="form-control me-2"
                                                     name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}"
-                                                    required />
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 @for ($i = 1; $i <= 5; $i++)
@@ -1310,7 +1308,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -1320,7 +1318,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                         </div>
@@ -1329,8 +1327,7 @@
                                                 <label for="simetria_pieza4" class="col-sm-6 col-form-label">Panel 4</label>
                                                 <input type="text" class="form-control me-2"
                                                     name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}"
-                                                    required />
+                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 @for ($i = 1; $i <= 5; $i++)
@@ -1339,7 +1336,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -1349,7 +1346,7 @@
                                                         @foreach($options as $option)
                                                             <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
                                                         @endforeach
-                                                    </select>
+                                                    </select> &nbsp;&nbsp;
                                                 @endfor
                                             </div>
                                         </div>
@@ -1372,7 +1369,7 @@
                                                             name="pieza_completa_estatus" id="pieza_completa_estatus2"
                                                             value="0"
                                                             {{ isset($Lectra) && $Lectra->pieza_completa_estatus == 0 ? 'checked' : '' }}
-                                                            required />
+                                                            required /> 
                                                         <label class="label-tache" for="pieza_completa_estatus2">✖ </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
@@ -1466,7 +1463,9 @@
                                             </div>
                                         </div>
                                         @php
-                                            $calculoPorcentaje = intval(($Lectra->cantidad_defecto / $Lectra->pieza_inspeccionada) * 100);
+                                            $cantidadDefecto = isset($Lectra->cantidad_defecto) ? $Lectra->cantidad_defecto : 0;
+                                            $piezaInspeccionada = isset($Lectra->pieza_inspeccionada) ? $Lectra->pieza_inspeccionada : 0;
+                                            $calculoPorcentaje = $piezaInspeccionada != 0 ? intval(($cantidadDefecto / $piezaInspeccionada) * 100) : 0;
                                         @endphp
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
@@ -1568,6 +1567,7 @@
 
                                                 // Si no existe, asignamos 0
                                                 : 0;
+                                                //dd($calculoPorcentajeBulto, $encabezadoAuditoriaCorte->pieza, $auditoriaBulto->pieza_paquete);
                                             @endphp
                                             <label for="cantidad_bulto" class="col-sm-6 col-form-label">1. Cantidad de Bultos</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
@@ -1946,6 +1946,18 @@
                 console.log("ERROR: No se pudo obtener el valor de estatus.");
             }
         </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input[type="text"]');
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+        });
+    });
+
+</script>
 
 
     @endsection
