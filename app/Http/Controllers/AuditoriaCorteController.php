@@ -266,6 +266,10 @@ class AuditoriaCorteController extends Controller
             $auditoriaMarcadaEstatus->estatus = 'estatusAuditoriaTendido';
             // Asegúrate de llamar a save() en la variable actualizada
             $auditoriaMarcadaEstatus->save();
+            $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idAuditoriaMarcada)->first();
+            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusAuditoriaTendido';
+            // Asegúrate de llamar a save() en la variable actualizada
+            $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA DE TENDIDO.')->with('activePage', $activePage);
         }
 
@@ -348,6 +352,10 @@ class AuditoriaCorteController extends Controller
             $auditoriaTendido->estatus = 'estatusLectra';
             // Asegúrate de llamar a save() en la variable actualizada
             $auditoriaTendido->save();
+            $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idAuditoriaTendido)->first();
+            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusLectra';
+            // Asegúrate de llamar a save() en la variable actualizada
+            $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Se Cambio a estatus: LECTRA.')->with('activePage', $activePage);
         }
 
@@ -428,6 +436,11 @@ class AuditoriaCorteController extends Controller
             $lectra->estatus = 'estatusAuditoriaBulto';
             // Asegúrate de llamar a save() en la variable actualizada
             $lectra->save();
+
+            $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idLectra)->first();
+            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusAuditoriaBulto';
+            // Asegúrate de llamar a save() en la variable actualizada
+            $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA EN BULTOS.')->with('activePage', $activePage);
         }
 
@@ -528,13 +541,16 @@ class AuditoriaCorteController extends Controller
             $auditoriaBulto->estatus = 'estatusAuditoriaFinal';
             // Asegúrate de llamar a save() en la variable actualizada
             $auditoriaBulto->save();
+
+            $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idBulto)->first();
+            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusAuditoriaFinal';
+            // Asegúrate de llamar a save() en la variable actualizada
+            $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA FINAL.')->with('activePage', $activePage);
         }
 
         // Verificar si todos los checkboxes tienen el valor deseado
-        $allChecked = trim($request->input('cantidad_bulto_estatus')) === "1" &&
-              trim($request->input('pieza_paquete_estatus')) === "1" &&
-              trim($request->input('ingreso_ticket_estatus')) === "1" &&
+        $allChecked = trim($request->input('ingreso_ticket_estatus')) === "1" &&
               trim($request->input('sellado_paquete_estatus')) === "1";
 
         $request->session()->put('estatus_checked_AuditoriaBulto', $allChecked);
@@ -586,6 +602,11 @@ class AuditoriaCorteController extends Controller
             $auditoriaFinal->estatus = 'fin';
             // Asegúrate de llamar a save() en la variable actualizada
             $auditoriaFinal->save();
+
+            $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idAuditoriaFinal)->first();
+            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusAuditoriaFinal';
+            // Asegúrate de llamar a save() en la variable actualizada
+            $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Fin 👋.')->with('activePage', $activePage);
         }
         // Verificar si todos los checkboxes tienen el valor de "1"
@@ -598,7 +619,7 @@ class AuditoriaCorteController extends Controller
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
             $existeOrden->supervisor_corte = $request->input('supervisor_corte');
-            $existeOrden->supervisor_linea = $request->input('supervisor_linea');
+            $existeOrden->aceptado_condicion = $request->input('aceptado_condicion');
             $existeOrden->estatus = $request->input('estatus');
             
             $existeOrden->save();

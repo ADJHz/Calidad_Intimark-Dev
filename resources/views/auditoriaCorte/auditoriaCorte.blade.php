@@ -69,7 +69,10 @@
                 <!--Aqui se edita el encabezado que es el que se muestra -->
                 <div class="card-header card-header-primary">
                     <h3 class="card-title">CONTROL DE CALIDAD EN CORTE</h3>
-                    <h3 id="estatusValue">Estatus: {{ $datoAX->estatus }}</h3>
+                    {{--<h3 id="estatusValue2">Estatus: {{ $datoAX->estatus }}</h3>--}}
+                    @isset($encabezadoAuditoriaCorte->estatus)
+                        <h3 id="estatusValue">Estatus: {{ $encabezadoAuditoriaCorte->estatus }}</h3>
+                    @endisset
                     @if($datoAX->evento == NULL || $datoAX->evento == '')
 
                     @else
@@ -77,7 +80,7 @@
                     @endif
                 </div>
                 <hr> 
-                @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == "proceso" && $datoAX->estatus == 'estatusAuditoriaMarcada')
+                @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == "proceso")
                 <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
                     @csrf
                     <input type="hidden" name="id" value="{{ $datoAX->id }}">
@@ -121,7 +124,7 @@
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
                 </form>
-                @elseif($datoAX->estatus == 'estatusAuditoriaMarcada' || $datoAX->estatus == 'estatusAuditoriaTendido' || $datoAX->estatus == 'estatusLectra' || $datoAX->estatus == 'estatusAuditoriaBulto' || $datoAX->estatus == 'estatusAuditoriaFinal' || $datoAX->estatus == 'fin')
+                @elseif($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal' || $encabezadoAuditoriaCorte->estatus == 'fin'))
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Orden: {{ $datoAX->op }}</h4>
@@ -248,9 +251,9 @@
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if($datoAX->estatus == '' || $datoAX->estatus == NULL)
+                                @if($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'proceso')
                                     <p> - </p>
-                                @elseif ($datoAX->estatus == 'estatusAuditoriaMarcada' || $auditoriaMarcada->estatus == 'proceso') 
+                                @elseif ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada') 
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaMarcada', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -1749,24 +1752,21 @@
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="supervisor_corte" class="col-sm-6 col-form-label">Supervisor de Corte</label>
+                                                @php
+                                                    $supervisorCorteFinal = "DAVID"
+                                                @endphp
                                                 <div class="col-sm-12 d-flex align-items-center">
-                                                    <select name="supervisor_corte" id="supervisor_corte" class="form-control"
-                                                        title="Por favor, selecciona una opción">
-                                                        <option value="">Selecciona una opción</option>
-                                                        @foreach ($CategoriaAuditor as $supervisor_corte)
-                                                            <option value="{{ $supervisor_corte->nombre }}"
-                                                                {{ isset($auditoriaFinal) && trim($auditoriaFinal->supervisor_corte) == trim($supervisor_corte->nombre) ? 'selected' : '' }}>
-                                                                {{$supervisor_corte->numero_empleado}} - {{ $supervisor_corte->nombre }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" class="form-control me-2" name="supervisor_corte" id="supervisor_corte"
+                                                        value="{{ $supervisorCorteFinal }}" readonly />
+                                                    <input type="hidden" name="supervisor_corte" value="{{ $supervisorCorteFinal }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="supervisor_linea" class="col-sm-6 col-form-label">Supervisor de linea:</label>
+                                                <label for="aceptado_condicion" class="col-sm-6 col-form-label">Aceptado con condiciones :</label>
                                                 <div class="col-sm-12 d-flex align-items-center">
-                                                    <input type="text" class="form-control me-2" name="supervisor_linea"
-                                                        id="supervisor_linea" placeholder="No. Empleado"
-                                                        value="{{ isset($auditoriaFinal) ? $auditoriaFinal->supervisor_linea : '' }}"
+                                                    <input type="text" class="form-control me-2" name="aceptado_condicion"
+                                                        id="aceptado_condicion" placeholder="comentarios"
+                                                        value="{{ isset($auditoriaFinal) ? $auditoriaFinal->aceptado_condicion : '' }}"
                                                         required />
                                                 </div>
                                             </div>
@@ -1858,11 +1858,7 @@
         <!-- Script para abrir el acordeón correspondiente -->
         <script>
             // Obtenemos el valor del estatus desde el HTML generado por PHP en Laravel
-            var estatus = "{{ $datoAX->estatus }}";
-            var estatusAuditoriaMarcadaEvento = @json(optional($auditoriaMarcada)->estatus);
-            var estatusAuditoriaTendidoEvento = @json(optional($auditoriaTendido)->estatus);
-            var estatusLectraEvento = @json(optional($Lectra)->estatus);
-            var estatusAuditoriaBultoEvento = @json(optional($auditoriaBulto)->estatus);
+            var estatus = @json(optional($encabezadoAuditoriaCorte)->estatus);
             const estatusTextos = {
                 'estatusAuditoriaMarcada': 'Auditoria de Marcada',
                 'estatusAuditoriaTendido': 'Auditoria de Tendido',
@@ -1889,55 +1885,27 @@
                         break;
                     case "estatusAuditoriaTendido":
                         // Abre el acordeón 2
-                        if (estatusAuditoriaMarcadaEvento === "estatusAuditoriaTendido") {
-                            // Abre el acordeón 2
-                            document.getElementById("collapseTwo").classList.add("show");
-                            document.getElementById("btnTwo").classList.remove("btn-info");
-                            document.getElementById("btnTwo").classList.add("btn-primary");
-                        } else {
-                            document.getElementById("collapseOne").classList.add("show");
-                            document.getElementById("btnOne").classList.remove("btn-info");
-                            document.getElementById("btnOne").classList.add("btn-primary");
-                        }
-                    break;
+                        document.getElementById("collapseTwo").classList.add("show");
+                        document.getElementById("btnTwo").classList.remove("btn-info");
+                        document.getElementById("btnTwo").classList.add("btn-primary");
+                        break;
                     case "estatusLectra":
                         // Abre el acordeón 3
-                        if(estatusAuditoriaTendidoEvento === "estatusLectra"){ 
                         document.getElementById("collapseThree").classList.add("show");
                         document.getElementById("btnThree").classList.remove("btn-info");
                         document.getElementById("btnThree").classList.add("btn-primary");
-                        }else{ 
-                            // Abre el acordeón 2
-                            document.getElementById("collapseTwo").classList.add("show");
-                            document.getElementById("btnTwo").classList.remove("btn-info");
-                            document.getElementById("btnTwo").classList.add("btn-primary");
-                        }
                         break;
                     case "estatusAuditoriaBulto":
-                        if(estatusLectraEvento === "estatusLectra"){ 
                         // Abre el acordeón 4
                         document.getElementById("collapseFour").classList.add("show");
                         document.getElementById("btnFour").classList.remove("btn-info");
                         document.getElementById("btnFour").classList.add("btn-primary");
-                        }else{
-                            // Abre el acordeón 3
-                            document.getElementById("collapseThree").classList.add("show");
-                            document.getElementById("btnThree").classList.remove("btn-info");
-                            document.getElementById("btnThree").classList.add("btn-primary");
-                        }
                         break;
                     case "estatusAuditoriaFinal":
-                        if(){ 
                         // Abre el acordeón 5
                         document.getElementById("collapseFive").classList.add("show");
                         document.getElementById("btnFive").classList.remove("btn-info");
                         document.getElementById("btnFive").classList.add("btn-primary");
-                        }else{
-                            // Abre el acordeón 4
-                            document.getElementById("collapseFour").classList.add("show");
-                            document.getElementById("btnFour").classList.remove("btn-info");
-                            document.getElementById("btnFour").classList.add("btn-primary");
-                        }
                         break;
                     default:
                         console.log("El valor de estatus no coincide con ninguna opción válida para abrir un acordeón.");
