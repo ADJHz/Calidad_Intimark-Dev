@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScreenPrint extends Model
+class InspeccionEstampadoDHorno extends Model
 {
     use HasFactory;
-    protected $table = 'screenprint';
+    protected $table = 'inspecestamphor';
     protected $fillable = [
                 'Auditor',
                 'Status',
@@ -18,9 +18,14 @@ class ScreenPrint extends Model
                 'Tecnico',
                 'Color',
                 'Num_Grafico',
+                'Tipo_Maquina',
+                'LeyendaSprint',
                 'Tecnica' ,
                 'Fibras',
                 'Porcen_Fibra',
+                'Hora',
+                'Bulto',
+                'Talla',
                 'Tipo_Problema',
                 'Ac_Correctiva'
             ];

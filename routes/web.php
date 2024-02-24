@@ -8,6 +8,7 @@ use App\Http\Controllers\FormulariosCalidadController;
 use App\Http\Controllers\ProgresoCorteController;
 use App\Http\Controllers\CalidadScreenPrintController;
 use App\Http\Controllers\AuditoriaCorteController;
+use App\Http\Controllers\InspeccionEstampadoHorno;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,45 +98,9 @@ Route::get('/exportar-excel', [FormulariosCalidadController::class, 'exportarExc
 Route::get('/controlCalidadEmpaque', [FormulariosCalidadController::class, 'controlCalidadEmpaque'])->name('formulariosCalidad.controlCalidadEmpaque');
 Route::post('/formControlCalidadEmpaque', [FormulariosCalidadController::class, 'formControlCalidadEmpaque'])->name('formulariosCalidad.formControlCalidadEmpaque');
 Route::get('/ProgresoCorte', [ProgresoCorteController::class, 'ProgresoCorte'])->name('formulariosCalidad.ProgresoCorte');
-
-
-// Ruta con parámetro de cliente
-Route::get('/ScreenPrint', [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint');
-Route::get('/Clientes', [CalidadScreenPrintController::class, 'Clientes']);
-Route::get('/Estilo/{cliente}', [CalidadScreenPrintController::class, 'Estilos']);
-Route::get('/Ordenes/{estilo}', [CalidadScreenPrintController::class, 'Ordenes']);
-Route::get('/Tecnicos', [CalidadScreenPrintController::class, 'Tecnicos']);
-Route::get('/TipoTecnica', [CalidadScreenPrintController::class, 'TipoTecnica']);
-
-Route::post('/AgregarTecnica', [CalidadScreenPrintController::class, 'AgregarTecnica']);
-
-Route::get('/TipoFibra', [CalidadScreenPrintController::class, 'TipoFibra']);
-
-Route::post('/AgregarFibra', [CalidadScreenPrintController::class, 'AgregarFibra']);
-
-
-
-Route::get('/viewTable', [CalidadScreenPrintController::class, 'viewTable']);
-
-Route::post('/SendScreenPrint', [CalidadScreenPrintController::class, 'SendScreenPrint']);
-Route::put('/UpdateScreenPrint/{idValue}', [CalidadScreenPrintController::class, 'UpdateScreenPrint']);
-
-// Archivo routes/web.php
-
-Route::get('/obtenerOpcionesACCorrectiva',[CalidadScreenPrintController::class, 'obtenerOpcionesACCorrectiva']);
-Route::get('/obtenerOpcionesTipoProblema', [CalidadScreenPrintController::class, 'obtenerOpcionesTipoProblema']);
-
-Route::get('/OpcionesACCorrectiva',[CalidadScreenPrintController::class, 'OpcionesACCorrectiva']);
-Route::get('/OpcionesTipoProblema', [CalidadScreenPrintController::class, 'OpcionesTipoProblema']);
-
-Route::post('/actualizarEstado/{id}', [CalidadScreenPrintController::class, 'actualizarEstado']);
-
-
-
 //Apartado de una nueva seccion para corte, ya que es uno de los mas grandes
 Route::get('/inicioAuditoriaCorte', [AuditoriaCorteController::class, 'inicioAuditoriaCorte'])->name('auditoriaCorte.inicioAuditoriaCorte');
 Route::post('/formAuditoriaCortes', [AuditoriaCorteController::class, 'formAuditoriaCortes'])->name('auditoriaCorte.formAuditoriaCortes');
-
 Route::get('/auditoriaCorte/{id}/{orden}', [AuditoriaCorteController::class, 'auditoriaCorte'])->name('auditoriaCorte.auditoriaCorte');
 Route::post('/formEncabezadoAuditoriaCorte', [AuditoriaCorteController::class, 'formEncabezadoAuditoriaCorte'])->name('auditoriaCorte.formEncabezadoAuditoriaCorte');
 Route::post('/formAuditoriaMarcada', [AuditoriaCorteController::class, 'formAuditoriaMarcada'])->name('auditoriaCorte.formAuditoriaMarcada');
@@ -144,6 +109,45 @@ Route::post('/formLectra', [AuditoriaCorteController::class, 'formLectra'])->nam
 Route::post('/formAuditoriaBulto', [AuditoriaCorteController::class, 'formAuditoriaBulto'])->name('auditoriaCorte.formAuditoriaBulto');
 Route::post('/formAuditoriaFinal', [AuditoriaCorteController::class, 'formAuditoriaFinal'])->name('auditoriaCorte.formAuditoriaFinal');
 
+// Ruta de Screen Print <---Inicio------>
+Route::get('/ScreenPrint', [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint');
+Route::get('/Clientes', [CalidadScreenPrintController::class, 'Clientes']);
+Route::get('/Estilo/{cliente}', [CalidadScreenPrintController::class, 'Estilos']);
+Route::get('/Ordenes/{estilo}', [CalidadScreenPrintController::class, 'Ordenes']);
+Route::get('/Tecnicos', [CalidadScreenPrintController::class, 'Tecnicos']);
+Route::get('/TipoTecnica', [CalidadScreenPrintController::class, 'TipoTecnica']);
+Route::post('/AgregarTecnica', [CalidadScreenPrintController::class, 'AgregarTecnica']);
+Route::get('/TipoFibra', [CalidadScreenPrintController::class, 'TipoFibra']);
+Route::post('/AgregarFibra', [CalidadScreenPrintController::class, 'AgregarFibra']);
+Route::get('/viewTabl', [CalidadScreenPrintController::class, 'viewTabl']);
+Route::post('/SendScreenPrint', [CalidadScreenPrintController::class, 'SendScreenPrint']);
+Route::put('/UpdateScreenPrint/{idValue}', [CalidadScreenPrintController::class, 'UpdateScreenPrint']);
+Route::get('/obtenerOpcionesACCorrectiva',[CalidadScreenPrintController::class, 'obtenerOpcionesACCorrectiva']);
+Route::get('/obtenerOpcionesTipoProblema', [CalidadScreenPrintController::class, 'obtenerOpcionesTipoProblema']);
+Route::get('/OpcionesACCorrectiva',[CalidadScreenPrintController::class, 'OpcionesACCorrectiva']);
+Route::get('/OpcionesTipoProblema', [CalidadScreenPrintController::class, 'OpcionesTipoProblema']);
+Route::post('/actualizarStatScrin/{id}', [CalidadScreenPrintController::class, 'actualizarStatScrin']);
 Route::get('/horno_banda', [CalidadScreenPrintController::class, 'horno_banda']);
 Route::post('/savedatahorno_banda', [CalidadScreenPrintController::class, 'savedatahorno_banda']);
-Route::get('/PorcenTotalDefec', [CalidadScreenPrintController::class, 'PorcenTotalDefec']);
+Route::get('/PorcenScreen', [CalidadScreenPrintController::class, 'PorcenScreen']);
+////// <-------Fin de Screen Print-------------->
+// Ruta de Inspeccion Estampado Despues del Horno<-----Inicio------->
+Route::get('/InspecciondHorno', [InspeccionEstampadoHorno::class, 'InsEstamHorno'])->name('ScreenPlanta2.InsEstamHorno');
+Route::get('/Clientes', [InspeccionEstampadoHorno::class, 'Clientes']);
+Route::get('/Estilo/{cliente}', [InspeccionEstampadoHorno::class, 'Estilos']);
+Route::get('/Ordenes/{estilo}', [InspeccionEstampadoHorno::class, 'Ordenes']);
+Route::get('/Tecnicos', [InspeccionEstampadoHorno::class, 'Tecnicos']);
+Route::get('/TipoTecnica', [InspeccionEstampadoHorno::class, 'TipoTecnica']);
+Route::post('/AgregarTecnica', [InspeccionEstampadoHorno::class, 'AgregarTecnica']);
+Route::get('/TipoFibra', [InspeccionEstampadoHorno::class, 'TipoFibra']);
+Route::post('/AgregarFibra', [InspeccionEstampadoHorno::class, 'AgregarFibra']);
+Route::get('/viewTableIns', [InspeccionEstampadoHorno::class, 'viewTableIns']);
+Route::post('/SendInspeccionEstampadoHornot', [InspeccionEstampadoHorno::class, 'SendInspeccionEstampadoHornot']);
+Route::put('/UpdateIsnpec/{idValue}', [InspeccionEstampadoHorno::class, 'UpdateIsnpec']);
+Route::get('/obtenerOpcionesACCorrectiva',[InspeccionEstampadoHorno::class, 'obtenerOpcionesACCorrectiva']);
+Route::get('/obtenerOpcionesTipoProblema', [InspeccionEstampadoHorno::class, 'obtenerOpcionesTipoProblema']);
+Route::get('/OpcionesACCorrectiva',[InspeccionEstampadoHorno::class, 'OpcionesACCorrectiva']);
+Route::get('/OpcionesTipoProblema', [InspeccionEstampadoHorno::class, 'OpcionesTipoProblema']);
+Route::post('/actualizarEstado/{id}', [InspeccionEstampadoHorno::class, 'actualizarEstado']);
+Route::get('/PorcenTotalDefec', [InspeccionEstampadoHorno::class, 'PorcenTotalDefec']);
+////// <-------Fin de Inspeccion Estampado Despues del Horno-------------->

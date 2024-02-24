@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'ScreenPrint', 'titlePage' => __('Screen Print')])
+@extends('layouts.app', ['activePage' => 'InspeccionEstampado', 'titlePage' => __('Inspeccion Estampado Despues del Horno')])
 
 @section('content')
     <style>
@@ -12,7 +12,7 @@
                 <div class="card-header card-header-primary">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="card-title">{{ __('Screen Print.') }}</h3>
+                            <h3 class="card-title">{{ __('Inspeccion Estampado Despues del Horno.') }}</h3>
                         </div>
                         <div class="col-md-6 text-right">
                             Fecha: {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
@@ -62,6 +62,25 @@
                             <input class="form-control" id="inputGrafico" name="inputGrafico" required>
                         </div>
                         <div class="col-md-2">
+                            <form class="form-inline">
+                                <label class="my-1 mr-2" for="inputTipoMaquina" name="inputTipoMaquina">Tipo de
+                                    Maquina</label>
+                                <select class="custom-select my-1 mr-sm-2" id="inputTipoMaquina" name="inputTipoMaquina">
+                                    <option selected>Seleccion tipo de maquina</option>
+                                    <option value="Eco1">Eco1</option>
+                                    <option value="Eco2">Eco2</option>
+                                    <option value="Digital">Digital</option>
+                                    <option value="Otra">Otra</option>
+                                </select>
+                                <input type="text" class="form-control my-1 mr-sm-2" id="otraTipoMaquina"
+                                    name="otraTipoMaquina" placeholder="Especificar otra máquina" style="display: none;">
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputLeyendaSprint">Leyenda Sprint:</label>
+                            <input class="form-control" id="inputLeyendaSprint" name="inputLeyendaSprint" required>
+                        </div>
+                        <div class="col-md-2">
                             <label for="tecnicaSelect">Seleccion de tipo de tecnica:</label>
                             <select class="form-control" id="tecnicaSelect" name="tecnicaSelect" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
@@ -96,7 +115,7 @@
                     <div class="card-header card-header-primary">
                         <div class="row">
                             <div class="col-md-6">
-                                <h3 class="card-title">{{ __('Defectos detectados.') }}</h3>
+                                <h3 class="card-title">{{ __('Inspección en  Bultos.') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -151,7 +170,7 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1.5%;">
                                             ID</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
@@ -172,8 +191,14 @@
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             Color</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             # Grafico</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
+                                            Tipo de MAquina</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 4.5%;">
+                                            Leyenda Sprint</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             Tecnica</th>
@@ -184,16 +209,25 @@
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">
                                             % de Fibras</th>
                                         <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.9%;">
+                                            Hora</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Bulto</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Talla</th>
+                                        <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                             Tipo Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
                                             Acciones Correctivas</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.5%;">
                                         </th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.5%;">
                                         </th>
                                     </tr>
                                 </thead>
@@ -211,58 +245,6 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="container-fluid">
-                <div class="card" style="width: auto;">
-                    <div class="card-header card-header-primary">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h3 class="card-title">{{ __('Control de Horno.') }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table  CtrHorno" id="CtrHorno">
-                            <thead class="text-primary">
-                                <tr>
-                                    <th style="width: auto;">
-                                        TEMPERATURA DE HORNO</th>
-                                    <th style="width: auto;">
-                                        VELOCIDAD DE BANDA</th>
-                                    <th style="width: auto;">
-                                        HORARIO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <div class="col-md-2">
-                                        <td>
-                                            <button type="button" class="button" id="anadir">
-                                                <span class="button__text">Añadir</span>
-                                                <span class="button__icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
-                                                        stroke-linecap="round" stroke="currentColor" height="24"
-                                                        fill="none" class="svg">
-                                                        <line y2="19" y1="5" x2="12"
-                                                            x1="12"></line>
-                                                        <line y2="12" y1="12" x2="19"
-                                                            x1="5"></line>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </div>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -305,6 +287,7 @@
                 allowClear: true,
                 multiple: true // Esta opción permite la selección múltiple
             });
+
             function crearInputs(selectedOptions) {
                 // Limpiar contenedor anterior
                 contenedorInputs.empty();
@@ -613,7 +596,7 @@
         $(document).ready(function() {
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
-                url: '/viewTabl', // Ruta de tu servidor Laravel
+                url: '/viewTableIns', // Ruta de tu servidor Laravel
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -659,6 +642,12 @@
                                 '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
                                 item.Num_Grafico + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tipo_Maquina" class="form-control" value="' +
+                                item.Tipo_Maquina + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="LeyendaSprint" class="form-control" value="' +
+                                item.LeyendaSprint + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Tecnica" class="form-control" value="' +
                                 item.Tecnica + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
@@ -667,6 +656,15 @@
                                 ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
                                 item.Porcen_Fibra + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Hora" class="form-control" value="' +
+                                item.Hora + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Bulto" class="form-control" value="' +
+                                item.Bulto + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Talla" class="form-control" value="' +
+                                item.Talla + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
                                 item.Tipo_Problema + '" ' +
@@ -684,7 +682,7 @@
                             // Agregar la fila a la tabla
                             $('#miTabla tbody').append(row);
                             lastRegisteredId = item.id;
-
+                            afterRowsRendered();
                             if (!isFinalizado) {
                                 $('.tipoProblemaSelect').select2({
                                     placeholder: 'Seleccione Tipo de Problema',
@@ -710,6 +708,7 @@
                 }
             });
         });
+
         function OpcionesTipoProblema(placeholder) {
             $.ajax({
                 url: '/OpcionesTipoProblema',
@@ -763,6 +762,7 @@
     </script>
     <script>
         var addRowClicked = false;
+
         function cargarOpcionesACCorrectiva() {
             $.ajax({
                 url: '/obtenerOpcionesACCorrectiva', // Ajusta la ruta según tu configuración
@@ -776,6 +776,7 @@
                 }
             });
         }
+
         function cargarOpcionesTipoProblema() {
             $.ajax({
                 url: '/obtenerOpcionesTipoProblema', // Ajusta la ruta según tu configuración
@@ -789,6 +790,7 @@
                 }
             });
         }
+
         function llenarSelect(nombreSelect, opciones) {
             var select = $('.form-control[name="' + nombreSelect + '"]');
             select.empty();
@@ -804,19 +806,23 @@
         $('#insertarFila').on('click', function() {
             console.log('Se hizo clic en el botón "Añadir"');
             addRowClicked = true;
+
             // Verificar si todos los campos están llenos
             var camposVacios = false;
             $('select, input').each(function() {
-                if ($(this).val() === "") {
-                    camposVacios = true;
-                    return false; // Salir del bucle si se encuentra un campo vacío
-                }
-            });
+                if ($(this).val() === "" && !(($(this).attr('id') === 'otraTipoMaquina') && ($('#inputTipoMaquina').val() !== 'Otra'))) {
+            camposVacios = true;
+            return false; // Salir del bucle si se encuentra un campo vacío
+        }
+    });
+
             if (camposVacios) {
                 alert('Por favor, complete todos los campos antes de añadir una nueva fila.');
                 return; // Detener la ejecución si hay campos vacíos
             }
+
             lastRegisteredId++;
+
             var auditor = '{{ Auth::user()->name }}';
             var cliente = $('#clienteSelect').val();
             var estilo = $('#estiloSelect').val();
@@ -824,15 +830,24 @@
             var tecnico = $('#tecnicosSelect').val();
             var color = $('#inputColor').val();
             var numGrafico = $('#inputGrafico').val();
+            var tipoMaquinaValue = $('#inputTipoMaquina').val();
+            var tipoMaquinaText = $('#inputTipoMaquina option:selected').text();
+            var leyendasprint = $('#inputLeyendaSprint').val();
             var tecnica = $('#tecnicaSelect').val();
             var fibras = $('#fibraSelect').val();
             var tipoProblema = $('#tipoProblemaSelect').val();
             var acCorrectiva = $('#acCorrectivaSelect').val();
 
+            // Verificar si el valor de Tipo de Maquina es "Otra"
+            if (tipoMaquinaValue === 'Otra') {
+                tipoMaquinaValue = $('#otraTipoMaquina').val(); // Obtener el valor del campo de entrada "Otra"
+            }
+
             var porcentajes = [];
             $('.porcentajeInput').each(function() {
                 porcentajes.push($(this).val());
             });
+
             var newRow = '<tr>' +
                 '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
                 '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
@@ -849,23 +864,35 @@
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="num_graficoR[]" class="form-control" value="' +
                 numGrafico + '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="tipo_maquinaR[]" class="form-control" value="' +
+                tipoMaquinaValue + '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="leyendasprintR[]" class="form-control" value="' +
+                leyendasprint + '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="tecnicaR[]" class="form-control" value="' + tecnica +
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="fibrasR[]" class="form-control" value="' + fibras.join(', ') +
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
                 porcentajes.join(', ') + '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="horaR[]" class="form-control" value="' +
+                '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="bultoR[]" class="form-control" value="' +
+                '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="tallaR[]" class="form-control" value="' +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
                 '</tr>';
-            $('#miTabla tbody').append(newRow);
 
+            $('#miTabla tbody').append(newRow);
+            afterRowAdded();
             // Cargar opciones de los nuevos select
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
+
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
@@ -884,13 +911,18 @@
                 var tecnicoValue = $(this).closest('tr').find('[name="tecnicoR[]"]').val();
                 var colorValue = $(this).closest('tr').find('[name="colorR[]"]').val();
                 var numGraficoValue = $(this).closest('tr').find('[name="num_graficoR[]"]').val();
+                var tipoMaquinaValue = $(this).closest('tr').find('[name="tipo_maquinaR[]"]').val();
+                var leyendaSprintValue = $(this).closest('tr').find('[name="leyendasprintR[]"]').val();
                 var tecnicaValue = $(this).closest('tr').find('[name="tecnicaR[]"]').val();
                 var fibrasValue = $(this).closest('tr').find('[name="fibrasR[]"]').val();
                 var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibraR[]"]').val();
+                var horaValue = $(this).closest('tr').find('[name="horaR[]"]').val();
+                var bultoValue = $(this).closest('tr').find('[name="bultoR[]"]').val();
+                var tallaValue = $(this).closest('tr').find('[name="tallaR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
                 $.ajax({
-                    url: '/SendScreenPrint',
+                    url: '/SendInspeccionEstampadoHornot',
                     method: 'POST',
                     data: {
                         _token: csrfToken,
@@ -902,9 +934,14 @@
                         Tecnico: tecnicoValue,
                         Color: colorValue,
                         Num_Grafico: numGraficoValue,
+                        Tipo_Maquina: tipoMaquinaValue,
+                        LeyendaSPrint: leyendaSprintValue,
                         Tecnica: tecnicaValue,
                         Fibras: fibrasValue,
                         Porcen_Fibra: porcentajeFibraValue,
+                        Hora: horaValue,
+                        Bulto: bultoValue,
+                        Talla: tallaValue,
                         Tipo_Problema: tipoProblemaValue,
                         Ac_Correctiva: acCorrectivaValue
                     },
@@ -939,15 +976,20 @@
             var tecnicoValue = row.find('input[name="Tecnico"]').val();
             var colorValue = row.find('input[name="Color"]').val();
             var numGraficoValue = row.find('input[name="Num_Grafico"]').val();
+            var tipo_maquina = row.find('input[name="Tipo_Maquina"]').val();
+            var leyendasprint = row.find('input[name="LeyendaSprint"]').val();
             var tecnicaValue = row.find('input[name="Tecnica"]').val();
             var fibrasValue = row.find('input[name="Fibras"]').val();
             var porcentajeFibraValue = row.find('input[name="Porcen_Fibra"]').val();
+            var hora = row.find('input[name="Hora"]').val();
+            var bulto = row.find('input[name="Bulto"]').val();
+            var talla = row.find('input[name="Talla"]').val();
             // Obtener valores de los elementos select
             var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
             var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
             // Continuar con la solicitud AJAX
             $.ajax({
-                url: '/UpdateScreenPrint/' + idValue,
+                url: '/UpdateIsnpec/' + idValue,
                 method: 'PUT',
                 data: {
                     _token: csrfToken,
@@ -960,9 +1002,14 @@
                     Tecnico: tecnicoValue,
                     Color: colorValue,
                     Num_Grafico: numGraficoValue,
+                    Tipo_Maquina: tipo_maquina,
+                    LeyendaSprint: leyendasprint,
                     Tecnica: tecnicaValue,
                     Fibras: fibrasValue,
                     Porcen_Fibra: porcentajeFibraValue,
+                    Hora: hora,
+                    Bulto: bulto,
+                    Talla: talla,
                     Tipo_Problema: tipoProblemaValue,
                     Ac_Correctiva: acCorrectivaValue
                 },
@@ -990,7 +1037,7 @@
                     var id = $(this).find('input[name="id"]').val();
                     // Hacer una solicitud POST para cada fila para actualizar el estado a "Finalizado"
                     $.ajax({
-                        url: '/actualizarStatScrin/' + id, // Ruta de tu servidor Laravel
+                        url: '/actualizarEstado/' + id, // Ruta de tu servidor Laravel
                         method: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}', // Añade el token CSRF aquí
@@ -1008,7 +1055,7 @@
                         },
                         complete: function() {
                             // Recargar la página después de completar la solicitud
-                           // location.reload();
+                            location.reload();
                         }
                     });
                 });
@@ -1028,86 +1075,7 @@
         $(document).ready(function() {
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
-                url: '/horno_banda', // Ruta de tu servidor Laravel
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    try {
-                        // Iterar sobre los datos recibidos y agregar filas a la tabla
-                        $.each(data, function(index, item) {
-                            // Formatear la hora utilizando el formato deseado
-                            var horaFormateada = moment(item.created_at).format('H:mm:ss');
-
-                            // Crear la fila con la hora formateada
-                            var row = '<tr>' +
-                                '<td>' +
-                                item.Tem_Horno + '</td>' +
-                                '<td>' +
-                                item.Vel_Banda + '</td>' +
-                                '<td>' +
-                                horaFormateada + '</td>' +
-                                '</tr>';
-                            // Agregar la fila a la tabla
-                            $('#CtrHorno tbody').append(row);
-                        });
-
-                    } catch (error) {
-                        console.error('Error al procesar los datos:', error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error en la llamada Ajax:', status, error);
-                }
-            });
-        });
-        $('#anadir').on('click', function() {
-            var newRow = '<tr>' +
-                '<td><select class="form-control select-temperatura">' +
-                '<option selected>Selecciona temperatura de horno</option>' +
-                '<option value="160°c">160°c</option>' +
-                '<option value="180°c">180°c</option>' +
-                '</select></td>' +
-                '<td><select class="form-control select-velocidad">' +
-                '<option selected>Selecciona velocidad de banda</option>' +
-                '<option value="01m:10s">01m:10s</option>' +
-                '<option value="04m:00s">04m:00s</option>' +
-                '</select></td>' +
-                '<td><button type="button" class="btn btn-success saved">Guardar</button></td>' +
-                '</tr>';
-            // Agrega la nueva fila clonada a la tabla con ID 'CtrHorno'
-            $('#CtrHorno tbody').append(newRow);
-        });
-        $(document).on('click', '.saved', function() {
-            // Obtener el token CSRF
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var temperaturaSeleccionada = $(this).closest('tr').find('.select-temperatura').val();
-            var velocidadSeleccionada = $(this).closest('tr').find('.select-velocidad').val();
-            // Continuar con la solicitud AJAX
-            $.ajax({
-                url: '/savedatahorno_banda',
-                method: 'POST',
-                data: {
-                    _token: csrfToken,
-                    Temperatura: temperaturaSeleccionada,
-                    Velocidad: velocidadSeleccionada,
-                },
-                success: function(response) {
-                    // Realizar acciones adicionales si es necesario después de la respuesta exitosa
-                    console.log(response);
-                    location.reload();
-                },
-                error: function(error) {
-                    // Manejar errores si es necesario
-                    console.log('Error en la solicitud POST:', error);
-                },
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Hacer la llamada Ajax al servidor para obtener datos
-            $.ajax({
-                url: '/PorcenScreen', // Ruta de tu servidor Laravel
+                url: '/PorcenTotalDefec', // Ruta de tu servidor Laravel
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -1121,6 +1089,65 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('Error en la llamada Ajax:', status, error);
+                }
+            });
+        });
+    </script>
+    <script>
+        function initializeFlatpickr() {
+            flatpickr('input[name="horaR[]"]', {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                defaultDate: "12:00",
+            });
+        }
+
+        // Llama a esta función después de añadir una nueva fila
+        function afterRowAdded() {
+            initializeFlatpickr();
+        }
+
+        $(document).ready(function() {
+            initializeFlatpickr();
+        });
+    </script>
+    <script>
+        function initializeFlatpickrForHour() {
+            var horaInputs = $('input[name="Hora"]');
+            horaInputs.each(function() {
+                if (!$(this).prop('readonly')) {
+                    flatpickr(this, {
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i",
+                        time_24hr: true,
+                    });
+                }
+            });
+        }
+
+        function afterRowsRendered() {
+            initializeFlatpickrForHour();
+        }
+
+        $(document).ready(function() {
+            afterRowsRendered();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Evento de cambio en el selector
+            $('#inputTipoMaquina').change(function() {
+                // Obtener el valor seleccionado
+                var selectedValue = $(this).val();
+
+                // Mostrar u ocultar el campo de entrada "Otra" según la selección
+                if (selectedValue === 'Otra') {
+                    $('#otraTipoMaquina').show();
+                } else {
+                    $('#otraTipoMaquina').hide();
                 }
             });
         });

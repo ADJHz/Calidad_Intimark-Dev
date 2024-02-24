@@ -49,7 +49,7 @@
             this.addEventListener("mousewheel", handle, { passive: true });
           }
         };
-      </script>
+    </script>
     <script src="{{ asset('material') }}/js/plugins/arrive.min.js"></script>
     <!-- Core Scripts -->
     <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
@@ -58,6 +58,10 @@
     <!-- Select2 and Datepicker Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- flatpickr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <!-- Other Plugins -->
     <script src="{{ asset('material') }}/js/plugins/bootstrap-selectpicker.js"></script>
@@ -93,5 +97,4 @@
     <script src="{{ asset('material') }}/demo/demo.js"></script>
     @stack('js')
 </body>
-
 </html>

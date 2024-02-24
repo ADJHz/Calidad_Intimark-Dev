@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\AccionCorrectScreen;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\DatosAX;
 use App\Models\Horno_Banda;
 use App\Models\OpcionesDefectosScreen;
-use App\Models\ScreenPrint;
+use App\Models\InspeccionEstampadoDHorno;
 use App\Models\Tecnicos;
 use App\Models\Tipo_Fibra;
 use App\Models\Tipo_Tecnica;
 
-class CalidadScreenPrintController extends Controller
+class InspeccionEstampadoHorno extends Controller
 {
-    public function ScreenPrint(Request $request)
+    public function InsEstamHorno(Request $request)
     {
 
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
-        return view('ScreenPlanta2.ScreenPrint', compact('mesesEnEspanol'));
+        return view('ScreenPlanta2.InsEstamHorno', compact('mesesEnEspanol'));
     }
     public function Clientes()
     {
@@ -112,13 +113,13 @@ class CalidadScreenPrintController extends Controller
 
      return response()->json($data);
     }
-    public function viewTabl()
+    public function viewTableIns()
 {
     // Obtener la fecha actual
     $today = Carbon::today();
 
     // Filtrar registros con la fecha actual
-    $screen = ScreenPrint::whereDate('created_at', $today)->get();
+    $screen = InspeccionEstampadoDHorno::whereDate('created_at', $today)->get();
 
     // Crear un array asociativo con los datos a retornar
     $responseData = [];
@@ -139,9 +140,14 @@ class CalidadScreenPrintController extends Controller
             'Tecnico' => $item->Tecnico,
             'Color' => $item->Color,
             'Num_Grafico' => $item->Num_Grafico,
+            'Tipo_Maquina' => $item->Tipo_Maquina,
+            'LeyendaSprint' => $item->LeyendaSprint,
             'Tecnica' => $item->Tecnica,
             'Fibras' => $item->Fibras,
             'Porcen_Fibra' => $item->Porcen_Fibra,
+            'Hora' => $item->Hora,
+            'Bulto' => $item->Bulto,
+            'Talla' => $item->Talla,
             'Tipo_Problema' => $tipoProblema,
             'Ac_Correctiva' => $acCorrectiva,
             'Status' => $item->Status,
@@ -154,7 +160,7 @@ class CalidadScreenPrintController extends Controller
     return response()->json($responseData);
 }
 
-    public function SendScreenPrint(Request $request)
+    public function SendInspeccionEstampadoHornot(Request $request)
 {
     // Obtener la marca addRowClicked del formulario
     $addRowClicked = $request->input('addRowClicked');
@@ -167,15 +173,41 @@ class CalidadScreenPrintController extends Controller
     $tecnico = $request->input('Tecnico');
     $color = $request->input('Color');
     $numGrafico = $request->input('Num_Grafico');
+    $tipomaquina = $request->input('Tipo_Maquina');
+    $leyendasprint = $request->input('LeyendaSPrint');
     $tecnica = $request->input('Tecnica');
     $fibras = $request->input('Fibras');
     $porcentajeFibra = $request->input('Porcen_Fibra');
+    $hora = $request->input('Hora');
+    $bulto = $request->input('Bulto');
+    $talla = $request->input('Talla');
     $tipoProblema = $request->input('Tipo_Problema');
     $acCorrectiva = $request->input('Ac_Correctiva');
+    // Log de los datos
+    Log::info('Datos recibidos en SendInspeccionEstampadoHornot:', [
+        'Auditor' => $auditor,
+        'Cliente' => $cliente,
+        'Estilo' => $estilo,
+        'OP_Defec' => $opDefec,
+        'Tecnico' => $tecnico,
+        'Color' => $color,
+        'Num_Grafico' => $numGrafico,
+        'Tipo_Maquina' => $tipomaquina,
+        'LeyendaSprint' => $leyendasprint,
+        'Tecnica' => $tecnica,
+        'Fibras' => $fibras,
+        'Porcen_Fibra' => $porcentajeFibra,
+        'Hora' => $hora,
+        'Bulto' => $bulto,
+        'Talla' => $talla,
+        'Tipo_Problema' => $tipoProblema,
+        'Ac_Correctiva' => $acCorrectiva,
+        'addRowClicked' => $addRowClicked,
+    ]);
 
     // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
     if ($addRowClicked) {
-        $screenPrint = ScreenPrint::create([
+        $screenPrint = InspeccionEstampadoDHorno::create([
             'Auditor' => $auditor,
             'Cliente' => $cliente,
             'Estilo' => $estilo,
@@ -183,9 +215,14 @@ class CalidadScreenPrintController extends Controller
             'Tecnico' => $tecnico,
             'Color' => $color,
             'Num_Grafico' => $numGrafico,
+            'Tipo_Maquina' => $tipomaquina,
+            'LeyendaSprint' => $leyendasprint,
             'Tecnica' => $tecnica,
             'Fibras' => $fibras,
             'Porcen_Fibra' => $porcentajeFibra,
+            'Hora' => $hora,
+            'Bulto' => $bulto,
+            'Talla' => $talla,
             'Tipo_Problema' => $tipoProblema,
             'Ac_Correctiva' => $acCorrectiva,
             'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
@@ -197,60 +234,62 @@ class CalidadScreenPrintController extends Controller
     }
    }
 
-   public function UpdateScreenPrint(Request $request, $id)
-{
-    // Verificar si el registro existe
-    $screenPrint = ScreenPrint::find($id);
+   public function UpdateIsnpec(Request $request, $id)
+   {
+       // Verificar si el registro existe
+       $screenPrint = InspeccionEstampadoDHorno::find($id);
 
-    if (!$screenPrint) {
-        return response()->json(['mensaje' => 'Registro no encontrado'], 404);
-    }
+       if (!$screenPrint) {
+           return response()->json(['mensaje' => 'Registro no encontrado'], 404);
+       }
 
-    // Obtener los valores actuales de 'Tipo_Problema' y 'Ac_Correctiva'
-    $tipoProblemaActual = $screenPrint->Tipo_Problema;
-    $acCorrectivaActual = $screenPrint->Ac_Correctiva;
+       // Obtener los valores actuales de 'Tipo_Problema' y 'Ac_Correctiva'
+       $tipoProblemaActual = $screenPrint->Tipo_Problema;
+       $acCorrectivaActual = $screenPrint->Ac_Correctiva;
 
-    // Verificar si los valores son los específicos que se deben excluir
-    $excluirTipoProblema = $request->input('Tipo_Problema') === 'Seleccione Tipo de Problema';
-    $excluirAcCorrectiva = $request->input('Ac_Correctiva') === 'Seleccione Acción Correctiva';
+       // Obtener los nuevos valores del request
+       $tipoProblemaNuevo = $request->input('Tipo_Problema');
+       $acCorrectivaNuevo = $request->input('Ac_Correctiva');
 
-    // Actualizar solo si no se deben excluir los valores
-    if (!$excluirTipoProblema) {
-        $tipoProblema = $request->input('Tipo_Problema');
-    } else {
-        $tipoProblema = $tipoProblemaActual;
-    }
+       // Validar que los nuevos valores no sean indefinidos o vacíos, y no sean 'Seleccione Tipo de Problema' o 'Seleccione Acción Correctiva'
+       if ($tipoProblemaNuevo !== null && $tipoProblemaNuevo !== '' && $tipoProblemaNuevo !== 'Seleccione Tipo de Problema') {
+           $tipoProblema = $tipoProblemaNuevo;
+       } else {
+           $tipoProblema = $tipoProblemaActual;
+       }
 
-    if (!$excluirAcCorrectiva) {
-        $acCorrectiva = $request->input('Ac_Correctiva');
-    } else {
-        $acCorrectiva = $acCorrectivaActual;
-    }
+       if ($acCorrectivaNuevo !== null && $acCorrectivaNuevo !== '' && $acCorrectivaNuevo !== 'Seleccione Acción Correctiva') {
+           $acCorrectiva = $acCorrectivaNuevo;
+       } else {
+           $acCorrectiva = $acCorrectivaActual;
+       }
 
-    // Actualizar los campos necesarios (ajusta según tu lógica)
-    $screenPrint->update([
-        'Cliente' => $request->input('Cliente'),
-        'Estilo' => $request->input('Estilo'),
-        'Tecnico' => $request->input('Tecnico'),
-        'Color' => $request->input('Color'),
-        'Num_Grafico' => $request->input('Num_Grafico'),
-        'Tipo_Maquina' => $request->input('Tipo_Maquina'),
-        'LeyendaSprint' => $request->input('LeyendaSprint'),
-        'Tecnica' => $request->input('Tecnica'),
-        'Fibras' => $request->input('Fibras'),
-        'Hora' => $request->input('Hora'),
-        'Bulto' => $request->input('Bulto'),
-        'Talla' => $request->input('Talla'),
-        'Porcen_Fibra' => $request->input('Porcen_Fibra'),
-        'Tipo_Problema' => $tipoProblema,
-        'Ac_Correctiva' => $acCorrectiva,
-        'Status' => 'Update', // Puedes ajustar este campo según tus necesidades
-    ]);
+       // Actualizar los campos necesarios (ajusta según tu lógica)
+       $screenPrint->update([
+           'Cliente' => $request->input('Cliente', $screenPrint->Cliente),
+           'Estilo' => $request->input('Estilo', $screenPrint->Estilo),
+           'Tecnico' => $request->input('Tecnico', $screenPrint->Tecnico),
+           'Color' => $request->input('Color', $screenPrint->Color),
+           'Num_Grafico' => $request->input('Num_Grafico', $screenPrint->Num_Grafico),
+           'Tipo_Maquina' => $request->input('Tipo_Maquina', $screenPrint->Tipo_Maquina),
+           'LeyendaSprint' => $request->input('LeyendaSprint', $screenPrint->LeyendaSprint),
+           'Tecnica' => $request->input('Tecnica', $screenPrint->Tecnica),
+           'Fibras' => $request->input('Fibras', $screenPrint->Fibras),
+           'Hora' => $request->input('Hora', $screenPrint->Hora),
+           'Bulto' => $request->input('Bulto', $screenPrint->Bulto),
+           'Talla' => $request->input('Talla', $screenPrint->Talla),
+           'Porcen_Fibra' => $request->input('Porcen_Fibra', $screenPrint->Porcen_Fibra),
+           'Tipo_Problema' => $tipoProblema,
+           'Ac_Correctiva' => $acCorrectiva,
+           'Status' => 'Update', // Puedes ajustar este campo según tus necesidades
+       ]);
 
-    // Puedes realizar acciones adicionales si es necesario después de actualizar el registro
+       // Puedes realizar acciones adicionales si es necesario después de actualizar el registro
 
-    return response()->json(['mensaje' => 'Datos actualizados exitosamente']);
-}
+       return response()->json(['mensaje' => 'Datos actualizados exitosamente']);
+   }
+
+
    public function obtenerOpcionesACCorrectiva()
    {
        $data = AccionCorrectScreen::pluck('AccionCorrectiva');
@@ -264,10 +303,10 @@ class CalidadScreenPrintController extends Controller
 
     return response()->json($data);
    }
-   public function actualizarStatScrin($id, Request $request)
+   public function actualizarEstado($id, Request $request)
    {
        // Buscar el registro por id
-       $screenPrint = ScreenPrint::find($id);
+       $screenPrint = InspeccionEstampadoDHorno::find($id);
 
        // Verificar si el registro existe
        if ($screenPrint) {
@@ -284,72 +323,17 @@ class CalidadScreenPrintController extends Controller
            return response()->json(['message' => 'Registro no encontrado'], 404);
        }
    }
-   public function horno_banda()
-   {
-   // Obtener la fecha actual
-   $today = Carbon::today();
-
-   // Filtrar registros con la fecha actual
-   $data = Horno_Banda::whereDate('created_at', $today)->get();
-    return response()->json($data);
-   }
-   public function savedatahorno_banda(Request $request)
-{
-    try {
-        // Validar los datos si es necesario
-        $request->validate([
-            'Temperatura' => 'required',
-            'Velocidad' => 'required',
-        ]);
-
-        // Obtener los datos del request
-        $temperatura = $request->input('Temperatura');
-        $velocidad = $request->input('Velocidad');
-
-        // Crear una nueva instancia del modelo Horno_Banda
-        $hornoBanda = new Horno_Banda();
-
-        // Asignar los valores a las columnas del modelo
-        $hornoBanda->Tem_Horno = $temperatura;
-        $hornoBanda->Vel_Banda = $velocidad;
-
-        // Guardar el modelo en la base de datos
-        $hornoBanda->save();
-
-        // Log de los datos recibidos
-        Log::info('Datos recibidos - Temperatura: ' . $temperatura . ', Velocidad: ' . $velocidad);
-
-        // Puedes devolver una respuesta JSON si es necesario
-        $data = [
-            'success' => true,
-            'message' => 'Datos guardados correctamente.',
-        ];
-
-        return response()->json($data);
-    } catch (\Exception $e) {
-        // Log de errores
-        Log::error('Error en savedatahorno_banda: ' . $e->getMessage());
-
-        // Manejar el error y devolver una respuesta JSON
-        $data = [
-            'success' => false,
-            'message' => 'Error al procesar los datos.',
-        ];
-
-        return response()->json($data, 500);
-    }
-}
-public function PorcenScreen()
+public function PorcenTotalDefec()
 {
     try {
         // Obtener la fecha actual
         $today = Carbon::today();
 
         // Obtener la cantidad total de registros para el día actual
-        $totalRegistros = ScreenPrint::whereDate('created_at', $today)->count();
+        $totalRegistros = InspeccionEstampadoDHorno::whereDate('created_at', $today)->count();
 
         // Obtener la cantidad de registros con Tipo_Problema diferente de 'N/A'
-        $defectos = ScreenPrint::whereDate('created_at', $today)
+        $defectos = InspeccionEstampadoDHorno::whereDate('created_at', $today)
             ->where('Tipo_Problema', '<>', 'N/A')
             ->count();
 
@@ -379,5 +363,4 @@ public function PorcenScreen()
         return response()->json($data, 500);
     }
 }
-
 }

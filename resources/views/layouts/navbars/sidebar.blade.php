@@ -98,6 +98,12 @@
                                 <p>{{ __('Screen Print') }}</p>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'InspeccionEstampado' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('ScreenPlanta2.InsEstamHorno') }}">
+                                <i class="material-icons">edit_document</i>
+                                <p>{{ __('Inspección Despues De Horno') }}</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
