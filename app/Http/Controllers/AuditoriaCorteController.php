@@ -667,24 +667,25 @@ class AuditoriaCorteController extends Controller
             $auditoriaFinal->save();
 
             $encabezadoAuditoriaCorteEstatus = EncabezadoAuditoriaCorte::where('id', $idAuditoriaFinal)->first();
-            $encabezadoAuditoriaCorteEstatus->estatus = 'estatusAuditoriaFinal';
+            $encabezadoAuditoriaCorteEstatus->estatus = 'fin';
             // Asegúrate de llamar a save() en la variable actualizada
             $encabezadoAuditoriaCorteEstatus->save();
             return back()->with('cambio-estatus', 'Fin 👋.')->with('activePage', $activePage);
         }
-        // Verificar si todos los checkboxes tienen el valor de "1"
-        $allChecked = $request->input('estatus') == 1 && $request->input('enterado') == 1;
-        // Guardar el estado del checkbox en la sesión
-        dd($allChecked);
-        $request->session()->put('estatus_checked_AuditoriaFinal', $allChecked);
+
+        
         // Verificar si ya existe un registro con el mismo valor de orden_id
         $existeOrden = AuditoriaFinal::where('id', $idAuditoriaFinal)->first();
-
+        // Verificar si todos los checkboxes tienen el valor de "1"
+        $allChecked = trim($request->input('aceptado_rechazado')) === "1"  &&
+        $existeOrden->supervisor_corte == "1";
+        // Guardar el estado del checkbox en la sesión
+        $request->session()->put('estatus_checked_AuditoriaFinal', $allChecked);
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
             //$existeOrden->supervisor_corte = $request->input('supervisor_corte');
             $existeOrden->aceptado_condicion = $request->input('aceptado_condicion');
-            $existeOrden->estatus = $request->input('estatus');
+            $existeOrden->aceptado_rechazado = $request->input('aceptado_rechazado');
             
             $existeOrden->save();
             //dd($existeOrden);
