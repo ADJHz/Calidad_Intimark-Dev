@@ -18,7 +18,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">REPORTE AUDITORIA DE ETIQUETAS <br>FCC-014</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -28,7 +28,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">CONTROL DE CALIDAD EN CORTE <br>FCC-010</h5>
-                                            <a href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">EVALUACION  DE CORTE CONTRA PATRON <br>F-4</h5>
-                                            <a href="{{ route('formulariosCalidad.evaluacionCorte') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('formulariosCalidad.evaluacionCorte') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">CHECK LIST DE AUDITORIA DE LIMPIEZA Y PPP <br>FAP-003</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaLimpieza') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('formulariosCalidad.auditoriaLimpieza') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">AUDITORIA FINAL A.Q.L <br>FCC-009-B</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaFinalAQL') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('formulariosCalidad.auditoriaFinalAQL') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">INTIMARK CONTROL DE CALIDAD EMPAQUE<br>FCC-008</h5>
-                                            <a href="{{ route('formulariosCalidad.controlCalidadEmpaque') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('formulariosCalidad.controlCalidadEmpaque') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">SCREEN PRINT</h5>
-                                            <a href="{{ route('ScreenPlanta2.ScreenPrint') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('ScreenPlanta2.ScreenPrint') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">INSPECCIÓN DESPUES DE HORNO</h5>
-                                            <a href="{{ route('ScreenPlanta2.InsEstamHorno') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('ScreenPlanta2.InsEstamHorno') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">CALIDAD PROCESO DE PLANCHA</h5>
-                                            <a href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">MAQUILA</h5>
-                                            <a href="{{ route('ScreenPlanta2.Maquila') }}" class="btn btn-primary" target="_blank">INICIAR</a>
+                                            <a href="{{ route('ScreenPlanta2.Maquila') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>
