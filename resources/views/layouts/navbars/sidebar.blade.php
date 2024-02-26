@@ -50,6 +50,7 @@
                 </a>
                 <div class="collapse" id="laravelExamples">
                     <ul class="nav">
+                        @if (auth()->check() && auth()->user()->Planta == 'Planta1')
                         <li class="nav-item{{ $activePage == 'Etiquetas' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}">
                                 <i class="material-icons">edit_document</i>
@@ -92,24 +93,27 @@
                                 <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'ScreenPrint' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('ScreenPlanta2.ScreenPrint') }}">
-                                <i class="material-icons">edit_document</i>
-                                <p>{{ __('Screen Print') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'InspeccionEstampado' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('ScreenPlanta2.InsEstamHorno') }}">
-                                <i class="material-icons">edit_document</i>
-                                <p>{{ __('Inspección Despues De Horno') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item{{ $activePage == 'CalidadProcesoPlancha' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}">
-                                <i class="material-icons">edit_document</i>
-                                <p>{{ __('Proceso Plancha') }}</p>
-                            </a>
-                        </li>
+                    @endif
+                    @if (auth()->check() && auth()->user()->Planta == 'Planta2')
+                    <li class="nav-item{{ $activePage == 'ScreenPrint' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('ScreenPlanta2.ScreenPrint') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('Screen Print') }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item{{ $activePage == 'InspeccionEstampado' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('ScreenPlanta2.InsEstamHorno') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('Inspección Después De Horno') }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item{{ $activePage == 'CalidadProcesoPlancha' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('Proceso Plancha') }}</p>
+                        </a>
+                    </li>
+                @endif
                     </ul>
                 </div>
             </li>
