@@ -130,7 +130,7 @@
                                     <div class="card-icon">
                                         <i class="material-icons">fact_check</i>
                                     </div>
-                                    <h3 class="card-title">Gran total revisando.
+                                    <h3 class="card-title">Gran total revisado.
                                         <br>
                                         <small id="granTotalRevisando"> </small>
                                     </h3>
