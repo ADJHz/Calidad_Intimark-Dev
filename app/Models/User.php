@@ -60,7 +60,7 @@ class User extends Authenticatable
         $hasRole = $this->puesto === $role;
 
         if ($planta !== null) {
-            $hasPlanta = $this->planta === $planta;
+            $hasPlanta = $this->Planta === $planta;
             return $hasRole && $hasPlanta;
         }
 

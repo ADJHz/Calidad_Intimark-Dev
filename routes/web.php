@@ -169,4 +169,22 @@ Route::get('/OpcionesTipoProblema', [CalidadProcesoPlancha::class, 'OpcionesTipo
 Route::post('/actualizarEstado/{id}', [CalidadProcesoPlancha::class, 'actualizarEstado']);
 Route::get('/PorcenTotalDefecPlancha', [CalidadProcesoPlancha::class, 'PorcenTotalDefecPlancha']);
 ////// <-------Fin de Calidad Process Plancha-------------->
+
+Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']])->middleware('checkrole');
+Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('checkrole');
+Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('checkrole');
+Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password'])->middleware('checkrole');
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Route::get('/auditoriaEtiquetas', 'App\Http\Controllers\FormulariosCalidadController@auditoriaEtiquetas')->name('formulariosCalidad.auditoriaEtiquetas')->middleware('checkroleandplant1');
+Route::get('/inicioAuditoriaCorte', 'App\Http\Controllers\AuditoriaCorteController@inicioAuditoriaCorte')->name('auditoriaCorte.inicioAuditoriaCorte')->middleware('checkroleandplant1');
+Route::get('/evaluacionCorte', 'App\Http\Controllers\FormulariosCalidadController@evaluacionCorte')->name('formulariosCalidad.evaluacionCorte')->middleware('checkroleandplant1');
+Route::get('/auditoriaLimpieza', 'App\Http\Controllers\FormulariosCalidadController@auditoriaLimpieza')->name('formulariosCalidad.auditoriaLimpieza')->middleware('checkroleandplant1');
+Route::get('/auditoriaFinalAQL', 'App\Http\Controllers\FormulariosCalidadController@auditoriaFinalAQL')->name('formulariosCalidad.auditoriaFinalAQL')->middleware('checkroleandplant1');
+Route::get('/controlCalidadEmpaque', 'App\Http\Controllers\FormulariosCalidadController@controlCalidadEmpaque')->name('formulariosCalidad.controlCalidadEmpaque')->middleware('checkroleandplant1');
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Route::get('/ScreenPrint',  [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint')->middleware('checkroleandplant2');
+Route::get('/InsEstamHorno', [InspeccionEstampadoHorno::class, 'InsEstamHorno'])->name('ScreenPlanta2.InsEstamHorno')->middleware('checkroleandplant2');
+Route::get('/ProcesoPlancha',  [CalidadProcesoPlancha::class, 'ProcesoPlancha'])->name('ScreenPlanta2.CalidadProcesoPlancha')->middleware('checkroleandplant2');
+
+
 Route::view('/error', 'error')->name('error');

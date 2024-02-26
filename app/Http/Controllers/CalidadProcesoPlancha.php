@@ -105,41 +105,47 @@ public function OpcionesACCorrectiva()
     return response()->json($responseData);
 }
 
-    public function SendPlancha(Request $request)
+public function SendPlancha(Request $request)
 {
-    // Obtener la marca addRowClicked del formulario
-    $addRowClicked = $request->input('addRowClicked');
+    try {
+        // Obtener la marca addRowClicked del formulario
+        $addRowClicked = $request->input('addRowClicked');
 
-    // Obtener los datos del formulario
-    $auditor = $request->input('Auditor');
-    $cliente = $request->input('Cliente');
-    $estilo = $request->input('Estilo');
-    $opDefec = $request->input('OP_Defec');
-    $tecnico = $request->input('Tecnico');
-    $color = $request->input('Color');
-    $numGrafico = $request->input('Num_Grafico');
-    $tipoProblema = $request->input('Tipo_Problema');
-    $acCorrectiva = $request->input('Ac_Correctiva');
-    // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
-    if ($addRowClicked) {
-        $screenPrint = ProcesoPlancha::create([
-            'Auditor' => $auditor,
-            'Cliente' => $cliente,
-            'Estilo' => $estilo,
-            'OP_Defec' => $opDefec,
-            'Tecnico' => $tecnico,
-            'Color' => $color,
-            'Num_Grafico' => $numGrafico,
-            'Tipo_Problema' => $tipoProblema,
-            'Ac_Correctiva' => $acCorrectiva,
-            'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
-        ]);
+        // Obtener los datos del formulario
+        $auditor = $request->input('Auditor');
+        $cliente = $request->input('Cliente');
+        $estilo = $request->input('Estilo');
+        $opDefec = $request->input('OP_Defec');
+        $tecnico = $request->input('Tecnico');
+        $color = $request->input('Color');
+        $numGrafico = $request->input('Num_Grafico');
+        $tipoProblema = $request->input('Tipo_Problema');
+        $acCorrectiva = $request->input('Ac_Correctiva');
 
-        // Puedes realizar acciones adicionales si es necesario después de crear el nuevo registro
+        // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
+        if ($addRowClicked) {
+            $screenPrint = ProcesoPlancha::create([
+                'Auditor' => $auditor,
+                'Cliente' => $cliente,
+                'Estilo' => $estilo,
+                'OP_Defec' => $opDefec,
+                'Tecnico' => $tecnico,
+                'Color' => $color,
+                'Num_Grafico' => $numGrafico,
+                'Tipo_Problema' => $tipoProblema,
+                'Ac_Correctiva' => $acCorrectiva,
+                'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
+            ]);
 
-        return response()->json(['mensaje' => 'Datos guardados exitosamente', 'screenPrint' => $screenPrint]);
+            // Puedes realizar acciones adicionales si es necesario después de crear el nuevo registro
+
+            return response()->json(['mensaje' => 'Datos guardados exitosamente', 'screenPrint' => $screenPrint]);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
-   }
+}
+
 
    public function UpdatePlancha(Request $request, $id)
    {
