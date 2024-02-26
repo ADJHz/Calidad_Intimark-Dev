@@ -8,6 +8,7 @@ use App\Http\Controllers\FormulariosCalidadController;
 use App\Http\Controllers\ProgresoCorteController;
 use App\Http\Controllers\CalidadScreenPrintController;
 use App\Http\Controllers\AuditoriaCorteController;
+use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 /*
 |--------------------------------------------------------------------------
@@ -151,3 +152,19 @@ Route::get('/OpcionesTipoProblema', [InspeccionEstampadoHorno::class, 'OpcionesT
 Route::post('/actualizarEstado/{id}', [InspeccionEstampadoHorno::class, 'actualizarEstado']);
 Route::get('/PorcenTotalDefec', [InspeccionEstampadoHorno::class, 'PorcenTotalDefec']);
 ////// <-------Fin de Inspeccion Estampado Despues del Horno-------------->
+// Ruta de Calidad Proceso Plancha<-----Inicio------->
+Route::get('/ProcesoPlancha', [CalidadProcesoPlancha::class, 'ProcesoPlancha'])->name('ScreenPlanta2.CalidadProcesoPlancha');
+Route::get('/Clientes', [CalidadProcesoPlancha::class, 'Clientes']);
+Route::get('/Estilo/{cliente}', [CalidadProcesoPlancha::class, 'Estilos']);
+Route::get('/Ordenes/{estilo}', [CalidadProcesoPlancha::class, 'Ordenes']);
+Route::get('/Tecnicos', [CalidadProcesoPlancha::class, 'Tecnicos']);
+Route::get('/viewTablePlancha', [CalidadProcesoPlancha::class, 'viewTablePlancha']);
+Route::post('/SendPlancha', [CalidadProcesoPlancha::class, 'SendPlancha']);
+Route::put('/UpdatePlancha/{idValue}', [CalidadProcesoPlancha::class, 'UpdatePlancha']);
+Route::get('/obtenerOpcionesACCorrectiva',[CalidadProcesoPlancha::class, 'obtenerOpcionesACCorrectiva']);
+Route::get('/obtenerOpcionesTipoProblema', [CalidadProcesoPlancha::class, 'obtenerOpcionesTipoProblema']);
+Route::get('/OpcionesACCorrectiva',[CalidadProcesoPlancha::class, 'OpcionesACCorrectiva']);
+Route::get('/OpcionesTipoProblema', [CalidadProcesoPlancha::class, 'OpcionesTipoProblema']);
+Route::post('/actualizarEstado/{id}', [CalidadProcesoPlancha::class, 'actualizarEstado']);
+Route::get('/PorcenTotalDefecPlancha', [CalidadProcesoPlancha::class, 'PorcenTotalDefecPlancha']);
+////// <-------Fin de Calidad Process Plancha-------------->

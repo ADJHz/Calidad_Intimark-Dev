@@ -104,6 +104,12 @@
                                 <p>{{ __('Inspección Despues De Horno') }}</p>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'CalidadProcesoPlancha' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}">
+                                <i class="material-icons">edit_document</i>
+                                <p>{{ __('Proceso Plancha') }}</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
