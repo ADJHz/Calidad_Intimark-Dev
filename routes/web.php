@@ -169,3 +169,4 @@ Route::get('/OpcionesTipoProblema', [CalidadProcesoPlancha::class, 'OpcionesTipo
 Route::post('/actualizarEstado/{id}', [CalidadProcesoPlancha::class, 'actualizarEstado']);
 Route::get('/PorcenTotalDefecPlancha', [CalidadProcesoPlancha::class, 'PorcenTotalDefecPlancha']);
 ////// <-------Fin de Calidad Process Plancha-------------->
+Route::view('/error', 'error')->name('error');
