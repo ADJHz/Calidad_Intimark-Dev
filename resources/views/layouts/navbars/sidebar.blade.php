@@ -50,7 +50,7 @@
                 </a>
                 <div class="collapse" id="laravelExamples">
                     <ul class="nav">
-                        @if (auth()->check() && auth()->user()->Planta == 'Planta1')
+                        @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta1')
                         <li class="nav-item{{ $activePage == 'Etiquetas' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}">
                                 <i class="material-icons">edit_document</i>
@@ -94,7 +94,7 @@
                             </a>
                         </li>
                     @endif
-                    @if (auth()->check() && auth()->user()->Planta == 'Planta2')
+                    @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta2')
                     <li class="nav-item{{ $activePage == 'ScreenPrint' ? ' active' : '' }}">
                         <a class="nav-link" href="{{ route('ScreenPlanta2.ScreenPrint') }}">
                             <i class="material-icons">edit_document</i>

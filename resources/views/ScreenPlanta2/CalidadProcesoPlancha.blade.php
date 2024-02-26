@@ -669,7 +669,7 @@
                 },
                 complete: function() {
                     // Recargar la página después de completar la solicitud
-                    location.reload();
+                 location.reload();
                 }
             });
         });
