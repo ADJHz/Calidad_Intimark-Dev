@@ -2313,9 +2313,9 @@
                                                 </div>
                                                 <div class="col-sm-12 d-flex align-items-center">
                                                     @if($auditoriaFinal->supervisor_corte == '1')
-                                                        <h3 style="background-color: green; padding: 5px;">Enterado</h3>
+                                                        <h3 style="background-color: green; padding: 5px; color: white;">Enterado</h3>
                                                     @else
-                                                        <h3 style="background-color: red; padding: 5px;">No enterado</h3>
+                                                        <h3 style="background-color: red; padding: 5px;  color: white;">No enterado</h3>
                                                     @endif
                                                 </div>
                                             </div>
