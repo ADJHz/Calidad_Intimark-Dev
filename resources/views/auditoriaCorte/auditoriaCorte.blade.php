@@ -1763,11 +1763,9 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="aceptado_condicion" class="col-sm-6 col-form-label">Aceptado con condiciones :</label>
-                                                <div class="col-sm-12 d-flex align-items-center">
-                                                    <input type="text" class="form-control me-2" name="aceptado_condicion"
-                                                        id="aceptado_condicion" placeholder="comentarios"
-                                                        value="{{ isset($auditoriaFinal) ? $auditoriaFinal->aceptado_condicion : '' }}"
-                                                        required />
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" name="aceptado_condicion" id="aceptado_condicion" rows="3"
+                                                        placeholder="comentarios" required>{{ isset($auditoriaFinal) ? $auditoriaFinal->aceptado_condicion : '' }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
