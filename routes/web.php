@@ -10,6 +10,8 @@ use App\Http\Controllers\CalidadScreenPrintController;
 use App\Http\Controllers\AuditoriaCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\InspeccionEstampadoHorno;
+use App\Http\Controllers\Maquila;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -169,7 +171,23 @@ Route::get('/OpcionesTipoProblema', [CalidadProcesoPlancha::class, 'OpcionesTipo
 Route::post('/actualizarEstado/{id}', [CalidadProcesoPlancha::class, 'actualizarEstado']);
 Route::get('/PorcenTotalDefecPlancha', [CalidadProcesoPlancha::class, 'PorcenTotalDefecPlancha']);
 ////// <-------Fin de Calidad Process Plancha-------------->
-
+// Ruta de Maquila<-----Inicio------->
+Route::get('/Maquila', [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maquila');
+Route::get('/Clientes', [Maquila::class, 'Clientes']);
+Route::get('/Estilo/{cliente}', [Maquila::class, 'Estilos']);
+Route::get('/Ordenes/{estilo}', [Maquila::class, 'Ordenes']);
+Route::get('/Tecnicos', [Maquila::class, 'Tecnicos']);
+Route::get('/viewTableMaquila', [Maquila::class, 'viewTableMaquila']);
+Route::post('/SendMaquila', [Maquila::class, 'SendMaquila']);
+Route::put('/UpdateMaquila/{idValue}', [Maquila::class, 'UpdateMaquila']);
+Route::get('/obtenerOpcionesACCorrectiva',[Maquila::class, 'obtenerOpcionesACCorrectiva']);
+Route::get('/obtenerOpcionesTipoProblema', [Maquila::class, 'obtenerOpcionesTipoProblema']);
+Route::get('/OpcionesACCorrectiva',[Maquila::class, 'OpcionesACCorrectiva']);
+Route::get('/OpcionesTipoProblema', [Maquila::class, 'OpcionesTipoProblema']);
+Route::post('/actualizarEstado/{id}', [Maquila::class, 'actualizarEstado']);
+Route::get('/PorcenTotalDefecMaquila', [Maquila::class, 'PorcenTotalDefecMaquila']);
+////// <-------Fin de Maquila-------------->
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']])->middleware('checkrole');
 Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('checkrole');
 Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('checkrole');
@@ -185,6 +203,7 @@ Route::get('/controlCalidadEmpaque', 'App\Http\Controllers\FormulariosCalidadCon
 Route::get('/ScreenPrint',  [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint')->middleware('checkroleandplant2');
 Route::get('/InsEstamHorno', [InspeccionEstampadoHorno::class, 'InsEstamHorno'])->name('ScreenPlanta2.InsEstamHorno')->middleware('checkroleandplant2');
 Route::get('/ProcesoPlancha',  [CalidadProcesoPlancha::class, 'ProcesoPlancha'])->name('ScreenPlanta2.CalidadProcesoPlancha')->middleware('checkroleandplant2');
-
-
+Route::get('/Maquila',  [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maquila')->middleware('checkroleandplant2');
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::view('/error', 'error')->name('error');
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

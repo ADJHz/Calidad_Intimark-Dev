@@ -231,6 +231,7 @@ class CalidadScreenPrintController extends Controller
     $screenPrint->update([
         'Cliente' => $request->input('Cliente'),
         'Estilo' => $request->input('Estilo'),
+        'OP_Defec' => $request->input('OP_Defec'),
         'Tecnico' => $request->input('Tecnico'),
         'Color' => $request->input('Color'),
         'Num_Grafico' => $request->input('Num_Grafico'),
@@ -238,9 +239,6 @@ class CalidadScreenPrintController extends Controller
         'LeyendaSprint' => $request->input('LeyendaSprint'),
         'Tecnica' => $request->input('Tecnica'),
         'Fibras' => $request->input('Fibras'),
-        'Hora' => $request->input('Hora'),
-        'Bulto' => $request->input('Bulto'),
-        'Talla' => $request->input('Talla'),
         'Porcen_Fibra' => $request->input('Porcen_Fibra'),
         'Tipo_Problema' => $tipoProblema,
         'Ac_Correctiva' => $acCorrectiva,

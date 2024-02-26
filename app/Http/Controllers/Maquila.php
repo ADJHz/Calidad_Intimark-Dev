@@ -9,23 +9,20 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\DatosAX;
-use App\Models\Horno_Banda;
+use App\Models\Maquilas;
 use App\Models\OpcionesDefectosScreen;
-use App\Models\InspeccionEstampadoDHorno;
 use App\Models\Tecnicos;
-use App\Models\Tipo_Fibra;
-use App\Models\Tipo_Tecnica;
 
-class InspeccionEstampadoHorno extends Controller
+class Maquila extends Controller
 {
-    public function InsEstamHorno(Request $request)
+    public function Maquilas(Request $request)
     {
 
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
-        return view('ScreenPlanta2.InsEstamHorno', compact('mesesEnEspanol'));
+        return view('ScreenPlanta2.Maquila', compact('mesesEnEspanol'));
     }
     public function Clientes()
     {
@@ -57,50 +54,7 @@ class InspeccionEstampadoHorno extends Controller
         $tecnicos = Tecnicos::all();
         return response()->json($tecnicos);
     }
-    public function TipoTecnica()
-    {
-        $tipo_tecnica = Tipo_Tecnica::all();
-
-        return response()->json($tipo_tecnica);
-    }
-    public function TipoFibra()
-    {
-        $tipo_fibra = Tipo_Fibra::all();
-
-        return response()->json($tipo_fibra);
-    }
-    public function AgregarTecnica(Request $request)
-    {
-
-
-        $nuevaTecnica = $request->input('nuevaTecnica');
-
-        // Crear una nueva instancia de Tipo_Tecnica
-        $addTecnica = new Tipo_Tecnica;
-
-        $addTecnica->Tipo_tecnica = $nuevaTecnica;
-
-        // Guardar la nueva técnica en la base de datos
-        $addTecnica->save();
-
-        return response()->json($addTecnica);
-    }
-
-    public function AgregarFibra(Request $request)
-    {
-
-        $nuevaFibra = $request->input('nuevafibra');
-
-        // Crear una nueva instancia de Tipo_Tecnica
-        $addFibra = new Tipo_Fibra;
-        $addFibra->Tipo_Fibra = $nuevaFibra;
-
-        // Guardar la nueva técnica en la base de datos
-        $addFibra->save();
-
-        return response()->json($addFibra);
-    }
-    public function OpcionesACCorrectiva()
+public function OpcionesACCorrectiva()
     {
         $data = AccionCorrectScreen::pluck('AccionCorrectiva');
 
@@ -113,13 +67,13 @@ class InspeccionEstampadoHorno extends Controller
 
      return response()->json($data);
     }
-    public function viewTableIns()
+    public function viewTableMaquila()
 {
     // Obtener la fecha actual
     $today = Carbon::today();
 
     // Filtrar registros con la fecha actual
-    $screen = InspeccionEstampadoDHorno::whereDate('created_at', $today)->get();
+    $screen = Maquilas::whereDate('created_at', $today)->get();
 
     // Crear un array asociativo con los datos a retornar
     $responseData = [];
@@ -134,19 +88,14 @@ class InspeccionEstampadoHorno extends Controller
         $responseData[] = [
             'id' => $item->id,
             'Auditor' => $item->Auditor,
+            'Descripcion'  => $item->Descripcion,
             'Cliente' => $item->Cliente,
             'Estilo' => $item->Estilo,
             'OP_Defec' => $item->OP_Defec,
+            'Maquina'  => $item->Maquina,
             'Tecnico' => $item->Tecnico,
+            'Corte'  => $item->Corte,
             'Color' => $item->Color,
-            'Num_Grafico' => $item->Num_Grafico,
-            'Tipo_Maquina' => $item->Tipo_Maquina,
-            'LeyendaSprint' => $item->LeyendaSprint,
-            'Tecnica' => $item->Tecnica,
-            'Fibras' => $item->Fibras,
-            'Porcen_Fibra' => $item->Porcen_Fibra,
-            'Hora' => $item->Hora,
-            'Bulto' => $item->Bulto,
             'Talla' => $item->Talla,
             'Tipo_Problema' => $tipoProblema,
             'Ac_Correctiva' => $acCorrectiva,
@@ -160,62 +109,58 @@ class InspeccionEstampadoHorno extends Controller
     return response()->json($responseData);
 }
 
-    public function SendInspeccionEstampadoHornot(Request $request)
+public function SendMaquila(Request $request)
 {
-    // Obtener la marca addRowClicked del formulario
-    $addRowClicked = $request->input('addRowClicked');
+    try {
+        // Obtener la marca addRowClicked del formulario
+        $addRowClicked = $request->input('addRowClicked');
 
-    // Obtener los datos del formulario
-    $auditor = $request->input('Auditor');
-    $cliente = $request->input('Cliente');
-    $estilo = $request->input('Estilo');
-    $opDefec = $request->input('OP_Defec');
-    $tecnico = $request->input('Tecnico');
-    $color = $request->input('Color');
-    $numGrafico = $request->input('Num_Grafico');
-    $tipomaquina = $request->input('Tipo_Maquina');
-    $leyendasprint = $request->input('LeyendaSPrint');
-    $tecnica = $request->input('Tecnica');
-    $fibras = $request->input('Fibras');
-    $porcentajeFibra = $request->input('Porcen_Fibra');
-    $hora = $request->input('Hora');
-    $bulto = $request->input('Bulto');
-    $talla = $request->input('Talla');
-    $tipoProblema = $request->input('Tipo_Problema');
-    $acCorrectiva = $request->input('Ac_Correctiva');
-    // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
-    if ($addRowClicked) {
-        $screenPrint = InspeccionEstampadoDHorno::create([
-            'Auditor' => $auditor,
-            'Cliente' => $cliente,
-            'Estilo' => $estilo,
-            'OP_Defec' => $opDefec,
-            'Tecnico' => $tecnico,
-            'Color' => $color,
-            'Num_Grafico' => $numGrafico,
-            'Tipo_Maquina' => $tipomaquina,
-            'LeyendaSprint' => $leyendasprint,
-            'Tecnica' => $tecnica,
-            'Fibras' => $fibras,
-            'Porcen_Fibra' => $porcentajeFibra,
-            'Hora' => $hora,
-            'Bulto' => $bulto,
-            'Talla' => $talla,
-            'Tipo_Problema' => $tipoProblema,
-            'Ac_Correctiva' => $acCorrectiva,
-            'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
-        ]);
+        // Obtener los datos del formulario
+        $auditor = $request->input('Auditor');
+        $descripcion = $request->input('Descripcion');
+        $cliente = $request->input('Cliente');
+        $estilo = $request->input('Estilo');
+        $opDefec = $request->input('OP_Defec');
+        $maquina = $request->input('Maquina');
+        $tecnico = $request->input('Tecnico');
+        $corte  = $request->input('Corte');
+        $color = $request->input('Color');
+        $talla = $request->input('Talla');
+        $tipoProblema = $request->input('Tipo_Problema');
+        $acCorrectiva = $request->input('Ac_Correctiva');
 
-        // Puedes realizar acciones adicionales si es necesario después de crear el nuevo registro
+        // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
+        if ($addRowClicked) {
+            $screenPrint = Maquilas::create([
+                'Auditor' => $auditor,
+                'Descripcion' => $descripcion,
+                'Cliente' => $cliente,
+                'Estilo' => $estilo,
+                'OP_Defec' => $opDefec,
+                'Maquina' => $maquina,
+                'Tecnico' => $tecnico,
+                'Corte'  => $corte,
+                'Color' => $color,
+                'Talla' => $talla,
+                'Tipo_Problema' => $tipoProblema,
+                'Ac_Correctiva' => $acCorrectiva,
+                'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
+            ]);
 
-        return response()->json(['mensaje' => 'Datos guardados exitosamente', 'screenPrint' => $screenPrint]);
+            // Puedes realizar acciones adicionales si es necesario después de crear el nuevo registro
+
+            return response()->json(['mensaje' => 'Datos guardados exitosamente', 'screenPrint' => $screenPrint]);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
-   }
+}
 
-   public function UpdateIsnpec(Request $request, $id)
+
+   public function UpdateMaquila(Request $request, $id)
    {
        // Verificar si el registro existe
-       $screenPrint = InspeccionEstampadoDHorno::find($id);
+       $screenPrint = Maquilas::find($id);
 
        if (!$screenPrint) {
            return response()->json(['mensaje' => 'Registro no encontrado'], 404);
@@ -244,20 +189,15 @@ class InspeccionEstampadoHorno extends Controller
 
        // Actualizar los campos necesarios (ajusta según tu lógica)
        $screenPrint->update([
+           'Descripcion'  => $request->input('Descripcion', $screenPrint->Descripcion),
            'Cliente' => $request->input('Cliente', $screenPrint->Cliente),
            'Estilo' => $request->input('Estilo', $screenPrint->Estilo),
            'OP_Defec' => $request->input('OP_Defec', $screenPrint->OP_Defec),
+           'Maquina' => $request->input('Maquina', $screenPrint->Maquina),
            'Tecnico' => $request->input('Tecnico', $screenPrint->Tecnico),
+           'Corte' => $request->input('Corte', $screenPrint->Corte),
            'Color' => $request->input('Color', $screenPrint->Color),
-           'Num_Grafico' => $request->input('Num_Grafico', $screenPrint->Num_Grafico),
-           'Tipo_Maquina' => $request->input('Tipo_Maquina', $screenPrint->Tipo_Maquina),
-           'LeyendaSprint' => $request->input('LeyendaSprint', $screenPrint->LeyendaSprint),
-           'Tecnica' => $request->input('Tecnica', $screenPrint->Tecnica),
-           'Fibras' => $request->input('Fibras', $screenPrint->Fibras),
-           'Hora' => $request->input('Hora', $screenPrint->Hora),
-           'Bulto' => $request->input('Bulto', $screenPrint->Bulto),
            'Talla' => $request->input('Talla', $screenPrint->Talla),
-           'Porcen_Fibra' => $request->input('Porcen_Fibra', $screenPrint->Porcen_Fibra),
            'Tipo_Problema' => $tipoProblema,
            'Ac_Correctiva' => $acCorrectiva,
            'Status' => 'Update', // Puedes ajustar este campo según tus necesidades
@@ -285,7 +225,7 @@ class InspeccionEstampadoHorno extends Controller
    public function actualizarEstado($id, Request $request)
    {
        // Buscar el registro por id
-       $screenPrint = InspeccionEstampadoDHorno::find($id);
+       $screenPrint = Maquilas::find($id);
 
        // Verificar si el registro existe
        if ($screenPrint) {
@@ -302,17 +242,17 @@ class InspeccionEstampadoHorno extends Controller
            return response()->json(['message' => 'Registro no encontrado'], 404);
        }
    }
-public function PorcenTotalDefec()
+public function PorcenTotalDefecMaquila()
 {
     try {
         // Obtener la fecha actual
         $today = Carbon::today();
 
         // Obtener la cantidad total de registros para el día actual
-        $totalRegistros = InspeccionEstampadoDHorno::whereDate('created_at', $today)->count();
+        $totalRegistros = Maquilas::whereDate('created_at', $today)->count();
 
         // Obtener la cantidad de registros con Tipo_Problema diferente de 'N/A'
-        $defectos = InspeccionEstampadoDHorno::whereDate('created_at', $today)
+        $defectos = Maquilas::whereDate('created_at', $today)
             ->where('Tipo_Problema', '<>', 'N/A')
             ->count();
 
@@ -342,4 +282,5 @@ public function PorcenTotalDefec()
         return response()->json($data, 500);
     }
 }
+
 }

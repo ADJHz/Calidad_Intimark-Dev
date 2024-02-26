@@ -113,6 +113,12 @@
                             <p>{{ __('Proceso Plancha') }}</p>
                         </a>
                     </li>
+                    <li class="nav-item{{ $activePage == 'Maquila' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('ScreenPlanta2.Maquila') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('Maquila') }}</p>
+                        </a>
+                    </li>
                 @endif
                     </ul>
                 </div>
