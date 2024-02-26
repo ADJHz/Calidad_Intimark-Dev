@@ -134,6 +134,60 @@ class AuditoriaCorteController extends Controller
             'auditorDato' => $auditorDato]));
     }
 
+    public function altaAuditoriaCorte($id, $orden)
+    {
+        $activePage ='';
+        $categorias = $this->cargarCategorias();
+        $auditorDato = Auth::user()->name;
+        //dd($userName);
+        // Obtener el dato con el id seleccionado y el valor de la columna "orden"
+        $datoAX = DatoAX::where('op', $orden)->first();
+        //dd($datoAX);
+        $mesesEnEspanol = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+        // Obtener el registro correspondiente en la tabla AuditoriaMarcada si existe
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $id)->first();
+        $auditoriaMarcada = AuditoriaMarcada::where('id', $id)->first();
+        $auditoriaTendido = AuditoriaTendido::where('id', $id)->first();
+        $Lectra = Lectra::where('id', $id)->first();
+        $auditoriaBulto = AuditoriaBulto::where('id', $id)->first();
+        $auditoriaFinal = AuditoriaFinal::where('id', $id)->first();
+        // apartado para validar los checbox
+
+        $mostrarFinalizarMarcada = $auditoriaMarcada ? session('estatus_checked_AuditoriaMarcada') : false;
+        
+        // Verifica si los campos específicos son NULL
+        if ($auditoriaMarcada && is_null($auditoriaMarcada->yarda_orden_estatus) &&
+            is_null($auditoriaMarcada->yarda_marcada_estatus) &&
+            is_null($auditoriaMarcada->yarda_tendido_estatus)) {
+            $mostrarFinalizarMarcada = false;
+        }
+        
+        //dd($auditoriaMarcada, $mostrarFinalizarMarcada);
+        $mostrarFinalizarTendido = $auditoriaTendido ? session('estatus_checked_AuditoriaTendido') : false;
+        $mostrarFinalizarLectra = $Lectra ? session('estatus_checked_Lectra') : false;
+        $mostrarFinalizarBulto = $auditoriaBulto ? session('estatus_checked_AuditoriaBulto') : false;
+        $mostrarFinalizarFinal = $auditoriaFinal ? session('estatus_checked_AuditoriaFinal') : false;
+        return view('auditoriaCorte.altaAuditoriaCorte', array_merge($categorias, [
+            'mesesEnEspanol' => $mesesEnEspanol, 
+            'activePage' => $activePage, 
+            'datoAX' => $datoAX, 
+            'auditoriaMarcada' => $auditoriaMarcada,
+            'auditoriaTendido' => $auditoriaTendido,
+            'Lectra' => $Lectra, 
+            'auditoriaBulto' => $auditoriaBulto, 
+            'auditoriaFinal' => $auditoriaFinal,
+            'mostrarFinalizarMarcada' => $mostrarFinalizarMarcada,
+            'mostrarFinalizarTendido' => $mostrarFinalizarTendido,
+            'mostrarFinalizarLectra' => $mostrarFinalizarLectra,
+            'mostrarFinalizarBulto' => $mostrarFinalizarBulto,
+            'mostrarFinalizarFinal' => $mostrarFinalizarFinal,
+            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
+            'auditorDato' => $auditorDato]));
+    }
+
+
 
     
     public function formEncabezadoAuditoriaCorte(Request $request)

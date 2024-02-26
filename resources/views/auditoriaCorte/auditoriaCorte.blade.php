@@ -680,7 +680,7 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($datoAX->estatus == 'estatusAuditoriaTendido' && $auditoriaMarcada->estatus == 'estatusAuditoriaTendido')
+                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaTendido', ['id' => $datoAX->id]) }}"> 
                                     @csrf
@@ -694,7 +694,7 @@
                                             <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre" id="nombre" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                    title="Por favor, selecciona una opción" required>
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
@@ -723,7 +723,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="mesa" class="col-sm-6 col-form-label">MESA</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción">
+                                                <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción" required>
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="1 : Mesa" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == '1 : Mesa' ? 'selected' : '' }}>1 : Manual</option>
                                                     <option value="2 : Brio" {{ isset($auditoriaTendido) && $auditoriaTendido->mesa == '2 : Brio' ? 'selected' : '' }}>2 : Brio</option>
@@ -1183,7 +1183,7 @@
                             data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($datoAX->estatus == 'estatusLectra')
+                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusLectra')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formLectra', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -1507,7 +1507,7 @@
                         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($datoAX->estatus == 'estatusAuditoriaBulto')
+                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaBulto', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -1740,7 +1740,7 @@
                         <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($datoAX->estatus == 'estatusAuditoriaFinal')
+                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal')
                                     <form method="POST"
                                         action="{{ route('auditoriaCorte.formAuditoriaFinal', ['id' => $datoAX->id]) }}">
                                         @csrf
