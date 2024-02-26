@@ -36,7 +36,7 @@
             <div class="card-header card-header-primary">
                 <h3 class="card-title">CHECK LIST DE AUDITORIA DE LIMPIEZA Y PPP</h3>
               </div>
-                         <form method="POST" action="{{ route('formulariosCalidad.formAuditoriaCortes') }}">
+                         <form method="POST" action="{{ route('formulariosCalidad.auditoriaLimpieza') }}">
                              @csrf
                              <hr>
                              <div class="card-body">

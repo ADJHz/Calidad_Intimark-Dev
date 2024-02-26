@@ -37,7 +37,7 @@
                 <div class="card-header card-header-primary">
                     <h3 class="card-title">AUDITORIA FINAL A.Q.L</h3>
                   </div>
-                    <form method="POST" action="{{ route('formulariosCalidad.formAuditoriaCortes') }}"> 
+                    <form method="POST" action="{{ route('formulariosCalidad.auditoriaFinalAQL') }}">
                         @csrf
                         <hr>
                         <div class="card-body">
@@ -48,7 +48,7 @@
                                     <div class="col-sm-12 d-flex justify-content-between align-items-center">
                                         <p>{{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}</p>
                                         <p class="ml-auto">Dia: {{$nombreDia}}</p>
-                                    </div>                                        
+                                    </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cliente" class="col-sm-6 col-form-label">CLIENTE / CUSTOMER</label>
@@ -381,5 +381,5 @@
         });
 
         </script>
-        
+
 @endsection
