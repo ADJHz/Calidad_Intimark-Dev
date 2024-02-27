@@ -8,6 +8,7 @@ use App\Http\Controllers\FormulariosCalidadController;
 use App\Http\Controllers\ProgresoCorteController;
 use App\Http\Controllers\CalidadScreenPrintController;
 use App\Http\Controllers\AuditoriaCorteController;
+use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 use App\Http\Controllers\Maquila;
@@ -112,6 +113,14 @@ Route::post('/formAuditoriaTendido', [AuditoriaCorteController::class, 'formAudi
 Route::post('/formLectra', [AuditoriaCorteController::class, 'formLectra'])->name('auditoriaCorte.formLectra');
 Route::post('/formAuditoriaBulto', [AuditoriaCorteController::class, 'formAuditoriaBulto'])->name('auditoriaCorte.formAuditoriaBulto');
 Route::post('/formAuditoriaFinal', [AuditoriaCorteController::class, 'formAuditoriaFinal'])->name('auditoriaCorte.formAuditoriaFinal');
+//fin aprtado Auditoria Corte
+
+//Inicio apartado para seccion Evaluacion corte
+Route::get('/inicioEvaluacionCorte', [EvaluacionCorteController::class, 'inicioEvaluacionCorte'])->name('evaluacionCorte.inicioEvaluacionCorte');
+Route::get('/evaluacionCorte', [EvaluacionCorteController::class, 'evaluacionCorte'])->name('evaluacionCorte.evaluacionCorte');
+Route::post('/formAuditoriaCortes', [EvaluacionCorteController::class, 'formAuditoriaCortes'])->name('evaluacionCorte.formEvaluacionCortes');
+
+//Fin apartado para seccion Evaluacion corte
 
 // Ruta de Screen Print <---Inicio------>
 Route::get('/ScreenPrint', [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint');
