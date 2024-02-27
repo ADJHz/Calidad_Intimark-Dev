@@ -1180,7 +1180,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="fecha" class="col-sm-6 col-form-label">Fecha</label>
                                         <div class="col-sm-12 d-flex align-items-center">
-                                            {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
+                                            {{ $auditoriaTendido->created_at->format('d ') . $mesesEnEspanol[$auditoriaTendido->created_at->format('n') - 1] . $auditoriaTendido->created_at->format(' Y') }}
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1194,8 +1194,7 @@
                                         <label for="auditor" class="col-sm-6 col-form-label">AUDITOR</label>
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control me-2" name="auditor" id="auditor"
-                                                value="{{ $auditorDato }}" readonly required />
-                                            <input type="hidden" name="auditor" value="{{ $auditorDato }}">
+                                                value="{{ $auditoriaTendido->auditor }}" readonly  />
                                         </div>
                                     </div>
                                 </div>
@@ -1752,7 +1751,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="fecha" class="col-sm-6 col-form-label">Fecha</label>
                                         <div class="col-sm-12 d-flex align-items-center">
-                                            {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
+                                            {{ $Lectra->created_at->format('d ') . $mesesEnEspanol[$Lectra->created_at->format('n') - 1] . $Lectra->created_at->format(' Y') }}
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1765,8 +1764,7 @@
                                         <label for="auditor" class="col-sm-6 col-form-label">AUDITOR</label>
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control me-2" name="auditor" id="auditor"
-                                                value="{{ $auditorDato }}" readonly required />
-                                            <input type="hidden" name="auditor" value="{{ $auditorDato }}">
+                                                value="{{ $Lectra->auditor }}" readonly />
                                         </div>
                                     </div>
                                 </div>
@@ -2172,9 +2170,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="fecha" class="col-sm-6 col-form-label">Fecha</label>
+                                        <label for="fecha" class="col-sm-6 col-form-label">Fecha: </label>
                                         <div class="col-sm-12 d-flex align-items-center">
-                                            {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
+                                            {{ $auditoriaBulto->created_at->format('d ') . $mesesEnEspanol[$auditoriaBulto->created_at->format('n') - 1] . $auditoriaBulto->created_at->format(' Y') }}
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
