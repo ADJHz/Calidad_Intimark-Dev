@@ -2291,7 +2291,7 @@
                                             
                                         </div>
                                     </form>
-                                    @else
+                                    @elseif(auth()->check() && auth()->user()->hasRole('Gerente de Calidad'))
                                     <form method="POST"
                                         action="{{ route('auditoriaCorte.formAuditoriaFinal', ['id' => $datoAX->id]) }}">
                                         @csrf
