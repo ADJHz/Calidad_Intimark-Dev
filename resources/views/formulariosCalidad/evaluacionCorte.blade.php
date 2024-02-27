@@ -46,16 +46,16 @@
                     <div class="card-body">
                         <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="fecha" class="col-sm-6 col-form-label">FECHA</label>
                                 <div class="col-sm-12">
                                     {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="estilo" class="col-sm-6 col-form-label">ESTILO</label>
                                 <div class="col-sm-12">
-                                    <select name="estilo" id="estilo" class="form-control" required
+                                    <select name="estilo" id="estilo" class="form-control select2" required
                                         title="Por favor, selecciona una opción">
                                         <option value="">Selecciona una opción</option>
                                         @foreach ($CategoriaEstilo as $estilo)
@@ -64,7 +64,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <!--Este apartado debe ser modificado despues -->
                                 <label for="descripcion" class="col-sm-6 col-form-label">DESCRIPCION</label>
                                 <div class="col-sm-12">
@@ -131,5 +131,12 @@
             </div>
         </div>
     </div>
-    
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Seleccione una opción',
+                allowClear: true
+            });
+        });
+    </script>
 @endsection
