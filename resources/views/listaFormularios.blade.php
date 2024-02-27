@@ -37,7 +37,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">EVALUACION  DE CORTE CONTRA PATRON <br>F-4</h5>
-                                            <a href="{{ route('formulariosCalidad.evaluacionCorte') }}" class="btn btn-primary"  >INICIAR</a>
+                                            <a href="{{ route('evaluacionCorte.evaluaciondeCorte') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>

@@ -86,7 +86,7 @@ Route::get('/descargar-pdf', [PDFController::class, 'descargarPDF']);
 Route::get('/auditoriaEtiquetas', [FormulariosCalidadController::class, 'auditoriaEtiquetas'])->name('formulariosCalidad.auditoriaEtiquetas');
 Route::get('/auditoriaCortes', [FormulariosCalidadController::class, 'auditoriaCortes'])->name('formulariosCalidad.auditoriaCortes');
 Route::get('/auditoriaLimpieza', [FormulariosCalidadController::class, 'auditoriaLimpieza'])->name('formulariosCalidad.auditoriaLimpieza');
-Route::get('/evaluacionCorte', [FormulariosCalidadController::class, 'evaluacionCorte'])->name('formulariosCalidad.evaluacionCorte');
+Route::get('/evaluacionCorte1', [FormulariosCalidadController::class, 'evaluacionCorte'])->name('formulariosCalidad.evaluacionCorte');
 Route::get('/auditoriaFinalAQL', [FormulariosCalidadController::class, 'auditoriaFinalAQL'])->name('formulariosCalidad.auditoriaFinalAQL');
 Route::get('/mostrarAuditoriaEtiquetas', [FormulariosCalidadController::class, 'mostrarAuditoriaEtiquetas'])->name('formulariosCalidad.mostrarAuditoriaEtiquetas');
 Route::post('/formAuditoriaEtiquetas', [FormulariosCalidadController::class, 'formAuditoriaEtiquetas'])->name('formulariosCalidad.formAuditoriaEtiquetas');
@@ -117,7 +117,7 @@ Route::post('/formAuditoriaFinal', [AuditoriaCorteController::class, 'formAudito
 
 //Inicio apartado para seccion Evaluacion corte
 Route::get('/inicioEvaluacionCorte', [EvaluacionCorteController::class, 'inicioEvaluacionCorte'])->name('evaluacionCorte.inicioEvaluacionCorte');
-Route::get('/evaluacionCorte', [EvaluacionCorteController::class, 'evaluacionCorte'])->name('evaluacionCorte.evaluacionCorte');
+Route::get('/evaluaciondeCorte', [EvaluacionCorteController::class, 'evaluaciondeCorte'])->name('evaluacionCorte.evaluaciondeCorte');
 Route::post('/formAuditoriaCortes', [EvaluacionCorteController::class, 'formAuditoriaCortes'])->name('evaluacionCorte.formEvaluacionCortes');
 
 //Fin apartado para seccion Evaluacion corte

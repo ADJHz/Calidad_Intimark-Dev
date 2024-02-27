@@ -40,8 +40,10 @@
                 <div class="card-header card-header-primary">
                     <h3 class="card-title">EVALUACION DE CORTE CONTRA PATRON</h3>
                 </div>
+                {{--
                 <form method="POST" action="{{ route('formulariosCalidad.formEvaluacionCorte') }}">
                     @csrf
+                    --}}
                     <hr>
                     <div class="card-body">
                         <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
@@ -127,7 +129,7 @@
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         <!--Fin de la edicion del codigo para mostrar el contenido-->
                     </div>
-                <form>
+                {{--<form>--}}
             </div>
         </div>
     </div>
