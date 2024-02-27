@@ -22,7 +22,7 @@
                     <i class="material-icons">person</i>
                   </span>
                 </div>
-                <input type="text" name="email" class="form-control" placeholder="{{ __('Email Ó # Empleado') }}" value="{{ old('email') }}" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                <input type="text" name="email" class="form-control" placeholder="{{ __('Email Ó # Empleado') }}" value="{{ old('email') }}">
               </div>
               @if ($errors->has('email'))
                 <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">
