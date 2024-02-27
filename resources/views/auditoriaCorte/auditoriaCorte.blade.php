@@ -693,7 +693,7 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción" required>
@@ -1168,7 +1168,7 @@
                                 @elseif($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal' || $encabezadoAuditoriaCorte->estatus == 'fin'))
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                        <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR</label>
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control" name="nombre" id="nombre" readonly
                                                 value="{{ isset($auditoriaTendido) ? $auditoriaTendido->nombre : '' }}">
@@ -1433,7 +1433,9 @@
                             data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusLectra')
+                                @if($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido')
+                                    <p>-</p>
+                                @elseif($encabezadoAuditoriaCorte->estatus == 'estatusLectra') 
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formLectra', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -1444,7 +1446,7 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL CORTADOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción">
@@ -1741,7 +1743,7 @@
                                 @elseif($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal' || $encabezadoAuditoriaCorte->estatus == 'fin'))
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                        <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL CORTADOR</label>
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control" name="nombre" id="nombre" readonly
                                                 value="{{ isset($Lectra) ? $Lectra->nombre : '' }}">
@@ -1756,11 +1758,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="mesa" class="col-sm-6 col-form-label">Maquina Lectra: </label>
                                         <div class="col-sm-12 d-flex align-items-center"> 
-                                            <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción"> 
-                                                <option value="">Selecciona una opción</option>
-                                                <option value="IH8" {{ isset($Lectra) && $Lectra->mesa == 'IH8' ? 'selected' : '' }}>IH8</option>
-                                                <option value="IX6" {{ isset($Lectra) && $Lectra->mesa == 'IX6' ? 'selected' : '' }}>IX6</option>
-                                            </select> 
+                                            <input type="text" name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción" value="{{ isset($Lectra) ? $Lectra->mesa : '' }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1794,12 +1792,7 @@
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel1_y{{ $i }}" id="panel1_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> Y{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel1_y'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                     </div>
@@ -1808,27 +1801,17 @@
                                         <div class="form-check form-check-inline">
                                             <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
                                             <input type="text" class="form-control me-2"
-                                                name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1"
+                                                name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1" readonly
                                                 value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}" />
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel2_x{{ $i }}" id="panel2_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> X{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel2_x'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel2_y{{ $i }}" id="panel2_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> Y{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel2_y'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                     </div>
@@ -1836,27 +1819,17 @@
                                         <div class="form-check form-check-inline">
                                             <label for="simetria_pieza3" class="col-sm-6 col-form-label">Panel 3</label>
                                             <input type="text" class="form-control me-2"
-                                                name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
+                                                name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3" readonly
                                                 value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel3_x{{ $i }}" id="panel3_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> X{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel3_x'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel3_y{{ $i }}" id="panel3_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> Y{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel3_y'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                     </div>
@@ -1864,27 +1837,17 @@
                                         <div class="form-check form-check-inline">
                                             <label for="simetria_pieza4" class="col-sm-6 col-form-label">Panel 4</label>
                                             <input type="text" class="form-control me-2"
-                                                name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4"
+                                                name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4" readonly
                                                 value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel4_x{{ $i }}" id="panel4_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> X{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel4_x'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                         <div class="form-check form-check-inline">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <select name="panel4_y{{ $i }}" id="panel4_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value=""> Y{{$i}}° </option>
-                                                    @foreach($options as $option)
-                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                    @endforeach
-                                                </select> &nbsp;&nbsp;
+                                                <input type="text" class="form-control" value=" {{ isset($Lectra) ? $Lectra->{'panel4_y'.$i} : '' }}" readonly> &nbsp;&nbsp;
                                             @endfor
                                         </div>
                                     </div>
@@ -1895,26 +1858,16 @@
                                             <div class="col-sm-12 d-flex align-items-center"
                                                 style="margin-right: -5px;">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="pieza_completa_estatus" id="pieza_completa_estatus1"
-                                                        value="1"
-                                                        {{ isset($Lectra) && $Lectra->pieza_completa_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="pieza_completa_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="pieza_completa_estatus" id="pieza_completa_estatus2"
-                                                        value="0"
-                                                        {{ isset($Lectra) && $Lectra->pieza_completa_estatus == 0 ? 'checked' : '' }}
-                                                        required /> 
-                                                    <label class="label-tache" for="pieza_completa_estatus2">✖ </label>
+                                                    @if(isset($Lectra) && $Lectra->pieza_completa_estatus == 1)
+                                                        <label class="label-paloma" for="pieza_completa_estatus1">✔</label>
+                                                    @elseif(isset($Lectra) && $Lectra->pieza_completa_estatus == 0)
+                                                        <label class="label-tache" for="pieza_completa_estatus2">✖</label>
+                                                    @endif
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="pieza_completa" id="pieza_completa" placeholder="..."
-                                                        value="{{ isset($Lectra) ? $Lectra->pieza_completa : '' }}"
-                                                        required />
+                                                        name="pieza_completa" id="pieza_completa" readonly
+                                                        value="{{ isset($Lectra) ? $Lectra->pieza_completa : '' }}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1923,27 +1876,16 @@
                                         <label for="pieza_contrapatron" class="col-sm-6 col-form-label">3. Piezas contra patron</label>
                                         <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                             <div class="form-check form-check-inline">
-                                                <input class="quitar-espacio" type="radio"
-                                                    name="pieza_contrapatron_estatus" id="pieza_contrapatron_estatus1"
-                                                    value="1"
-                                                    {{ isset($Lectra) && $Lectra->pieza_contrapatron_estatus == 1 ? 'checked' : '' }}
-                                                    required />
-                                                <label class="label-paloma" for="pieza_contrapatron_estatus1">✔
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="quitar-espacio" type="radio"
-                                                    name="pieza_contrapatron_estatus" id="pieza_contrapatron_estatus2"
-                                                    value="0"
-                                                    {{ isset($Lectra) && $Lectra->pieza_contrapatron_estatus == 0 ? 'checked' : '' }}
-                                                    required />
-                                                <label class="label-tache" for="pieza_contrapatron_estatus2">✖ </label>
+                                                @if(isset($Lectra) && $Lectra->pieza_contrapatron_estatus == 1)
+                                                    <label class="label-paloma" for="pieza_contrapatron_estatus1">✔</label>
+                                                @elseif(isset($Lectra) && $Lectra->pieza_contrapatron_estatus == 0)
+                                                    <label class="label-tache" for="pieza_contrapatron_estatus2">✖</label>
+                                                @endif
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input type="number" step="0.0001" class="form-control me-2"
                                                     name="pieza_contrapatron" id="pieza_contrapatron" placeholder="..."
-                                                    value="{{ isset($Lectra) ? $Lectra->pieza_contrapatron : '' }}"
-                                                    required />
+                                                    value="{{ isset($Lectra) ? $Lectra->pieza_contrapatron : '' }}" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -1953,21 +1895,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label>
                                         <div class="col-sm-12 d-flex align-items-center">
-                                            <select name="pieza_inspeccionada" id="pieza_inspeccionada" class="form-control" title="Por favor, selecciona una opción">
-                                                <option value="">Selecciona una opción</option>
-                                                <option value="2" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '2' ? 'selected' : '' }}>2 - 8 => 2</option>
-                                                <option value="3" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '3' ? 'selected' : '' }}>9 - 15 => 3 </option>
-                                                <option value="5" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '5' ? 'selected' : '' }}>16 - 25 => 5 </option>
-                                                <option value="8" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '8' ? 'selected' : '' }}>26 - 50 => 8 </option>
-                                                <option value="13" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '13' ? 'selected' : '' }}>51 - 90 => 13 </option>
-                                                <option value="20" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '20' ? 'selected' : '' }}>91 - 150 => 20 </option>
-                                                <option value="32" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '32' ? 'selected' : '' }}>151 - 280 => 32 </option>
-                                                <option value="50" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '50' ? 'selected' : '' }}>281 - 500 => 50 </option>
-                                                <option value="80" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '80' ? 'selected' : '' }}>501 - 1,200 => 80 </option>
-                                                <option value="125" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '125' ? 'selected' : '' }}>1,201 - 3,200 => 125 </option>
-                                                <option value="200" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '200' ? 'selected' : '' }}>3,201 - 10,000 => 200 </option>
-                                                <option value="315" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '315' ? 'selected' : '' }}>10,001 - 35,000 => 315 </option>
-                                            </select>
+                                            <input type="text" name="pieza_inspeccionada" id="pieza_inspeccionada" class="form-control" title="Por favor, selecciona una opción" value="{{ isset($Lectra) ? $Lectra->pieza_inspeccionada : '' }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1975,8 +1903,7 @@
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control me-2" name="cantidad_defecto"
                                                 id="cantidad_defecto" placeholder="..."
-                                                value="{{ isset($Lectra) ? $Lectra->cantidad_defecto : '' }}"
-                                                required />
+                                                value="{{ isset($Lectra) ? $Lectra->cantidad_defecto : '' }}" readonly />
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1984,20 +1911,7 @@
                                         <div class="col-sm-12 d-flex align-items-center">
                                             <input type="text" class="form-control me-2" name="defecto"
                                                 id="defecto" placeholder="..."
-                                                value="{{ isset($Lectra) ? $Lectra->defecto : '' }}"
-                                                required />
-                                            {{--
-                                            <select name="defecto" id="defecto" class="form-control"
-                                                title="Por favor, selecciona una opción">
-                                                <option value="">Selecciona una opción</option>
-                                                
-                                                @foreach ($CategoriaDefectoCorte as $defectoCorte)
-                                                    <option value="{{ $defectoCorte->nombre }}"
-                                                        {{ isset($Lectra) && trim($Lectra->defecto) == trim($defectoCorte->nombre) ? 'selected' : '' }}>
-                                                        {{ $defectoCorte->nombre }}</option>
-                                                @endforeach
-                                            </select>
-                                            --}}
+                                                value="{{ isset($Lectra) ? $Lectra->defecto : '' }}" readonly />
                                         </div>
                                     </div>
                                     @php
@@ -2033,7 +1947,9 @@
                         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto')
+                                @if($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra')
+                                    <p>-</p>
+                                @elseif($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaBulto', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -2247,6 +2163,112 @@
                                         @endif
                                     </div>
                                 </form>
+                                @elseif($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal' || $encabezadoAuditoriaCorte->estatus == 'fin'))
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <input type="text" name="nombre" id="nombre" class="form-control" title="Por favor, selecciona una opción" value="{{ isset($auditoriaBulto) ? $auditoriaBulto->nombre : '' }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fecha" class="col-sm-6 col-form-label">Fecha</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        @php
+                                            $nombreMesa = "SELLADO";
+                                        @endphp
+                                        <label for="mesa" class="col-sm-6 col-form-label">MESA</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <input type="text" class="form-control me-2" name="mesa" id="mesa" placeholder="..."
+                                                value="{{ isset($nombreMesa) ? $nombreMesa : '' }}" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="auditor" class="col-sm-6 col-form-label">AUDITOR</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <input type="text" class="form-control me-2" name="auditor" id="auditor"
+                                                    value="{{ isset($auditoriaBulto) ? $auditoriaBulto->auditor : '' }}" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        @php
+                                            $calculoPorcentajeBulto = isset($auditoriaBulto->pieza_paquete) ?
+                                            ($auditoriaBulto->pieza_paquete === 0 ? 0 : intval(($encabezadoAuditoriaCorte->pieza / $auditoriaBulto->pieza_paquete)))
+                                            : 0;
+                                        @endphp
+                                        <label for="cantidad_bulto" class="col-sm-6 col-form-label">1. Cantidad de Bultos</label>
+                                        <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                            <div class="form-check form-check-inline">
+                                                <input type="text" class="form-control me-2" name="cantidad_bulto" id="cantidad_bulto" placeholder="..."
+                                                    value="{{ isset($calculoPorcentajeBulto) ? $calculoPorcentajeBulto : '' }}" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="pieza_paquete" class="col-sm-6 col-form-label">2. Piezas por paquete</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                        name="pieza_paquete" id="pieza_paquete" placeholder="..."
+                                                        value="{{ isset($auditoriaBulto) ? $auditoriaBulto->pieza_paquete : '' }}" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="ingreso_ticket" class="col-sm-6 col-form-label">3. Ingreso de Tickets</label>
+                                        <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                            <div class="form-check form-check-inline">
+                                                @if(isset($auditoriaBulto) && $auditoriaBulto->ingreso_ticket_estatus == 1)
+                                                    <label class="label-paloma" for="ingreso_ticket_estatus1">✔</label>
+                                                @elseif(isset($auditoriaBulto) && $auditoriaBulto->ingreso_ticket_estatus == 0)
+                                                    <label class="label-tache" for="ingreso_ticket_estatus1">✖</label>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="sellado_paquete" class="col-sm-6 col-form-label">4. Sellado de Paquetes</label>
+                                        <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                            <div class="form-check form-check-inline">
+                                                @if(isset($auditoriaBulto) && $auditoriaBulto->sellado_paquete_estatus == 1)
+                                                    <label class="label-paloma" for="sellado_paquete_estatus1">✔</label>
+                                                @elseif(isset($auditoriaBulto) && $auditoriaBulto->sellado_paquete_estatus == 0)
+                                                    <label class="label-tache" for="sellado_paquete_estatus2">✖</label>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="defecto" class="col-sm-6 col-form-label">Defectos </label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <input type="text" class="form-control me-2" name="defecto"
+                                                id="defecto" placeholder="..."
+                                                value="{{ isset($auditoriaBulto) ? $auditoriaBulto->defecto : '' }}" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <input type="text" class="form-control me-2" name="porcentaje"
+                                                id="porcentaje" placeholder="..."
+                                                value="{{ isset($auditoriaBulto) ? $auditoriaBulto->porcentaje : '' }}" readonly />
+                                        </div>
+                                    </div>
+                                </div>
                                 @endif
                                 {{-- Fin cuerpo acordeon --}}
                             </div>
