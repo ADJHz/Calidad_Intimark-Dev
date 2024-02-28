@@ -227,7 +227,7 @@ class AuditoriaCorteController extends Controller
 
             // Realizar la actualización en la base de datos
             $auditoria= new EncabezadoAuditoriaCorte();
-            $auditoria->dato_ax_id = $datoAX->op;
+            $auditoria->dato_ax_id = $idSeleccionado;
             $auditoria->orden_id = $orden;
             $auditoria->cliente = $request->input('cliente');
             $auditoria->material = $request->input('material');
