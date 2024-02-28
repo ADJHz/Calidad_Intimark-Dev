@@ -53,7 +53,6 @@
                         <form method="POST" action="{{ route('evaluacionCorte.formAltaEvaluacionCortes') }}">
                             @csrf
                             <div class="row">
-                                
                                     <div class="col-md-4 mb-3">
                                         <label for="orden" class="col-sm-6 col-form-label">ORDEN</label>
                                         <div class="col-sm-12">
@@ -74,11 +73,10 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <!--Este apartado debe ser modificado despues -->
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-primary">iniciar</button>
                                     </div>
-                                {{-- --}}
                             </div>
-                        <form>
+                        </form>
                         <hr>
                         <h5 style="text-align: center">IZQUIERDA</h5>
                         <div class="row">
