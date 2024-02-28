@@ -90,6 +90,7 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $datoAX->id }}">
                     <input type="hidden" name="orden" value="{{ $datoAX->op }}">
+                    <input type="hidden" name="estilo" value="{{ $datoAX->estilo }}">
                     <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">

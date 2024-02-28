@@ -70,8 +70,8 @@ class EvaluacionCorteController extends Controller
 
     public function obtenerEstilo(Request $request)
     {
-        $orden = $request->input('orden');
-        $estilo = EncabezadoAuditoriaCorte::where('op', $orden)->value('estilo');
+        $orden = $request->input('orden_id');
+        $estilo = EncabezadoAuditoriaCorte::where('orden_id', $orden)->value('estilo_id');
 
         return response()->json($estilo);
     }

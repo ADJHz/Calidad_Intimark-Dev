@@ -200,6 +200,8 @@ class AuditoriaCorteController extends Controller
         $idSeleccionado = $request->input('id');
         $idEncabezadoAuditoriaCorte = $request->input('idEncabezadoAuditoriaCorte');
         $orden = $request->input('orden');
+        $estilo = $request->input('estilo');
+        //dd($estilo, $request->all());
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
         //dd($encabezadoAuditoriaCorte);
         // Verificar si ya existen datos para el dato_ax_id especificado
@@ -229,6 +231,7 @@ class AuditoriaCorteController extends Controller
             $auditoria= new EncabezadoAuditoriaCorte();
             $auditoria->dato_ax_id = $idSeleccionado;
             $auditoria->orden_id = $orden;
+            $auditoria->estilo_id = $estilo;
             $auditoria->cliente = $request->input('cliente');
             $auditoria->material = $request->input('material');
             $auditoria->color = $request->input('color');

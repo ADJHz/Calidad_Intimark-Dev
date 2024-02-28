@@ -62,7 +62,7 @@
                                         title="Por favor, selecciona una opción" onchange="mostrarEstilo()">
                                         <option value="">Selecciona una opción</option>
                                         @foreach ($EncabezadoAuditoriaCorte as $dato)
-                                            <option value="{{ $dato->op }}">{{ $dato->op }}</option>
+                                            <option value="{{ $dato->orden_id }}">{{ $dato->orden_id }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -166,7 +166,7 @@
                 },
                 success: function(response) {
                     console.log(response); // Verifica la respuesta en la consola
-                    document.getElementById('estilo').value = response;
+                    document.getElementById('estilo_id').value = response;
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText); // Muestra el mensaje de error en la consola
