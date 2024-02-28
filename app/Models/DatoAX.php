@@ -15,4 +15,8 @@ class DatoAX extends Model
         return $this->hasMany(AuditoriaMarcada::class, 'orden_id', 'op');
     }
     
+    public function encabezadoAuditoriasCortes()
+    {
+        return $this->hasMany(EncabezadoAuditoriaCorte::class, 'orden_id', 'op');
+    }
 }

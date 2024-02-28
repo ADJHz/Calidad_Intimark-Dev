@@ -133,12 +133,12 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        @foreach ($proceso->auditoriasMarcadas as $auditoriaMarcada)
+                                                                        @foreach ($proceso->encabezadoAuditoriasCortes as $encabezadoCorte)
                                                                         <tr>
-                                                                            <td><a href="{{ route('auditoriaCorte.auditoriaCorte', ['id' => $auditoriaMarcada->id, 'orden' => $auditoriaMarcada->orden_id]) }}"
+                                                                            <td><a href="{{ route('auditoriaCorte.auditoriaCorte', ['id' => $encabezadoCorte->id, 'orden' => $encabezadoCorte->orden_id]) }}"
                                                                                     class="btn btn-primary">Acceder</a></td>
-                                                                            <td>{{ $auditoriaMarcada->evento }}</td>
-                                                                            <td>{{ $proceso->estilo }}</td>
+                                                                            <td>{{ $encabezadoCorte->evento }}</td>
+                                                                            <td>{{ $encabezadoCorte->estilo_id }}</td>
                                                                         </tr>
                                                                         @endforeach
                                                                     </tbody>

@@ -73,11 +73,7 @@
                     @isset($encabezadoAuditoriaCorte->estatus)
                         <h3 id="estatusValue">Estatus: {{ $encabezadoAuditoriaCorte->estatus }}</h3>
                     @endisset
-                    @if($datoAX->evento == NULL || $datoAX->evento == '')
-
-                    @else
-                    <h4>Evento: {{$auditoriaMarcada->evento}} / {{ $datoAX->evento }} </h4>
-                    @endif
+                    <h4>Evento: {{$encabezadoAuditoriaCorte->evento}} / {{ $encabezadoAuditoriaCorte->total_evento }} </h4>
                 </div>
                 <hr> 
                 @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == "proceso")
@@ -88,23 +84,41 @@
                     <input type="hidden" name="idEncabezadoAuditoriaCorte" value="{{ $encabezadoAuditoriaCorte->id }}">
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <h4>Orden: {{ $datoAX->op }}</h4>
+                            <h4>Orden: {{ $encabezadoAuditoriaCorte->orden_id }}</h4>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <h4>Estilo: {{ $datoAX->estilo }}</h4>
+                            <h4>Estilo: {{ $encabezadoAuditoriaCorte->estilo_id }}</h4>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <h4>Temporada: {{ $datoAX->temporada }}</h4>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <h4>Cliente: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->cliente : '' }}</h4>
+                            <h4>Cliente: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->cliente_id : '' }}</h4>
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <h4>Material: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->material : '' }}</h4>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                            <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->color : '' }}</h4>
-                        </div>
+                        @if($encabezadoAuditoriaCorte->temporada_id)
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h4>Color: {{ $encabezadoAuditoriaCorte->temporada_id }}</h4>
+                            </div>
+                        @else
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+                                <label for="temporada_id" class="col-sm-6 col-form-label">Temporada</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="temporada_id" id="temporada_id" placeholder="..." required/>
+                                </div>
+                            </div>
+                        @endif
+                        @if($encabezadoAuditoriaCorte->color_id)
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h4>Color: {{ $encabezadoAuditoriaCorte->color_id }}</h4>
+                            </div>
+                        @else
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
+                                <label for="color_id" class="col-sm-6 col-form-label">Color</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="color_id" id="color_id" placeholder="..." required/>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="pieza" class="col-sm-6 col-form-label">PIEZAS</label>
                             <div class="col-sm-12">
@@ -127,22 +141,22 @@
                 @elseif($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal' || $encabezadoAuditoriaCorte->estatus == 'fin'))
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Orden: {{ $datoAX->op }}</h4>
+                        <h4>Orden: {{ $encabezadoAuditoriaCorte->orden_id }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Estilo: {{ $datoAX->estilo }}</h4>
+                        <h4>Estilo: {{ $encabezadoAuditoriaCorte->estilo_id }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Temporada: {{ $datoAX->temporada }}</h4>
+                        <h4>Temporada: {{ $encabezadoAuditoriaCorte->temporada_id }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Cliente: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->cliente : '' }}</h4>
+                        <h4>Cliente: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->cliente_id : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Material: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->material : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->color : '' }}</h4>
+                        <h4>Color: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->color_id : '' }}</h4>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Lienzo: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->lienzo : '' }}</h4>
@@ -151,91 +165,6 @@
                         <h4>Piezas: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->pieza : '' }}</h4>
                     </div>
                 </div>
-                @else
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Orden: {{ $datoAX->op }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Estlo: {{ $datoAX->estilo }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Planta: {{ $datoAX->planta }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Temporada: {{ $datoAX->temporada }}</h4>
-                    </div>
-                </div>
-                <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $datoAX->id }}">
-                    <input type="hidden" name="orden" value="{{ $datoAX->op }}">
-                    <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="cliente" class="col-sm-6 col-form-label">Cliente</label>
-                            <div class="col-sm-12 d-flex align-items-center">
-                                <select name="cliente" id="cliente" class="form-control"
-                                    title="Por favor, selecciona una opción" required>
-                                    <option value="">Selecciona una opción</option>
-                                    @foreach ($CategoriaCliente as $cliente)
-                                        <option value="{{ $cliente->nombre }}">{{ $cliente->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="color" class="col-sm-6 col-form-label">Color</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="color" id="color"
-                                    placeholder="codigo del color" required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="material" class="col-sm-6 col-form-label">Material</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="material" id="material"
-                                    placeholder="nombre del material" required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="evento" class="col-sm-9 col-form-label">CANTIDAD EVENTOS</label>
-                            <div class="col-sm-12">
-                                <select class="form-control" name="evento" id="evento" required>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        {{-- 
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="trazo" class="col-sm-6 col-form-label">TRAZO</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="trazo" id="trazo"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                        --}}
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="pieza" class="col-sm-6 col-form-label">PIEZAS</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="pieza" id="pieza"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="lienzo" class="col-sm-6 col-form-label">LIENZOS</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="lienzo" id="lienzo"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                </form>
                 @endif
                 <div id="accordion">
                     <!--Inicio acordeon 1 -->
@@ -799,8 +728,8 @@
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input type="text" class="form-control me-2" name="codigo_color" id="codigo_color"
-                                                               placeholder="..." value="{{ $encabezadoAuditoriaCorte->color }}" readonly required />
-                                                        <input type="hidden" name="codigo_color" value="{{ $encabezadoAuditoriaCorte->color }}">
+                                                               placeholder="..." value="{{ $encabezadoAuditoriaCorte->color_id }}" readonly required />
+                                                        <input type="hidden" name="codigo_color" value="{{ $encabezadoAuditoriaCorte->color_id }}">
                                                     </div>
                                                 </div>
                                             </div>
