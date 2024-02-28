@@ -26,6 +26,7 @@ use App\Models\AuditoriaFinal;
 
 use App\Exports\DatosExport;
 use App\Models\DatoAX;
+use App\Models\EvaluacionCorte;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
@@ -71,9 +72,18 @@ class EvaluacionCorteController extends Controller
     public function obtenerEstilo(Request $request) 
     {
         $orden = $request->input('orden_id');
-        $estilo = EncabezadoAuditoriaCorte::where('orden_id', $orden)->value('estilo_id');
+        $encabezado = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
 
-        return response()->json($estilo);
+        if (!$encabezado) {
+            return response()->json(['error' => 'No se encontró el encabezado para la orden especificada']);
+        }
+
+        $datos = [
+            'estilo' => $encabezado->estilo_id,
+            'evento' => $encabezado->evento
+        ];
+
+        return response()->json($datos);
     } 
 
     public function inicioEvaluacionCorte()
@@ -89,13 +99,15 @@ class EvaluacionCorteController extends Controller
         return view('evaluacionCorte.inicioEvaluacionCorte', array_merge($categorias, ['mesesEnEspanol' => $mesesEnEspanol, 'activePage' => $activePage]));
     }
 
-    public function evaluaciondeCorte()
+    public function evaluaciondeCorte($ordenId, $eventoId)
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
         $auditorDato = Auth::user()->name;
         //dd($userName);
-
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
+            ->where('evento', $eventoId)
+            ->first();
         //dd($datoAX);
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -108,112 +120,34 @@ class EvaluacionCorteController extends Controller
             'auditorDato' => $auditorDato]));
     }
 
-    public function formAltaEvaluacionCortes(Request $request)
+    public function formAltaEvaluacionCortes(Request $request) 
     {
         $activePage ='';
         // Validar los datos del formulario si es necesario
         $activePage ='';
         // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
-        $idSeleccionado = $request->input('id');
-        $idEncabezadoAuditoriaCorte = $request->input('idEncabezadoAuditoriaCorte');
-        $orden = $request->input('orden');
+        $ordenId = $request->input('orden');
+        $eventoId = $request->input('evento');
         $estilo = $request->input('estilo');
-        //dd($estilo, $request->all());
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
-        //dd($encabezadoAuditoriaCorte);
-        // Verificar si ya existen datos para el dato_ax_id especificado
-        if ($encabezadoAuditoriaCorte) {
-            //dd($request->all());
-            $encabezadoAuditoriaCorte->pieza = $request->input('pieza');
-            $encabezadoAuditoriaCorte->lienzo = $request->input('lienzo');
-            $encabezadoAuditoriaCorte->estatus = 'estatusAuditoriaMarcada';
-            $encabezadoAuditoriaCorte->save();
-
-            return back()->with('sobre-escribir', 'Ya existen datos para este registro.');
-        }
-
+        //dd($ordenId, $eventoId, $estilo);
         
-        $datoAX = DatoAX::findOrFail($idSeleccionado);
-        // Actualizar el valor de la columna deseada
-        $datoAX->estatus = 'estatusAuditoriaMarcada';
-        $datoAX->evento = $request->input('evento');
-        $datoAX->save();
-        //dd($datoAX->op);
+        //dd($estilo, $request->all());
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
+            ->where('evento', $eventoId)
+            ->first();
+        //dd($encabezadoAuditoriaCorte);
+
+        $evaluacionCorte = new EvaluacionCorte();
+        $evaluacionCorte->orden_id = $ordenId;
+        $evaluacionCorte->evento = $eventoId;
+        $evaluacionCorte->estilo_id = $estilo;
+        
+        $evaluacionCorte->save();
 
 
-        // Generar múltiples registros en auditoria_marcadas según el valor de evento
-        for ($i = 0; $i < $request->input('evento'); $i++) {
 
-            // Realizar la actualización en la base de datos
-            $auditoria= new EncabezadoAuditoriaCorte();
-            $auditoria->dato_ax_id = $idSeleccionado;
-            $auditoria->orden_id = $orden;
-            $auditoria->estilo_id = $estilo;
-            $auditoria->cliente = $request->input('cliente');
-            $auditoria->material = $request->input('material');
-            $auditoria->color = $request->input('color');
-            $auditoria->pieza = $request->input('pieza');
-            $auditoria->trazo = $request->input('trazo');
-            $auditoria->lienzo = $request->input('lienzo');
-            $auditoria->evento = $i+1;
-            // Establecer fecha_inicio con la fecha y hora actual
-            $auditoria->fecha_inicio = Carbon::now()->format('Y-m-d H:i:s');
-            if ($i === 0) {
-                $auditoria->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
-            } else {
-                $auditoria->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
-            }
-            $auditoria->save();
-
-
-            $auditoriaMarcada = new AuditoriaMarcada();
-            $auditoriaMarcada->dato_ax_id = $idSeleccionado;
-            $auditoriaMarcada->orden_id = $orden;
-            if ($i === 0) {
-                $auditoriaMarcada->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
-            } else {
-                $auditoriaMarcada->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
-            }
-            $auditoriaMarcada->evento = $i+1;
-            // Otros campos que necesites para cada registro...
-            
-            $auditoriaMarcada->save();
-            if ($i === 0) {
-                $idEvento1 = $auditoriaMarcada->id;
-            }
-
-            $auditoriaTendido = new AuditoriaTendido();
-            $auditoriaTendido->dato_ax_id = $idSeleccionado;
-            $auditoriaTendido->orden_id = $orden;
-            $auditoriaTendido->estatus = "proceso";
-            $auditoriaTendido->evento = $i+1;
-            $auditoriaTendido->save();
-
-            $lectra = new Lectra();
-            $lectra->dato_ax_id = $idSeleccionado;
-            $lectra->orden_id = $orden;
-            $lectra->estatus = "proceso";
-            $lectra->evento = $i+1;
-            $lectra->save();
-
-            $auditoriaBulto = new AuditoriaBulto();
-            $auditoriaBulto->dato_ax_id = $idSeleccionado;
-            $auditoriaBulto->orden_id = $orden;
-            $auditoriaBulto->estatus = "proceso";
-            $auditoriaBulto->evento = $i+1;
-            $auditoriaBulto->save();
-
-            $auditoriaFinal = new AuditoriaFinal();
-            $auditoriaFinal->dato_ax_id = $idSeleccionado;
-            $auditoriaFinal->orden_id = $orden;
-            $auditoriaFinal->estatus = "proceso";
-            $auditoriaFinal->evento = $i+1;
-            $auditoriaFinal->save();
-
-        }
-
-        return redirect()->route('auditoriaCorte.auditoriaCorte', ['id' => $idEvento1, 'orden' => $orden])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+        return redirect()->route('evaluacionCorte.evaluaciondeCorte', ['orden' => $ordenId, 'evento' => $eventoId])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
 
     public function altaAuditoriaCorte($id, $orden)

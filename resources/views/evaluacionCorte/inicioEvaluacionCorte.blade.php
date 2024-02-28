@@ -54,6 +54,10 @@
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                     <form method="POST" action="{{ route('evaluacionCorte.formAltaEvaluacionCortes') }}">
                         @csrf
+                        {{--
+                        <input type="hidden" name="orden" value="{{ $datoAX->op }}">
+                        <input type="hidden" name="estilo" value="{{ $datoAX->estilo }}">
+                        --}}
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="orden" class="col-sm-6 col-form-label">ORDEN</label>
@@ -62,10 +66,10 @@
                                         title="Por favor, selecciona una opción" onchange="mostrarEstilo()">
                                         <option value="">Selecciona una opción</option>
                                         @foreach ($EncabezadoAuditoriaCorte as $dato)
-                                            <option value="{{ $dato->orden_id }}">{{ $dato->orden_id }} - Evento:
-                                                {{ $dato->evento }}</option>
+                                            <option value="{{ $dato->orden_id }}" data-evento="{{ $dato->evento }}">{{ $dato->orden_id }} - Evento: {{ $dato->evento }}</option>
                                         @endforeach
                                     </select>
+                                    <input type="hidden" name="evento" id="evento" value="">
                                 </div>
                             </div>
                             &nbsp;
@@ -102,6 +106,9 @@
             // Obtener el token CSRF de la etiqueta meta
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+            // Obtener el evento seleccionado del atributo data-evento de la opción seleccionada
+            var eventoSeleccionado = document.getElementById('orden').selectedOptions[0].getAttribute('data-evento');
+
             $.ajax({
                 url: "{{ route('evaluacionCorte.obtenerEstilo') }}",
                 type: 'POST',
@@ -111,7 +118,8 @@
                 },
                 success: function(response) {
                     console.log(response); // Verifica la respuesta en la consola
-                    document.getElementById('estilo').value = response;
+                    document.getElementById('estilo').value = response.estilo;
+                    document.getElementById('evento').value = eventoSeleccionado; // Asignar el valor del evento obtenido
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText); // Muestra el mensaje de error en la consola
@@ -119,5 +127,7 @@
             });
         }
     </script>
+
+
 
 @endsection
