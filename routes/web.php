@@ -119,6 +119,8 @@ Route::post('/formAuditoriaFinal', [AuditoriaCorteController::class, 'formAudito
 Route::get('/inicioEvaluacionCorte', [EvaluacionCorteController::class, 'inicioEvaluacionCorte'])->name('evaluacionCorte.inicioEvaluacionCorte');
 Route::get('/evaluaciondeCorte', [EvaluacionCorteController::class, 'evaluaciondeCorte'])->name('evaluacionCorte.evaluaciondeCorte');
 Route::post('/formAuditoriaCortes', [EvaluacionCorteController::class, 'formAuditoriaCortes'])->name('evaluacionCorte.formEvaluacionCortes');
+Route::post('/obtener-estilo', [EvaluacionCorteController::class, 'obtenerEstilo'])->name('evaluacionCorte.obtenerEstilo');
+
 
 //Fin apartado para seccion Evaluacion corte
 

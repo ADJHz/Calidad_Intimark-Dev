@@ -219,6 +219,7 @@ class AuditoriaCorteController extends Controller
         $datoAX->estatus = 'estatusAuditoriaMarcada';
         $datoAX->evento = $request->input('evento');
         $datoAX->save();
+        //dd($datoAX->op);
 
 
         // Generar múltiples registros en auditoria_marcadas según el valor de evento
@@ -226,7 +227,7 @@ class AuditoriaCorteController extends Controller
 
             // Realizar la actualización en la base de datos
             $auditoria= new EncabezadoAuditoriaCorte();
-            $auditoria->dato_ax_id = $idSeleccionado;
+            $auditoria->dato_ax_id = $datoAX->op;
             $auditoria->orden_id = $orden;
             $auditoria->cliente = $request->input('cliente');
             $auditoria->material = $request->input('material');

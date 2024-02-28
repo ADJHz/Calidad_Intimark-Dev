@@ -68,6 +68,14 @@ class EvaluacionCorteController extends Controller
         ];
     }
 
+    public function obtenerEstilo(Request $request)
+    {
+        $orden = $request->input('orden');
+        $estilo = EncabezadoAuditoriaCorte::where('op', $orden)->value('estilo');
+
+        return response()->json($estilo);
+    }
+
     public function inicioEvaluacionCorte()
     {
         $activePage ='';

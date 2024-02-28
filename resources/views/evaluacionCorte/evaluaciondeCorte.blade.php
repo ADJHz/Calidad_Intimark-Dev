@@ -38,7 +38,14 @@
             <div class="card">
                 <!--Aqui se edita el encabezado que es el que se muestra -->
                 <div class="card-header card-header-primary">
-                    <h3 class="card-title">EVALUACION DE CORTE CONTRA PATRON</h3>
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col">
+                            <h3 class="card-title">EVALUACION DE CORTE CONTRA PATRON</h3>
+                        </div>
+                        <div class="col-auto">
+                            <h4>Fecha: {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}</h4>
+                        </div>
+                    </div>
                 </div>
                 {{--
                 <form method="POST" action="{{ route('formulariosCalidad.formEvaluacionCorte') }}">
@@ -49,21 +56,22 @@
                         <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="fecha" class="col-sm-6 col-form-label">FECHA</label>
+                                <label for="orden" class="col-sm-6 col-form-label">ORDEN</label>
                                 <div class="col-sm-12">
-                                    {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
+                                    <select name="orden" id="orden" class="form-control select2" required
+                                        title="Por favor, selecciona una opción" onchange="mostrarEstilo()">
+                                        <option value="">Selecciona una opción</option>
+                                        @foreach ($EncabezadoAuditoriaCorte as $dato)
+                                            <option value="{{ $dato->op }}">{{ $dato->op }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
+                            &nbsp;
                             <div class="col-md-4 mb-3">
                                 <label for="estilo" class="col-sm-6 col-form-label">ESTILO</label>
                                 <div class="col-sm-12">
-                                    <select name="estilo" id="estilo" class="form-control select2" required
-                                        title="Por favor, selecciona una opción">
-                                        <option value="">Selecciona una opción</option>
-                                        @foreach ($CategoriaEstilo as $estilo)
-                                            <option value="{{ $estilo->id }}">{{ $estilo->nombre }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="estilo" id="estilo" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -110,8 +118,8 @@
                                     <select name="derecha_x" id="derecha_x" class="form-control" required
                                         title="Por favor, selecciona una opción">
                                         <option value="">Selecciona una opción</option>
-                                        @foreach ($CategoriaEstilo as $estilo)
-                                            <option value="{{ $estilo->id }}">{{ $estilo->nombre }}</option>
+                                        @foreach ($DatoAX as $dato)
+                                            <option value="{{ $dato->estilo }}">{{ $dato->estilo }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -141,4 +149,30 @@
             });
         });
     </script>
+
+    <script>
+        function mostrarEstilo() {
+            var ordenSeleccionado = document.getElementById('orden').value;
+
+            // Obtener el token CSRF de la etiqueta meta
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: "{{ route('evaluacionCorte.obtenerEstilo') }}",
+                type: 'POST',
+                data: {
+                    orden: ordenSeleccionado,
+                    _token: csrfToken // Incluir el token CSRF en los datos de la solicitud
+                },
+                success: function(response) {
+                    console.log(response); // Verifica la respuesta en la consola
+                    document.getElementById('estilo').value = response;
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Muestra el mensaje de error en la consola
+                }
+            });
+        }
+    </script>
+
 @endsection
