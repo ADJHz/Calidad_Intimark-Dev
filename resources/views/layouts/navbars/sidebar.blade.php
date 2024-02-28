@@ -66,7 +66,7 @@
                             </a>
                         </li>
                         <li class="nav-item{{ $activePage == 'Evaluacion Corte' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('formulariosCalidad.evaluacionCorte') }}">
+                            <a class="nav-link" href="{{ route('evaluacionCorte.evaluaciondeCorte') }}">
                                 <i class="material-icons">edit_document</i>
                                 <p>{{ __('F-4') }}</p>
                                 <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
