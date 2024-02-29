@@ -1,10 +1,12 @@
-<div class="sidebar" data-color="green" data-background-color="white"
-    data-image="{{ asset('material') }}/img/sidebar-1.jpg">
+<div class="sidebar" data-color="green"  data-background-color="rgba(0, 0, 0, 0.8)"
+    data-image="{{ asset('material') }}/img/ade.jpg">
     <!-- Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
          Tip 2: you can also add an image using data-image tag -->
-    <div class="logo">
-        <i><img style="width:150px" src="{{ asset('material') }}/img/Intimark.png"></i>
-    </div>
+         <div class="logo" style="background-color: rgba(255, 255, 255, 0.356);">
+            <i><img style="width: 150px" src="{{ asset('material') }}/img/Intimark.png"></i>
+        </div>
+
+
     <div class="sidebar-wrapper">
         <ul class="nav">
             @if (auth()->check() &&
