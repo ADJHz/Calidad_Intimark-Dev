@@ -184,7 +184,8 @@ class EvaluacionCorteController extends Controller
         $evaluacionCorte->izquierda_x = $request->input('izquierda_x');
         $evaluacionCorte->izquierda_y = $request->input('izquierda_y');
         $evaluacionCorte->derecha_x = $request->input('derecha_x');
-        $evaluacionCorte->derecha_y = $request->input('derecha_y');
+        $evaluacionCorte->derecha_y = $request->input('derecha_y'); 
+        $evaluacionCorte->auditorDato = $request->input('auditorDato'); 
         
         $evaluacionCorte->save();
 

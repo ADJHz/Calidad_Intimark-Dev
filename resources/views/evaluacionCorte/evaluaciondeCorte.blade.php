@@ -105,6 +105,9 @@
                         <input type="hidden" name="orden" value="{{ $encabezadoAuditoriaCorte->orden_id }}">
                         <input type="hidden" name="evento" value="{{ $encabezadoAuditoriaCorte->evento }}">
                         <input type="hidden" name="estilo" value="{{ $encabezadoAuditoriaCorte->estilo_id }}">
+                        <input type="hidden" name="estilo" value="{{ $encabezadoAuditoriaCorte->estilo_id }}"> 
+                        <input type="hidden" name="auditorDato" value="{{ $auditorDato }}">
+
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
