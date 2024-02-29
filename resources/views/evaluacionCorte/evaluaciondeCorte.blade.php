@@ -132,8 +132,32 @@
                             </div>
                         </form>
                         <hr>
-                        
-                        <!--Fin de la edicion del codigo para mostrar el contenido-->
+                        <!--
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Descripción de partes</th>
+                                        <th>Izquierda X</th>
+                                        <th>Izquierda Y</th>
+                                        <th>Derecha X</th>
+                                        <th>Derecha Y</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($registroEvaluacionCorte as $item)
+                                    <tr>
+                                        <td><input type="text" class="form-control" name="descripcion_parte" value="{{ $item->descripcion_parte }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="izquierda_x" value="{{ $item->izquierda_x }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="izquierda_y" value="{{ $item->izquierda_y }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="derecha_x" value="{{ $item->derecha_x }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="derecha_y" value="{{ $item->derecha_y }}" readonly></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        Fin de la edicion del codigo para mostrar el contenido-->
                     </div>
             </div>
         </div>

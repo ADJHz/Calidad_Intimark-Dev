@@ -105,10 +105,11 @@ class EvaluacionCorteController extends Controller
         $categorias = $this->cargarCategorias();
         $auditorDato = Auth::user()->name;
         //dd($userName);
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
+        $registroEvaluacionCorte = EvaluacionCorte::where('orden_id', $ordenId)
             ->where('evento', $eventoId)
             ->first();
-        //dd($encabezadoAuditoriaCorte);
+
+        //dd($registroEvaluacionCorte->all());
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
@@ -117,10 +118,23 @@ class EvaluacionCorteController extends Controller
         return view('evaluacionCorte.evaluaciondeCorte', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage, 
-            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
+            'registroEvaluacionCorte' => $registroEvaluacionCorte,
             'auditorDato' => $auditorDato]));
     }
 
+    public function formAltaEvaluacionCortes(Request $request) 
+    {
+        $activePage ='';
+        // Validar los datos del formulario si es necesario
+        // Obtener el ID seleccionado desde el formulario
+        $ordenId = $request->input('orden');
+        $eventoId = $request->input('evento');
+        $estilo = $request->input('estilo');
+        //dd($ordenId, $eventoId, $estilo);
+        
+
+        return redirect()->route('evaluacionCorte.evaluaciondeCorte', ['orden' => $ordenId, 'evento' => $eventoId])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+    }
 
     public function formRegistro(Request $request)
     {
