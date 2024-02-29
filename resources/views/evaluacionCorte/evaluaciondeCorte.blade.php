@@ -49,86 +49,90 @@
                 </div>
                     <hr>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h4>Orden: {{ $encabezadoAuditoriaCorte->orden_id }}</h4>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h4>Evento: {{ $encabezadoAuditoriaCorte->evento }}</h4>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h4>Estilo: {{ $encabezadoAuditoriaCorte->estilo_id }}</h4>
+                            </div>
+                        </div>
+                        <hr>
                         <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-                        <form method="POST" action="{{ route('evaluacionCorte.formAltaEvaluacionCortes') }}">
+                        @php
+                            $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
+                        @endphp
+                        <form method="POST" action="{{ route('evaluacionCorte.formRegistro') }}">
                             @csrf
-                            <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label for="orden" class="col-sm-6 col-form-label">ORDEN</label>
-                                        <div class="col-sm-12">
-                                            <select name="orden" id="orden" class="form-control select2" required title="Por favor, selecciona una opción" onchange="mostrarEstilo()">
-                                                <option value="">Selecciona una opción</option>
-                                                @foreach ($EncabezadoAuditoriaCorte as $dato)
-                                                    <option value="{{ $dato->orden_id }}">{{ $dato->orden_id }} - Evento: {{$dato->evento}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="col-md-4 mb-3">
-                                        <label for="estilo" class="col-sm-6 col-form-label">ESTILO</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" name="estilo" id="estilo" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <!--Este apartado debe ser modificado despues -->
-                                        <button type="submit" class="btn btn-primary">iniciar</button>
-                                    </div>
+                            <input type="hidden" name="orden" value="{{ $encabezadoAuditoriaCorte->orden_id }}">
+                            <input type="hidden" name="evento" value="{{ $encabezadoAuditoriaCorte->evento }}">
+                            <input type="hidden" name="estilo" value="{{ $encabezadoAuditoriaCorte->estilo_id }}">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción de partes</th>
+                                            <th>Izquierda X</th>
+                                            <th>Izquierda Y</th>
+                                            <th>Derecha X</th>
+                                            <th>Derecha Y</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select name="descripcion_parte" id="descripcion_parte" class="form-control" required>
+                                                    <option value="">Seleccione una opción</option>
+                                                    <option value="DELANTERO">DELANTERO</option>
+                                                    <option value="TRASERO">TRASERO</option>
+                                                    <option value="OTRO">OTRO</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="izquierda_x" id="izquierda_x" class="form-control" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($options as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="izquierda_y" id="izquierda_y" class="form-control" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($options as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="derecha_x" id="derecha_x" class="form-control" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($options as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="derecha_y" id="derecha_y" class="form-control" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($options as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-success">Guardar Cambios</button>
                             </div>
                         </form>
                         <hr>
-                        <h5 style="text-align: center">IZQUIERDA</h5>
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label for="izquierda_x" class="col-sm-6 col-form-label">X </label>
-                                <div class="col-sm-12">
-                                    <select name="izquierda_x" id="izquierda_x" class="form-control" required
-                                        title="Por favor, selecciona una opción">
-                                        <option value="">Selecciona una opción</option>
-                                        @foreach ($CategoriaEstilo as $estilo)
-                                            <option value="{{ $estilo->id }}">{{ $estilo->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="izquierda_y" class="col-sm-3 col-form-label">Y </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="izquierda_y" id="izquierda_y"
-                                        placeholder="Ingresa y " required title="Por favor, selecciona una opción"
-                                        oninput="this.value = this.value.toUpperCase()">
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <h5 style="text-align: center">DERECHA</h5>
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label for="derecha_x" class="col-sm-6 col-form-label">X </label>
-                                <div class="col-sm-12">
-                                    <select name="derecha_x" id="derecha_x" class="form-control" required
-                                        title="Por favor, selecciona una opción">
-                                        <option value="">Selecciona una opción</option>
-                                        @foreach ($DatoAX as $dato)
-                                            <option value="{{ $dato->estilo }}">{{ $dato->estilo }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="derecha_y" class="col-sm-3 col-form-label">Y </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="derecha_y" id="derecha_y"
-                                        placeholder="Ingresa y " required title="Por favor, selecciona una opción"
-                                        oninput="this.value = this.value.toUpperCase()">
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                        
                         <!--Fin de la edicion del codigo para mostrar el contenido-->
                     </div>
             </div>
@@ -144,28 +148,23 @@
     </script>
 
     <script>
-        function mostrarEstilo() {
-            var ordenSeleccionado = document.getElementById('orden').value;
-
-            // Obtener el token CSRF de la etiqueta meta
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            $.ajax({
-                url: "{{ route('evaluacionCorte.obtenerEstilo') }}",
-                type: 'POST',
-                data: {
-                    orden_id: ordenSeleccionado,
-                    _token: csrfToken // Incluir el token CSRF en los datos de la solicitud
-                },
-                success: function(response) {
-                    console.log(response); // Verifica la respuesta en la consola
-                    document.getElementById('estilo').value = response;
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText); // Muestra el mensaje de error en la consola
-                }
-            });
+        // Función para cargar la última selección guardada
+        function cargarSeleccion() {
+            var select = document.getElementById('descripcion_parte');
+            var ultimaSeleccion = localStorage.getItem('ultimaSeleccion');
+            if (ultimaSeleccion) {
+                select.value = ultimaSeleccion;
+            }
         }
+
+        // Llama a cargarSeleccion al cargar la página
+        window.onload = cargarSeleccion;
+
+        // Función para guardar el valor seleccionado en el almacenamiento local al cambiar la selección
+        document.getElementById('descripcion_parte').addEventListener('change', function() {
+            localStorage.setItem('ultimaSeleccion', this.value);
+        });
     </script>
+
 
 @endsection

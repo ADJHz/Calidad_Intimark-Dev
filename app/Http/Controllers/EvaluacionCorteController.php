@@ -108,7 +108,7 @@ class EvaluacionCorteController extends Controller
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
             ->where('evento', $eventoId)
             ->first();
-        //dd($datoAX);
+        //dd($encabezadoAuditoriaCorte);
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
@@ -117,20 +117,19 @@ class EvaluacionCorteController extends Controller
         return view('evaluacionCorte.evaluaciondeCorte', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage, 
+            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
             'auditorDato' => $auditorDato]));
     }
 
-    public function formAltaEvaluacionCortes(Request $request) 
+
+    public function formRegistro(Request $request)
     {
         $activePage ='';
-        // Validar los datos del formulario si es necesario
-        $activePage ='';
-        // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
         $ordenId = $request->input('orden');
         $eventoId = $request->input('evento');
         $estilo = $request->input('estilo');
-        //dd($ordenId, $eventoId, $estilo);
+        //dd($ordenId, $eventoId, $estilo, $request->all());
         
         //dd($estilo, $request->all());
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
@@ -142,66 +141,15 @@ class EvaluacionCorteController extends Controller
         $evaluacionCorte->orden_id = $ordenId;
         $evaluacionCorte->evento = $eventoId;
         $evaluacionCorte->estilo_id = $estilo;
+        $evaluacionCorte->descripcion_parte = $request->input('descripcion_parte');
+        $evaluacionCorte->izquierda_x = $request->input('izquierda_x');
+        $evaluacionCorte->izquierda_y = $request->input('izquierda_y');
+        $evaluacionCorte->derecha_x = $request->input('derecha_x');
+        $evaluacionCorte->derecha_y = $request->input('derecha_y');
         
         $evaluacionCorte->save();
 
-
-
-        return redirect()->route('evaluacionCorte.evaluaciondeCorte', ['orden' => $ordenId, 'evento' => $eventoId])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+        return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
-
-    public function altaAuditoriaCorte($id, $orden)
-    {
-        $activePage ='';
-        $categorias = $this->cargarCategorias();
-        $auditorDato = Auth::user()->name;
-        //dd($userName);
-        // Obtener el dato con el id seleccionado y el valor de la columna "orden"
-        $datoAX = DatoAX::where('op', $orden)->first();
-        //dd($datoAX);
-        $mesesEnEspanol = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-        ];
-        // Obtener el registro correspondiente en la tabla AuditoriaMarcada si existe
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $id)->first();
-        $auditoriaMarcada = AuditoriaMarcada::where('id', $id)->first();
-        $auditoriaTendido = AuditoriaTendido::where('id', $id)->first();
-        $Lectra = Lectra::where('id', $id)->first();
-        $auditoriaBulto = AuditoriaBulto::where('id', $id)->first();
-        $auditoriaFinal = AuditoriaFinal::where('id', $id)->first();
-        // apartado para validar los checbox
-
-        $mostrarFinalizarMarcada = $auditoriaMarcada ? session('estatus_checked_AuditoriaMarcada') : false;
-        
-        // Verifica si los campos específicos son NULL
-        if ($auditoriaMarcada && is_null($auditoriaMarcada->yarda_orden_estatus) &&
-            is_null($auditoriaMarcada->yarda_marcada_estatus) &&
-            is_null($auditoriaMarcada->yarda_tendido_estatus)) {
-            $mostrarFinalizarMarcada = false;
-        }
-        
-        //dd($auditoriaMarcada, $mostrarFinalizarMarcada);
-        $mostrarFinalizarTendido = $auditoriaTendido ? session('estatus_checked_AuditoriaTendido') : false;
-        $mostrarFinalizarLectra = $Lectra ? session('estatus_checked_Lectra') : false;
-        $mostrarFinalizarBulto = $auditoriaBulto ? session('estatus_checked_AuditoriaBulto') : false;
-        $mostrarFinalizarFinal = $auditoriaFinal ? session('estatus_checked_AuditoriaFinal') : false;
-        return view('auditoriaCorte.altaAuditoriaCorte', array_merge($categorias, [
-            'mesesEnEspanol' => $mesesEnEspanol, 
-            'activePage' => $activePage, 
-            'datoAX' => $datoAX, 
-            'auditoriaMarcada' => $auditoriaMarcada,
-            'auditoriaTendido' => $auditoriaTendido,
-            'Lectra' => $Lectra, 
-            'auditoriaBulto' => $auditoriaBulto, 
-            'auditoriaFinal' => $auditoriaFinal,
-            'mostrarFinalizarMarcada' => $mostrarFinalizarMarcada,
-            'mostrarFinalizarTendido' => $mostrarFinalizarTendido,
-            'mostrarFinalizarLectra' => $mostrarFinalizarLectra,
-            'mostrarFinalizarBulto' => $mostrarFinalizarBulto,
-            'mostrarFinalizarFinal' => $mostrarFinalizarFinal,
-            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
-            'auditorDato' => $auditorDato]));
-    }
-
 
 }
