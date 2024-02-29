@@ -170,4 +170,10 @@ class EvaluacionCorteController extends Controller
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
 
+    public function formActualizacionEliminacionEvaluacionCorte($id, Request $request){
+        $activePage ='';
+        dd($id, $request->all(), $request->input('descripcion_parte'));
+        return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+    }
+
 }
