@@ -47,20 +47,25 @@ class AuditoriaCorteController extends Controller
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
-            'DatoAX' => DatoAX::where(function($query) {
-                $query->whereNull('estatus')
-                      ->orWhere('estatus', '');
-            })->get(),
-            'DatoAXNoIniciado' => DatoAX::whereNotIn('estatus', ['fin'])
-                           ->where(function ($query) {
-                               $query->whereNull('estatus')
-                                     ->orWhere('estatus', '');
-                           })
-                           ->get(),
+            'DatoAX' => DatoAX::select('id', 'estilo', 'custorname', 'op')
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('datos_auditorias')
+                    ->groupBy('op');
+            })
+            ->get(),
+            'DatoAXNoIniciado' => DatoAX::select('id', 'estilo', 'op')
+                ->whereIn('id', function ($query) {
+                    $query->selectRaw('MIN(id)')
+                        ->from('datos_auditorias')
+                        ->groupBy('op');
+                })
+                ->whereNull('estatus')
+                ->get(),
             'DatoAXProceso' => DatoAX::whereNotIn('estatus', ['fin'])
                            ->whereNotNull('estatus')
                            ->whereNotIn('estatus', [''])
-                           ->with('auditoriasMarcadas')
+                           ->with('encabezadoAuditoriasCortes')
                            ->get(),
             'DatoAXFin' => DatoAX::where('estatus', 'fin')->get(),
             'EncabezadoAuditoriaCorte' => EncabezadoAuditoriaCorte::all(),
@@ -201,6 +206,11 @@ class AuditoriaCorteController extends Controller
         $idEncabezadoAuditoriaCorte = $request->input('idEncabezadoAuditoriaCorte');
         $orden = $request->input('orden');
         $estilo = $request->input('estilo');
+        $planta = $request->input('planta');
+        $temporada = $request->input('temporada');
+        $cliente = $request->input('cliente');
+        $color = $request->input('color');
+
         //dd($estilo, $request->all());
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
         //dd($encabezadoAuditoriaCorte);
@@ -208,6 +218,9 @@ class AuditoriaCorteController extends Controller
         if ($encabezadoAuditoriaCorte) {
             //dd($request->all());
             $encabezadoAuditoriaCorte->pieza = $request->input('pieza');
+            if($request->input('color_id')){ 
+                $encabezadoAuditoriaCorte->color_id = $request->input('color_id');
+            }
             $encabezadoAuditoriaCorte->lienzo = $request->input('lienzo');
             $encabezadoAuditoriaCorte->estatus = 'estatusAuditoriaMarcada';
             $encabezadoAuditoriaCorte->save();
@@ -215,14 +228,11 @@ class AuditoriaCorteController extends Controller
             return back()->with('sobre-escribir', 'Ya existen datos para este registro.');
         }
 
-        
         $datoAX = DatoAX::findOrFail($idSeleccionado);
         // Actualizar el valor de la columna deseada
         $datoAX->estatus = 'estatusAuditoriaMarcada';
         $datoAX->evento = $request->input('evento');
         $datoAX->save();
-        //dd($datoAX->op);
-
 
         // Generar múltiples registros en auditoria_marcadas según el valor de evento
         for ($i = 0; $i < $request->input('evento'); $i++) {
@@ -232,12 +242,15 @@ class AuditoriaCorteController extends Controller
             $auditoria->dato_ax_id = $idSeleccionado;
             $auditoria->orden_id = $orden;
             $auditoria->estilo_id = $estilo;
-            $auditoria->cliente = $request->input('cliente');
+            $auditoria->planta_id = $planta;
+            $auditoria->temporada_id = $temporada;
+            $auditoria->cliente_id = $cliente;
+            $auditoria->color_id = $request->input('color_id') ?? $color;
             $auditoria->material = $request->input('material');
-            $auditoria->color = $request->input('color');
             $auditoria->pieza = $request->input('pieza');
             $auditoria->trazo = $request->input('trazo');
             $auditoria->lienzo = $request->input('lienzo');
+            $auditoria->total_evento = $request->input('evento');
             $auditoria->evento = $i+1;
             // Establecer fecha_inicio con la fecha y hora actual
             $auditoria->fecha_inicio = Carbon::now()->format('Y-m-d H:i:s');

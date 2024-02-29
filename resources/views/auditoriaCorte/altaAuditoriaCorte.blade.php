@@ -85,32 +85,33 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Temporada: {{ $datoAX->temporada }}</h4>
                     </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <h4>Cliente: {{ $datoAX->custorname }}</h4> 
+                    </div>
                 </div>
                 <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
                     @csrf
                     <input type="hidden" name="id" value="{{ $datoAX->id }}">
                     <input type="hidden" name="orden" value="{{ $datoAX->op }}">
                     <input type="hidden" name="estilo" value="{{ $datoAX->estilo }}">
+                    <input type="hidden" name="planta" value="{{ $datoAX->planta }}">
+                    <input type="hidden" name="temporada" value="{{ $datoAX->temporada }}">
+                    <input type="hidden" name="cliente" value="{{ $datoAX->custorname }}">
+                    <input type="hidden" name="color" value="{{ $datoAX->inventcolorid }}">
                     <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="cliente" class="col-sm-6 col-form-label">Cliente</label>
-                            <div class="col-sm-12 d-flex align-items-center">
-                                <select name="cliente" id="cliente" class="form-control"
-                                    title="Por favor, selecciona una opción" required>
-                                    <option value="">Selecciona una opción</option>
-                                    @foreach ($CategoriaCliente as $cliente)
-                                        <option value="{{ $cliente->nombre }}">{{ $cliente->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="color" class="col-sm-6 col-form-label">Color</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="color" id="color"
-                                    placeholder="codigo del color" required/>
-                            </div>
+                            @if($datoAX->inventcolorid)
+                                <div class="col-sm-12">
+                                    <h4>Color: {{ $datoAX->inventcolorid }}</h4>
+                                </div>
+                            @else
+                                <label for="color_id" class="col-sm-6 col-form-label">Color: </label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="color_id" id="color_id" placeholder="..." required/>
+                                </div>
+
+                            @endif
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="material" class="col-sm-6 col-form-label">Material</label>
@@ -129,15 +130,6 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- 
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="trazo" class="col-sm-6 col-form-label">TRAZO</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="trazo" id="trazo"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                        --}}
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <label for="pieza" class="col-sm-6 col-form-label">PIEZAS</label>
                             <div class="col-sm-12">
