@@ -128,6 +128,25 @@ class EvaluacionCorteController extends Controller
             'auditorDato' => $auditorDato]));
     }
 
+    public function crearCategoriaParteCorte(Request $request)
+{
+    // Obtener el nuevo nombre enviado desde el frontend
+    $nuevoNombre = $request->input('nuevaTecnica');
+
+    // Si se seleccionó "OTRO" y se ingresó un nuevo nombre
+    if ($request->has('nuevaTecnica')) {
+        $nuevaCategoria = new CategoriaParteCorte();
+        $nuevaCategoria->nombre = $nuevoNombre;
+        $nuevaCategoria->estado = 1; // O cualquier otro valor que necesites
+        $nuevaCategoria->save();
+
+        return response()->json(['success' => 'La nueva opción se ha guardado correctamente', 'nombre' => $nuevaCategoria->nombre]);
+    }
+
+    // Si no se ingresó un nuevo nombre, devuelve un error
+    return response()->json(['error' => 'No se ha ingresado un nuevo nombre'], 400);
+}
+
     public function formAltaEvaluacionCortes(Request $request) 
     {
         $activePage ='';

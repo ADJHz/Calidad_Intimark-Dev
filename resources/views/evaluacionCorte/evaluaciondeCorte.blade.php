@@ -121,6 +121,7 @@
                                         <td>
                                             <select name="descripcion_parte" id="descripcion_parte" class="form-control" required>
                                                 <option value="">Selecciona una opción</option>
+                                                <option>OTRO</option>
                                                 @foreach ($CategoriaParteCorte as $parteCorte)
                                                     <option value="{{ $parteCorte->nombre }}">{{ $parteCorte->nombre }}</option>
                                                 @endforeach
@@ -226,9 +227,9 @@
                                                 <td>
                                                     <select name="descripcion_parte" id="descripcion_parte" class="form-control" required>
                                                         <option value="">Seleccione una opción</option>
-                                                        <option value="DELANTERO" {{ $item->descripcion_parte == 'DELANTERO' ? 'selected' : '' }}>DELANTERO</option>
-                                                        <option value="TRASERO" {{ $item->descripcion_parte == 'TRASERO' ? 'selected' : '' }}>TRASERO</option>
-                                                        <option value="OTRO" {{ $item->descripcion_parte == 'OTRO' ? 'selected' : '' }}>OTRO</option>
+                                                        @foreach ($CategoriaParteCorte as $parteCorte)
+                                                            <option value="{{ $parteCorte->nombre }}" {{ $item->descripcion_parte == $parteCorte->nombre ? 'selected' : '' }}>{{ $parteCorte->nombre }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
@@ -329,24 +330,40 @@
         });
     </script>
 
-    <script>
-        // Función para cargar la última selección guardada
-        function cargarSeleccion() {
-            var select = document.getElementById('descripcion_parte');
-            var ultimaSeleccion = localStorage.getItem('ultimaSeleccion');
-            if (ultimaSeleccion) {
-                select.value = ultimaSeleccion;
-            }
-        }
+<script>
 
-        // Llama a cargarSeleccion al cargar la página
-        window.onload = cargarSeleccion;
+            $('#descripcion_parte').on('change', function() {
+                var tecnicaSeleccionada = $(this).val();
+                // Si el usuario selecciona 'OTRO', mostrar un prompt para ingresar una nueva opción
+                if (tecnicaSeleccionada === 'OTRO') {
+                    var nuevaTecnica = prompt('Por favor, ingresa la nueva técnica');
+                    // Si el usuario ingresó una nueva técnica, enviarla al servidor
+                    if (nuevaTecnica) {
+                        $.ajax({
+                            url: '/crearCategoriaParteCorte', // Ajusta la URL según tu ruta
+                            type: 'POST',
+                            data: {
+                                nuevaTecnica: nuevaTecnica,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(data) {
+                                // Agregar la nueva opción a la lista desplegable
+                                $('#descripcion_parte').append($('<option>', {
+                                    text: nuevaTecnica
+                                }));
+                                // Seleccionar la nueva opción
+                                $('#descripcion_parte').val(nuevaTecnica);
+                            },
+                            error: function(error) {
+                                console.error('Error al agregar nueva técnica: ', error);
+                            }
+                        });
+                    }
+                }
+            });
+            </script>
 
-        // Función para guardar el valor seleccionado en el almacenamiento local al cambiar la selección
-        document.getElementById('descripcion_parte').addEventListener('change', function() {
-            localStorage.setItem('ultimaSeleccion', this.value);
-        });
-    </script>
+
 
 
 @endsection
