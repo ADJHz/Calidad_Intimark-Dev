@@ -12,6 +12,7 @@ use App\Models\DatosAX;
 use App\Models\Maquilas;
 use App\Models\OpcionesDefectosScreen;
 use App\Models\Tecnicos;
+use Illuminate\Support\Facades\Auth;
 
 class Maquila extends Controller
 {
@@ -24,30 +25,39 @@ class Maquila extends Controller
 
         return view('ScreenPlanta2.Maquila', compact('mesesEnEspanol'));
     }
-    public function Clientes()
+    public function Ordenes()
     {
-        $clientes = DatosAX::select('cliente')->distinct()->get();
+        // Verificar si el usuario logeado pertenece a Planta2
+        $userPlanta = Auth::user()->Planta; // Ajusta esto según la estructura de tu tabla de usuarios y la columna correspondiente
 
-        return response()->json($clientes);
-    }
-
-    public function Estilos($cliente)
-    {
-        $estilos = DatosAX::select('estilo')
-            ->where('cliente', $cliente) // Asegúrate de que estás usando el nombre correcto del campo
-            ->distinct()
-            ->get();
-
-        return response()->json($estilos);
-    }
-    public function Ordenes($estilos)
-    {
-        $ordenes = DatosAX::select('orden')
-            ->where('estilo', $estilos) // Asegúrate de que estás usando el nombre correcto del campo
+        // Realizar la consulta filtrando por planta si el usuario pertenece a Planta2
+        $ordenes = DatosAX::when($userPlanta === 'Planta2', function ($query) {
+            return $query->where('planta', 'INTIMARK2');
+        })
+            ->select('op')
             ->distinct()
             ->get();
 
         return response()->json($ordenes);
+    }
+    public function Clientes($ordenes)
+    {
+        $clientes = DatosAX::select('custorname')
+            ->where('op', $ordenes)
+            ->distinct()
+            ->get();
+
+        return response()->json($clientes);
+    }
+
+    public function Estilo($ordenes)
+    {
+        $estilos = DatosAX::select('estilo')
+            ->where('op', $ordenes)
+            ->distinct()
+            ->get();
+
+        return response()->json($estilos);
     }
     public function Tecnicos()
     {

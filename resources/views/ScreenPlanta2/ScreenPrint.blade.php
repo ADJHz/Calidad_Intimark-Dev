@@ -28,6 +28,12 @@
                             </div>
                         </div>
                         <div class="col-md-2">
+                            <label for="ordenSelect">Seleccion de op:</label>
+                            <select class="form-control" id="ordenSelect" name="ordenSelect" required>
+                                <!-- Las opciones se cargarán dinámicamente aquí -->
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <label for="clienteSelect">Seleccion de cliente:</label>
                             <select class="form-control" id="clienteSelect" name="clienteSelect" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
@@ -37,12 +43,6 @@
                         <div class="col-md-2">
                             <label for="estiloSelect">Seleccion de estilo:</label>
                             <select class="form-control" id="estiloSelect" name="estiloSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="ordenSelect">Seleccion de op:</label>
-                            <select class="form-control" id="ordenSelect" name="ordenSelect" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
                         </div>
@@ -305,6 +305,7 @@
                 allowClear: true,
                 multiple: true // Esta opción permite la selección múltiple
             });
+
             function crearInputs(selectedOptions) {
                 // Limpiar contenedor anterior
                 contenedorInputs.empty();
@@ -398,37 +399,70 @@
             });
             // Agregar el contenedor de inputs después del último div dentro de card-body
             $('.card-body .row').append(contenedorInputs);
-            // Cargar las opciones de los clientes desde la base de datos
+            // Obtener las órdenes al cargar la página
             $.ajax({
-                url: '/Clientes', // Ajusta la URL según tu ruta
+                url: '/Ordenes',
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     // Limpiar las opciones existentes
-                    $('#clienteSelect').empty();
+                    $('#ordenSelect').empty();
                     // Agregar la opción predeterminada
-                    $('#clienteSelect').append($('<option>', {
+                    $('#ordenSelect').append($('<option>', {
                         disabled: true,
-                        selected: true
+                        selected: true,
+
                     }));
                     // Agregar las nuevas opciones desde la respuesta del servidor
                     $.each(data, function(key, value) {
-                        $('#clienteSelect').append($('<option>', {
-                            text: value.cliente
+                        $('#ordenSelect').append($('<option>', {
+                            text: value.op
                         }));
                     });
                 },
                 error: function(error) {
-                    console.error('Error al cargar opciones de clientes: ', error);
+                    console.error('Error al cargar opciones de ordenes: ', error);
                 }
             });
-            // Evento de cambio en el select de clientes
-            $('#clienteSelect').on('change', function() {
-                var clienteSeleccionado = $(this).val();
-                // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
+
+            // Evento de cambio en el select de órdenes
+            $('#ordenSelect').on('change', function() {
+                var ordenselect = $(this).val();
+
+                // Realizar la solicitud para obtener los clientes asociados a la orden seleccionada
                 $.ajax({
-                    url: '/Estilo/' +
-                        clienteSeleccionado, // Ajusta la URL según tu ruta y la lógica en tu controlador
+                    url: '/Clientes/' + ordenselect,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Limpiar las opciones existentes
+                        $('#clienteSelect').empty();
+                        // Agregar la opción predeterminada
+                        $('#clienteSelect').append($('<option>', {
+                            disabled: true,
+                            selected: true,
+
+                        }));
+                        // Agregar las nuevas opciones desde la respuesta del servidor
+                        $.each(data, function(key, value) {
+                            $('#clienteSelect').append($('<option>', {
+                                text: value.custorname
+                            }));
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error al cargar opciones de clientes: ', error);
+                    }
+                });
+            });
+
+            // Evento de cambio en el select de clientes
+            $('#ordenSelect').on('change', function() {
+                var ordenselect = $(this).val();
+
+                // Realizar la solicitud para obtener los estilos asociados al cliente seleccionado
+                $.ajax({
+                    url: '/Estilo/' + ordenselect,
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
@@ -437,7 +471,8 @@
                         // Agregar la opción predeterminada
                         $('#estiloSelect').append($('<option>', {
                             disabled: true,
-                            selected: true
+                            selected: true,
+
                         }));
                         // Agregar las nuevas opciones desde la respuesta del servidor
                         $.each(data, function(key, value) {
@@ -447,38 +482,11 @@
                         });
                     },
                     error: function(error) {
-                        console.error('Error al cargar opciones de ordenes: ', error);
+                        console.error('Error al cargar opciones de estilos: ', error);
                     }
                 });
             });
-            $('#estiloSelect').on('change', function() {
-                var estiloSeleccionado = $(this).val();
-                // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
-                $.ajax({
-                    url: '/Ordenes/' +
-                        estiloSeleccionado, // Ajusta la URL según tu ruta y la lógica en tu controlador
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Limpiar las opciones existentes
-                        $('#ordenSelect').empty();
-                        // Agregar la opción predeterminada
-                        $('#ordenSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true
-                        }));
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#ordenSelect').append($('<option>', {
-                                text: value.orden
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de ordenes: ', error);
-                    }
-                });
-            });
+
             $.ajax({
                 url: '/Tecnicos', // Ajusta la URL según tu ruta
                 type: 'GET',
@@ -710,6 +718,7 @@
                 }
             });
         });
+
         function OpcionesTipoProblema(placeholder) {
             $.ajax({
                 url: '/OpcionesTipoProblema',
@@ -763,6 +772,7 @@
     </script>
     <script>
         var addRowClicked = false;
+
         function cargarOpcionesACCorrectiva() {
             $.ajax({
                 url: '/obtenerOpcionesACCorrectiva', // Ajusta la ruta según tu configuración
@@ -776,6 +786,7 @@
                 }
             });
         }
+
         function cargarOpcionesTipoProblema() {
             $.ajax({
                 url: '/obtenerOpcionesTipoProblema', // Ajusta la ruta según tu configuración
@@ -789,6 +800,7 @@
                 }
             });
         }
+
         function llenarSelect(nombreSelect, opciones) {
             var select = $('.form-control[name="' + nombreSelect + '"]');
             select.empty();
@@ -1008,7 +1020,7 @@
                         },
                         complete: function() {
                             // Recargar la página después de completar la solicitud
-                           // location.reload();
+                            // location.reload();
                         }
                     });
                 });

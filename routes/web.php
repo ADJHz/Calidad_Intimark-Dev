@@ -126,9 +126,9 @@ Route::post('/obtener-estilo', [EvaluacionCorteController::class, 'obtenerEstilo
 
 // Ruta de Screen Print <---Inicio------>
 Route::get('/ScreenPrint', [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint');
-Route::get('/Clientes', [CalidadScreenPrintController::class, 'Clientes']);
-Route::get('/Estilo/{cliente}', [CalidadScreenPrintController::class, 'Estilos']);
-Route::get('/Ordenes/{estilo}', [CalidadScreenPrintController::class, 'Ordenes']);
+Route::get('/Ordenes', [CalidadScreenPrintController::class, 'Ordenes']);
+Route::get('/Clientes/{ordenes}', [CalidadScreenPrintController::class, 'Clientes']);
+Route::get('/Estilo/{ordenes}', [CalidadScreenPrintController::class, 'Estilos']);
 Route::get('/Tecnicos', [CalidadScreenPrintController::class, 'Tecnicos']);
 Route::get('/TipoTecnica', [CalidadScreenPrintController::class, 'TipoTecnica']);
 Route::post('/AgregarTecnica', [CalidadScreenPrintController::class, 'AgregarTecnica']);
@@ -148,9 +148,9 @@ Route::get('/PorcenScreen', [CalidadScreenPrintController::class, 'PorcenScreen'
 ////// <-------Fin de Screen Print-------------->
 // Ruta de Inspeccion Estampado Despues del Horno<-----Inicio------->
 Route::get('/InspecciondHorno', [InspeccionEstampadoHorno::class, 'InsEstamHorno'])->name('ScreenPlanta2.InsEstamHorno');
-Route::get('/Clientes', [InspeccionEstampadoHorno::class, 'Clientes']);
-Route::get('/Estilo/{cliente}', [InspeccionEstampadoHorno::class, 'Estilos']);
-Route::get('/Ordenes/{estilo}', [InspeccionEstampadoHorno::class, 'Ordenes']);
+Route::get('/Ordenes', [InspeccionEstampadoHorno::class, 'Ordenes']);
+Route::get('/Clientes/{ordenes}', [InspeccionEstampadoHorno::class, 'Clientes']);
+Route::get('/Estilo/{ordenes}', [InspeccionEstampadoHorno::class, 'Estilo']);
 Route::get('/Tecnicos', [InspeccionEstampadoHorno::class, 'Tecnicos']);
 Route::get('/TipoTecnica', [InspeccionEstampadoHorno::class, 'TipoTecnica']);
 Route::post('/AgregarTecnica', [InspeccionEstampadoHorno::class, 'AgregarTecnica']);
@@ -168,9 +168,9 @@ Route::get('/PorcenTotalDefec', [InspeccionEstampadoHorno::class, 'PorcenTotalDe
 ////// <-------Fin de Inspeccion Estampado Despues del Horno-------------->
 // Ruta de Calidad Proceso Plancha<-----Inicio------->
 Route::get('/ProcesoPlancha', [CalidadProcesoPlancha::class, 'ProcesoPlancha'])->name('ScreenPlanta2.CalidadProcesoPlancha');
-Route::get('/Clientes', [CalidadProcesoPlancha::class, 'Clientes']);
-Route::get('/Estilo/{cliente}', [CalidadProcesoPlancha::class, 'Estilos']);
-Route::get('/Ordenes/{estilo}', [CalidadProcesoPlancha::class, 'Ordenes']);
+Route::get('/Ordenes', [CalidadProcesoPlancha::class, 'Ordenes']);
+Route::get('/Clientes/{ordenes}', [CalidadProcesoPlancha::class, 'Clientes']);
+Route::get('/Estilo/{ordenes}', [CalidadProcesoPlancha::class, 'Estilo']);
 Route::get('/Tecnicos', [CalidadProcesoPlancha::class, 'Tecnicos']);
 Route::get('/viewTablePlancha', [CalidadProcesoPlancha::class, 'viewTablePlancha']);
 Route::post('/SendPlancha', [CalidadProcesoPlancha::class, 'SendPlancha']);
@@ -184,9 +184,6 @@ Route::get('/PorcenTotalDefecPlancha', [CalidadProcesoPlancha::class, 'PorcenTot
 ////// <-------Fin de Calidad Process Plancha-------------->
 // Ruta de Maquila<-----Inicio------->
 Route::get('/Maquila', [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maquila');
-Route::get('/Clientes', [Maquila::class, 'Clientes']);
-Route::get('/Estilo/{cliente}', [Maquila::class, 'Estilos']);
-Route::get('/Ordenes/{estilo}', [Maquila::class, 'Ordenes']);
 Route::get('/Tecnicos', [Maquila::class, 'Tecnicos']);
 Route::get('/viewTableMaquila', [Maquila::class, 'viewTableMaquila']);
 Route::post('/SendMaquila', [Maquila::class, 'SendMaquila']);
@@ -218,3 +215,5 @@ Route::get('/Maquila',  [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maqui
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::view('/error', 'error')->name('error');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

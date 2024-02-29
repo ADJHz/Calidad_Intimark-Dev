@@ -32,23 +32,16 @@
                             <input class="form-control" id="inputDescripcion" name="inputDescripcion" required>
                         </div>
                         <div class="col-md-2">
-                            <label for="clienteSelect">Seleccion de cliente:</label>
-                            <select class="form-control" id="clienteSelect" name="clienteSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
-
+                            <label for="ordenSelect">Ingresa la OP:</label>
+                            <input class="form-control" id="ordenSelect" name="ordenSelect" required>
                         </div>
                         <div class="col-md-2">
-                            <label for="estiloSelect">Seleccion de estilo:</label>
-                            <select class="form-control" id="estiloSelect" name="estiloSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
+                            <label for="clienteSelect">Ingresa el Cliente:</label>
+                            <input class="form-control" id="clienteSelect" name="clienteSelect" required>
                         </div>
                         <div class="col-md-2">
-                            <label for="ordenSelect">Seleccion de op:</label>
-                            <select class="form-control" id="ordenSelect" name="ordenSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
+                            <label for="estiloSelect">Ingresa el Estilo:</label>
+                            <input class="form-control" id="estiloSelect" name="estiloSelect" required>
                         </div>
                         <div class="col-md-2">
                             <form class="form-inline">
@@ -238,107 +231,12 @@
     </div>
     <script>
         $(document).ready(function() {
-            // Inicializar Select2 para el cliente
-            $('#clienteSelect').select2({
-                placeholder: 'Seleccione un cliente',
-                allowClear: true
-            });
-            $('#estiloSelect').select2({
-                placeholder: 'Seleccione un estilo',
-                allowClear: true
-            });
-            // Inicializar Select2 para la orden
-            $('#ordenSelect').select2({
-                placeholder: 'Seleccione una orden',
-                allowClear: true
-            });
             // Inicializar Select2 para la orden
             $('#tecnicosSelect').select2({
                 placeholder: 'Seleccione un tecnico',
                 allowClear: true
             });
 
-            // Cargar las opciones de los clientes desde la base de datos
-            $.ajax({
-                url: '/Clientes', // Ajusta la URL según tu ruta
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar las opciones existentes
-                    $('#clienteSelect').empty();
-                    // Agregar la opción predeterminada
-                    $('#clienteSelect').append($('<option>', {
-                        disabled: true,
-                        selected: true
-                    }));
-                    // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(key, value) {
-                        $('#clienteSelect').append($('<option>', {
-                            text: value.cliente
-                        }));
-                    });
-                },
-                error: function(error) {
-                    console.error('Error al cargar opciones de clientes: ', error);
-                }
-            });
-            // Evento de cambio en el select de clientes
-            $('#clienteSelect').on('change', function() {
-                var clienteSeleccionado = $(this).val();
-                // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
-                $.ajax({
-                    url: '/Estilo/' +
-                        clienteSeleccionado, // Ajusta la URL según tu ruta y la lógica en tu controlador
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Limpiar las opciones existentes
-                        $('#estiloSelect').empty();
-                        // Agregar la opción predeterminada
-                        $('#estiloSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true
-                        }));
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#estiloSelect').append($('<option>', {
-                                text: value.estilo
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de ordenes: ', error);
-                    }
-                });
-            });
-            $('#estiloSelect').on('change', function() {
-                var estiloSeleccionado = $(this).val();
-                // Cargar las opciones de las ordenes relacionadas al cliente seleccionado
-                $.ajax({
-                    url: '/Ordenes/' +
-                        estiloSeleccionado, // Ajusta la URL según tu ruta y la lógica en tu controlador
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Limpiar las opciones existentes
-                        $('#ordenSelect').empty();
-                        // Agregar la opción predeterminada
-                        $('#ordenSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true
-                        }));
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#ordenSelect').append($('<option>', {
-                                text: value.orden
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de ordenes: ', error);
-                    }
-                });
-            });
             $.ajax({
                 url: '/Tecnicos', // Ajusta la URL según tu ruta
                 type: 'GET',

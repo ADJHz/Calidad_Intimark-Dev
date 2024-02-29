@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class DatosAX extends Model
 {
     use HasFactory;
-    protected $table = 'datos_ax';
+    protected $table = 'datos_auditorias';
     protected $fillable = [
         'id',
-        'cliente',
-    'estilo'
+        'custorname',
+    'estilo',
+    'op',
     ];
 
 
