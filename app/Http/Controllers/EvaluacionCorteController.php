@@ -19,6 +19,7 @@ use App\Models\CategoriaMaterialRelajado;
 use App\Models\CategoriaDefectoCorte;
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
+use App\Models\CategoriaParteCorte;
 use App\Models\AuditoriaTendido;
 use App\Models\Lectra;
 use App\Models\AuditoriaBulto;
@@ -48,6 +49,7 @@ class EvaluacionCorteController extends Controller
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
+            'CategoriaParteCorte' => CategoriaParteCorte::where('estado', 1)->get(),
             'DatoAX' => DatoAX::where(function($query) {
                 $query->whereNull('estatus')
                       ->orWhere('estatus', '');

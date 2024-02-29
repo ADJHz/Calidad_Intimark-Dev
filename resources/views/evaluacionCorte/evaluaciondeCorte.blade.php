@@ -119,12 +119,11 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <select name="descripcion_parte" id="descripcion_parte" class="form-control"
-                                                required>
-                                                <option value="">Seleccione una opción</option>
-                                                <option value="DELANTERO">DELANTERO</option>
-                                                <option value="TRASERO">TRASERO</option>
-                                                <option value="OTRO">OTRO</option>
+                                            <select name="descripcion_parte" id="descripcion_parte" class="form-control" required>
+                                                <option value="">Selecciona una opción</option>
+                                                @foreach ($CategoriaParteCorte as $parteCorte)
+                                                    <option value="{{ $parteCorte->nombre }}">{{ $parteCorte->nombre }}</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td>
