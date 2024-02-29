@@ -107,8 +107,11 @@ class EvaluacionCorteController extends Controller
         //dd($userName);
         $registroEvaluacionCorte = EvaluacionCorte::where('orden_id', $ordenId)
             ->where('evento', $eventoId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
+            ->where('evento', $eventoId)
             ->first();
-
         //dd($registroEvaluacionCorte->all());
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -119,6 +122,7 @@ class EvaluacionCorteController extends Controller
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage, 
             'registroEvaluacionCorte' => $registroEvaluacionCorte,
+            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
             'auditorDato' => $auditorDato]));
     }
 

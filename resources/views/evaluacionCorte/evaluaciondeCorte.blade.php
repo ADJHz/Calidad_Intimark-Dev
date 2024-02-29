@@ -132,7 +132,7 @@
                             </div>
                         </form>
                         <hr>
-                        <!--
+                        
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -157,7 +157,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        Fin de la edicion del codigo para mostrar el contenido-->
+                        <!--Fin de la edicion del codigo para mostrar el contenido-->
                     </div>
             </div>
         </div>
