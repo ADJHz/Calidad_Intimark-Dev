@@ -295,7 +295,7 @@
                                 </div>
                             </div>
                         </div>
-                    @elseif(auth()->check() && auth()->user()->hasRole('Gerente de Calidad'))
+                    @else
                         <form action="{{ route('evaluacionCorte.formFinalizarEventoCorte') }}" method="POST">
                             @csrf
                             <input type="hidden" name="orden" value="{{ $encabezadoAuditoriaCorte->orden_id }}">
