@@ -210,6 +210,7 @@ class AuditoriaCorteController extends Controller
         $temporada = $request->input('temporada');
         $cliente = $request->input('cliente');
         $color = $request->input('color');
+        $eventoInicial = $request->input('evento');
 
         //dd($estilo, $request->all());
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
@@ -233,9 +234,9 @@ class AuditoriaCorteController extends Controller
         $datoAX->estatus = 'estatusAuditoriaMarcada';
         $datoAX->evento = $request->input('evento');
         $datoAX->save();
-
+        //dd($request->all());
         // Generar múltiples registros en auditoria_marcadas según el valor de evento
-        for ($i = 0; $i < $request->input('evento'); $i++) {
+        for ($i = 1; $i <= $request->input('total_evento'); $i++) {
 
             // Realizar la actualización en la base de datos
             $auditoria= new EncabezadoAuditoriaCorte();
@@ -250,11 +251,10 @@ class AuditoriaCorteController extends Controller
             $auditoria->pieza = $request->input('pieza');
             $auditoria->trazo = $request->input('trazo');
             $auditoria->lienzo = $request->input('lienzo');
-            $auditoria->total_evento = $request->input('evento');
-            $auditoria->evento = $i+1;
-            // Establecer fecha_inicio con la fecha y hora actual
-            $auditoria->fecha_inicio = Carbon::now()->format('Y-m-d H:i:s');
-            if ($i === 0) {
+            $auditoria->total_evento = $request->input('total_evento');
+            $auditoria->evento = $i;
+
+            if ($i == $eventoInicial) {
                 $auditoria->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
             } else {
                 $auditoria->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
@@ -265,16 +265,16 @@ class AuditoriaCorteController extends Controller
             $auditoriaMarcada = new AuditoriaMarcada();
             $auditoriaMarcada->dato_ax_id = $idSeleccionado;
             $auditoriaMarcada->orden_id = $orden;
-            if ($i === 0) {
+            if ($i == $eventoInicial) {
                 $auditoriaMarcada->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
             } else {
                 $auditoriaMarcada->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
             }
-            $auditoriaMarcada->evento = $i+1;
+            $auditoriaMarcada->evento = $i;
             // Otros campos que necesites para cada registro...
             
             $auditoriaMarcada->save();
-            if ($i === 0) {
+            if ($i == $eventoInicial) {
                 $idEvento1 = $auditoriaMarcada->id;
             }
 
@@ -282,28 +282,28 @@ class AuditoriaCorteController extends Controller
             $auditoriaTendido->dato_ax_id = $idSeleccionado;
             $auditoriaTendido->orden_id = $orden;
             $auditoriaTendido->estatus = "proceso";
-            $auditoriaTendido->evento = $i+1;
+            $auditoriaTendido->evento = $i;
             $auditoriaTendido->save();
 
             $lectra = new Lectra();
             $lectra->dato_ax_id = $idSeleccionado;
             $lectra->orden_id = $orden;
             $lectra->estatus = "proceso";
-            $lectra->evento = $i+1;
+            $lectra->evento = $i;
             $lectra->save();
 
             $auditoriaBulto = new AuditoriaBulto();
             $auditoriaBulto->dato_ax_id = $idSeleccionado;
             $auditoriaBulto->orden_id = $orden;
             $auditoriaBulto->estatus = "proceso";
-            $auditoriaBulto->evento = $i+1;
+            $auditoriaBulto->evento = $i;
             $auditoriaBulto->save();
 
             $auditoriaFinal = new AuditoriaFinal();
             $auditoriaFinal->dato_ax_id = $idSeleccionado;
             $auditoriaFinal->orden_id = $orden;
             $auditoriaFinal->estatus = "proceso";
-            $auditoriaFinal->evento = $i+1;
+            $auditoriaFinal->evento = $i;
             $auditoriaFinal->save();
 
         }

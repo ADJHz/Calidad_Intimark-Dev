@@ -121,9 +121,17 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="evento" class="col-sm-9 col-form-label">CANTIDAD EVENTOS</label>
-                            <div class="col-sm-12">
+                            <div class="form-check form-check-inline">
+                                <label for="evento" class="col-sm-9 col-form-label">CANTIDAD EVENTOS</label>
+                            </div>
+                            <div class="form-check form-check-inline">
                                 <select class="form-control" name="evento" id="evento" required>
+                                    @for ($i = 1; $i <= 10; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                                &nbsp;/&nbsp;
+                                <select class="form-control" name="total_evento" id="total_evento" required>
                                     @for ($i = 1; $i <= 10; $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
