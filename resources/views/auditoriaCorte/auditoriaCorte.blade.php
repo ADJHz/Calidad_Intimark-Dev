@@ -73,7 +73,9 @@
                     @isset($encabezadoAuditoriaCorte->estatus)
                         <h3 id="estatusValue">Estatus: {{ $encabezadoAuditoriaCorte->estatus }}</h3>
                     @endisset
-                    <h4>Evento: {{$encabezadoAuditoriaCorte->evento}} / {{ $encabezadoAuditoriaCorte->total_evento }} </h4>
+                    @isset($encabezadoAuditoriaCorte->evento)
+                        <h4>Evento: {{$encabezadoAuditoriaCorte->evento}} / {{ $encabezadoAuditoriaCorte->total_evento }} </h4>
+                    @endisset
                 </div>
                 <hr> 
                 @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == "proceso")
@@ -609,9 +611,9 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada')
+                                @if($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada')
                                     <p>-</p>
-                                @elseif ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido')
+                                @elseif ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaTendido', ['id' => $datoAX->id]) }}"> 
                                     @csrf
@@ -1361,9 +1363,9 @@
                             data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido')
+                                @if($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido'))
                                     <p>-</p>
-                                @elseif($encabezadoAuditoriaCorte->estatus == 'estatusLectra') 
+                                @elseif($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusLectra') 
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formLectra', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -1874,9 +1876,9 @@
                         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra')
+                                @if($encabezadoAuditoriaCorte && ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaMarcada' || $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaTendido' || $encabezadoAuditoriaCorte->estatus == 'estatusLectra'))
                                     <p>-</p>
-                                @elseif($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto')
+                                @elseif($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaBulto')
                                 <form method="POST"
                                     action="{{ route('auditoriaCorte.formAuditoriaBulto', ['id' => $datoAX->id]) }}">
                                     @csrf
@@ -2215,7 +2217,7 @@
                         <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
-                                @if ($encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal')
+                                @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal')
                                     
                                     @if (auth()->check() && auth()->user()->no_empleado == '2222')
                                     <form method="POST"
