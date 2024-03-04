@@ -69,25 +69,29 @@
                 <!--Aqui se edita el encabezado que es el que se muestra -->
                 <div class="card-header card-header-primary">
                     <h3 class="card-title">CONTROL DE CALIDAD EN CORTE</h3>
-                    {{--<h3 id="estatusValue2">Estatus: {{ $datoAX->estatus }}</h3>--}}
                 </div>
                 <hr> 
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Orden: {{ $datoAX->op }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Estlo: {{ $datoAX->estilo }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Planta: {{ $datoAX->planta }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Temporada: {{ $datoAX->temporada }}</h4>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <h4>Cliente: {{ $datoAX->custorname }}</h4> 
-                    </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>Orden</th>
+                                <th>Estilo</th>
+                                <th>Planta</th>
+                                <th>Temporada</th>
+                                <th>Cliente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ $datoAX->op }}</td>
+                                <td>{{ $datoAX->estilo }}</td>
+                                <td>{{ $datoAX->planta }}</td>
+                                <td>{{ $datoAX->temporada }}</td>
+                                <td>{{ $datoAX->custorname }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
                     @csrf
@@ -99,61 +103,54 @@
                     <input type="hidden" name="cliente" value="{{ $datoAX->custorname }}">
                     <input type="hidden" name="color" value="{{ $datoAX->inventcolorid }}">
                     <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            @if($datoAX->inventcolorid)
-                                <div class="col-sm-12">
-                                    <h4>Color: {{ $datoAX->inventcolorid }}</h4>
-                                </div>
-                            @else
-                                <label for="color_id" class="col-sm-6 col-form-label">Color: </label>
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="color_id" id="color_id" placeholder="..." required/>
-                                </div>
-
-                            @endif
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="material" class="col-sm-6 col-form-label">Material</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="material" id="material"
-                                    placeholder="nombre del material" required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <div class="form-check form-check-inline">
-                                <label for="evento" class="col-sm-9 col-form-label">CANTIDAD EVENTOS</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <select class="form-control" name="evento" id="evento" required>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                                &nbsp;/&nbsp;
-                                <select class="form-control" name="total_evento" id="total_evento" required>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="pieza" class="col-sm-6 col-form-label">PIEZAS</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" name="pieza" id="pieza"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
-                            <label for="lienzo" class="col-sm-6 col-form-label">LIENZOS</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="lienzo" id="lienzo"
-                                    placeholder="..." required/>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-primary">
+                                <tr>
+                                    <th>Color</th>
+                                    <th>Material</th>
+                                    <th>Piezas</th>
+                                    <th>Lienzos</th>
+                                    <th>Cantidad Eventos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @if($datoAX->inventcolorid)
+                                            <input type="text" class="form-control" name="color_id" id="color_id" value="{{ $datoAX->inventcolorid }}" readonly/>
+                                        @else
+                                            <input type="text" class="form-control" name="color_id" id="color_id" placeholder="..." required/>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="material" id="material" placeholder="Nombre del material" required/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" name="pieza" id="pieza" placeholder="..." required/>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="lienzo" id="lienzo" placeholder="..." required/>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-check-inline">
+                                            <select class="form-control" name="evento" id="evento" required>
+                                                @for ($i = 1; $i <= 10; $i++)
+                                                    <option value="{{ $i }}">&nbsp; {{ $i }} &nbsp;</option>
+                                                @endfor
+                                            </select>
+                                            &nbsp;/&nbsp;
+                                            <select class="form-control" name="total_evento" id="total_evento" required>
+                                                @for ($i = 1; $i <= 10; $i++)
+                                                    <option value="{{ $i }}"> &nbsp;{{ $i }} &nbsp;</option>
+                                                @endfor
+                                            </select>
+                                            <div id="warning" style="display: none; color: red;">El primer número debe ser menor o igual al segundo número</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
                 </form>
@@ -165,18 +162,39 @@
             </div>
         </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('input[type="text"]');
-        
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
             });
         });
-    });
 
-</script>
+    </script>
 
+    <script>
+        document.getElementById('total_evento').addEventListener('change', function() {
+            var evento = document.getElementById('evento').value;
+            var totalEvento = this.value;
+            var warning = document.getElementById('warning');
+            
+            if (parseInt(evento) > parseInt(totalEvento)) {
+                warning.style.display = 'block';
+                this.value = evento;
+            } else {
+                warning.style.display = 'none';
+            }
+        });
+    </script>
+
+    <style>
+        thead.thead-primary {
+            background-color: #59666e54; /* Azul claro */
+            color: #333; /* Color del texto */
+        }
+    </style>
 
     @endsection
