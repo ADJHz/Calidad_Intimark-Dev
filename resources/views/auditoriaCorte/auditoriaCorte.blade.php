@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Corte', 'titlePage' => __('Corte')])
+@extends('layouts.app', ['activePage' => 'Progreso Corte', 'titlePage' => __('Progreso Corte')])
 
 @section('content')
     {{-- ... dentro de tu vista ... --}}

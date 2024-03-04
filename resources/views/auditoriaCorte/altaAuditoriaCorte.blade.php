@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Corte', 'titlePage' => __('Corte')])
+@extends('layouts.app', ['activePage' => 'Progreso Corte', 'titlePage' => __('Progreso Corte')])
 
 @section('content')
     {{-- ... dentro de tu vista ... --}}
@@ -156,6 +156,11 @@
                     <div>
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
+                </form>
+                <form method="POST" action="{{ route('auditoriaCorte.formRechazoCorte') }}">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $datoAX->id }}">
+                    <button type="submit" class="btn btn-danger" name="action" value="rechazo">Rechazo</button>
                 </form>
             </div>
         </div>

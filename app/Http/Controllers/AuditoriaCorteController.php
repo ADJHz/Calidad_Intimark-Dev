@@ -68,6 +68,7 @@ class AuditoriaCorteController extends Controller
                            ->with('encabezadoAuditoriasCortes')
                            ->get(),
             'DatoAXFin' => DatoAX::where('estatus', 'fin')->get(),
+            'DatoAXRechazado' => DatoAX::where('estatus', 'rechazado')->get(),
             'EncabezadoAuditoriaCorte' => EncabezadoAuditoriaCorte::all(),
             'auditoriasMarcadas' => AuditoriaMarcada::all(),
         ];
@@ -199,7 +200,6 @@ class AuditoriaCorteController extends Controller
     {
         $activePage ='';
         // Validar los datos del formulario si es necesario
-        $activePage ='';
         // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
         $idSeleccionado = $request->input('id');
@@ -310,6 +310,114 @@ class AuditoriaCorteController extends Controller
         //dd($idEvento1);
 
         return redirect()->route('auditoriaCorte.auditoriaCorte', ['id' => $idEvento1, 'orden' => $orden])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+    }
+
+    public function agregarEventoCorte(Request $request)
+    {
+        $activePage ='';
+        $orden_id = $request->input('orden_id');
+        $dato_ax_id = $request->input('dato_ax_id');
+
+        // Obtener el máximo evento actual para la orden_id
+        $maxEvento = EncabezadoAuditoriaCorte::where('orden_id', $orden_id)->max('evento');
+        $nuevoEvento = $maxEvento + 1;
+
+        // Actualizar los registros existentes
+        EncabezadoAuditoriaCorte::where('orden_id', $orden_id)->update(['total_evento' => $nuevoEvento]);
+
+        // Agregar un nuevo registro
+        EncabezadoAuditoriaCorte::create([
+            'orden_id' => $orden_id,
+            'evento' => $nuevoEvento,
+            'total_evento' => $nuevoEvento,
+            'estatus' => "proceso",
+            'dato_ax_id' => $request->input('dato_ax_id'),
+            'estilo_id' => $request->input('estilo_id'),
+            'planta_id' => $request->input('planta_id'),
+            'temporada_id' => $request->input('temporada_id'),
+            'cliente_id' => $request->input('cliente_id'),
+            'color_id' => $request->input('color_id'),
+            'estatus_evaluacion_corte' => $request->input('estatus_evaluacion_corte'),
+            'material' => $request->input('material'),
+            'pieza' => $request->input('pieza'),
+            'trazo' => $request->input('trazo'),
+            'lienzo' => $request->input('lienzo'),
+        ]);
+
+            $auditoriaMarcada = new AuditoriaMarcada();
+            $auditoriaMarcada->dato_ax_id = $dato_ax_id;
+            $auditoriaMarcada->orden_id = $orden_id;
+            $auditoriaMarcada->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
+            $auditoriaMarcada->evento = $nuevoEvento;
+            // Otros campos que necesites para cada registro...
+            
+            $auditoriaMarcada->save();
+
+
+            $auditoriaTendido = new AuditoriaTendido();
+            $auditoriaTendido->dato_ax_id = $dato_ax_id;
+            $auditoriaTendido->orden_id = $orden_id;
+            $auditoriaTendido->estatus = "proceso";
+            $auditoriaTendido->evento = $nuevoEvento;
+            $auditoriaTendido->save();
+
+            $lectra = new Lectra();
+            $lectra->dato_ax_id = $dato_ax_id;
+            $lectra->orden_id = $orden_id;
+            $lectra->estatus = "proceso";
+            $lectra->evento = $nuevoEvento;
+            $lectra->save();
+
+            $auditoriaBulto = new AuditoriaBulto();
+            $auditoriaBulto->dato_ax_id = $dato_ax_id;
+            $auditoriaBulto->orden_id = $orden_id;
+            $auditoriaBulto->estatus = "proceso";
+            $auditoriaBulto->evento = $nuevoEvento;
+            $auditoriaBulto->save();
+
+            $auditoriaFinal = new AuditoriaFinal();
+            $auditoriaFinal->dato_ax_id = $dato_ax_id;
+            $auditoriaFinal->orden_id = $orden_id;
+            $auditoriaFinal->estatus = "proceso";
+            $auditoriaFinal->evento = $nuevoEvento;
+            $auditoriaFinal->save();
+
+
+        // Redireccionar a la página anterior
+        return redirect()->route('auditoriaCorte.inicioAuditoriaCorte', )->with('success', '  Evento agregado correctamente.')->with('activePage', $activePage);
+    }
+
+    public function formRechazoCorte(Request $request)
+    {
+        $activePage ='';
+        // Obtener el ID seleccionado desde el formulario
+        $idSeleccionado = $request->input('id');
+        
+
+        $datoAX = DatoAX::findOrFail($idSeleccionado);
+        // Actualizar el valor de la columna deseada
+        $datoAX->estatus = 'rechazado';
+        $datoAX->save();
+        
+
+        return redirect()->route('auditoriaCorte.inicioAuditoriaCorte', )->with('error', 'Rechazo guardado correctamente.')->with('activePage', $activePage);
+    }
+
+    public function formAprobarCorte(Request $request)
+    {
+        $activePage ='';
+
+        // Obtener el ID seleccionado desde el formulario
+        $idSeleccionado = $request->input('id');
+        
+
+        $datoAX = DatoAX::findOrFail($idSeleccionado);
+        // Actualizar el valor de la columna deseada
+        $datoAX->estatus = null; // Establecer el valor a NULL
+        $datoAX->save();
+        
+
+        return redirect()->route('auditoriaCorte.inicioAuditoriaCorte', )->with('success', 'Aprobado guardado correctamente.')->with('activePage', $activePage);
     }
 
     
