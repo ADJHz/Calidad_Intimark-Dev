@@ -110,6 +110,7 @@ class EvaluacionCorteController extends Controller
         $registroEvaluacionCorte = EvaluacionCorte::where('orden_id', $ordenId)
             ->where('evento', $eventoId)
             ->orderBy('created_at', 'desc')
+            ->orderBy('descripcion_parte', 'asc')
             ->get();
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
             ->where('evento', $eventoId)

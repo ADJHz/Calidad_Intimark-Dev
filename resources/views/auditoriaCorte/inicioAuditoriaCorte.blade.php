@@ -219,6 +219,8 @@
                                     <div id="collapseOne3" class="collapse show" aria-labelledby="headingOne3"
                                         data-parent="#accordionExample3">
                                         <div class="card-body">
+                                            <input type="text" id="searchInputFin" class="form-control"
+                                                placeholder="Buscar por Proceso Final">
                                             <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
                                             <div class="table-responsive">
                                                 <table class="table">
@@ -231,7 +233,7 @@
                                                             <th>Temporada</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="tablaBodyFin">
                                                         @foreach ($DatoAXFin as $fin)
                                                             <tr>
                                                                 <td><a href="{{ route('auditoriaCorte.auditoriaCorte', ['id' => $fin->id, 'orden' => $fin->op]) }}"
@@ -270,6 +272,7 @@
                                         data-parent="#accordionExample4">
                                         <div class="card-body">
                                             <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
+                                            <input type="text" id="searchInputRechazo" class="form-control" placeholder="Buscar por Orden Rechazada">
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <thead>
@@ -281,7 +284,7 @@
                                                             <th>Temporada</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="tablaBodyRechazo">
                                                         @foreach ($DatoAXRechazado as $rechazado)
                                                             <tr>
                                                                 <td>
@@ -355,6 +358,41 @@
             searchInput.addEventListener('input', function() {
                 const busqueda = this.value.toLowerCase();
                 for (const fila of filas) {
+                    const orden = fila.getElementsByTagName('td')[1].innerText.toLowerCase();
+                    if (orden.includes(busqueda)) {
+                        fila.style.display = '';
+                    } else {
+                        fila.style.display = 'none';
+                    }
+                }
+            });
+        </script>
+
+        <script>
+            const searchInputFin = document.getElementById('searchInputFin');
+            const tablaBodyFin = document.getElementById('tablaBodyFin');
+            const filasFin = tablaBodyFin.getElementsByTagName('tr');
+
+            searchInputFin.addEventListener('input', function() {
+                const busqueda = this.value.toLowerCase();
+                for (const fila of filasFin) {
+                    const orden = fila.getElementsByTagName('td')[1].innerText.toLowerCase();
+                    if (orden.includes(busqueda)) {
+                        fila.style.display = '';
+                    } else {
+                        fila.style.display = 'none';
+                    }
+                }
+            });
+        </script>
+        <script>
+            const searchInputRechazo = document.getElementById('searchInputRechazo');
+            const tablaBodyRechazo = document.getElementById('tablaBodyRechazo');
+            const filasRechazo = tablaBodyRechazo.getElementsByTagName('tr');
+        
+            searchInputRechazo.addEventListener('input', function() {
+                const busqueda = this.value.toLowerCase();
+                for (const fila of filasRechazo) {
                     const orden = fila.getElementsByTagName('td')[1].innerText.toLowerCase();
                     if (orden.includes(busqueda)) {
                         fila.style.display = '';
