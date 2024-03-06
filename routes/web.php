@@ -11,7 +11,8 @@ use App\Http\Controllers\AuditoriaCorteController;
 use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\InspeccionEstampadoHorno;
-use App\Http\Controllers\Maquila;
+use App\Http\Controllers\Maquila; 
+use App\Http\Controllers\AuditoriaProcesoCorteController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,11 @@ Route::post('/obtener-estilo', [EvaluacionCorteController::class, 'obtenerEstilo
 Route::post('/formFinalizarEventoCorte', [EvaluacionCorteController::class, 'formFinalizarEventoCorte'])->name('evaluacionCorte.formFinalizarEventoCorte');
 Route::post('/formActualizacionEliminacionEvaluacionCorte/{id}', [EvaluacionCorteController::class, 'formActualizacionEliminacionEvaluacionCorte'])->name('evaluacionCorte.formActualizacionEliminacionEvaluacionCorte'); 
 Route::post('/crearCategoriaParteCorte', [EvaluacionCorteController::class, 'crearCategoriaParteCorte'])->name('evaluacionCorte.crearCategoriaParteCorte');
+
+//Inicio apartado para seccion Auditoria Proceso de Corte
+Route::get('/auditoriaProcesoCorte', [AuditoriaProcesoCorteController::class, 'auditoriaProcesoCorte'])->name('auditoriaProcesoCorte.auditoriaProcesoCorte');
+Route::get('/altaProcesoCorte', [AuditoriaProcesoCorteController::class, 'altaProcesoCorte'])->name('auditoriaProcesoCorte.altaProcesoCorte');
+Route::get('/formAltaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formAltaProcesoCorte'])->name('auditoriaProcesoCorte.formAltaProcesoCorte');
 
 
 //Fin apartado para seccion Evaluacion corte

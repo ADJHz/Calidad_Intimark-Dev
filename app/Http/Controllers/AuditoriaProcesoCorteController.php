@@ -20,10 +20,8 @@ use App\Models\CategoriaDefectoCorte;
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
 use App\Models\CategoriaParteCorte;
-use App\Models\AuditoriaTendido;
-use App\Models\Lectra;
-use App\Models\AuditoriaBulto;
-use App\Models\AuditoriaFinal;
+use App\Models\AuditoriaProcesoCorte;
+
 
 use App\Exports\DatosExport;
 use App\Models\DatoAX;
@@ -31,7 +29,7 @@ use App\Models\EvaluacionCorte;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
-class EvaluacionCorteController extends Controller
+class AuditoriaProcesoCorteController extends Controller
 {
 
     // Método privado para cargar las categorías
@@ -88,7 +86,7 @@ class EvaluacionCorteController extends Controller
         return response()->json($datos);
     } 
 
-    public function inicioEvaluacionCorte()
+    public function inicioAuditoriaProcesoCorte()
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
@@ -98,68 +96,61 @@ class EvaluacionCorteController extends Controller
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
-        return view('evaluacionCorte.inicioEvaluacionCorte', array_merge($categorias, ['mesesEnEspanol' => $mesesEnEspanol, 'activePage' => $activePage]));
+        return view('auditoriaProcesoCorte.inicioAuditoriaProcesoCorte', array_merge($categorias, ['mesesEnEspanol' => $mesesEnEspanol, 'activePage' => $activePage]));
     }
 
-    public function evaluaciondeCorte($ordenId, $eventoId)
+    public function altaProcesoCorte(Request $request)
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
         $auditorDato = Auth::user()->name;
         //dd($userName);
-        $registroEvaluacionCorte = EvaluacionCorte::where('orden_id', $ordenId)
-            ->where('evento', $eventoId)
-            ->orderBy('created_at', 'desc')
-            ->orderBy('descripcion_parte', 'asc')
-            ->get();
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
-            ->where('evento', $eventoId)
-            ->first();
+
         //dd($registroEvaluacionCorte->all()); 
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
         
-        return view('evaluacionCorte.evaluaciondeCorte', array_merge($categorias, [
+        return view('auditoriaProcesoCorte.altaProcesoCorte', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage, 
-            'registroEvaluacionCorte' => $registroEvaluacionCorte,
-            'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
             'auditorDato' => $auditorDato]));
     }
 
-    public function crearCategoriaParteCorte(Request $request)
-    {
-        // Obtener el nuevo nombre enviado desde el frontend
-        $nuevoNombre = $request->input('nuevaTecnica');
-
-        // Si se seleccionó "OTRO" y se ingresó un nuevo nombre
-        if ($request->has('nuevaTecnica')) {
-            $nuevaCategoria = new CategoriaParteCorte();
-            $nuevaCategoria->nombre = $nuevoNombre;
-            $nuevaCategoria->estado = 1; // O cualquier otro valor que necesites
-            $nuevaCategoria->save();
-
-            return response()->json(['success' => 'La nueva opción se ha guardado correctamente', 'nombre' => $nuevaCategoria->nombre]);
-        }
-
-        // Si no se ingresó un nuevo nombre, devuelve un error
-        return response()->json(['error' => 'No se ha ingresado un nuevo nombre'], 400);
-    }
-
-    public function formAltaEvaluacionCortes(Request $request) 
+    public function auditoriaProcesoCorte(Request $request)
     {
         $activePage ='';
-        // Validar los datos del formulario si es necesario
-        // Obtener el ID seleccionado desde el formulario
-        $ordenId = $request->input('orden');
-        $eventoId = $request->input('evento');
-        $estilo = $request->input('estilo');
-        //dd($ordenId, $eventoId, $estilo);
-        
+        $categorias = $this->cargarCategorias();
+        $auditorDato = Auth::user()->name;
+        //dd($userName);
 
-        return redirect()->route('evaluacionCorte.evaluaciondeCorte', ['orden' => $ordenId, 'evento' => $eventoId])->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+        //dd($registroEvaluacionCorte->all()); 
+        $mesesEnEspanol = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+
+        
+        return view('auditoriaProcesoCorte.auditoriaProcesoCorte', array_merge($categorias, [
+            'mesesEnEspanol' => $mesesEnEspanol, 
+            'activePage' => $activePage, 
+            'auditorDato' => $auditorDato]));
+    }
+
+
+    public function formAltaProcesoCorte(Request $request) 
+    {
+        $activePage ='';
+
+        $data = [
+            'opcion' => $request->opcion,
+            'estilo' => $request->estilo,
+            'supervisor' => $request->supervisor,
+            'auditor' => $request->auditor,
+            'turno' => $request->turno,
+        ];
+
+        return redirect()->route('auditoriaProcesoCorte.auditoriaProcesoCorte', $data)->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
 
     public function formRegistro(Request $request)

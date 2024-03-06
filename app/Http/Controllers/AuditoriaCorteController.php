@@ -291,7 +291,6 @@ class AuditoriaCorteController extends Controller
             $lectra = new Lectra();
             $lectra->dato_ax_id = $idSeleccionado;
             $lectra->orden_id = $orden;
-            $lectra->estatus = "proceso";
             $lectra->evento = $i;
             $lectra->save();
 
@@ -367,7 +366,6 @@ class AuditoriaCorteController extends Controller
             $lectra = new Lectra();
             $lectra->dato_ax_id = $dato_ax_id;
             $lectra->orden_id = $orden_id;
-            $lectra->estatus = "proceso";
             $lectra->evento = $nuevoEvento;
             $lectra->save();
 
