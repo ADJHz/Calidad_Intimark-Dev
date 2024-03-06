@@ -248,34 +248,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="yarda_tendido" class="col-sm-6 col-form-label">Yardas en el
-                                                tendido</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="yarda_tendido" id="yarda_tendido" placeholder="..."
-                                                        value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->yarda_tendido : '' }}"
-                                                        required />
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus1"
-                                                        value="1"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="yarda_tendido_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus2"
-                                                        value="0"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="yarda_tendido_estatus2">✖ </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <br>
                                         {{-- 
                                         <div class="col-md-6 mb-3">
@@ -388,22 +360,6 @@
                                                 @if(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 1)
                                                     <label class="label-paloma" for="yarda_orden_estatus1">✔</label>
                                                 @elseif(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 0)
-                                                    <label class="label-tache" for="yarda_orden_estatus2">✖</label>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="yarda_tendido" class="col-sm-6 col-form-label">Yardas en el
-                                            tendido</label>
-                                        <div class="col-sm-12 d-flex align-items-center">
-                                            <div class="form-check form-check-inline">
-                                                <h4>{{ isset($auditoriaMarcada) ? $auditoriaMarcada->yarda_tendido : '' }}</h4>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @if(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 1)
-                                                    <label class="label-paloma" for="yarda_orden_estatus1">✔</label>
-                                                @elseif(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 0)
                                                     <label class="label-tache" for="yarda_orden_estatus2">✖</label>
                                                 @endif
                                             </div>
@@ -1337,120 +1293,49 @@
                                             $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
                                             $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                         @endphp
-                                        <div class="col-md-6 mb-3">
-                                            <label class="col-sm-6 col-form-label">1. Simetria de piezas</label>
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 1</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza1" id="simetria_pieza1" placeholder="panel 1"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza1 : '' }}"
-                                                    required />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel1_x{{ $i }}" id="panel1_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel1_y{{ $i }}" id="panel1_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="col-sm-6 col-form-label">&nbsp;</label>
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel2_x{{ $i }}" id="panel2_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel2_y{{ $i }}" id="panel2_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza3" class="col-sm-6 col-form-label">Panel 3</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel3_x{{ $i }}" id="panel3_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel3_y{{ $i }}" id="panel3_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza4" class="col-sm-6 col-form-label">Panel 4</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel4_x{{ $i }}" id="panel4_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel4_y{{ $i }}" id="panel4_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Panel</th>
+                                                        <th scope="col">Simetria de piezas</th>
+                                                        <th scope="col" colspan="5">X° ANCHO</th>
+                                                        <th scope="col" colspan="5">Y° LARGO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for ($panel = 1; $panel <= 4; $panel++)
+                                                        <tr>
+                                                            <th scope="row">Panel {{ $panel }}</th>
+                                                            <td>
+                                                                <input type="text" class="form-control"
+                                                                    name="simetria_pieza{{ $panel }}" id="simetria_pieza{{ $panel }}" placeholder="panel {{ $panel }}"
+                                                                    value="{{ isset($Lectra) ? $Lectra->{'simetria_pieza'.$panel} : '' }}" />
+                                                            </td>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <td>
+                                                                    <select name="panel{{ $panel }}_x{{ $i }}" id="panel{{ $panel }}_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                                        <option value=""> X{{ $i }}° </option>
+                                                                        @foreach($options as $option)
+                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                            @endfor
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <td>
+                                                                    <select name="panel{{ $panel }}_y{{ $i }}" id="panel{{ $panel }}_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                                        <option value=""> Y{{ $i }}° </option>
+                                                                        @foreach($options as $option)
+                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                            @endfor
+                                                        </tr>
+                                                    @endfor
+                                                </tbody>
+                                            </table>
                                         </div>
                                         
                                         <div class="col-md-6 mb-3">
@@ -1483,7 +1368,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6 mb-3"> 
                                             <label for="pieza_contrapatron" class="col-sm-6 col-form-label">3. Piezas contra patron</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                                 <div class="form-check form-check-inline">
@@ -1510,7 +1395,36 @@
                                                         required />
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
+                                        <div class="col-md-6 mb-3">
+                                            <label for="yarda_tendido" class="col-sm-6 col-form-label">4. Yardas en el
+                                                tendido</label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus1"
+                                                        value="1"
+                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 1 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-paloma" for="yarda_tendido_estatus1">✔ </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus2"
+                                                        value="0"
+                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 0 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-tache" for="yarda_tendido_estatus2">✖ </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                        name="yarda_tendido" id="yarda_tendido" placeholder="..."
+                                                        value="{{ isset($Lectra) ? $Lectra->yarda_tendido : '' }}"
+                                                        required />
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
                                     <hr>
                                     <div class="row">
