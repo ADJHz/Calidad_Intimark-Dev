@@ -84,7 +84,7 @@
                         <li class="nav-item{{ $activePage == 'Auditoria AQL' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaFinalAQL') }}">
                                 <i class="material-icons">edit_document</i>
-                                <p>{{ __('FCC-010') }}</p>
+                                <p>{{ __('FCC-009-B') }}</p>
                                 <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
                             </a>
                         </li>

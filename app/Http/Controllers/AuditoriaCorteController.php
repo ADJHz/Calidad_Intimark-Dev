@@ -47,6 +47,9 @@ class AuditoriaCorteController extends Controller
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
+            'CategoriaDefectoCorteTendido' => CategoriaDefectoCorte::where('estado', 1)->where('area', "tendido")->get(),
+            'CategoriaDefectoCorteLectra' => CategoriaDefectoCorte::where('estado', 1)->where('area', "corte lectra")->get(),
+            'CategoriaDefectoCorteSellado' => CategoriaDefectoCorte::where('estado', 1)->where('area', "sellado")->get(),
             'DatoAX' => DatoAX::select('id', 'estilo', 'custorname', 'op')
             ->whereIn('id', function ($query) {
                 $query->selectRaw('MIN(id)')
