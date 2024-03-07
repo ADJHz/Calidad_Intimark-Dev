@@ -248,34 +248,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="yarda_tendido" class="col-sm-6 col-form-label">Yardas en el
-                                                tendido</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="yarda_tendido" id="yarda_tendido" placeholder="..."
-                                                        value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->yarda_tendido : '' }}"
-                                                        required />
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus1"
-                                                        value="1"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="yarda_tendido_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus2"
-                                                        value="0"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="yarda_tendido_estatus2">✖ </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <br>
                                         {{-- 
                                         <div class="col-md-6 mb-3">
@@ -295,121 +267,38 @@
                                         --}}
                                     </div>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="talla1" class="col-sm-3 col-form-label">Tallas</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla1" id="talla1" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla1 : '' }}"
-                                                    required />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla2" id="talla2" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla2 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla3" id="talla3" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla3 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla4" id="talla4" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla4 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla5" id="talla5" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla5 : '' }}" />
-                                            </div>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla6" id="talla6" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla6 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla7" id="talla7" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla7 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla8" id="talla8" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla8 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla9" id="talla9" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla9 : '' }}" />
-                                                <input type="text" class="form-control me-2"
-                                                    name="talla10" id="talla10" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->talla10 : '' }}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="bulto1" class="col-sm-3 col-form-label"># Bultos</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto1" id="bulto1" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto1 : '' }}"
-                                                    required />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto2" id="bulto2" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto2 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto3" id="bulto3" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto3 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto4" id="bulto4" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto4 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto5" id="bulto5" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto5 : '' }}" />
-                                            </div>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto6" id="bulto6" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto6 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto7" id="bulto7" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto7 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto8" id="bulto8" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto8 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto9" id="bulto9" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto9 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="bulto10" id="bulto10" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->bulto10 : '' }}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="total_pieza1" class="col-sm-3 col-form-label">Total piezas</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza1" id="total_pieza1" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza1 : '' }}"
-                                                    required />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza2" id="total_pieza2" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza2 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza3" id="total_pieza3" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza3 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza4" id="total_pieza4" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza4 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza5" id="total_pieza5" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza4 : '' }}" />
-                                            </div>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza6" id="total_pieza6" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza6 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza7" id="total_pieza7" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza7 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza8" id="total_pieza8" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza8 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza9" id="total_pieza9" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza9 : '' }}" />
-                                                <input type="number" step="0.0001" class="form-control me-2"
-                                                    name="total_pieza10" id="total_pieza10" placeholder="..."
-                                                    value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->total_pieza10 : '' }}" />
-                                            </div>
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Tallas</td>
+                                                    @for ($i = 1; $i <= 10; $i++)
+                                                    <td>
+                                                        <input type="text" class="form-control" name="talla{{ $i }}"
+                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'talla'.$i} : '' }}" />
+                                                    </td>
+                                                    @endfor
+                                                </tr>
+                                                <tr>
+                                                    <td># Bultos</td>
+                                                    @for ($i = 1; $i <= 10; $i++)
+                                                    <td>
+                                                        <input type="number" step="0.0001" class="form-control" name="bulto{{ $i }}"
+                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto'.$i} : '' }}" />
+                                                    </td>
+                                                    @endfor
+                                                </tr>
+                                                <tr>
+                                                    <td>Total Piezas</td>
+                                                    @for ($i = 1; $i <= 10; $i++)
+                                                    <td>
+                                                        <input type="number" step="0.0001" class="form-control" name="total_pieza{{ $i }}"
+                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza'.$i} : '' }}" />
+                                                    </td>
+                                                    @endfor
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -471,22 +360,6 @@
                                                 @if(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 1)
                                                     <label class="label-paloma" for="yarda_orden_estatus1">✔</label>
                                                 @elseif(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 0)
-                                                    <label class="label-tache" for="yarda_orden_estatus2">✖</label>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="yarda_tendido" class="col-sm-6 col-form-label">Yardas en el
-                                            tendido</label>
-                                        <div class="col-sm-12 d-flex align-items-center">
-                                            <div class="form-check form-check-inline">
-                                                <h4>{{ isset($auditoriaMarcada) ? $auditoriaMarcada->yarda_tendido : '' }}</h4>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @if(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 1)
-                                                    <label class="label-paloma" for="yarda_orden_estatus1">✔</label>
-                                                @elseif(isset($auditoriaMarcada) && $auditoriaMarcada->yarda_tendido_estatus == 0)
                                                     <label class="label-tache" for="yarda_orden_estatus2">✖</label>
                                                 @endif
                                             </div>
@@ -1051,7 +924,7 @@
                                                     <select name="defecto_material" id="defecto_material" class="form-control"
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaDefecto as $defectoMaterial)
+                                                    @foreach ($CategoriaDefectoCorte as $defectoMaterial)
                                                         <option value="{{ $defectoMaterial->nombre }}"
                                                             {{ isset($auditoriaTendido) && trim($auditoriaTendido->defecto_material) == trim($defectoMaterial->nombre) ? 'selected' : '' }}>
                                                             {{ $defectoMaterial->nombre }}</option>
@@ -1420,120 +1293,49 @@
                                             $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
                                             $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                         @endphp
-                                        <div class="col-md-6 mb-3">
-                                            <label class="col-sm-6 col-form-label">1. Simetria de piezas</label>
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 1</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza1" id="simetria_pieza1" placeholder="panel 1"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza1 : '' }}"
-                                                    required />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel1_x{{ $i }}" id="panel1_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel1_y{{ $i }}" id="panel1_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel1_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="col-sm-6 col-form-label">&nbsp;</label>
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza1" class="col-sm-6 col-form-label">Panel 2</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza2" id="simetria_pieza2" placeholder="panel 1"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza2 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel2_x{{ $i }}" id="panel2_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel2_y{{ $i }}" id="panel2_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel2_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza3" class="col-sm-6 col-form-label">Panel 3</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza3" id="simetria_pieza3" placeholder="panel 3"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel3_x{{ $i }}" id="panel3_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel3_y{{ $i }}" id="panel3_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel3_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <div class="form-check form-check-inline">
-                                                <label for="simetria_pieza4" class="col-sm-6 col-form-label">Panel 4</label>
-                                                <input type="text" class="form-control me-2"
-                                                    name="simetria_pieza4" id="simetria_pieza4" placeholder="panel 4"
-                                                    value="{{ isset($Lectra) ? $Lectra->simetria_pieza4 : '' }}" />
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel4_x{{ $i }}" id="panel4_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> X{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <select name="panel4_y{{ $i }}" id="panel4_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value=""> Y{{$i}}° </option>
-                                                        @foreach($options as $option)
-                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel4_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                        @endforeach
-                                                    </select> &nbsp;&nbsp;
-                                                @endfor
-                                            </div>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Panel</th>
+                                                        <th scope="col">Simetria de piezas</th>
+                                                        <th scope="col" colspan="5">X° ANCHO</th>
+                                                        <th scope="col" colspan="5">Y° LARGO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for ($panel = 1; $panel <= 4; $panel++)
+                                                        <tr>
+                                                            <th scope="row">Panel {{ $panel }}</th>
+                                                            <td>
+                                                                <input type="text" class="form-control"
+                                                                    name="simetria_pieza{{ $panel }}" id="simetria_pieza{{ $panel }}" placeholder="panel {{ $panel }}"
+                                                                    value="{{ isset($Lectra) ? $Lectra->{'simetria_pieza'.$panel} : '' }}" />
+                                                            </td>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <td>
+                                                                    <select name="panel{{ $panel }}_x{{ $i }}" id="panel{{ $panel }}_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                                        <option value=""> X{{ $i }}° </option>
+                                                                        @foreach($options as $option)
+                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                            @endfor
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <td>
+                                                                    <select name="panel{{ $panel }}_y{{ $i }}" id="panel{{ $panel }}_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
+                                                                        <option value=""> Y{{ $i }}° </option>
+                                                                        @foreach($options as $option)
+                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                            @endfor
+                                                        </tr>
+                                                    @endfor
+                                                </tbody>
+                                            </table>
                                         </div>
                                         
                                         <div class="col-md-6 mb-3">
@@ -1566,7 +1368,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6 mb-3"> 
                                             <label for="pieza_contrapatron" class="col-sm-6 col-form-label">3. Piezas contra patron</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                                 <div class="form-check form-check-inline">
@@ -1593,7 +1395,36 @@
                                                         required />
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
+                                        <div class="col-md-6 mb-3">
+                                            <label for="yarda_tendido" class="col-sm-6 col-form-label">4. Yardas en el
+                                                tendido</label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus1"
+                                                        value="1"
+                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 1 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-paloma" for="yarda_tendido_estatus1">✔ </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus2"
+                                                        value="0"
+                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 0 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-tache" for="yarda_tendido_estatus2">✖ </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                        name="yarda_tendido" id="yarda_tendido" placeholder="..."
+                                                        value="{{ isset($Lectra) ? $Lectra->yarda_tendido : '' }}"
+                                                        required />
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
                                     <hr>
                                     <div class="row">

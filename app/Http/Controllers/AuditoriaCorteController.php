@@ -47,6 +47,9 @@ class AuditoriaCorteController extends Controller
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
+            'CategoriaDefectoCorteTendido' => CategoriaDefectoCorte::where('estado', 1)->where('area', "tendido")->get(),
+            'CategoriaDefectoCorteLectra' => CategoriaDefectoCorte::where('estado', 1)->where('area', "corte lectra")->get(),
+            'CategoriaDefectoCorteSellado' => CategoriaDefectoCorte::where('estado', 1)->where('area', "sellado")->get(),
             'DatoAX' => DatoAX::select('id', 'estilo', 'custorname', 'op')
             ->whereIn('id', function ($query) {
                 $query->selectRaw('MIN(id)')
@@ -288,7 +291,6 @@ class AuditoriaCorteController extends Controller
             $lectra = new Lectra();
             $lectra->dato_ax_id = $idSeleccionado;
             $lectra->orden_id = $orden;
-            $lectra->estatus = "proceso";
             $lectra->evento = $i;
             $lectra->save();
 
@@ -364,7 +366,6 @@ class AuditoriaCorteController extends Controller
             $lectra = new Lectra();
             $lectra->dato_ax_id = $dato_ax_id;
             $lectra->orden_id = $orden_id;
-            $lectra->estatus = "proceso";
             $lectra->evento = $nuevoEvento;
             $lectra->save();
 
@@ -453,8 +454,7 @@ class AuditoriaCorteController extends Controller
         }
 
         $allChecked = trim($request->input('yarda_orden_estatus')) === "1" &&
-              trim($request->input('yarda_marcada_estatus')) === "1" &&
-              trim($request->input('yarda_tendido_estatus')) === "1";
+              trim($request->input('yarda_marcada_estatus')) === "1";
 
         $request->session()->put('estatus_checked_AuditoriaMarcada', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
@@ -624,7 +624,8 @@ class AuditoriaCorteController extends Controller
         }
 
         $allChecked = trim($request->input('pieza_completa_estatus')) === "1" &&
-              trim($request->input('pieza_contrapatron_estatus')) === "1";
+              trim($request->input('pieza_contrapatron_estatus')) === "1" &&
+              trim($request->input('yarda_tendido_estatus')) === "1";
 
         $request->session()->put('estatus_checked_Lectra', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
@@ -684,6 +685,8 @@ class AuditoriaCorteController extends Controller
             $existeOrden->pieza_completa_estatus = $request->input('pieza_completa_estatus');
             $existeOrden->pieza_contrapatron = $request->input('pieza_contrapatron');
             $existeOrden->pieza_contrapatron_estatus = $request->input('pieza_contrapatron_estatus');
+            $existeOrden->yarda_tendido = $request->input('yarda_tendido');
+            $existeOrden->yarda_tendido_estatus = $request->input('yarda_tendido_estatus');
             $existeOrden->pieza_inspeccionada = $request->input('pieza_inspeccionada'); 
             $existeOrden->cantidad_defecto = $request->input('cantidad_defecto');
             $existeOrden->defecto = $request->input('defecto');
