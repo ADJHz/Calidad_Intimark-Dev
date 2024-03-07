@@ -74,22 +74,15 @@
                                 <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'Auditoria Limpieza' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaLimpieza') }}">
-                                <i class="material-icons">edit_document</i>
-                                <p>{{ __('FAP-003') }}</p>
-                                <p style="text-align: center;">{{ __('AUDITORIA DE LIMPIEZA Y PPP') }}</p>
-                            </a>
-                        </li>
                         <li class="nav-item{{ $activePage == 'Auditoria AQL' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaFinalAQL') }}">
+
                                 <i class="material-icons">edit_document</i>
                                 <p>{{ __('FCC-010') }}</p>
                                 <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
                             </a>
                         </li>
                         <li class="nav-item{{ $activePage == 'Empaque' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('formulariosCalidad.controlCalidadEmpaque') }}">
+
                                 <i class="material-icons">edit_document</i>
                                 <p>{{ __('FCC-008') }}</p>
                                 <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>

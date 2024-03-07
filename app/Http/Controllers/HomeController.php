@@ -28,7 +28,7 @@ class HomeController extends Controller
             return view('dashboard', compact('title'));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios
-            return redirect()->route('listaFormularios');
+            return redirect()->route('viewlistaFormularios');
         }
     }
 

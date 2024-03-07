@@ -541,7 +541,7 @@ class ComposerStaticInitc61ff82cbf0142a401a48a8161e1595a
         'App\\Http\\Controllers\\CalidadScreenPrintController' => __DIR__ . '/../..' . '/app/Http/Controllers/CalidadScreenPrintController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EvaluacionCorteController' => __DIR__ . '/../..' . '/app/Http/Controllers/EvaluacionCorteController.php',
-        'App\\Http\\Controllers\\FormulariosCalidadController' => __DIR__ . '/../..' . '/app/Http/Controllers/FormulariosCalidadController.php',
+        'App\\Http\\Controllers\\viewlistaFormularios' => __DIR__ . '/../..' . '/app/Http/Controllers/viewlistaFormularios.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\InspeccionEstampadoHorno' => __DIR__ . '/../..' . '/app/Http/Controllers/InspeccionEstampadoHorno.php',
         'App\\Http\\Controllers\\Maquila' => __DIR__ . '/../..' . '/app/Http/Controllers/Maquila.php',

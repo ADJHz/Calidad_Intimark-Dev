@@ -37,7 +37,7 @@
                 <div class="card-header card-header-primary">
                     <h3 class="card-title">AUDITORIA FINAL A.Q.L</h3>
                   </div>
-                    <form method="POST" action="{{ route('formulariosCalidad.auditoriaFinalAQL') }}">
+
                         @csrf
                         <hr>
                         <div class="card-body">

@@ -19,7 +19,7 @@ return array(
     'App\\Http\\Controllers\\CalidadScreenPrintController' => $baseDir . '/app/Http/Controllers/CalidadScreenPrintController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\EvaluacionCorteController' => $baseDir . '/app/Http/Controllers/EvaluacionCorteController.php',
-    'App\\Http\\Controllers\\FormulariosCalidadController' => $baseDir . '/app/Http/Controllers/FormulariosCalidadController.php',
+    'App\\Http\\Controllers\\viewlistaFormularios' => $baseDir . '/app/Http/Controllers/viewlistaFormularios.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\InspeccionEstampadoHorno' => $baseDir . '/app/Http/Controllers/InspeccionEstampadoHorno.php',
     'App\\Http\\Controllers\\Maquila' => $baseDir . '/app/Http/Controllers/Maquila.php',

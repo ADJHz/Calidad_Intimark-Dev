@@ -2,16 +2,14 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PDFController;
-use App\Http\Controllers\FormulariosCalidadController;
-use App\Http\Controllers\ProgresoCorteController;
 use App\Http\Controllers\CalidadScreenPrintController;
 use App\Http\Controllers\AuditoriaCorteController;
 use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
+use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 use App\Http\Controllers\Maquila;
+use App\Http\Controllers\viewlistaFormularios;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,34 +78,14 @@ Route::post('/editUser', [UserManagementController::class, 'editUser'])->name('u
 Route::post('/blockUser/{noEmpleado}', [UserManagementController::class, 'blockUser'])->name('blockUser');
 Route::put('/blockUser/{noEmpleado}', [UserManagementController::class, 'blockUser'])->name('blockUser');
 
-//ruta para generar archivo pdf
-Route::get('/descargar-pdf', [PDFController::class, 'descargarPDF']);
-//apartado para el primer formuarlio
-Route::get('/auditoriaEtiquetas', [FormulariosCalidadController::class, 'auditoriaEtiquetas'])->name('formulariosCalidad.auditoriaEtiquetas');
-Route::get('/auditoriaCortes', [FormulariosCalidadController::class, 'auditoriaCortes'])->name('formulariosCalidad.auditoriaCortes');
-Route::get('/auditoriaLimpieza', [FormulariosCalidadController::class, 'auditoriaLimpieza'])->name('formulariosCalidad.auditoriaLimpieza');
-Route::get('/evaluacionCorte1', [FormulariosCalidadController::class, 'evaluacionCorte'])->name('formulariosCalidad.evaluacionCorte');
-Route::get('/auditoriaFinalAQL', [FormulariosCalidadController::class, 'auditoriaFinalAQL'])->name('formulariosCalidad.auditoriaFinalAQL');
-Route::get('/mostrarAuditoriaEtiquetas', [FormulariosCalidadController::class, 'mostrarAuditoriaEtiquetas'])->name('formulariosCalidad.mostrarAuditoriaEtiquetas');
-Route::post('/formAuditoriaEtiquetas', [FormulariosCalidadController::class, 'formAuditoriaEtiquetas'])->name('formulariosCalidad.formAuditoriaEtiquetas');
-Route::post('/formAuditoriaCortes', [FormulariosCalidadController::class, 'formAuditoriaCortes'])->name('formulariosCalidad.formAuditoriaCortes');
-Route::post('/formEvaluacionCorte', [FormulariosCalidadController::class, 'formEvaluacionCorte'])->name('formulariosCalidad.formEvaluacionCorte');
-//Apartado para el formulario para mostrar datos filtrados
-Route::get('/filtrarDatosEtiquetas', [FormulariosCalidadController::class, 'filtrarDatosEtiquetas'])->name('formulariosCalidad.filtrarDatosEtiquetas');
 
-Route::get('/listaFormularios', [FormulariosCalidadController::class, 'listaFormularios'])->name('listaFormularios');
-//aparado para exportar el archivo de excel
-Route::get('/exportar-excel', [FormulariosCalidadController::class, 'exportarExcel'])->name('exportar-excel');
+Route::get('/listaFormularios', [viewlistaFormularios::class, 'listaFormularios'])->name('viewlistaFormularios');
 
-Route::get('/controlCalidadEmpaque', [FormulariosCalidadController::class, 'controlCalidadEmpaque'])->name('formulariosCalidad.controlCalidadEmpaque');
-Route::post('/formControlCalidadEmpaque', [FormulariosCalidadController::class, 'formControlCalidadEmpaque'])->name('formulariosCalidad.formControlCalidadEmpaque');
-Route::get('/ProgresoCorte', [ProgresoCorteController::class, 'ProgresoCorte'])->name('formulariosCalidad.ProgresoCorte');
-//Apartado de una nueva seccion para corte, ya que es uno de los mas grandes
 Route::get('/inicioAuditoriaCorte', [AuditoriaCorteController::class, 'inicioAuditoriaCorte'])->name('auditoriaCorte.inicioAuditoriaCorte');
 Route::post('/formAuditoriaCortes', [AuditoriaCorteController::class, 'formAuditoriaCortes'])->name('auditoriaCorte.formAuditoriaCortes');
-Route::post('/formRechazoCorte', [AuditoriaCorteController::class, 'formRechazoCorte'])->name('auditoriaCorte.formRechazoCorte'); 
-Route::post('/formAprobarCorte', [AuditoriaCorteController::class, 'formAprobarCorte'])->name('auditoriaCorte.formAprobarCorte'); 
-Route::post('/agregarEventoCorte', [AuditoriaCorteController::class, 'agregarEventoCorte'])->name('auditoriaCorte.agregarEventoCorte'); 
+Route::post('/formRechazoCorte', [AuditoriaCorteController::class, 'formRechazoCorte'])->name('auditoriaCorte.formRechazoCorte');
+Route::post('/formAprobarCorte', [AuditoriaCorteController::class, 'formAprobarCorte'])->name('auditoriaCorte.formAprobarCorte');
+Route::post('/agregarEventoCorte', [AuditoriaCorteController::class, 'agregarEventoCorte'])->name('auditoriaCorte.agregarEventoCorte');
 Route::get('/auditoriaCorte/{id}/{orden}', [AuditoriaCorteController::class, 'auditoriaCorte'])->name('auditoriaCorte.auditoriaCorte');
 Route::get('/altaAuditoriaCorte/{id}/{orden}', [AuditoriaCorteController::class, 'altaAuditoriaCorte'])->name('auditoriaCorte.altaAuditoriaCorte');
 Route::post('/formEncabezadoAuditoriaCorte', [AuditoriaCorteController::class, 'formEncabezadoAuditoriaCorte'])->name('auditoriaCorte.formEncabezadoAuditoriaCorte');
@@ -120,12 +98,12 @@ Route::post('/formAuditoriaFinal', [AuditoriaCorteController::class, 'formAudito
 
 //Inicio apartado para seccion Evaluacion corte
 Route::get('/inicioEvaluacionCorte', [EvaluacionCorteController::class, 'inicioEvaluacionCorte'])->name('evaluacionCorte.inicioEvaluacionCorte');
-Route::post('/formRegistro', [EvaluacionCorteController::class, 'formRegistro'])->name('evaluacionCorte.formRegistro'); 
-Route::post('/formAltaEvaluacionCortes', [EvaluacionCorteController::class, 'formAltaEvaluacionCortes'])->name('evaluacionCorte.formAltaEvaluacionCortes'); 
+Route::post('/formRegistro', [EvaluacionCorteController::class, 'formRegistro'])->name('evaluacionCorte.formRegistro');
+Route::post('/formAltaEvaluacionCortes', [EvaluacionCorteController::class, 'formAltaEvaluacionCortes'])->name('evaluacionCorte.formAltaEvaluacionCortes');
 Route::get('/evaluaciondeCorte/{orden}/{evento}', [EvaluacionCorteController::class, 'evaluaciondeCorte'])->name('evaluacionCorte.evaluaciondeCorte');
 Route::post('/obtener-estilo', [EvaluacionCorteController::class, 'obtenerEstilo'])->name('evaluacionCorte.obtenerEstilo');
 Route::post('/formFinalizarEventoCorte', [EvaluacionCorteController::class, 'formFinalizarEventoCorte'])->name('evaluacionCorte.formFinalizarEventoCorte');
-Route::post('/formActualizacionEliminacionEvaluacionCorte/{id}', [EvaluacionCorteController::class, 'formActualizacionEliminacionEvaluacionCorte'])->name('evaluacionCorte.formActualizacionEliminacionEvaluacionCorte'); 
+Route::post('/formActualizacionEliminacionEvaluacionCorte/{id}', [EvaluacionCorteController::class, 'formActualizacionEliminacionEvaluacionCorte'])->name('evaluacionCorte.formActualizacionEliminacionEvaluacionCorte');
 Route::post('/crearCategoriaParteCorte', [EvaluacionCorteController::class, 'crearCategoriaParteCorte'])->name('evaluacionCorte.crearCategoriaParteCorte');
 
 
@@ -208,12 +186,8 @@ Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\P
 Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('checkrole');
 Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password'])->middleware('checkrole');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Route::get('/auditoriaEtiquetas', 'App\Http\Controllers\FormulariosCalidadController@auditoriaEtiquetas')->name('formulariosCalidad.auditoriaEtiquetas')->middleware('checkroleandplant1');
+Route::get('/auditoriaEtiquetas',  [DatosAuditoriaEtiquetas::class, 'auditoriaEtiquetas'])->name('formulariosCalidad.auditoriaEtiquetas')->middleware('checkroleandplant1');
 Route::get('/inicioAuditoriaCorte', 'App\Http\Controllers\AuditoriaCorteController@inicioAuditoriaCorte')->name('auditoriaCorte.inicioAuditoriaCorte')->middleware('checkroleandplant1');
-Route::get('/evaluacionCorte', 'App\Http\Controllers\FormulariosCalidadController@evaluacionCorte')->name('formulariosCalidad.evaluacionCorte')->middleware('checkroleandplant1');
-Route::get('/auditoriaLimpieza', 'App\Http\Controllers\FormulariosCalidadController@auditoriaLimpieza')->name('formulariosCalidad.auditoriaLimpieza')->middleware('checkroleandplant1');
-Route::get('/auditoriaFinalAQL', 'App\Http\Controllers\FormulariosCalidadController@auditoriaFinalAQL')->name('formulariosCalidad.auditoriaFinalAQL')->middleware('checkroleandplant1');
-Route::get('/controlCalidadEmpaque', 'App\Http\Controllers\FormulariosCalidadController@controlCalidadEmpaque')->name('formulariosCalidad.controlCalidadEmpaque')->middleware('checkroleandplant1');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/ScreenPrint',  [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint')->middleware('checkroleandplant2');
 Route::get('/InsEstamHorno', [InspeccionEstampadoHorno::class, 'InsEstamHorno'])->name('ScreenPlanta2.InsEstamHorno')->middleware('checkroleandplant2');
@@ -224,3 +198,7 @@ Route::view('/error', 'error')->name('error');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
+Route::get('/ClientesProv/{ordenes}', [DatosAuditoriaEtiquetas::class, 'ClientesProv']);
+Route::get('/Estilositem/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Estilositem']);
+Route::get('/Color/{estilo}', [DatosAuditoriaEtiquetas::class, 'Colores']);
