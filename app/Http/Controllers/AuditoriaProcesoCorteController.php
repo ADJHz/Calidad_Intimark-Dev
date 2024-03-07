@@ -20,6 +20,7 @@ use App\Models\CategoriaDefectoCorte;
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
 use App\Models\CategoriaParteCorte;
+use App\Models\CategoriaAccionCorrectiva;
 use App\Models\AuditoriaProcesoCorte;
 
 
@@ -66,25 +67,17 @@ class AuditoriaProcesoCorteController extends Controller
             'DatoAXFin' => DatoAX::where('estatus', 'fin')->get(),
             'EncabezadoAuditoriaCorte' => EncabezadoAuditoriaCorte::all(),
             'auditoriasMarcadas' => AuditoriaMarcada::all(),
+            'CategoriaDefectoCorteTendido' => CategoriaDefectoCorte::where('estado', 1)->where('area', "tendido")->get(),
+            'CategoriaDefectoCorteLectraSellado' => CategoriaDefectoCorte::where('estado', 1)
+                ->where(function ($query) {
+                    $query->where('area', 'corte lectra')
+                        ->orWhere('area', 'sellado');
+                })
+                ->get(),
+            'CategoriaAccionCorrectiva' => CategoriaAccionCorrectiva::where('estado', 1)->get(), 
         ];
     }
 
-    public function obtenerEstilo(Request $request) 
-    {
-        $orden = $request->input('orden_id');
-        $encabezado = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
-
-        if (!$encabezado) {
-            return response()->json(['error' => 'No se encontró el encabezado para la orden especificada']);
-        }
-
-        $datos = [
-            'estilo' => $encabezado->estilo_id,
-            'evento' => $encabezado->evento
-        ];
-
-        return response()->json($datos);
-    } 
 
     public function inicioAuditoriaProcesoCorte()
     {
@@ -121,19 +114,58 @@ class AuditoriaProcesoCorteController extends Controller
     public function auditoriaProcesoCorte(Request $request)
     {
         $activePage ='';
-        $categorias = $this->cargarCategorias();
-        $auditorDato = Auth::user()->name;
-        //dd($userName);
-
-        //dd($registroEvaluacionCorte->all()); 
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
+        $categorias = $this->cargarCategorias();
+        $auditorDato = Auth::user()->name;
+        // Obtener los datos de la solicitud
+        $data = $request->all();
+        // Asegurarse de que la variable $data esté definida
+        $data = $data ?? [];
+
+        $fechaActual = Carbon::now()->toDateString();
+
+        $registros = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
+            ->first();
+        $total_auditada = $registros->total_auditada ?? 0;
+        $total_rechazada = $registros->total_rechazada ?? 0;
+        $total_porcentaje = $total_auditada != 0 ? ($total_rechazada / $total_auditada) * 100 : 0;
+
+
+        $registrosIndividual = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
+            ->groupBy('nombre_1', 'nombre_2')
+            ->get();
+
+        // Inicializa las variables para evitar errores
+        $total_auditadaIndividual = 0;
+        $total_rechazadaIndividual = 0;
+
+        // Calcula la suma total solo si hay registros individuales
+        if ($registrosIndividual->isNotEmpty()) {
+            $total_auditadaIndividual = $registrosIndividual->sum('total_auditada');
+            $total_rechazadaIndividual = $registrosIndividual->sum('total_rechazada');
+        }
+
+        // Calcula el porcentaje total
+        $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
+
+        
 
         
         return view('auditoriaProcesoCorte.auditoriaProcesoCorte', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
-            'activePage' => $activePage, 
+            'activePage' => $activePage,
+            'data' => $data, 
+            'total_auditada' => $total_auditada, 
+            'total_rechazada' => $total_rechazada,
+            'total_porcentaje' => $total_porcentaje,
+            'registrosIndividual' => $registrosIndividual,
+            'total_auditadaIndividual' => $total_auditadaIndividual, 
+            'total_rechazadaIndividual' => $total_rechazadaIndividual,
+            'total_porcentajeIndividual' => $total_porcentajeIndividual,
             'auditorDato' => $auditorDato]));
     }
 
@@ -143,43 +175,36 @@ class AuditoriaProcesoCorteController extends Controller
         $activePage ='';
 
         $data = [
-            'opcion' => $request->opcion,
+            'area' => $request->area,
             'estilo' => $request->estilo,
             'supervisor' => $request->supervisor,
             'auditor' => $request->auditor,
             'turno' => $request->turno,
         ];
-
+        //dd($data);
         return redirect()->route('auditoriaProcesoCorte.auditoriaProcesoCorte', $data)->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
 
-    public function formRegistro(Request $request)
+    public function formRegistroAuditoriaProcesoCorte(Request $request)
     {
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
-        $ordenId = $request->input('orden');
-        $eventoId = $request->input('evento');
-        $estilo = $request->input('estilo');
-        //dd($ordenId, $eventoId, $estilo, $request->all());
-        
-        //dd($estilo, $request->all());
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
-            ->where('evento', $eventoId)
-            ->first();
-        //dd($encabezadoAuditoriaCorte);
+        //dd($request->all());
+        $procesoCorte = new AuditoriaProcesoCorte();
+        $procesoCorte->area = $request->area;
+        $procesoCorte->estilo = $request->estilo;
+        $procesoCorte->supervisor_corte = $request->supervisor_corte;
+        $procesoCorte->auditor = $request->auditor;
+        $procesoCorte->turno = $request->turno;
+        $procesoCorte->nombre_1 = $request->nombre_1;
+        $procesoCorte->nombre_2 = $request->nombre_2;
+        $procesoCorte->operacion = $request->operacion;
+        $procesoCorte->cantidad_auditada = $request->cantidad_auditada;
+        $procesoCorte->cantidad_rechazada = $request->cantidad_rechazada;
+        $procesoCorte->tp = $request->tp;
+        $procesoCorte->ac = $request->ac;
 
-        $evaluacionCorte = new EvaluacionCorte();
-        $evaluacionCorte->orden_id = $ordenId;
-        $evaluacionCorte->evento = $eventoId;
-        $evaluacionCorte->estilo_id = $estilo;
-        $evaluacionCorte->descripcion_parte = $request->input('descripcion_parte');
-        $evaluacionCorte->izquierda_x = $request->input('izquierda_x');
-        $evaluacionCorte->izquierda_y = $request->input('izquierda_y');
-        $evaluacionCorte->derecha_x = $request->input('derecha_x');
-        $evaluacionCorte->derecha_y = $request->input('derecha_y'); 
-        $evaluacionCorte->auditorDato = $request->input('auditorDato'); 
-        
-        $evaluacionCorte->save();
+        $procesoCorte->save();
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }

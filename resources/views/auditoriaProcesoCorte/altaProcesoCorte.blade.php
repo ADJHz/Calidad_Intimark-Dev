@@ -97,10 +97,10 @@
                                 <tbody>
                                         <tr>
                                             <td>
-                                                <select name="opcion" id="opcion" class="form-control" required>
+                                                <select name="area" id="area" class="form-control" required>
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="tendido">Tendido</option>
-                                                    <option value="corte_lectra_sellado">Corte Lectra y Sellado</option>
+                                                    <option value="Corte Lectra y Sellado">Corte Lectra y Sellado</option>
                                                 </select>
                                             </td>
                                             <td><input type="text" class="form-control" name="estilo" id="estilo" placeholder="estilo" required/></td>
@@ -111,7 +111,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-success">Iniciar</button>
                     </form>
                     <hr>
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
