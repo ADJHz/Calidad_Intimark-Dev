@@ -45,17 +45,8 @@
                                     <div class="card">
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
-                                            <h5 class="card-title">CHECK LIST DE AUDITORIA DE LIMPIEZA Y PPP <br>FAP-003</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaLimpieza') }}" class="btn btn-primary"  >INICIAR</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                                    <div class="card">
-                                        <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
-                                        <div class="card-body">
                                             <h5 class="card-title">AUDITORIA FINAL A.Q.L <br>FCC-009-B</h5>
-                                            <a href="{{ route('formulariosCalidad.auditoriaFinalAQL') }}" class="btn btn-primary"  >INICIAR</a>
+
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +55,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">INTIMARK CONTROL DE CALIDAD EMPAQUE<br>FCC-008</h5>
-                                            <a href="{{ route('formulariosCalidad.controlCalidadEmpaque') }}" class="btn btn-primary"  >INICIAR</a>
+
                                         </div>
                                     </div>
                                 </div>
