@@ -123,10 +123,15 @@ class AuditoriaProcesoCorteController extends Controller
         $data = $request->all();
         // Asegurarse de que la variable $data esté definida
         $data = $data ?? [];
-
+        
         $fechaActual = Carbon::now()->toDateString();
 
+        $mostrarRegistro = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->get();
+
         $registros = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
             ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
             ->first();
         $total_auditada = $registros->total_auditada ?? 0;
@@ -135,6 +140,7 @@ class AuditoriaProcesoCorteController extends Controller
 
 
         $registrosIndividual = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
             ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
             ->groupBy('nombre_1', 'nombre_2')
             ->get();
@@ -148,7 +154,7 @@ class AuditoriaProcesoCorteController extends Controller
             $total_auditadaIndividual = $registrosIndividual->sum('total_auditada');
             $total_rechazadaIndividual = $registrosIndividual->sum('total_rechazada');
         }
-
+        //dd($registros, $fechaActual);
         // Calcula el porcentaje total
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
 
@@ -166,6 +172,7 @@ class AuditoriaProcesoCorteController extends Controller
             'total_auditadaIndividual' => $total_auditadaIndividual, 
             'total_rechazadaIndividual' => $total_rechazadaIndividual,
             'total_porcentajeIndividual' => $total_porcentajeIndividual,
+            'mostrarRegistro' => $mostrarRegistro,
             'auditorDato' => $auditorDato]));
     }
 
@@ -199,6 +206,7 @@ class AuditoriaProcesoCorteController extends Controller
         $procesoCorte->nombre_1 = $request->nombre_1;
         $procesoCorte->nombre_2 = $request->nombre_2;
         $procesoCorte->operacion = $request->operacion;
+        $procesoCorte->mesa = $request->mesa;
         $procesoCorte->cantidad_auditada = $request->cantidad_auditada;
         $procesoCorte->cantidad_rechazada = $request->cantidad_rechazada;
         $procesoCorte->tp = $request->tp;

@@ -113,6 +113,7 @@
                                         <th>NOMBRE 1</th>
                                         <th>NOMBRE 2</th>
                                         <th>OPERACION</th>
+                                        <th>MESA</th>
                                         <th>LIENZOS TENDIDOS</th>
                                         <th>LIENZOS RECHAZADOS</th>
                                         <th>T.P</th>
@@ -123,28 +124,37 @@
                                     <tr>
                                         <td>
                                             <select name="nombre_1" id="nombre_1" class="form-control" required
-                                                title="Por favor, selecciona una opción">
+                                                title="Por favor, selecciona una opción" onchange="guardarSeleccion('nombre_1')">
                                                 <option value="">Selecciona una opción</option>
                                                 @foreach ($CategoriaTecnico as $nombre)
-                                                    <option value="{{ $nombre->nombre }}">
-                                                        {{ $nombre->nombre }}</option>
+                                                    <option value="{{ $nombre->nombre }}">{{ $nombre->nombre }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
                                             <select name="nombre_2" id="nombre_2" class="form-control" required
-                                                title="Por favor, selecciona una opción">
+                                                title="Por favor, selecciona una opción" onchange="guardarSeleccion('nombre_2')">
                                                 <option value="">Selecciona una opción</option>
                                                 @foreach ($CategoriaTecnico as $nombre2)
-                                                    <option value="{{ $nombre2->nombre }}">
-                                                        {{ $nombre2->nombre }}</option>
+                                                    <option value="{{ $nombre2->nombre }}">{{ $nombre2->nombre }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="operacion" id="operacion" class="form-control" title="Por favor, selecciona una opción" required> 
+                                            <select name="operacion" id="operacion" class="form-control" title="Por favor, selecciona una opción" required onchange="guardarSeleccion('operacion')"> 
                                                 <option value="Tendedor Electrico">Tendedor Electrico</option>
                                                 <option value="Tendedor Manual">Tendedor Manual</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="mesa" id="mesa" class="form-control" title="Por favor, selecciona una opción" required onchange="guardarSeleccion('mesa')">
+                                                <option value="">Selecciona una opción</option>
+                                                <option value="1 : Mesa">1 : Manual</option>
+                                                <option value="2 : Brio">2 : Brio</option>
+                                                <option value="3 : Brio">3 : Brio</option>
+                                                <option value="4 : Brio">4 : Brio</option>
+                                                <option value="5 : Brio">5 : Brio</option>
+                                                <option value="6 : Brio">6 : Brio</option>
                                             </select>
                                         </td>
                                         <td><input type="text" class="form-control" name="cantidad_auditada" id="cantidad_auditada" required></td>
@@ -186,8 +196,46 @@
                         </div>
                         <button type="submit" class="btn btn-success">Añadir</button>
                     </form>
+                    <hr>
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-
+                    @if($mostrarRegistro)
+                        <div class="table-responsive"> 
+                            <h2>Registro</h2>  
+                            <table class="table"> 
+                                <thead class="thead-primary"> 
+                                    <tr> 
+                                        <th>Nombre 1</th> 
+                                        <th>Nombre 2</th>  
+                                        <th>operacion</th>  
+                                        <th>mesa</th>  
+                                        <th>Lienzo tendido</th> 
+                                        <th>Lienzo rechazado</th> 
+                                        <th>T. P. </th>  
+                                        <th>Accion Correctiva </th>  
+                                    </tr> 
+                                </thead>  
+                                <tbody> 
+                                    @foreach($mostrarRegistro as $registro) 
+                                    <tr> 
+                                        <td>{{ $registro->nombre_1 }}</td> 
+                                        <td>{{ $registro->nombre_2 }}</td> 
+                                        <td>{{ $registro->operacion }}</td> 
+                                        <td>{{ $registro->mesa }}</td> 
+                                        <td>{{ $registro->cantidad_auditada }}</td> 
+                                        <td>{{ $registro->cantidad_rechazada }}</td> 
+                                        <td>{{ $registro->tp }}</td> 
+                                        <td>{{ $registro->ac }}</td> 
+                                    </tr> 
+                                    @endforeach 
+                                </tbody> 
+                            </table> 
+                        </div>
+                    @else
+                        <div>
+                            <h2> sin registros el dia de hoy</h2>
+                        </div>
+                    @endif
+                    <hr>
                     <div class="table-responsive">
                         <h2>Total Individual</h2>
                         <table class="table">
@@ -207,14 +255,14 @@
                                     <td>{{ $registro->nombre_2 }}</td>
                                     <td><input type="text" class="form-control" value="{{ $registro->total_auditada }}" readonly></td>
                                     <td><input type="text" class="form-control" value="{{ $registro->total_rechazada }}" readonly></td>
-                                    <td><input type="text" class="form-control" value="{{ $registro->total_rechazada != 0 ? ($registro->total_rechazada / $registro->total_auditada) * 100 : 0 }}" readonly></td>
+                                    <td><input type="text" class="form-control" value="{{ $registro->total_rechazada != 0 ? round(($registro->total_rechazada / $registro->total_auditada) * 100, 2) : 0 }}" readonly></td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
 
-
+                    <hr>
                     <div class="table-responsive">
                         <h2>Total General </h2>
                         <table class="table">
@@ -229,7 +277,7 @@
                                 <tr>
                                     <td><input type="text" class="form-control" name="total_auditada" id="total_auditada" value="{{ $total_auditada }}" readonly></td>
                                     <td><input type="text" class="form-control" name="total_rechazada" id="total_rechazada" value="{{ $total_rechazada }}" readonly></td>
-                                    <td><input type="text" class="form-control" name="total_porcentaje" id="total_porcentaje" value="{{ $total_porcentaje }}" readonly></td>
+                                    <td><input type="text" class="form-control" name="total_porcentaje" id="total_porcentaje" value="{{ number_format($total_porcentaje, 2) }}" readonly></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -255,7 +303,30 @@
         });
     </script>
 
+    <script>
+        // Función para guardar la selección actual en el almacenamiento local
+        function guardarSeleccion(idSelect) {
+            var select = document.getElementById(idSelect);
+            var valorSeleccionado = select.options[select.selectedIndex].value;
+            localStorage.setItem(idSelect, valorSeleccionado);
+        }
 
+        // Función para restaurar la selección desde el almacenamiento local
+        function restaurarSeleccion(idSelect) {
+            var valorGuardado = localStorage.getItem(idSelect);
+            if (valorGuardado) {
+                document.getElementById(idSelect).value = valorGuardado;
+            }
+        }
+
+        // Ejecutar la función restaurarSeleccion al cargar la página
+        window.onload = function() {
+            restaurarSeleccion('nombre_1');
+            restaurarSeleccion('nombre_2');
+            restaurarSeleccion('operacion');
+            restaurarSeleccion('mesa');
+        }
+    </script>
 
 
 
