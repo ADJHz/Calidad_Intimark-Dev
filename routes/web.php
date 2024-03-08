@@ -8,13 +8,9 @@ use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
-<<<<<<< HEAD
+use App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
-=======
-use App\Http\Controllers\Maquila;
-use App\Http\Controllers\AuditoriaProcesoCorteController;
->>>>>>> ec53d7703d8811ce339f71188fd22dc903a62f56
 
 /*
 |--------------------------------------------------------------------------
