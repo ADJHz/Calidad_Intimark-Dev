@@ -74,6 +74,13 @@
                                 <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'Proceso Corte' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('auditoriaProcesoCorte.altaProcesoCorte') }}">
+                                <i class="material-icons">edit_document</i>
+                                <p>{{ __('FCC-04') }}</p>
+                                <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
+                            </a>
+                        </li>
                         <li class="nav-item{{ $activePage == 'Auditoria AQL' ? ' active' : '' }}">
 
                                 <i class="material-icons">edit_document</i>

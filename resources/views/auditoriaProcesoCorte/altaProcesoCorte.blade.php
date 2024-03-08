@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Evaluacion Corte', 'titlePage' => __('Evaluacion Corte')])
+@extends('layouts.app', ['activePage' => 'Proceso Corte', 'titlePage' => __('Proceso Corte')])
 
 @section('content')
     {{-- ... dentro de tu vista ... --}}
