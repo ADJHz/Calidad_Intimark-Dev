@@ -122,24 +122,24 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td> 
                                             <select name="nombre_1" id="nombre_1" class="form-control" required
-                                                title="Por favor, selecciona una opción" onchange="guardarSeleccion('nombre_1')">
+                                                title="Por favor, selecciona una opción" onchange="evitarDuplicados(this, document.getElementById('nombre_2'))">
                                                 <option value="">Selecciona una opción</option>
                                                 @foreach ($CategoriaTecnico as $nombre)
                                                     <option value="{{ $nombre->nombre }}">{{ $nombre->nombre }}</option>
                                                 @endforeach
                                             </select>
-                                        </td>
-                                        <td>
+                                        </td> 
+                                        <td> 
                                             <select name="nombre_2" id="nombre_2" class="form-control" required
-                                                title="Por favor, selecciona una opción" onchange="guardarSeleccion('nombre_2')">
+                                                title="Por favor, selecciona una opción"  onchange="evitarDuplicados(this, document.getElementById('nombre_1'))">
                                                 <option value="">Selecciona una opción</option>
                                                 @foreach ($CategoriaTecnico as $nombre2)
                                                     <option value="{{ $nombre2->nombre }}">{{ $nombre2->nombre }}</option>
                                                 @endforeach
                                             </select>
-                                        </td>
+                                        </td> 
                                         <td>
                                             <select name="operacion" id="operacion" class="form-control" title="Por favor, selecciona una opción" required onchange="guardarSeleccion('operacion')"> 
                                                 <option value="Tendedor Electrico">Tendedor Electrico</option>
@@ -328,6 +328,25 @@
         }
     </script>
 
+    <script>
+        function evitarDuplicados(select1, select2) {
+            const optionSeleccionada = select1.value;
+            // Filtra las opciones del segundo select para eliminar la opción seleccionada en el primero
+            const opcionesFiltradas = Array.from(select2.options).filter(
+                (option) => option.value !== optionSeleccionada
+            );
+            // Limpia las opciones del segundo select
+            select2.innerHTML = "";
+            // Agrega las opciones filtradas al segundo select
+            opcionesFiltradas.forEach((option) => select2.appendChild(option));
+
+            // Llama a la función `guardarSeleccion` para el primer select
+            guardarSeleccion(select1.id);
+
+            // Llama a la función `guardarSeleccion` para el segundo select
+            guardarSeleccion(select2.id);
+        }
+    </script>
 
 
 
