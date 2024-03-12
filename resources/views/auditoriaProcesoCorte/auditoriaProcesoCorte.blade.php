@@ -107,16 +107,16 @@
                         </div>
                         <hr>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table flex-container">
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>NOMBRE 1</th>
                                         <th>NOMBRE 2</th>
-                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;ORDEN &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th>ORDEN</th>
                                         <th>ESTILO</th>
                                         <th>OPERACION</th>
                                         <th>MESA</th>
-                                        <th>LIENZOS TENDIDOS</th>
+                                        <th>LIENZOS</th>
                                         <th>LIENZOS RECHAZADOS</th>
                                         <th>T.P</th>
                                         <th>A.C</th>
@@ -238,8 +238,8 @@
                                     <tr> 
                                         <td>{{ $registro->nombre_1 }}</td> 
                                         <td>{{ $registro->nombre_2 }}</td> 
-                                        <td><input type="text" class="form-control" value="{{ $registro->orden_id }}" readonly></td>
-                                        <td><input type="text" class="form-control" value="{{ $registro->estilo_id }}" readonly></td>
+                                        <td>{{ $registro->orden_id }}</td>
+                                        <td>{{ $registro->estilo_id }}</td>
                                         <td>{{ $registro->operacion }}</td> 
                                         <td>{{ $registro->mesa }}</td> 
                                         <td>{{ $registro->cantidad_auditada }}</td> 
@@ -318,6 +318,26 @@
             background-color: #59666e54; /* Azul claro */
             color: #333; /* Color del texto */
         }
+
+        .table th:nth-child(3) {
+            min-width: 120px; /* Ajusta el ancho mínimo según tu necesidad */
+        }
+        .table th:nth-child(4) {
+            min-width: 120px; /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table th:nth-child(9) {
+            min-width: 200px; /* Ajusta el ancho mínimo según tu necesidad */
+        }
+        .table th:nth-child(10) {
+            min-width: 150px; /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        @media (max-width: 768px) {
+        .table th:nth-child(3) {
+            min-width: 100px; /* Ajusta el ancho mínimo para móviles */
+        }
+}
     </style>
     <script>
         $(document).ready(function() {
