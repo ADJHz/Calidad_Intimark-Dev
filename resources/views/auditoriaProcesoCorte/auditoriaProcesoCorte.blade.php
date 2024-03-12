@@ -112,6 +112,8 @@
                                     <tr>
                                         <th>NOMBRE 1</th>
                                         <th>NOMBRE 2</th>
+                                        <th>&nbsp;&nbsp;&nbsp;&nbsp;ORDEN &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th>ESTILO</th>
                                         <th>OPERACION</th>
                                         <th>MESA</th>
                                         <th>LIENZOS TENDIDOS</th>
@@ -140,6 +142,21 @@
                                                 @endforeach
                                             </select>
                                         </td> 
+                                        <td>
+                                            <select name="orden_id" id="orden" class="form-control select2" required
+                                                title="Por favor, selecciona una opción" onchange="mostrarEstilo()">
+                                                <option value="">Selecciona una opción</option>
+                                                @foreach ($EncabezadoAuditoriaCorte as $dato)
+                                                    <option value="{{ $dato->orden_id }}" data-evento="{{ $dato->evento }}">{{ $dato->orden_id }} - Evento: {{ $dato->evento }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="hidden" name="evento" id="evento" value="">
+                                        </td>
+                                        <td>
+                                            <div class="col-sm-12">
+                                                <input type="text" name="estilo_id" id="estilo_id" class="form-control" readonly>
+                                            </div>
+                                        </td>
                                         <td>
                                             <select name="operacion" id="operacion" class="form-control" title="Por favor, selecciona una opción" required onchange="guardarSeleccion('operacion')"> 
                                                 <option value="Tendedor Electrico">Tendedor Electrico</option>
@@ -206,6 +223,8 @@
                                     <tr> 
                                         <th>Nombre 1</th> 
                                         <th>Nombre 2</th>  
+                                        <th>orden</th>  
+                                        <th>estilo</th>  
                                         <th>operacion</th>  
                                         <th>mesa</th>  
                                         <th>Lienzo tendido</th> 
@@ -219,6 +238,8 @@
                                     <tr> 
                                         <td>{{ $registro->nombre_1 }}</td> 
                                         <td>{{ $registro->nombre_2 }}</td> 
+                                        <td><input type="text" class="form-control" value="{{ $registro->orden_id }}" readonly></td>
+                                        <td><input type="text" class="form-control" value="{{ $registro->estilo_id }}" readonly></td>
                                         <td>{{ $registro->operacion }}</td> 
                                         <td>{{ $registro->mesa }}</td> 
                                         <td>{{ $registro->cantidad_auditada }}</td> 
@@ -243,6 +264,8 @@
                                 <tr>
                                     <th>Nombre 1</th>
                                     <th>Nombre 2</th>
+                                    <th>Orden</th>
+                                    <th>Estilo</th>
                                     <th>Total de Cantidad Auditada</th>
                                     <th>Total de Cantidad Rechazada</th>
                                     <th>Porcentaje Total</th>
@@ -253,6 +276,8 @@
                                 <tr>
                                     <td>{{ $registro->nombre_1 }}</td>
                                     <td>{{ $registro->nombre_2 }}</td>
+                                    <td><input type="text" class="form-control" value="{{ $registro->orden_id }}" readonly></td>
+                                    <td><input type="text" class="form-control" value="{{ $registro->estilo_id }}" readonly></td>
                                     <td><input type="text" class="form-control" value="{{ $registro->total_auditada }}" readonly></td>
                                     <td><input type="text" class="form-control" value="{{ $registro->total_rechazada }}" readonly></td>
                                     <td><input type="text" class="form-control" value="{{ $registro->total_rechazada != 0 ? round(($registro->total_rechazada / $registro->total_auditada) * 100, 2) : 0 }}" readonly></td>
@@ -301,6 +326,36 @@
                 allowClear: true
             });
         });
+    </script>
+
+
+    <script>
+        function mostrarEstilo() {
+            var ordenSeleccionado = document.getElementById('orden').value;
+
+            // Obtener el token CSRF de la etiqueta meta
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // Obtener el evento seleccionado del atributo data-evento de la opción seleccionada
+            var eventoSeleccionado = document.getElementById('orden').selectedOptions[0].getAttribute('data-evento');
+
+            $.ajax({
+                url: "{{ route('evaluacionCorte.obtenerEstilo') }}",
+                type: 'POST',
+                data: {
+                    orden_id: ordenSeleccionado,
+                    _token: csrfToken // Incluir el token CSRF en los datos de la solicitud
+                },
+                success: function(response) {
+                    console.log(response); // Verifica la respuesta en la consola
+                    document.getElementById('estilo_id').value = response.estilo;
+                    document.getElementById('evento').value = eventoSeleccionado; // Asignar el valor del evento obtenido
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Muestra el mensaje de error en la consola
+                }
+            });
+        }
     </script>
 
     <script>

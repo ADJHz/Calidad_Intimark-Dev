@@ -103,8 +103,8 @@
                                                     <option value="Corte Lectra y Sellado">Corte Lectra y Sellado</option>
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" name="estilo" id="estilo" placeholder="estilo" required/></td>
-                                            <td><input type="text" class="form-control" name="supervisor" id="supervisor" placeholder="supervisor" required/></td>
+                                            <td><input type="text" class="form-control" name="estilo" id="estilo" placeholder="estilo" value="VARIOS" readonly/></td>
+                                            <td><input type="text" class="form-control" name="supervisor" id="supervisor" placeholder="supervisor" value="GUMERCINDO" readonly/></td>
                                             <td><input type="text" class="form-control me-2" name="auditor" id="auditor" value="{{ $auditorDato }}" readonly required /></td>
                                             <td><input type="text" class="form-control me-2" name="turno" id="turno" value="1" readonly required /></td>
                                         </tr>

@@ -176,6 +176,23 @@ class AuditoriaProcesoCorteController extends Controller
             'auditorDato' => $auditorDato]));
     }
 
+    public function obtenerEstilo(Request $request) 
+    {
+        $orden = $request->input('orden_id');
+        $encabezado = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
+
+        if (!$encabezado) {
+            return response()->json(['error' => 'No se encontró el encabezado para la orden especificada']);
+        }
+
+        $datos = [
+            'estilo' => $encabezado->estilo_id,
+            'evento' => $encabezado->evento
+        ];
+
+        return response()->json($datos);
+    } 
+
 
     public function formAltaProcesoCorte(Request $request) 
     {
@@ -200,6 +217,8 @@ class AuditoriaProcesoCorteController extends Controller
         $procesoCorte = new AuditoriaProcesoCorte();
         $procesoCorte->area = $request->area;
         $procesoCorte->estilo = $request->estilo;
+        $procesoCorte->orden_id = $request->orden_id;
+        $procesoCorte->estilo_id = $request->estilo_id;
         $procesoCorte->supervisor_corte = $request->supervisor_corte;
         $procesoCorte->auditor = $request->auditor;
         $procesoCorte->turno = $request->turno;
