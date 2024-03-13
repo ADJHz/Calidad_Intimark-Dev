@@ -12,6 +12,7 @@ use App\Models\AuditoriaProceso;
 use App\Models\AseguramientoCalidad;  
 use App\Models\CategoriaTeamLeader;  
 use App\Models\CategoriaTipoProblema; 
+use App\Models\CategoriaAccionCorrectiva; 
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -28,6 +29,9 @@ class AuditoriaProcesoController extends Controller
             'categoriaTPProceso' => CategoriaTipoProblema::where('area', 'proceso')->get(),
             'categoriaTPPlayera' => CategoriaTipoProblema::where('area', 'playera')->get(),
             'categoriaTPEmpaque' => CategoriaTipoProblema::where('area', 'empaque')->get(),
+            'categoriaACProceso' => CategoriaAccionCorrectiva::where('area', 'proceso')->get(),
+            'categoriaACPlayera' => CategoriaAccionCorrectiva::where('area', 'playera')->get(),
+            'categoriaACEmpaque' => CategoriaAccionCorrectiva::where('area', 'empaque')->get(),
             'teamLeaderPlanta1' => CategoriaTeamLeader::where('planta', 'Intimark1')->get(),
             'teamLeaderPlanta2' => CategoriaTeamLeader::where('planta', 'Intimark2')->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')

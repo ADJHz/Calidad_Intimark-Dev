@@ -163,6 +163,23 @@
                                             </select>
                                         </td>
                                         <td>
+                                            <select name="ac" id="ac" class="form-control" required
+                                                title="Por favor, selecciona una opción">
+                                                <option value="">Selecciona una opción</option>
+                                                    @if($data['area'] == 'AUDITORIA EN PROCESO')
+                                                        @foreach ($categoriaACProceso as $proceso)
+                                                            <option value="{{ $proceso->accion_correctiva }}">{{ $proceso->accion_correctiva }}</option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                        @foreach ($categoriaACPlayera as $playera)
+                                                            <option value="{{ $playera->accion_correctiva }}">{{ $playera->accion_correctiva }}</option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
+                                                        @foreach ($categoriaACEmpaque as $empque)
+                                                            <option value="{{ $empque->accion_correctiva }}">{{ $empque->accion_correctiva }}</option>
+                                                        @endforeach
+                                                    @endif
+                                            </select>
                                         </td>
                                         <td>
                                             @if($data['area'] == 'AUDITORIA EN EMPAQUE')
