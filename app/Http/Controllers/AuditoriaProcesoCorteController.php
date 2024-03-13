@@ -36,15 +36,12 @@ class AuditoriaProcesoCorteController extends Controller
     // Método privado para cargar las categorías
     private function cargarCategorias() {
         return [ 
-            'CategoriaCliente' => CategoriaCliente::where('estado', 1)->get(),
             'CategoriaColor' => CategoriaColor::where('estado', 1)->get(),
             'CategoriaEstilo' => CategoriaEstilo::where('estado', 1)->get(),
             'CategoriaNoRecibo' => CategoriaNoRecibo::where('estado', 1)->get(),
             'CategoriaTallaCantidad' => CategoriaTallaCantidad::where('estado', 1)->get(),
             'CategoriaTamañoMuestra' => CategoriaTamañoMuestra::where('estado', 1)->get(),
             'CategoriaMaterialRelajado' => CategoriaMaterialRelajado::where('estado', 1)->get(),
-            'CategoriaDefecto' => CategoriaDefecto::where('estado', 1)->get(),
-            'CategoriaTipoDefecto' => CategoriaTipoDefecto::where('estado', 1)->get(),
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),

@@ -81,6 +81,13 @@
                                 <p style="text-align: center;">{{ __('AUDITORIA PROCESO DE CORTE') }}</p>
                             </a>
                         </li>
+                        <li class="nav-item{{ $activePage == 'proceso' ? ' active' : '' }}">
+                            <a class="nav-link" href="{{ route('aseguramientoCalidad.altaProceso') }}">
+                                <i class="material-icons">edit_document</i>
+                                <p>{{ __('FCC-001') }}</p>
+                                <p style="text-align: center;">{{ __('AUDITORIA DE PROCESOS') }}</p>
+                            </a>
+                        </li>
                         <li class="nav-item{{ $activePage == 'Auditoria AQL' ? ' active' : '' }}">
 
                                 <i class="material-icons">edit_document</i>

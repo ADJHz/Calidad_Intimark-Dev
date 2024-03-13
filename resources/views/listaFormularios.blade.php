@@ -54,6 +54,15 @@
                                     <div class="card">
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
+                                            <h5 class="card-title">AUDITORIA DE PROCESOS <br>FCC-001</h5>
+                                            <a href="{{ route('aseguramientoCalidad.altaProceso') }}" class="btn btn-primary"  >INICIAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                    <div class="card">
+                                        <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
                                             <h5 class="card-title">AUDITORIA FINAL A.Q.L <br>FCC-009-B</h5>
 
                                         </div>

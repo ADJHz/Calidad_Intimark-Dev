@@ -8,7 +8,10 @@ use App\Models\User;
 
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaProcesoCorte; 
-use App\Models\AuditoriaProceso; 
+use App\Models\AuditoriaProceso;  
+use App\Models\AseguramientoCalidad;  
+use App\Models\CategoriaTeamLeader;  
+use App\Models\CategoriaTipoProblema; 
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -22,6 +25,11 @@ class AuditoriaProcesoController extends Controller
             'auditorDato' => Auth::user()->name,
             'auditorPlanta' => Auth::user()->Planta,
             'AuditoriaProceso' => AuditoriaProceso::all(),
+            'categoriaTPProceso' => CategoriaTipoProblema::where('area', 'proceso')->get(),
+            'categoriaTPPlayera' => CategoriaTipoProblema::where('area', 'playera')->get(),
+            'categoriaTPEmpaque' => CategoriaTipoProblema::where('area', 'empaque')->get(),
+            'teamLeaderPlanta1' => CategoriaTeamLeader::where('planta', 'Intimark1')->get(),
+            'teamLeaderPlanta2' => CategoriaTeamLeader::where('planta', 'Intimark2')->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
                 ->select('moduleid', 'itemid')
                 ->distinct()
@@ -75,15 +83,25 @@ class AuditoriaProcesoController extends Controller
         // Asegurarse de que la variable $data esté definida
         $data = $data ?? [];
 
-        dd($request->input('modulo'),$request->all(), $data);
+        //dd($request->all(), $data);
+        $nombresPlanta1= AuditoriaProceso::where('prodpoolid', 'Intimark1')
+            ->where('moduleid', $data['modulo'])
+            ->get();
+        $nombresPlanta2= AuditoriaProceso::where('prodpoolid', 'Intimark2')
+            ->where('moduleid', $data['modulo'])
+            ->get();
+
+
 
         $fechaActual = Carbon::now()->toDateString();
 
-        $mostrarRegistro = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+        $mostrarRegistro = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+            ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
             ->get();
 
-        $registros = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+        $registros = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+            ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
             ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
             ->first();
@@ -92,10 +110,11 @@ class AuditoriaProcesoController extends Controller
         $total_porcentaje = $total_auditada != 0 ? ($total_rechazada / $total_auditada) * 100 : 0;
 
 
-        $registrosIndividual = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+        $registrosIndividual = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+            ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
-            ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
-            ->groupBy('nombre_1', 'nombre_2')
+            ->selectRaw('nombre, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
+            ->groupBy('nombre')
             ->get();
 
         // Inicializa las variables para evitar errores
@@ -118,6 +137,8 @@ class AuditoriaProcesoController extends Controller
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
             'data' => $data, 
+            'nombresPlanta1' => $nombresPlanta1, 
+            'nombresPlanta2' => $nombresPlanta2, 
             'total_auditada' => $total_auditada, 
             'total_rechazada' => $total_rechazada,
             'total_porcentaje' => $total_porcentaje,
@@ -128,22 +149,6 @@ class AuditoriaProcesoController extends Controller
             'mostrarRegistro' => $mostrarRegistro]));
     }
 
-    public function obtenerEstilo(Request $request) 
-    {
-        $orden = $request->input('orden_id');
-        $encabezado = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
-
-        if (!$encabezado) {
-            return response()->json(['error' => 'No se encontró el encabezado para la orden especificada']);
-        }
-
-        $datos = [
-            'estilo' => $encabezado->estilo_id,
-            'evento' => $encabezado->evento
-        ];
-
-        return response()->json($datos);
-    } 
 
 
     public function formAltaProceso(Request $request) 
@@ -152,13 +157,14 @@ class AuditoriaProcesoController extends Controller
 
         $data = [
             'area' => $request->area,
+            'modulo' => $request->modulo,
             'estilo' => $request->estilo,
-            'supervisor' => $request->supervisor,
+            'team_leader' => $request->team_leader,
             'auditor' => $request->auditor,
             'turno' => $request->turno,
         ];
         //dd($data);
-        return redirect()->route('aseguramientoCalidad.auditoriaProceso', $data)->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+        return redirect()->route('aseguramientoCalidad.auditoriaProceso', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
     }
 
     public function formRegistroAuditoriaProceso(Request $request)
@@ -166,24 +172,21 @@ class AuditoriaProcesoController extends Controller
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
         //dd($request->all());
-        $procesoCorte = new AuditoriaProcesoCorte();
-        $procesoCorte->area = $request->area;
-        $procesoCorte->estilo = $request->estilo;
-        $procesoCorte->orden_id = $request->orden_id;
-        $procesoCorte->estilo_id = $request->estilo_id;
-        $procesoCorte->supervisor_corte = $request->supervisor_corte;
-        $procesoCorte->auditor = $request->auditor;
-        $procesoCorte->turno = $request->turno;
-        $procesoCorte->nombre_1 = $request->nombre_1;
-        $procesoCorte->nombre_2 = $request->nombre_2;
-        $procesoCorte->operacion = $request->operacion;
-        $procesoCorte->mesa = $request->mesa;
-        $procesoCorte->cantidad_auditada = $request->cantidad_auditada;
-        $procesoCorte->cantidad_rechazada = $request->cantidad_rechazada;
-        $procesoCorte->tp = $request->tp;
-        $procesoCorte->ac = $request->ac;
+        $nuevoRegistro = new AseguramientoCalidad();
+        $nuevoRegistro->area = $request->area;
+        $nuevoRegistro->modulo = $request->modulo;
+        $nuevoRegistro->estilo = $request->estilo;
+        $nuevoRegistro->team_leader = $request->team_leader;
+        $nuevoRegistro->auditor = $request->auditor;
+        $nuevoRegistro->turno = $request->turno;
+        $nuevoRegistro->nombre = $request->nombre;
+        $nuevoRegistro->operacion = $request->operacion;
+        $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
+        $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+        $nuevoRegistro->tp = $request->tp;
+        $nuevoRegistro->ac = $request->ac;
 
-        $procesoCorte->save();
+        $nuevoRegistro->save();
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }

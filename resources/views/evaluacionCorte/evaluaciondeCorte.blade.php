@@ -110,7 +110,7 @@
 
                         <div class="table-responsive">
                             <table class="table">
-                                <thead>
+                                <thead class="thead-primary">
                                     <tr>
                                         <th>Descripción de partes</th>
                                         <th>Izquierda X</th>
@@ -176,7 +176,7 @@
                     <div class="table-responsive">
                         @if($encabezadoAuditoriaCorte->estatus_evaluacion_corte == '1')
                         <table class="table">
-                            <thead>
+                            <thead class="thead-primary">
                                 <tr>
                                     <th>Descripción de partes</th>
                                     <th>Izquierda X</th>
@@ -209,7 +209,7 @@
                         </table>
                         @else
                             <table class="table">
-                                <thead>
+                                <thead class="thead-primary">
                                     <tr>
                                         <th>Descripción de partes</th>
                                         <th>Izquierda X</th>
@@ -324,6 +324,15 @@
             </div>
         </div>
     </div>
+
+    <style>
+        thead.thead-primary {
+            background-color: #59666e54; /* Azul claro */
+            color: #333; /* Color del texto */
+        }
+
+    </style>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2({

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Proceso Corte', 'titlePage' => __('Proceso Corte')])
+@extends('layouts.app', ['activePage' => 'proceso', 'titlePage' => __('proceso')])
 
 @section('content')
     {{-- ... dentro de tu vista ... --}}
@@ -70,7 +70,7 @@
                 <div class="card-header card-header-primary">
                     <div class="row align-items-center justify-content-between">
                         <div class="col">
-                            <h3 class="card-title">AUDITORIA PROCESO DE CORTE</h3>
+                            <h3 class="card-title">AUDITORIA CONTROL DE CALIDAD</h3>
                         </div>
                         <div class="col-auto">
                             <h4>Fecha:
@@ -87,6 +87,7 @@
                             <table class="table">
                                 <thead class="thead-primary">
                                     <tr>
+                                        <th>AREA</th>
                                         <th>MODULO</th>
                                         <th>ESTILO</th>
                                         <th>TEAM-LEADER</th>
@@ -95,31 +96,64 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                            <td>
-                                                <select name="modulo" id="modulo" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value="" selected>Selecciona una opción</option> <!-- Agrega el atributo selected aquí -->
-                                                    @if($auditorPlanta == "Planta1")
-                                                        @foreach ($auditoriaProcesoIntimark1 as $moduloP1)
-                                                            <option value="{{ $moduloP1->moduleid }}" data-itemid="{{ $moduloP1->itemid }}">
-                                                                {{ $moduloP1->moduleid }}
-                                                            </option>
-                                                        @endforeach
-                                                    @elseif($auditorPlanta == "Planta2")
-                                                        @foreach ($auditoriaProcesoIntimark2 as $moduloP2)
-                                                            <option value="{{ $moduloP2->moduleid }}" data-itemid="{{ $moduloP2->itemid }}">
-                                                                {{ $moduloP2->moduleid }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                                <input type="hidden" name="modulo_seleccionado" id="modulo_seleccionado">
-                                            </td>
-                                            <td><input type="text" class="form-control" name="estilo" id="estilo" placeholder="estilo" readonly/></td>                                            
-                                            <td><input type="text" class="form-control" name="supervisor" id="supervisor" placeholder="supervisor" value="GUMERCINDO" readonly/></td>
-                                            <td><input type="text" class="form-control me-2" name="auditor" id="auditor" value="{{ $auditorDato }}" readonly required /></td>
-                                            <td><input type="text" class="form-control me-2" name="turno" id="turno" value="1" readonly required /></td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <select name="area" id="area" class="form-control" required>
+                                                <option value="">Selecciona una opción</option>
+                                                <option value="AUDITORIA EN PROCESO">AUDITORIA EN PROCESO</option>
+                                                <option value="AUDITORIA EN PROCESO PLAYERA">AUDITORIA EN PROCESO PLAYERA</option>
+                                                <option value="AUDITORIA EN EMPAQUE">AUDITORIA EN EMPAQUE</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="modulo" id="modulo" class="form-control"
+                                                title="Por favor, selecciona una opción">
+                                                <option value="" selected>Selecciona una opción</option>
+                                                <!-- Agrega el atributo selected aquí -->
+                                                @if ($auditorPlanta == 'Planta1')
+                                                    @foreach ($auditoriaProcesoIntimark1 as $moduloP1)
+                                                        <option value="{{ $moduloP1->moduleid }}"
+                                                            data-itemid="{{ $moduloP1->itemid }}">
+                                                            {{ $moduloP1->moduleid }}
+                                                        </option>
+                                                    @endforeach
+                                                @elseif($auditorPlanta == 'Planta2')
+                                                    @foreach ($auditoriaProcesoIntimark2 as $moduloP2)
+                                                        <option value="{{ $moduloP2->moduleid }}"
+                                                            data-itemid="{{ $moduloP2->itemid }}">
+                                                            {{ $moduloP2->moduleid }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
+                                                placeholder="estilo" readonly /></td>
+                                        <td>
+                                            <select name="team_leader" id="team_leader" class="form-control" required
+                                                title="Por favor, selecciona una opción">
+                                                <option value="" selected>Selecciona una opción</option>
+                                                <!-- Agrega el atributo selected aquí -->
+                                                @if ($auditorPlanta == 'Planta1')
+                                                    @foreach ($teamLeaderPlanta1 as $teamLeader)
+                                                        <option value="{{ $teamLeader->nombre }}">
+                                                            {{ $teamLeader->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                @elseif($auditorPlanta == 'Planta2')
+                                                    @foreach ($teamLeaderPlanta2 as $teamLeader)
+                                                        <option value="{{ $teamLeader->nombre }}">
+                                                            {{ $teamLeader->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control me-2" name="auditor" id="auditor"
+                                                value="{{ $auditorDato }}" readonly required /></td>
+                                        <td><input type="text" class="form-control me-2" name="turno" id="turno"
+                                                value="1" readonly required /></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -127,7 +161,7 @@
                     </form>
                     <hr>
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-                    
+
                     <!--Fin de la edicion del codigo para mostrar el contenido-->
                 </div>
             </div>
@@ -136,8 +170,10 @@
 
     <style>
         thead.thead-primary {
-            background-color: #59666e54; /* Azul claro */
-            color: #333; /* Color del texto */
+            background-color: #59666e54;
+            /* Azul claro */
+            color: #333;
+            /* Color del texto */
         }
     </style>
     <script>
@@ -147,7 +183,7 @@
                 allowClear: true
             });
 
-            $('#modulo').on('select2:select', function (e) {
+            $('#modulo').on('select2:select', function(e) {
                 var itemid = e.params.data.element.dataset.itemid;
                 $('#estilo').val(itemid);
             });
@@ -159,15 +195,6 @@
             $('#modulo').change(function() {
                 var itemid = $(this).find(':selected').data('itemid');
                 $('#estilo').val(itemid);
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#modulo').change(function() {
-                var selectedOption = $(this).find(':selected');
-                $('#modulo_seleccionado').val(selectedOption.val());
             });
         });
     </script>
