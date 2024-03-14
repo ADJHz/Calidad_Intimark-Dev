@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoriaCliente extends Model
+class CategoriaTipoProblema extends Model
 {
     use HasFactory;
-
-    protected $table = 'categoria_clientes';
-    // ... otras propiedades y métodos del modelo ...
+    protected $table = 'categoria_tipos_problemas';
 }

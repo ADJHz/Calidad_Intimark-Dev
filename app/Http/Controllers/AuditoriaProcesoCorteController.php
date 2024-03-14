@@ -36,15 +36,12 @@ class AuditoriaProcesoCorteController extends Controller
     // Método privado para cargar las categorías
     private function cargarCategorias() {
         return [ 
-            'CategoriaCliente' => CategoriaCliente::where('estado', 1)->get(),
             'CategoriaColor' => CategoriaColor::where('estado', 1)->get(),
             'CategoriaEstilo' => CategoriaEstilo::where('estado', 1)->get(),
             'CategoriaNoRecibo' => CategoriaNoRecibo::where('estado', 1)->get(),
             'CategoriaTallaCantidad' => CategoriaTallaCantidad::where('estado', 1)->get(),
             'CategoriaTamañoMuestra' => CategoriaTamañoMuestra::where('estado', 1)->get(),
             'CategoriaMaterialRelajado' => CategoriaMaterialRelajado::where('estado', 1)->get(),
-            'CategoriaDefecto' => CategoriaDefecto::where('estado', 1)->get(),
-            'CategoriaTipoDefecto' => CategoriaTipoDefecto::where('estado', 1)->get(),
             'CategoriaAuditor' => CategoriaAuditor::where('estado', 1)->get(),
             'CategoriaTecnico' => CategoriaTecnico::where('estado', 1)->get(),
             'CategoriaDefectoCorte' => CategoriaDefectoCorte::where('estado', 1)->get(),
@@ -123,10 +120,15 @@ class AuditoriaProcesoCorteController extends Controller
         $data = $request->all();
         // Asegurarse de que la variable $data esté definida
         $data = $data ?? [];
-
+        
         $fechaActual = Carbon::now()->toDateString();
 
+        $mostrarRegistro = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->get();
+
         $registros = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
             ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
             ->first();
         $total_auditada = $registros->total_auditada ?? 0;
@@ -135,6 +137,7 @@ class AuditoriaProcesoCorteController extends Controller
 
 
         $registrosIndividual = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
             ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
             ->groupBy('nombre_1', 'nombre_2')
             ->get();
@@ -148,7 +151,7 @@ class AuditoriaProcesoCorteController extends Controller
             $total_auditadaIndividual = $registrosIndividual->sum('total_auditada');
             $total_rechazadaIndividual = $registrosIndividual->sum('total_rechazada');
         }
-
+        //dd($registros, $fechaActual);
         // Calcula el porcentaje total
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
 
@@ -166,8 +169,26 @@ class AuditoriaProcesoCorteController extends Controller
             'total_auditadaIndividual' => $total_auditadaIndividual, 
             'total_rechazadaIndividual' => $total_rechazadaIndividual,
             'total_porcentajeIndividual' => $total_porcentajeIndividual,
+            'mostrarRegistro' => $mostrarRegistro,
             'auditorDato' => $auditorDato]));
     }
+
+    public function obtenerEstilo(Request $request) 
+    {
+        $orden = $request->input('orden_id');
+        $encabezado = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
+
+        if (!$encabezado) {
+            return response()->json(['error' => 'No se encontró el encabezado para la orden especificada']);
+        }
+
+        $datos = [
+            'estilo' => $encabezado->estilo_id,
+            'evento' => $encabezado->evento
+        ];
+
+        return response()->json($datos);
+    } 
 
 
     public function formAltaProcesoCorte(Request $request) 
@@ -193,12 +214,15 @@ class AuditoriaProcesoCorteController extends Controller
         $procesoCorte = new AuditoriaProcesoCorte();
         $procesoCorte->area = $request->area;
         $procesoCorte->estilo = $request->estilo;
+        $procesoCorte->orden_id = $request->orden_id;
+        $procesoCorte->estilo_id = $request->estilo_id;
         $procesoCorte->supervisor_corte = $request->supervisor_corte;
         $procesoCorte->auditor = $request->auditor;
         $procesoCorte->turno = $request->turno;
         $procesoCorte->nombre_1 = $request->nombre_1;
         $procesoCorte->nombre_2 = $request->nombre_2;
         $procesoCorte->operacion = $request->operacion;
+        $procesoCorte->mesa = $request->mesa;
         $procesoCorte->cantidad_auditada = $request->cantidad_auditada;
         $procesoCorte->cantidad_rechazada = $request->cantidad_rechazada;
         $procesoCorte->tp = $request->tp;

@@ -27,7 +27,7 @@
                                     <div class="card">
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
-                                            <h5 class="card-title">CONTROL DE CALIDAD EN CORTE <br>FCC-010</h5>
+                                            <h5 class="card-title">AUDITORIA CORTE CONTROL DE CALIDAD<br>FCC-010</h5>
                                             <a href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
@@ -36,8 +36,26 @@
                                     <div class="card">
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
-                                            <h5 class="card-title">EVALUACION  DE CORTE CONTRA PATRON <br>F-4</h5>
+                                            <h5 class="card-title">EVALUACION CORTE CONTRA PATRON<br>F-4</h5>
                                             <a href="{{ route('evaluacionCorte.inicioEvaluacionCorte') }}" class="btn btn-primary"  >INICIAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                    <div class="card">
+                                        <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">AUDITORIA PROCESO DE CORTE <br>FCC-04</h5>
+                                            <a href="{{ route('auditoriaProcesoCorte.altaProcesoCorte') }}" class="btn btn-primary"  >INICIAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                    <div class="card">
+                                        <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">AUDITORIA DE PROCESOS <br>FCC-001</h5>
+                                            <a href="{{ route('aseguramientoCalidad.altaProceso') }}" class="btn btn-primary"  >INICIAR</a>
                                         </div>
                                     </div>
                                 </div>

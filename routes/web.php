@@ -9,11 +9,18 @@ use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 
+
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
 
 
 use App\Http\Controllers\AuditoriaProcesoCorteController;
+
+
+use App\Http\Controllers\AuditoriaProcesoCorteController;
+use App\Http\Controllers\AuditoriaProcesoController;
+use App\Http\Controllers\Maquila;
+use App\Http\Controllers\viewlistaFormularios;
 
 
 /*
@@ -117,6 +124,13 @@ Route::get('/altaProcesoCorte', [AuditoriaProcesoCorteController::class, 'altaPr
 Route::post('/formAltaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formAltaProcesoCorte'])->name('auditoriaProcesoCorte.formAltaProcesoCorte');
 Route::post('/formRegistroAuditoriaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formRegistroAuditoriaProcesoCorte'])->name('auditoriaProcesoCorte.formRegistroAuditoriaProcesoCorte');
 
+//Inicio apartado para seccion Auditoria: proceso, playera, empaque
+Route::get('/auditoriaProceso', [AuditoriaProcesoController::class, 'auditoriaProceso'])->name('aseguramientoCalidad.auditoriaProceso');
+Route::get('/altaProceso', [AuditoriaProcesoController::class, 'altaProceso'])->name('aseguramientoCalidad.altaProceso');
+Route::post('/obtenerItemId', [AuditoriaProcesoController::class, 'obtenerItemId'])->name('obtenerItemId');
+Route::post('/formAltaProceso', [AuditoriaProcesoController::class, 'formAltaProceso'])->name('aseguramientoCalidad.formAltaProceso');
+Route::post('/formRegistroAuditoriaProceso', [AuditoriaProcesoController::class, 'formRegistroAuditoriaProceso'])->name('aseguramientoCalidad.formRegistroAuditoriaProceso');
+Route::post('/formUpdateDeleteProceso/{id}', [AuditoriaProcesoController::class, 'formUpdateDeleteProceso'])->name('aseguramientoCalidad.formUpdateDeleteProceso');
 
 //Fin apartado para seccion Evaluacion corte
 

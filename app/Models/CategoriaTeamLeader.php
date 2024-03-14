@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoriaTamañoMuestra extends Model
+class CategoriaTeamLeader extends Model
 {
     use HasFactory;
-    protected $table = 'categoria_tamaños_muestras';
+
+    protected $table = 'cat_teamleader';
+    // ... otras propiedades y métodos del modelo ...
 }
