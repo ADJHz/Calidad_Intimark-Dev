@@ -103,6 +103,11 @@ class AuditoriaProcesoController extends Controller
             ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
             ->get();
+        $estatusFinalizar = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        ->where('modulo', $data['modulo'])
+        ->where('area', $data['area'])
+        ->where('estatus', 1)
+        ->exists();
 
         $registros = AseguramientoCalidad::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
@@ -150,6 +155,7 @@ class AuditoriaProcesoController extends Controller
             'total_auditadaIndividual' => $total_auditadaIndividual, 
             'total_rechazadaIndividual' => $total_rechazadaIndividual,
             'total_porcentajeIndividual' => $total_porcentajeIndividual,
+            'estatusFinalizar' => $estatusFinalizar,
             'mostrarRegistro' => $mostrarRegistro]));
     }
 
@@ -189,6 +195,7 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
         $nuevoRegistro->tp = $request->tp;
         $nuevoRegistro->ac = $request->ac;
+        $nuevoRegistro->pxp = $request->pxp;
 
         $nuevoRegistro->save();
 
@@ -196,11 +203,12 @@ class AuditoriaProcesoController extends Controller
     }
 
     
-    public function formUpdateDeleteProceso($id, Request $request){
+    public function formUpdateDeleteProceso(Request $request){
         $activePage ='';
         $action = $request->input('action');
-        //$id = $request->input('id');
-        dd($request->all());
+
+        $id = $request->input('id');
+        //dd($request->all());
         if($action == 'update'){
             $actualizarRegistro = AseguramientoCalidad::where('id', $id)->first();
             $actualizarRegistro->nombre = $request->nombre;
@@ -209,6 +217,7 @@ class AuditoriaProcesoController extends Controller
             $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
             $actualizarRegistro->tp = $request->tp;
             $actualizarRegistro->ac = $request->ac;
+            $actualizarRegistro->pxp = $request->pxp;
             $actualizarRegistro->save();
 
             //dd($request->all(), $actualizarRegistro, $id);
@@ -223,6 +232,29 @@ class AuditoriaProcesoController extends Controller
 
         //dd($request->all(), $request->input('descripcion_parte1'), $id);
         return back()->with('cambio-estatus', 'Datos guardados correctamente.')->with('activePage', $activePage);
+    }
+
+    public function formFinalizarProceso(Request $request)
+    {
+        $activePage ='';
+        // Obtener el ID seleccionado desde el formulario
+        $area = $request->input('area');
+        $modulo = $request->input('modulo');
+        $observacion = $request->input('observacion');
+        $estatus=1;
+        //dd($request->all(), $area);
+        // Asegurarse de que la variable $data esté definida
+        $data = $data ?? [];
+        $fechaActual = Carbon::now()->toDateString();
+
+        // Actualizar todos los registros que cumplan con las condiciones
+        AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        ->where('modulo', $modulo)
+        ->where('area', $area)
+        ->update(['observacion' => $observacion, 'estatus' => $estatus]);
+        
+
+        return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
     }
 
 }
