@@ -8,16 +8,7 @@ use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
-
-
-use App\Http\Controllers\Maquila;
-use App\Http\Controllers\viewlistaFormularios;
-
-
-use App\Http\Controllers\AuditoriaProcesoCorteController;
-
-
-use App\Http\Controllers\AuditoriaProcesoCorteController;
+use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
