@@ -8,13 +8,13 @@ use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
-<<<<<<< HEAD
+
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
-=======
-use App\Http\Controllers\Maquila; 
-use App\Http\Controllers\AuditoriaProcesoCorteController; 
->>>>>>> ec53d7703d8811ce339f71188fd22dc903a62f56
+
+
+use App\Http\Controllers\AuditoriaProcesoCorteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -114,8 +114,8 @@ Route::post('/crearCategoriaParteCorte', [EvaluacionCorteController::class, 'cre
 //Inicio apartado para seccion Auditoria Proceso de Corte
 Route::get('/auditoriaProcesoCorte', [AuditoriaProcesoCorteController::class, 'auditoriaProcesoCorte'])->name('auditoriaProcesoCorte.auditoriaProcesoCorte');
 Route::get('/altaProcesoCorte', [AuditoriaProcesoCorteController::class, 'altaProcesoCorte'])->name('auditoriaProcesoCorte.altaProcesoCorte');
-Route::post('/formAltaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formAltaProcesoCorte'])->name('auditoriaProcesoCorte.formAltaProcesoCorte'); 
-Route::post('/formRegistroAuditoriaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formRegistroAuditoriaProcesoCorte'])->name('auditoriaProcesoCorte.formRegistroAuditoriaProcesoCorte'); 
+Route::post('/formAltaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formAltaProcesoCorte'])->name('auditoriaProcesoCorte.formAltaProcesoCorte');
+Route::post('/formRegistroAuditoriaProcesoCorte', [AuditoriaProcesoCorteController::class, 'formRegistroAuditoriaProcesoCorte'])->name('auditoriaProcesoCorte.formRegistroAuditoriaProcesoCorte');
 
 
 //Fin apartado para seccion Evaluacion corte
@@ -212,4 +212,4 @@ Route::view('/error', 'error')->name('error');
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
 Route::get('/ClientesProv/{ordenes}', [DatosAuditoriaEtiquetas::class, 'ClientesProv']);
 Route::get('/Estilositem/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Estilositem']);
-Route::get('/Color/{estilo}', [DatosAuditoriaEtiquetas::class, 'Colores']);
+Route::get('/Color/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Colores']);

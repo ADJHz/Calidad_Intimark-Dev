@@ -40,30 +40,31 @@
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
                         </div>
+                          <!--
                         <div class="col-md-2">
-                            <label for="ColorSelect">Selecciona color:</label>
-                            <select class="form-control" id="ColorSelect" name="ColorSelect" required>
+                            <label for="colorSelect">Selecciona color:</label>
+                            <select class="form-control" id="colorSelect" name="colorSelect" required>
 
                             </select>
                         </div>
-                          <!--
-                        <div class="col-md-2">
-                            <label for="tallaSelect">Selecciona Talla :</label>
-                            <select class="form-control" id="tallaSelect" name="tallaSelect" required>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="tecnicaSelect">Selecciona Catidad:</label>
-                            <select class="form-control" id="tecnicaSelect" name="tecnicaSelect" required>
-                              Las opciones se cargarán dinámicamente aquí
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="fibraSelect">Seleccion de tipo de fibra:</label>
-                            <select class="form-control" id="fibraSelect" name="fibraSelect[]" required>
-                               Las opciones se cargarán dinámicamente aquí
-                            </select>
-                        </div> -->
+
+                                    <div class="col-md-2">
+                                        <label for="tallaSelect">Selecciona Talla :</label>
+                                        <select class="form-control" id="tallaSelect" name="tallaSelect" required>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="tecnicaSelect">Selecciona Catidad:</label>
+                                        <select class="form-control" id="tecnicaSelect" name="tecnicaSelect" required>
+                                          Las opciones se cargarán dinámicamente aquí
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="fibraSelect">Seleccion de tipo de fibra:</label>
+                                        <select class="form-control" id="fibraSelect" name="fibraSelect[]" required>
+                                           Las opciones se cargarán dinámicamente aquí
+                                        </select>
+                                    </div> -->
                     </div>
                     <br>
                     <div class="col-md-2">
@@ -104,38 +105,32 @@
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
                                             Auditor</th>
                                         <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
+                                            No/Orden</th>
+                                        <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
-                                            Cliente</th>
+                                            Cliente/Proveedor</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
                                             Estilo</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
-                                            OP</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">
-                                            Tecnico</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             Color</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
-                                            # Grafico</th>
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">
+                                            Talla</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
-                                            Tecnica</th>
+                                            Cantidad</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Tamaño De Muestra</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
+                                          Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
-                                            Fibras</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">
-                                            % de Fibras</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
-                                            Tipo Defectos</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
-                                            Acciones Correctivas</th>
+                                           Tipo De Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                         </th>
@@ -169,7 +164,7 @@
                 placeholder: 'Seleccione un cliente',
                 allowClear: true
             });
-            $('#ColorSelect').select2({
+            $('#colorSelect').select2({
                 placeholder: 'Seleccione un color',
                 allowClear: true
             });
@@ -315,7 +310,7 @@
                     // Agregar las nuevas opciones desde la respuesta del servidor
                     $.each(data, function(key, value) {
                         $('#ordenSelect').append($('<option>', {
-                            text: value.purchid
+                            text: value.OrdenCompra
                         }));
                     });
                 },
@@ -345,7 +340,7 @@
                         // Agregar las nuevas opciones desde la respuesta del servidor
                         $.each(data, function(key, value) {
                             $('#clienteSelect').append($('<option>', {
-                                text: value.purchname
+                                text: value.Proveedor
                             }));
                         });
                     },
@@ -376,7 +371,7 @@
                         // Agregar las nuevas opciones desde la respuesta del servidor
                         $.each(data, function(key, value) {
                             $('#estiloSelect').append($('<option>', {
-                                text: value.itemid
+                                text: value.Estilos
                             }));
                         });
                     },
@@ -385,163 +380,42 @@
                     }
                 });
             });
-            // Evento de cambio en el select de clientes
-            $('#estiloSelect').on('change', function() {
-                var estiloselect = $(this).val();
+            // Evento de cambio en el select de estilos
+            $('#ordenSelect').on('change', function() {
+                var ordenselect = $(this).val();
 
-                // Realizar la solicitud para obtener los estilos asociados al cliente seleccionado
+                // Realizar la solicitud para obtener los colores asociados al estilo seleccionado
                 $.ajax({
-                    url: '/Color/' + estiloselect,
+                    url: '/Color/' + ordenselect,
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data);
+
                         // Limpiar las opciones existentes
-                        $('#estiloSelect').empty();
+                        $('#colorSelect').empty();
+
                         // Agregar la opción predeterminada
-                        $('#estiloSelect').append($('<option>', {
+                        $('#colorSelect').append($('<option>', {
                             disabled: true,
                             selected: true,
-
+                            text: 'N/A',
                         }));
+
                         // Agregar las nuevas opciones desde la respuesta del servidor
                         $.each(data, function(key, value) {
-                            $('#estiloSelect').append($('<option>', {
-                                text: value.inventcolorid
+                            $('#colorSelect').append($('<option>', {
+                                text: value.Color
                             }));
                         });
                     },
                     error: function(error) {
-                        console.error('Error al cargar opciones de estilos: ', error);
+                        console.error('Error al cargar opciones de colores: ', error);
                     }
                 });
             });
 
-            $.ajax({
-                url: '/Tecnicos', // Ajusta la URL según tu ruta
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar las opciones existentes
-                    $('#tecnicosSelect').empty();
-                    // Agregar la opción predeterminada
-                    $('#tecnicosSelect').append($('<option>', {
-                        disabled: true,
-                        selected: true
-                    }));
-                    // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(key, value) {
-                        $('#tecnicosSelect').append($('<option>', {
-                            text: value.Nom_Tecnico
-                        }));
-                    });
-                },
-                error: function(error) {
-                    console.error('Error al cargar opciones de Tecnicos: ', error);
-                }
 
-            });
-            $.ajax({
-                url: '/TipoTecnica', // Ajusta la URL según tu ruta
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar las opciones existentes
-                    $('#tecnicaSelect').empty();
-                    // Agregar la opción predeterminada
-                    $('#tecnicaSelect').append($('<option>', {
-                        disabled: true,
-                        selected: true
-                    }));
-                    // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(key, value) {
-                        $('#tecnicaSelect').append($('<option>', {
-                            text: value.Tipo_tecnica
-                        }));
-                    });
-                },
-                error: function(error) {
-                    console.error('Error al cargar opciones de clientes: ', error);
-                }
-            });
-            $.ajax({
-                url: '/TipoFibra', // Ajusta la URL según tu ruta
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar las opciones existentes
-                    $('#fibraSelect').empty();
-                    // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(key, value) {
-                        $('#fibraSelect').append($('<option>', {
-                            text: value.Tipo_Fibra
-                        }));
-                    });
-                },
-                error: function(error) {
-                    console.error('Error al cargar opciones de clientes: ', error);
-                }
-            });
-            $('#tecnicaSelect').on('change', function() {
-                var tecnicaSeleccionada = $(this).val();
-                // Si el usuario selecciona 'Otra', mostrar un prompt para ingresar una nueva opción
-                if (tecnicaSeleccionada === 'Otra') {
-                    var nuevaTecnica = prompt('Por favor, ingresa la nueva técnica');
-                    // Si el usuario ingresó una nueva técnica, enviarla al servidor
-                    if (nuevaTecnica) {
-                        $.ajax({
-                            url: '/AgregarTecnica', // Ajusta la URL según tu ruta
-                            type: 'POST',
-                            data: {
-                                nuevaTecnica: nuevaTecnica,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(data) {
-                                // Agregar la nueva opción a la lista desplegable
-                                $('#tecnicaSelect').append($('<option>', {
-                                    text: nuevaTecnica
-                                }));
-                                // Seleccionar la nueva opción
-                                $('#tecnicaSelect').val(nuevaTecnica);
-                            },
-                            error: function(error) {
-                                console.error('Error al agregar nueva técnica: ', error);
-                            }
-                        });
-                    }
-                }
-            });
-            $('#fibraSelect').on('change', function() {
-                var fibrasSeleccionadas = $(this).val();
-                // Verificar si 'Otra' está entre las opciones seleccionadas
-                if (Array.isArray(fibrasSeleccionadas) && fibrasSeleccionadas.includes('Otra')) {
-                    var nuevafibra = prompt('Por favor, ingresa la nueva fibra');
-
-                    // Si el usuario ingresó una nueva fibra, enviarla al servidor
-                    if (nuevafibra) {
-                        $.ajax({
-                            url: '/AgregarFibra',
-                            type: 'POST',
-                            data: {
-                                nuevafibra: nuevafibra,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(data) {
-                                // Agregar la nueva opción a la lista desplegable
-                                $('#fibraSelect').append($('<option>', {
-                                    text: nuevafibra,
-                                    value: nuevafibra
-                                }));
-                                // Seleccionar la nueva opción
-                                fibrasSeleccionadas.push(nuevafibra);
-                                $('#fibraSelect').val(fibrasSeleccionadas);
-                            },
-                            error: function(error) {
-                                console.error('Error al agregar nueva fibra: ', error);
-                            }
-                        });
-                    }
-                }
-            });
         });
     </script>
     <script>
@@ -550,7 +424,7 @@
         $(document).ready(function() {
             // Hacer la llamada Ajax al servidor para obtener datos
             $.ajax({
-                url: '/viewTabl', // Ruta de tu servidor Laravel
+                url: '/viewTablEtiquetas', // Ruta de tu servidor Laravel
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -577,7 +451,7 @@
                                 '<td><input type="text" name="id" class="form-control" value="' +
                                 item.id + '" readonly style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Auditor" class="form-control" value="' +
-                                item.Auditor + '" readonly style="white-space: nowrap;"></td>' +
+                                item.NoOrden + '" readonly style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Cliente" class="form-control" value="' +
                                 item.Cliente + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
@@ -585,32 +459,23 @@
                                 item.Estilo + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="OP_Defec" class="form-control" value="' +
-                                item.OP_Defec + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tecnico" class="form-control" value="' +
-                                item.Tecnico + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Color" class="form-control" value="' +
                                 item.Color + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tecnico" class="form-control" value="' +
+                                item.Talla + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Color" class="form-control" value="' +
+                                item.Cantidad + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
-                                item.Num_Grafico + '" ' + readonlyAttribute +
+                                item.Tama_Muestra + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Tecnica" class="form-control" value="' +
-                                item.Tecnica + '" ' + readonlyAttribute +
+                                item.Defectos + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Fibras" class="form-control" value="' +
-                                item.Fibras + '" ' + readonlyAttribute +
+                                item.Tipo_Defectos + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
-                                item.Porcen_Fibra + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
-                                item.Tipo_Problema + '" ' +
-                                'readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
-                                item.Ac_Correctiva + '" ' +
-                                'readonly style="white-space: nowrap;"></td>' +
                                 tipoProblemaCell +
                                 acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
@@ -759,16 +624,10 @@
             }
             lastRegisteredId++;
             var auditor = '{{ Auth::user()->name }}';
+            var op = $('#ordenSelect').val();
             var cliente = $('#clienteSelect').val();
             var estilo = $('#estiloSelect').val();
-            var op = $('#ordenSelect').val();
-            var tecnico = $('#tecnicosSelect').val();
-            var color = $('#inputColor').val();
-            var numGrafico = $('#inputGrafico').val();
-            var tecnica = $('#tecnicaSelect').val();
-            var fibras = $('#fibraSelect').val();
-            var tipoProblema = $('#tipoProblemaSelect').val();
-            var acCorrectiva = $('#acCorrectivaSelect').val();
+
 
             var porcentajes = [];
             $('.porcentajeInput').each(function() {
@@ -778,24 +637,14 @@
                 '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
                 '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
                 '" readonly style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="op_defecR[]" class="form-control" value="' + op +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="clienteR[]" class="form-control" value="' + cliente +
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="estiloR[]" class="form-control" value="' + estilo +
                 '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="op_defecR[]" class="form-control" value="' + op +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="tecnicoR[]" class="form-control" value="' + tecnico +
-                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="colorR[]" class="form-control" value="' + color +
                 '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="num_graficoR[]" class="form-control" value="' +
-                numGrafico + '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="tecnicaR[]" class="form-control" value="' + tecnica +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="fibrasR[]" class="form-control" value="' + fibras.join(', ') +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
-                porcentajes.join(', ') + '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
@@ -971,4 +820,3 @@
         }
     </script>
 @endsection
-
