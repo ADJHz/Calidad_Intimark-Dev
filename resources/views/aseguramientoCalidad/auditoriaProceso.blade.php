@@ -207,18 +207,94 @@
                                         <th>Lienzo rechazado</th> 
                                         <th>T. P. </th>  
                                         <th>Accion Correctiva </th>  
+                                        <th>Editar </th>  
+                                        <th>Eliminar </th>  
                                     </tr> 
                                 </thead>  
                                 <tbody> 
                                     @foreach($mostrarRegistro as $registro) 
-                                    <tr> 
-                                        <td>{{ $registro->nombre }}</td> 
-                                        <td>{{ $registro->operacion }}</td> 
-                                        <td>{{ $registro->cantidad_auditada }}</td> 
-                                        <td>{{ $registro->cantidad_rechazada }}</td> 
-                                        <td>{{ $registro->tp }}</td> 
-                                        <td>{{ $registro->ac }}</td> 
-                                    </tr> 
+                                    <form
+                                        action="{{ route('aseguramientoCalidad.formUpdateDeleteProceso', ['id' => $registro->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <tr> 
+                                            <td>
+                                                <select name="nombre" id="nombre" class="form-control" required title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @if ($auditorPlanta == 'Planta1')
+                                                        @foreach ($nombresPlanta1 as $nombre)
+                                                            <option value="{{ $nombre->name }}" {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
+                                                                {{ $nombre->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @elseif($auditorPlanta == 'Planta2')
+                                                        @foreach ($nombresPlanta2 as $nombre)
+                                                            <option value="{{ $nombre->name }}" {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
+                                                                {{ $nombre->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </td> 
+                                            <td><input type="text" class="form-control" name="operacion" value="{{ $registro->operacion }}" required></td> 
+                                            <td><input type="text" class="form-control" name="cantidad_auditada" value="{{ $registro->cantidad_auditada }}" required></td> 
+                                            <td><input type="text" class="form-control" name="cantidad_rechazada" value="{{ $registro->cantidad_rechazada }}" required></td> 
+                                            <td>
+                                                <select name="tp" id="tp" class="form-control" required title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @if($data['area'] == 'AUDITORIA EN PROCESO')
+                                                        @foreach ($categoriaTPProceso as $proceso)
+                                                            <option value="{{ $proceso->nombre }}" {{ $registro->tp == $proceso->nombre ? 'selected' : '' }}>
+                                                                {{ $proceso->nombre }}
+                                                            </option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                        @foreach ($categoriaTPPlayera as $playera)
+                                                            <option value="{{ $playera->nombre }}" {{ $registro->tp == $playera->nombre ? 'selected' : '' }}>
+                                                                {{ $playera->nombre }}
+                                                            </option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
+                                                        @foreach ($categoriaTPEmpaque as $empaque)
+                                                            <option value="{{ $empaque->nombre }}" {{ $registro->tp == $empaque->nombre ? 'selected' : '' }}>
+                                                                {{ $empaque->nombre }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </td> 
+                                            <td>
+                                                <select name="ac" id="ac" class="form-control" required title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @if($data['area'] == 'AUDITORIA EN PROCESO')
+                                                        @foreach ($categoriaACProceso as $proceso)
+                                                            <option value="{{ $proceso->accion_correctiva }}" {{ $registro->ac == $proceso->accion_correctiva ? 'selected' : '' }}>
+                                                                {{ $proceso->accion_correctiva }}
+                                                            </option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                        @foreach ($categoriaACPlayera as $playera)
+                                                            <option value="{{ $playera->accion_correctiva }}" {{ $registro->ac == $playera->accion_correctiva ? 'selected' : '' }}>
+                                                                {{ $playera->accion_correctiva }}
+                                                            </option>
+                                                        @endforeach
+                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
+                                                        @foreach ($categoriaACEmpaque as $empaque)
+                                                            <option value="{{ $empaque->accion_correctiva }}" {{ $registro->ac == $empaque->accion_correctiva ? 'selected' : '' }}>
+                                                                {{ $empaque->accion_correctiva }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </td> 
+                                            <td>
+                                                <button type="submit" name="action" value="update" class="btn btn-success">Guardar</button>
+                                            </td>
+                                            <td>
+                                                <button type="submit" name="action" value="delete" class="btn btn-danger">Eliminar</button>
+                                            </td>
+                                        </tr> 
+                                    </form>
                                     @endforeach 
                                 </tbody> 
                             </table> 

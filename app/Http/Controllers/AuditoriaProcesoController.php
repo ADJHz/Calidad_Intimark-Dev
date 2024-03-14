@@ -196,23 +196,33 @@ class AuditoriaProcesoController extends Controller
     }
 
     
-    public function formFinalizar(Request $request)
-    {
+    public function formUpdateDeleteProceso($id, Request $request){
         $activePage ='';
-        // Obtener el ID seleccionado desde el formulario
-        $ordenId = $request->input('orden');
-        $eventoId = $request->input('evento');
-        //dd($ordenId, $eventoId, $estilo, $request->all());
-        
-        //dd($estilo, $request->all());
-        $evaluacionCorte = EncabezadoAuditoriaCorte::where('orden_id', $ordenId)
-            ->where('evento', $eventoId)
-            ->first();
-        $evaluacionCorte->estatus_evaluacion_corte = 1;
-        $evaluacionCorte->save();
-        //dd($evaluacionCorte, $ordenId, $eventoId);
+        $action = $request->input('action');
+        //$id = $request->input('id');
+        dd($request->all());
+        if($action == 'update'){
+            $actualizarRegistro = AseguramientoCalidad::where('id', $id)->first();
+            $actualizarRegistro->nombre = $request->nombre;
+            $actualizarRegistro->operacion = $request->operacion;
+            $actualizarRegistro->cantidad_auditada = $request->cantidad_auditada;
+            $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+            $actualizarRegistro->tp = $request->tp;
+            $actualizarRegistro->ac = $request->ac;
+            $actualizarRegistro->save();
 
-        return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
+            //dd($request->all(), $actualizarRegistro, $id);
+            return back()->with('sobre-escribir', 'Registro actualizado correctamente.')->with('activePage', $activePage);
+
+            // Lógica para actualizar el registro
+        } elseif ($action == 'delete'){
+            // Lógica para eliminar el registro
+            AseguramientoCalidad::where('id', $id)->delete();
+            return back()->with('error', 'Registro eliminado.')->with('activePage', $activePage);
+        }
+
+        //dd($request->all(), $request->input('descripcion_parte1'), $id);
+        return back()->with('cambio-estatus', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
 
 }
