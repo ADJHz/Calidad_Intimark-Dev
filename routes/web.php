@@ -8,10 +8,11 @@ use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
-use App\Http\Controllers\AuditoriaProcesoCorteController;
+use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -217,4 +218,4 @@ Route::view('/error', 'error')->name('error');
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
 Route::get('/ClientesProv/{ordenes}', [DatosAuditoriaEtiquetas::class, 'ClientesProv']);
 Route::get('/Estilositem/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Estilositem']);
-Route::get('/Color/{estilo}', [DatosAuditoriaEtiquetas::class, 'Colores']);
+Route::get('/Color/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Colores']);

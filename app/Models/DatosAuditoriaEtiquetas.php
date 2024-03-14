@@ -11,13 +11,16 @@ class DatosAuditoriaEtiquetas extends Model
     protected $table = 'auditoria_etiquetas';
     protected $fillable = [
     'id',
-    'purchid',
-    'purchname',
-    'itemid',
-    'qty',
+    'OrdenCalidad',
+    'OrdenCompra',
+    'Proveedor',
+    'Estilos',
+    'Descripcion',
+    'Cantidad',
     'inventdimid',
-    'inventsizeid',
-    'inventcolorid',
+    'Talla',
+    'Color',
+    'Lotes',
     'year',
     'status',
     ];
