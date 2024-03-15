@@ -5,9 +5,6 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
-use App\Models\EncabezadoAuditoriaCorte;
-use App\Models\AuditoriaProcesoCorte; 
 use App\Models\AuditoriaProceso;  
 use App\Models\AseguramientoCalidad;  
 use App\Models\CategoriaTeamLeader;  
