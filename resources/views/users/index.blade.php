@@ -94,30 +94,44 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-
+                                    <a class="nav-link" href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}">
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('FCC-010') }}</p>
                                         <p style="text-align: center;">{{ __('AUDITORIA CORTE') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-
+                                    <a class="nav-link" href="{{ route('evaluacionCorte.inicioEvaluacionCorte') }}">
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('F-4') }}</p>
                                         <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-
+                                    <a class="nav-link" href="{{ route('auditoriaProcesoCorte.altaProcesoCorte') }}">
                                         <i class="material-icons">edit_document</i>
-                                        <p>{{ __('FCC-010') }}</p>
+                                        <p>{{ __('FCC-04') }}</p>
+                                        <p style="text-align: center;">{{ __('AUDITORIA PROCESO DE CORTE') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('aseguramientoCalidad.altaProceso') }}">
+                                        <i class="material-icons">edit_document</i>
+                                        <p>{{ __('FCC-001') }}</p>
+                                        <p style="text-align: center;">{{ __('AUDITORIA DE PROCESOS') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+        
+                                        <i class="material-icons">edit_document</i>
+                                        <p>{{ __('FCC-009-B') }}</p>
                                         <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-
+        
                                         <i class="material-icons">edit_document</i>
-                                        <p>{{ __('FCC-010') }}</p>
+                                        <p>{{ __('FCC-008') }}</p>
                                         <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>
                                     </a>
                                 </li>

@@ -137,6 +137,7 @@
                                                 <select name="nombre" id="nombre" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="NINGUNO">NINGUNO</option>
                                                     @if ($auditorPlanta == 'Planta1')
                                                         @foreach ($nombresPlanta1 as $nombre)
                                                             <option value="{{ $nombre->name }}">{{ $nombre->name }}
@@ -160,6 +161,7 @@
                                                 <select name="tp" id="tp" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="NINGUNO">NINGUNO</option>
                                                     @if ($data['area'] == 'AUDITORIA EN PROCESO')
                                                         @foreach ($categoriaTPProceso as $proceso)
                                                             <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
@@ -182,6 +184,7 @@
                                                 <select name="ac" id="ac" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="NINGUNO">NINGUNO</option>
                                                     @if ($data['area'] == 'AUDITORIA EN PROCESO')
                                                         @foreach ($categoriaACProceso as $proceso)
                                                             <option value="{{ $proceso->accion_correctiva }}">
@@ -391,7 +394,7 @@
                                                     <td>
                                                         <select name="tp" id="tp" class="form-control"
                                                             required title="Por favor, selecciona una opción">
-                                                            <option value="">Selecciona una opción</option>
+                                                            <option value="NINGUNO">NINGUNO</option>
                                                             @if ($data['area'] == 'AUDITORIA EN PROCESO')
                                                                 @foreach ($categoriaTPProceso as $proceso)
                                                                     <option value="{{ $proceso->nombre }}"
@@ -419,7 +422,7 @@
                                                     <td>
                                                         <select name="ac" id="ac" class="form-control"
                                                             required title="Por favor, selecciona una opción">
-                                                            <option value="">Selecciona una opción</option>
+                                                            <option value="NINGUNO">NINGUNO</option>
                                                             @if ($data['area'] == 'AUDITORIA EN PROCESO')
                                                                 @foreach ($categoriaACProceso as $proceso)
                                                                     <option value="{{ $proceso->accion_correctiva }}"
