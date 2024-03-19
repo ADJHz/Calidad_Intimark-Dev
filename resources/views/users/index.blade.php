@@ -94,14 +94,14 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaCortes') }}">
+
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('FCC-010') }}</p>
                                         <p style="text-align: center;">{{ __('AUDITORIA CORTE') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('formulariosCalidad.evaluacionCorte') }}">
+
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('F-4') }}</p>
                                         <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
