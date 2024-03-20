@@ -121,8 +121,8 @@
                                         <tr>
                                             <th>NOMBRE</th>
                                             <th>OPERACION</th>
-                                            <th>LIENZOS</th>
-                                            <th>LIENZOS RECHAZADOS</th>
+                                            <th>PIEZAS AUDITADAS</th>
+                                            <th>PIEZAS RECHAZADOS</th>
                                             <th>T.P</th>
                                             <th>A.C</th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -227,8 +227,8 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Operacion </th>
-                                        <th>Lienzo tendido</th>
-                                        <th>Lienzo rechazado</th>
+                                        <th>Piezas Auditadas</th>
+                                        <th>Piezas Rechazadas</th>
                                         <th>T. P. </th>
                                         <th>Accion Correctiva </th>
                                         @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -298,8 +298,8 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Operacion </th>
-                                            <th>Lienzo tendido</th>
-                                            <th>Lienzo rechazado</th>
+                                            <th>Piezas Auditadas</th>
+                                            <th>Piezas Rechazadas</th>
                                             <th>T. P. </th>
                                             <th>Accion Correctiva </th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -512,9 +512,9 @@
                             <thead class="thead-primary">
                                 <tr>
                                     <th>Nombre </th>
-                                    <th>Total Auditada</th>
-                                    <th>Total Rechazada</th>
-                                    <th>Porcentaje Total</th>
+                                    <th>Total Pizas Auditada</th>
+                                    <th>Total Pizas Rechazada</th>
+                                    <th>Porcentaje Rechazado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -541,9 +541,9 @@
                         <table class="table">
                             <thead class="thead-primary">
                                 <tr>
-                                    <th>total de cantidad Lienzos Tendidos</th>
-                                    <th>total de cantidad Lienzos Rechazados</th>
-                                    <th>Porcentaje Total</th>
+                                    <th>Total de Piezas Auditadas</th>
+                                    <th>Total de Piezas Rechazados</th>
+                                    <th>Porcentaje Rechazo Total</th>
                                 </tr>
                             </thead>
                             <tbody>
