@@ -55,7 +55,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">AUDITORIA DE PROCESOS <br>FCC-001</h5>
-                                            <a href="{{ route('aseguramientoCalidad.altaProceso') }}" class="btn btn-primary"  >INICIAR</a>
+                                            <a href="{{ route('aseguramientoCalidad.altaProceso') }}" class="btn btn-primary"  >INICIAR</a> 
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                         <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">AUDITORIA FINAL A.Q.L <br>FCC-009-B</h5>
-
+                                            <a href="{{ route('auditoriaAQL.altaAQL') }}" class="btn btn-primary"  >INICIAR</a> 
                                         </div>
                                     </div>
                                 </div>
