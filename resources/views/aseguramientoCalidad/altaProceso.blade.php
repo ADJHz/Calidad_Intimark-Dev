@@ -127,8 +127,10 @@
                                                 @endif
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
-                                                placeholder="estilo" readonly /></td>
+                                        <td>
+                                            <select name="estilo" id="estilo" class="form-control">
+                                            <!-- Aquí se agregarán las opciones dinámicamente -->
+                                            </select>
                                         <td>
                                             <select name="team_leader" id="team_leader" class="form-control" required
                                                 title="Por favor, selecciona una opción">
@@ -184,20 +186,31 @@
             });
 
             $('#modulo').on('select2:select', function(e) {
-                var itemid = e.params.data.element.dataset.itemid;
-                $('#estilo').val(itemid);
+                var moduleid = e.params.data.element.value;
+                $('#estilo').empty(); // Limpiar opciones anteriores
+                $.ajax({
+                    url: '{{ route("obtenerItemId") }}',
+                    type: 'POST',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'moduleid': moduleid
+                    },
+                    success: function(response) {
+                        $('#estilo').empty(); // Limpiar opciones anteriores
+                        $.each(response.itemid, function(key, value) {
+                            $('#estilo').append($('<option>', {
+                                value: key,
+                                text: value,
+                                selected: key == response.selectedItemid
+                            }));
+                        });
+                    }
+                });
             });
         });
+
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#modulo').change(function() {
-                var itemid = $(this).find(':selected').data('itemid');
-                $('#estilo').val(itemid);
-            });
-        });
-    </script>
 
 
 

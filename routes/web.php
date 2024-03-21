@@ -128,7 +128,7 @@ Route::post('/formFinalizarProceso', [AuditoriaProcesoController::class, 'formFi
 //Inicio apartado para seccion Auditoria AQL
 Route::get('/auditoriaAQL', [AuditoriaAQLController::class, 'auditoriaAQL'])->name('auditoriaAQL.auditoriaAQL');
 Route::get('/altaAQL', [AuditoriaAQLController::class, 'altaAQL'])->name('auditoriaAQL.altaAQL');
-Route::post('/obtenerItemIdAQL', [AuditoriaAQLController::class, 'obtenerItemId'])->name('obtenerItemId');
+Route::post('/obtenerItemIdAQL', [AuditoriaAQLController::class, 'obtenerItemIdAQL'])->name('obtenerItemIdAQL');
 Route::post('/formAltaProcesoAQL', [AuditoriaAQLController::class, 'formAltaProceso'])->name('auditoriaAQL.formAltaProceso');
 Route::post('/formRegistroAuditoriaProcesoAQL', [AuditoriaAQLController::class, 'formRegistroAuditoriaProceso'])->name('auditoriaAQL.formRegistroAuditoriaProceso');
 Route::post('/formUpdateDeleteProcesoAQL', [AuditoriaAQLController::class, 'formUpdateDeleteProceso'])->name('auditoriaAQL.formUpdateDeleteProceso');
