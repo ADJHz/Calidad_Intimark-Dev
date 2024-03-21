@@ -19,7 +19,9 @@ class AuditoriaProcesoController extends Controller
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
+        $fechaActual = Carbon::now()->toDateString();
         return [
+            'fechaActual' => $fechaActual,
             'auditorDato' => Auth::user()->name,
             'auditorPlanta' => Auth::user()->Planta,
             'AuditoriaProceso' => AuditoriaProceso::all(),
@@ -39,6 +41,42 @@ class AuditoriaProcesoController extends Controller
                 ->select('moduleid', 'itemid')
                 ->distinct()
                 ->get(), 
+            'procesoActual' => AseguramientoCalidad::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'procesoFinal' => AseguramientoCalidad::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraActual' => AseguramientoCalidad::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraFinal' => AseguramientoCalidad::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'empaqueActual' => AseguramientoCalidad::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN EMPAQUE')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'empaqueFinal' => AseguramientoCalidad::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN EMPAQUE')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
 
         ];
     }
