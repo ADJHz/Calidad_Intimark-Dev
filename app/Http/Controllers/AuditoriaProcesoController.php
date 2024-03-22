@@ -100,7 +100,7 @@ class AuditoriaProcesoController extends Controller
             'activePage' => $activePage]));
     }
 
-    public function obtenerItemId(Request $request)
+    public function obtenerItemId(Request $request) 
     {
         $moduleid = $request->input('moduleid');
         $auditoriaProceso = AuditoriaProceso::where('moduleid', $moduleid)->get();
@@ -110,7 +110,7 @@ class AuditoriaProcesoController extends Controller
             'itemid' => $itemid,
             'selectedItemid' => $itemid[0] ?? null // Asigna el primer itemid como selectedItemid, o null si no hay elementos
         ]);
-    }
+    } 
 
 
 
@@ -213,7 +213,7 @@ class AuditoriaProcesoController extends Controller
             'auditor' => $request->auditor,
             'turno' => $request->turno,
         ];
-        //dd($data);
+        //dd($data, $request->all());
         return redirect()->route('aseguramientoCalidad.auditoriaProceso', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
     }
 

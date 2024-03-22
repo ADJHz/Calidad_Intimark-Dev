@@ -128,9 +128,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="estilo" id="estilo" class="form-control">
-                                            <!-- Aquí se agregarán las opciones dinámicamente -->
-                                            </select>
+                                            <select name="estilo" id="estilo" class="form-control" data-selected-itemid="" required>
                                         <td>
                                             <select name="team_leader" id="team_leader" class="form-control" required
                                                 title="Por favor, selecciona una opción">
@@ -566,7 +564,7 @@
                 placeholder: 'Seleccione una opción',
                 allowClear: true
             });
-
+    
             $('#modulo').on('select2:select', function(e) {
                 var moduleid = e.params.data.element.value;
                 $('#estilo').empty(); // Limpiar opciones anteriores
@@ -580,17 +578,22 @@
                     success: function(response) {
                         $('#estilo').empty(); // Limpiar opciones anteriores
                         $.each(response.itemid, function(key, value) {
+                            var selected = ($('#estilo').val() == key); // Verificar si esta opción está seleccionada actualmente
                             $('#estilo').append($('<option>', {
-                                value: key,
+                                value: value, // Usar el valor de la columna "itemid"
                                 text: value,
-                                selected: key == response.selectedItemid
+                                selected: selected // Marcar la opción como seleccionada si coincide con el valor actualmente seleccionado en el select
                             }));
                         });
                     }
                 });
             });
+    
+            $('form').submit(function() {
+                var selectedItemId = $('#estilo').val();
+                $('#estilo').val(selectedItemId); // Establecer el valor seleccionado como el "itemid"
+            });
         });
-
     </script>
 
 
