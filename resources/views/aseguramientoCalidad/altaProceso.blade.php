@@ -129,7 +129,6 @@
                                         </td>
                                         <td>
                                             <select name="estilo" id="estilo" class="form-control">
-                                                <option value="">Selecciona una opción</option>
                                             <!-- Aquí se agregarán las opciones dinámicamente -->
                                             </select>
                                         <td>
@@ -194,7 +193,7 @@
                                 </h2>
                             </div>
                     
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                 data-parent="#accordionExample">
                                 <div class="card-body">
                                     <div class="row">
@@ -280,7 +279,18 @@
                                                                     <tbody>
                                                                         @foreach($procesoFinal as $proceso)
                                                                             <tr>
-                                                                                <td><button class="btn btn-primary">Acceder</button></td>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
                                                                                 <td>{{ $proceso->estilo }}</td>
                                                                             </tr>
@@ -312,7 +322,7 @@
                                 </h2>
                             </div>
                     
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingOne"
+                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne"
                                 data-parent="#accordionExample">
                                 <div class="card-body">
                                     <div class="row">
@@ -344,7 +354,18 @@
                                                                     <tbody>
                                                                         @foreach($playeraActual as $proceso)
                                                                             <tr>
-                                                                                <td><button class="btn btn-primary">Acceder</button></td>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
                                                                                 <td>{{ $proceso->estilo }}</td>
                                                                             </tr>
@@ -386,7 +407,18 @@
                                                                     <tbody>
                                                                         @foreach($playeraFinal as $proceso)
                                                                             <tr>
-                                                                                <td><button class="btn btn-primary">Acceder</button></td>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
                                                                                 <td>{{ $proceso->estilo }}</td>
                                                                             </tr>
@@ -418,7 +450,7 @@
                                 </h2>
                             </div>
                     
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingOne"
+                            <div id="collapseThree" class="collapse show" aria-labelledby="headingOne"
                                 data-parent="#accordionExample">
                                 <div class="card-body">
                                     <div class="row">
