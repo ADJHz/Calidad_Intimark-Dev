@@ -25,62 +25,29 @@ class DatosAuditoriaEtiquetas extends Controller
 
         return response()->json($ordenes);
     }
-    public function ClientesProv($ordenes)
+    public function buscarDatosAuditoria(Request $request)
     {
-        $clientes = ModelsDatosAuditoriaEtiquetas::select('Proveedor')
-            ->where('OrdenCompra', $ordenes)
-            ->distinct()
-            ->get();
-
-        return response()->json($clientes);
-    }
-
-    public function Estilositem($ordenes)
-    {
-        $estilos = ModelsDatosAuditoriaEtiquetas::select('Estilos')
-            ->where('OrdenCompra', $ordenes)
-            ->distinct()
-            ->get();
-
-        return response()->json($estilos);
-    }
-    public function Colores($ordenes)
-{
-    Log::info("Estilo seleccionado: " . $ordenes);
-
-    $colores = ModelsDatosAuditoriaEtiquetas::select('Color')
-        ->where('OrdenCompra', $ordenes)
-        ->distinct()
+        $orden = $request->input('orden');
+        // Buscar datos relacionados con la orden seleccionada
+        $datos = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $orden)
+        ->select('OrdenCompra', 'Estilos')
+       
         ->get();
-
-    // Verificar si la consulta devuelve datos vacíos
-    if ($colores->isEmpty()) {
-        // Si es así, devuelve la respuesta como JSON con 'N/A'
-        return response()->json(['Color' => 'N/A']);
+        return response()->json($datos);
     }
-
-    Log::info($colores);
-
-    // Si la consulta tiene datos, devuélvelos normalmente
-    return response()->json($colores);
-}
-
-    public function Tecnicos()
+    public function buscarDatosAuditoriaModal(Request $request)
     {
-        $tecnicos = ModelsDatosAuditoriaEtiquetas::all();
-        return response()->json($tecnicos);
-    }
-    public function TipoTecnica()
-    {
-        $tipo_tecnica = ModelsDatosAuditoriaEtiquetas::all();
+        $orden = $request->input('orden');
+        $estilo = $request->input('estilo'); // Obtener el estilo de la fila seleccionada
 
-        return response()->json($tipo_tecnica);
-    }
-    public function TipoFibra()
-    {
-        $tipo_fibra = ModelsDatosAuditoriaEtiquetas::all();
+        // Buscar datos relacionados con la orden y el estilo seleccionados, y obtener columnas específicas
+        $datos = ModelsDatosAuditoriaEtiquetas::select('Estilos', 'Talla', 'Color', 'Cantidad', 'Lotes')
+            ->where('OrdenCompra', $orden)
+            ->where('Estilos', $estilo) // Agregar la condición para el estilo
+            ->distinct('Lotes')
+            ->get();
 
-        return response()->json($tipo_fibra);
+        return response()->json($datos);
     }
 
 }

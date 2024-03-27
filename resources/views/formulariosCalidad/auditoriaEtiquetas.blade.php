@@ -20,64 +20,19 @@
                             <div class="card-header card-header-primary text-center">
                                 <h4 class="card-title mb-3">{{ __('Informacion General.') }}</h4>
                             </div>
+                            <br>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label for="ordenSelect">Selecciona No/Orden:</label>
                             <select class="form-control" id="ordenSelect" name="ordenSelect" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label for="clienteSelect">Selecciona cliente:</label>
-                            <select class="form-control" id="clienteSelect" name="clienteSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
-
-                        </div>
-                        <div class="col-md-2">
-                            <label for="estiloSelect">Selecciona estilo:</label>
-                            <select class="form-control" id="estiloSelect" name="estiloSelect" required>
-                                <!-- Las opciones se cargarán dinámicamente aquí -->
-                            </select>
-                        </div>
-                          <!--
-                        <div class="col-md-2">
-                            <label for="colorSelect">Selecciona color:</label>
-                            <select class="form-control" id="colorSelect" name="colorSelect" required>
-
-                            </select>
-                        </div>
-
-                                    <div class="col-md-2">
-                                        <label for="tallaSelect">Selecciona Talla :</label>
-                                        <select class="form-control" id="tallaSelect" name="tallaSelect" required>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="tecnicaSelect">Selecciona Catidad:</label>
-                                        <select class="form-control" id="tecnicaSelect" name="tecnicaSelect" required>
-                                          Las opciones se cargarán dinámicamente aquí
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="fibraSelect">Seleccion de tipo de fibra:</label>
-                                        <select class="form-control" id="fibraSelect" name="fibraSelect[]" required>
-                                           Las opciones se cargarán dinámicamente aquí
-                                        </select>
-                                    </div> -->
                     </div>
                     <br>
                     <div class="col-md-2">
-                        <button type="button" class="button" id="insertarFila">
-                            <span class="button__text">Añadir</span>
-                            <span class="button__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2"
-                                    stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
-                                    fill="none" class="svg">
-                                    <line y2="19" y1="5" x2="12" x1="12"></line>
-                                    <line y2="12" y1="12" x2="19" x1="5"></line>
-                                </svg>
-                            </span>
+                        <button type="button" class="btn btn-success" id="Buscar">
+                            Buscar
                         </button>
                     </div>
                 </div>
@@ -89,54 +44,22 @@
                     <div class="card-header card-header-primary">
                         <div class="row">
                             <div class="col-md-6">
-                                <h3 class="card-title">{{ __('Defectos detectados.') }}</h3>
+                                <h3 class="card-title">{{ __('Auditoría.') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="messages">
                         <div class="card-body table-responsive">
-                            <table class="table-cebra" id="miTabla">
+                            <table class="table" id="miTabla">
                                 <thead class="text-primary">
                                     <tr>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%;">
-                                            ID</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
-                                            Auditor</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
+                                            style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1px;">
+                                            #</th>
+                                        <th>
                                             No/Orden</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
-                                            Cliente/Proveedor</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
-                                            Estilo</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
-                                            Color</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">
-                                            Talla</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
-                                            Cantidad</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
-                                            Tamaño De Muestra</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
-                                          Defectos</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
-                                           Tipo De Defectos</th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
-                                        </th>
-                                        <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8%;">
-                                        </th>
+                                        <th>
+                                            Estilos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,144 +79,35 @@
                 </div>
             </div>
         </div>
+     <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"> <!-- Agrega la clase 'modal-lg' para hacer el modal más ancho -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de la Fila</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Aquí se mostrarán los detalles de la fila seleccionada -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </div>
     <script>
         $(document).ready(function() {
-            // Inicializar Select2 para el cliente
-            $('#clienteSelect').select2({
-                placeholder: 'Seleccione un cliente',
-                allowClear: true
-            });
-            $('#colorSelect').select2({
-                placeholder: 'Seleccione un color',
-                allowClear: true
-            });
-            $('#estiloSelect').select2({
-                placeholder: 'Seleccione un estilo',
-                allowClear: true
-            });
             // Inicializar Select2 para la orden
             $('#ordenSelect').select2({
                 placeholder: 'Seleccione una orden',
                 allowClear: true
             });
-            // Inicializar Select2 para la orden
-            $('#tecnicosSelect').select2({
-                placeholder: 'Seleccione un tecnico',
-                allowClear: true
-            });
-            $('#tecnicaSelect').select2({
-                placeholder: 'Seleccione una tecnica',
-                allowClear: true
-            });
-            // Contenedor para los inputs
-            var contenedorInputs = $('<div>', {
-                class: 'col-md-2 style: text-align: right;'
-            });
-
-            // Agregar el contenedor después del Select2
-            $('.select2-container').parent().append(contenedorInputs);
-
-            $('#fibraSelect').select2({
-                placeholder: 'Seleccione una o varias fibras',
-                allowClear: true,
-                multiple: true // Esta opción permite la selección múltiple
-            });
-
-            function crearInputs(selectedOptions) {
-                // Limpiar contenedor anterior
-                contenedorInputs.empty();
-                // Crear un input para cada opción seleccionada
-                if (selectedOptions && selectedOptions.length > 0) {
-                    // Contenedor para los inputs en línea
-                    var contenedorInputsEnLinea = $('<div>', {
-                        class: 'col-md-12 d-flex'
-                    });
-                    // Variable para almacenar la suma de los porcentajes
-                    var sumaPorcentajes = 0;
-                    var inputs = [];
-                    $.each(selectedOptions, function(index, fibra) {
-                        var porcentajeInput = $('<input>', {
-                            type: 'number',
-                            class: 'porcentajeInput form-control mr-2',
-                            name: 'porcentajeInput[]',
-                            placeholder: '% para ' + fibra,
-                            min: 0,
-                            max: 100,
-                            required: true,
-                            style: 'width: 150px;' // Ajusta el ancho según tus preferencias
-                        });
-                        // Etiqueta para el nombre de la fibra
-                        var etiquetaFibra = $('<label>', {
-                            text: fibra + ': ',
-                            class: 'mr-2'
-                        });
-                        // Contenedor individual para cada fibra
-                        var contenedorFibra = $('<div>', {
-                            class: 'd-flex align-items-center'
-                        });
-                        contenedorFibra.append(etiquetaFibra);
-                        contenedorFibra.append(porcentajeInput);
-                        // Agregar el contenedor de fibra al contenedor general
-                        contenedorInputsEnLinea.append(contenedorFibra);
-                        // Guardar referencia al input
-                        inputs.push(porcentajeInput);
-                    });
-                    // Agregar el contenedor de inputs en línea al contenedor general
-                    contenedorInputs.append(contenedorInputsEnLinea);
-
-                    // Evento de cambio en el input de porcentaje
-                    inputs.forEach(function(input) {
-                        input.on('input', function() {
-                            // No hacer nada aquí
-                        });
-                    });
-                    // Evento al salir del último input
-                    inputs[inputs.length - 1].on('blur', function() {
-                        // Actualizar la suma de los porcentajes al salir del último input
-                        sumaPorcentajes = calcularSumaPorcentajes();
-                        validarSumaPorcentajes();
-                    });
-                    // Función para calcular la suma de los porcentajes
-                    function calcularSumaPorcentajes() {
-                        var suma = 0;
-                        inputs.forEach(function(input) {
-                            suma += parseFloat(input.val()) || 0;
-                        });
-                        return suma;
-                    }
-                    // Función para validar y ajustar la suma de los porcentajes
-                    function validarSumaPorcentajes() {
-                        if (sumaPorcentajes < 100) {
-                            alert(
-                                'La suma de los porcentajes no puede ser menor al 100%. Se ajustará automáticamente.'
-                            );
-                            // Ajustar automáticamente el último porcentaje ingresado
-                            var ultimoInput = inputs[inputs.length - 1];
-                            var nuevoValor = 100 - (sumaPorcentajes - parseFloat(ultimoInput.val()));
-                            ultimoInput.val(nuevoValor);
-                        } else if (sumaPorcentajes > 100) {
-                            alert(
-                                'La suma de los porcentajes no puede superar el 100%. Se ajustará automáticamente.'
-                            );
-                            // Ajustar automáticamente el último porcentaje ingresado
-                            var ultimoInput = inputs[inputs.length - 1];
-                            var nuevoValor = 100 - (sumaPorcentajes - parseFloat(ultimoInput.val()));
-                            ultimoInput.val(nuevoValor);
-                        }
-                    }
-                }
-            }
-            // Inicializar los inputs al cargar la página
-            crearInputs($('#fibraSelect').val());
-            $('#fibraSelect').on('select2:select select2:unselect', function(e) {
-                var selectedOptions = $(this).val();
-                // Crear o actualizar los inputs al seleccionar o quitar opciones
-                crearInputs(selectedOptions);
-            });
-            // Agregar el contenedor de inputs después del último div dentro de card-body
-            $('.card-body .row').append(contenedorInputs);
-            // Obtener las órdenes al cargar la página
             $.ajax({
                 url: '/NoOrdenes',
                 type: 'GET',
@@ -318,505 +132,83 @@
                     console.error('Error al cargar opciones de ordenes: ', error);
                 }
             });
-
-            // Evento de cambio en el select de órdenes
-            $('#ordenSelect').on('change', function() {
-                var ordenselect = $(this).val();
-
-                // Realizar la solicitud para obtener los clientes asociados a la orden seleccionada
-                $.ajax({
-                    url: '/ClientesProv/' + ordenselect,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Limpiar las opciones existentes
-                        $('#clienteSelect').empty();
-                        // Agregar la opción predeterminada
-                        $('#clienteSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true,
-
-                        }));
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#clienteSelect').append($('<option>', {
-                                text: value.Proveedor
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de clientes: ', error);
-                    }
-                });
-            });
-
-            // Evento de cambio en el select de clientes
-            $('#ordenSelect').on('change', function() {
-                var ordenselect = $(this).val();
-
-                // Realizar la solicitud para obtener los estilos asociados al cliente seleccionado
-                $.ajax({
-                    url: '/Estilositem/' + ordenselect,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Limpiar las opciones existentes
-                        $('#estiloSelect').empty();
-                        // Agregar la opción predeterminada
-                        $('#estiloSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true,
-
-                        }));
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#estiloSelect').append($('<option>', {
-                                text: value.Estilos
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de estilos: ', error);
-                    }
-                });
-            });
-            // Evento de cambio en el select de estilos
-            $('#ordenSelect').on('change', function() {
-                var ordenselect = $(this).val();
-
-                // Realizar la solicitud para obtener los colores asociados al estilo seleccionado
-                $.ajax({
-                    url: '/Color/' + ordenselect,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data);
-
-                        // Limpiar las opciones existentes
-                        $('#colorSelect').empty();
-
-                        // Agregar la opción predeterminada
-                        $('#colorSelect').append($('<option>', {
-                            disabled: true,
-                            selected: true,
-                            text: 'N/A',
-                        }));
-
-                        // Agregar las nuevas opciones desde la respuesta del servidor
-                        $.each(data, function(key, value) {
-                            $('#colorSelect').append($('<option>', {
-                                text: value.Color
-                            }));
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error al cargar opciones de colores: ', error);
-                    }
-                });
-            });
-
-
-        });
-    </script>
-    <script>
-        var lastRegisteredId = 0;
-        var addRowClicked = false;
-        $(document).ready(function() {
-            // Hacer la llamada Ajax al servidor para obtener datos
-            $.ajax({
-                url: '/viewTablEtiquetas', // Ruta de tu servidor Laravel
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    try {
-                        // Iterar sobre los datos recibidos y agregar filas a la tabla
-                        $.each(data, function(index, item) {
-                            // Verificar si es una fila guardada o nueva
-                            var isGuardado = item.Status === 'Nuevo' || item.Status ===
-                                'Update';
-                            var isFinalizado = item.Status === 'Finalizado';
-                            var readonlyAttribute = isGuardado ? '' : 'readonly';
-                            var disabledAttribute = isGuardado ? '' : 'disabled';
-                            var hiddenAttribute = isFinalizado ? 'style="visibility: hidden;"' :
-                                '';
-                            // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
-                            var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
-                                readonlyAttribute + '"></select></td>';
-                            var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
-                                readonlyAttribute + '"></select></td>';
-                            // Crear la fila con las celdas modificadas
-                            var row = '<tr>' +
-                                '<td><input type="text" name="id" class="form-control" value="' +
-                                item.id + '" readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Auditor" class="form-control" value="' +
-                                item.NoOrden + '" readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Cliente" class="form-control" value="' +
-                                item.Cliente + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Estilo" class="form-control" value="' +
-                                item.Estilo + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="OP_Defec" class="form-control" value="' +
-                                item.Color + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tecnico" class="form-control" value="' +
-                                item.Talla + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Color" class="form-control" value="' +
-                                item.Cantidad + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
-                                item.Tama_Muestra + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tecnica" class="form-control" value="' +
-                                item.Defectos + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Fibras" class="form-control" value="' +
-                                item.Tipo_Defectos + '" ' + readonlyAttribute +
-                                ' style="white-space: nowrap;"></td>' +
-                                tipoProblemaCell +
-                                acCorrectivaCell +
-                                '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
-                                disabledAttribute + ' ' + hiddenAttribute +
-                                '>Guardar</button></td>' +
-                                '</tr>';
-
-                            // Agregar la fila a la tabla
-                            $('#miTabla tbody').append(row);
-                            lastRegisteredId = item.id;
-
-                            if (!isFinalizado) {
-                                $('.tipoProblemaSelect').select2({
-                                    placeholder: 'Seleccione Tipo de Problema',
-                                    allowClear: true,
-                                });
-
-                                $('.acCorrectivaSelect').select2({
-                                    placeholder: 'Seleccione Acción Correctiva',
-                                    allowClear: true,
-                                });
-                            }
-                        });
-                        // Cargar opciones para los nuevos select2
-                        OpcionesTipoProblema('Seleccione Tipo de Problema');
-                        OpcionesACCorrectiva('Seleccione Acción Correctiva');
-
-                    } catch (error) {
-                        console.error('Error al procesar los datos:', error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error en la llamada Ajax:', status, error);
-                }
-            });
-        });
-
-        function OpcionesTipoProblema(placeholder) {
-            $.ajax({
-                url: '/OpcionesTipoProblema',
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Agregar una opción vacía al principio con el placeholder como texto
-                    data.unshift('Seleccione Tipo de Problema');
-                    llenarSelect('tipoProblemaSelect', data);
-                    // Establecer el valor en nulo después de cargar los datos
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener opciones de tipo_problemaR[]:', status, error);
-                }
-            });
-        }
-        // Función para cargar opciones de Acción Correctiva en un select2 específico
-        function OpcionesACCorrectiva(placeholder) {
-            $.ajax({
-                url: '/OpcionesACCorrectiva',
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Agregar una opción vacía al principio con el placeholder como texto
-                    data.unshift('Seleccione Acción Correctiva');
-                    llenarSelect('acCorrectivaSelect', data);
-                    // Establecer el valor en nulo después de cargar los datos
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener opciones de ac_correctivaR[]:', status, error);
-                }
-            });
-        }
-        // Función para llenar un select2 con opciones
-        function llenarSelect(nombreSelect, opciones, placeholder) {
-            var select = $('.form-control[name="' + nombreSelect + '"]');
-            select.empty();
-
-            // Agregar una opción vacía al principio con el placeholder como texto
-            select.append('<option value="" selected disabled>' + placeholder + '</option>');
-
-            select.select2({
-                placeholder: placeholder,
-                allowClear: true
-            });
-            opciones.forEach(function(opcion) {
-                select.append('<option value="' + opcion + '">' + opcion + '</option>');
-            });
-            select.val(null).trigger('change'); // Esto asegura que la opción vacía esté seleccionada
-        }
-    </script>
-    <script>
-        var addRowClicked = false;
-
-        function cargarOpcionesACCorrectiva() {
-            $.ajax({
-                url: '/obtenerOpcionesACCorrectiva', // Ajusta la ruta según tu configuración
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    llenarSelect('ac_correctivaR[]', data, 'Seleccione Acción Correctiva');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener opciones de ac_correctivaR[]:', status, error);
-                }
-            });
-        }
-
-        function cargarOpcionesTipoProblema() {
-            $.ajax({
-                url: '/obtenerOpcionesTipoProblema', // Ajusta la ruta según tu configuración
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    llenarSelect('tipo_problemaR[]', data, 'Seleccione Tipo de Problema');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener opciones de tipo_problemaR[]:', status, error);
-                }
-            });
-        }
-
-        function llenarSelect(nombreSelect, opciones) {
-            var select = $('.form-control[name="' + nombreSelect + '"]');
-            select.empty();
-            select.select2({
-                placeholder: 'Seleccione una opcion',
-                allowClear: true
-            });
-            opciones.forEach(function(opcion) {
-                select.append('<option value="' + opcion + '">' + opcion + '</option>');
-            });
-            select.select2();
-        }
-        $('#insertarFila').on('click', function() {
-            console.log('Se hizo clic en el botón "Añadir"');
-            addRowClicked = true;
-            // Verificar si todos los campos están llenos
-            var camposVacios = false;
-            $('select, input').each(function() {
-                if ($(this).val() === "") {
-                    camposVacios = true;
-                    return false; // Salir del bucle si se encuentra un campo vacío
-                }
-            });
-            if (camposVacios) {
-                alert('Por favor, complete todos los campos antes de añadir una nueva fila.');
-                return; // Detener la ejecución si hay campos vacíos
-            }
-            lastRegisteredId++;
-            var auditor = '{{ Auth::user()->name }}';
-            var op = $('#ordenSelect').val();
-            var cliente = $('#clienteSelect').val();
-            var estilo = $('#estiloSelect').val();
-
-
-            var porcentajes = [];
-            $('.porcentajeInput').each(function() {
-                porcentajes.push($(this).val());
-            });
-            var newRow = '<tr>' +
-                '<td><input type="hidden" name="idR[]" value="' + lastRegisteredId + '"></td>' +
-                '<td><input type="text" name="auditorR[]" class="form-control" value="' + auditor +
-                '" readonly style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="op_defecR[]" class="form-control" value="' + op +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="clienteR[]" class="form-control" value="' + cliente +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="estiloR[]" class="form-control" value="' + estilo +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><input type="text" name="colorR[]" class="form-control" value="' + color +
-                '" style="white-space: nowrap;"></td>' +
-                '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
-                '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
-                '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
-                '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
-                '</tr>';
-            $('#miTabla tbody').append(newRow);
-
-            // Cargar opciones de los nuevos select
-            cargarOpcionesACCorrectiva();
-            cargarOpcionesTipoProblema();
-        });
-        $(document).ready(function() {
-            cargarOpcionesACCorrectiva();
-            cargarOpcionesTipoProblema();
-        });
-        // Evento de clic en el botón "Guardar"
-        $(document).on('click', '.guardarFila', function() {
-            // Obtener el token CSRF
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            // Verificar si se hizo clic en el botón "AddRow"
-            if (addRowClicked) {
-                // Obtener los valores de la fila desde los campos de entrada
-                var auditorValue = $(this).closest('tr').find('[name="auditorR[]"]').val();
-                var clienteValue = $(this).closest('tr').find('[name="clienteR[]"]').val();
-                var estiloValue = $(this).closest('tr').find('[name="estiloR[]"]').val();
-                var opDefecValue = $(this).closest('tr').find('[name="op_defecR[]"]').val();
-                var tecnicoValue = $(this).closest('tr').find('[name="tecnicoR[]"]').val();
-                var colorValue = $(this).closest('tr').find('[name="colorR[]"]').val();
-                var numGraficoValue = $(this).closest('tr').find('[name="num_graficoR[]"]').val();
-                var tecnicaValue = $(this).closest('tr').find('[name="tecnicaR[]"]').val();
-                var fibrasValue = $(this).closest('tr').find('[name="fibrasR[]"]').val();
-                var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibraR[]"]').val();
-                var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
-                var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
-                $.ajax({
-                    url: '/SendScreenPrint',
-                    method: 'POST',
-                    data: {
-                        _token: csrfToken,
-                        addRowClicked: addRowClicked,
-                        Auditor: auditorValue,
-                        Cliente: clienteValue,
-                        Estilo: estiloValue,
-                        OP_Defec: opDefecValue,
-                        Tecnico: tecnicoValue,
-                        Color: colorValue,
-                        Num_Grafico: numGraficoValue,
-                        Tecnica: tecnicaValue,
-                        Fibras: fibrasValue,
-                        Porcen_Fibra: porcentajeFibraValue,
-                        Tipo_Problema: tipoProblemaValue,
-                        Ac_Correctiva: acCorrectivaValue
-                    },
-                    success: function(response) {
-                        // Realizar acciones adicionales si es necesario después de la respuesta exitosa
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        // Manejar errores si es necesario
-                        console.log('Error en la solicitud POST:', error);
-                    }
-                });
-            }
-        });
-    </script>
-    <script>
-        var lastRegisteredId = 0;
-        // Evento de clic en el botón "Guardar"
-        $(document).on('click', '.updateFile', function() {
-            // Obtener el token CSRF
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            // Obtener los valores de la fila desde los campos de entrada
-            var row = $(this).closest('tr');
-            var idValue = row.find('input[name="id"]')
-                .val(); // Asegúrate de obtener el valor correcto del campo "id"
-            var addRowClicked = row.find('input[name="id"]').length === 0; // Verifica si es una fila agregada
-            // Obtener otros valores de la fila
-            var auditorValue = row.find('input[name="Auditor"]').val();
-            var clienteValue = row.find('input[name="Cliente"]').val();
-            var estiloValue = row.find('input[name="Estilo"]').val();
-            var opDefecValue = row.find('input[name="OP_Defec"]').val();
-            var tecnicoValue = row.find('input[name="Tecnico"]').val();
-            var colorValue = row.find('input[name="Color"]').val();
-            var numGraficoValue = row.find('input[name="Num_Grafico"]').val();
-            var tecnicaValue = row.find('input[name="Tecnica"]').val();
-            var fibrasValue = row.find('input[name="Fibras"]').val();
-            var porcentajeFibraValue = row.find('input[name="Porcen_Fibra"]').val();
-            // Obtener valores de los elementos select
-            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
-            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
-            // Continuar con la solicitud AJAX
-            $.ajax({
-                url: '/UpdateScreenPrint/' + idValue,
-                method: 'PUT',
-                data: {
-                    _token: csrfToken,
-                    addRowClicked: false,
-                    id: idValue,
-                    Auditor: auditorValue,
-                    Cliente: clienteValue,
-                    Estilo: estiloValue,
-                    OP_Defec: opDefecValue,
-                    Tecnico: tecnicoValue,
-                    Color: colorValue,
-                    Num_Grafico: numGraficoValue,
-                    Tecnica: tecnicaValue,
-                    Fibras: fibrasValue,
-                    Porcen_Fibra: porcentajeFibraValue,
-                    Tipo_Problema: tipoProblemaValue,
-                    Ac_Correctiva: acCorrectivaValue
-                },
-                success: function(response) {
-                    // Realizar acciones adicionales si es necesario después de la respuesta exitosa
-                    console.log(response);
-                },
-                error: function(error) {
-                    // Manejar errores si es necesario
-                    console.log(addRowClicked ? 'Error en la solicitud POST:' :
-                        'Error en la solicitud PUT:', error);
-                },
-                complete: function() {
-                    // Recargar la página después de completar la solicitud
-                    location.reload();
-                }
-            });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#Finalizar').click(function() {
-                // Iterar sobre cada fila de la tabla
-                $('#miTabla tbody tr').each(function() {
-                    var id = $(this).find('input[name="id"]').val();
-                    // Hacer una solicitud POST para cada fila para actualizar el estado a "Finalizado"
+            // Controlador para el botón de búsqueda
+            $('#Buscar').click(function() {
+                var ordenSeleccionada = $('#ordenSelect').val();
+                if (ordenSeleccionada) {
                     $.ajax({
-                        url: '/actualizarStatScrin/' + id, // Ruta de tu servidor Laravel
-                        method: 'POST',
+                        url: '/buscarDatosAuditoria',
+                        type: 'GET',
                         data: {
-                            _token: '{{ csrf_token() }}', // Añade el token CSRF aquí
-                            status: 'Finalizado'
+                            orden: ordenSeleccionada
                         },
-                        success: function(response) {
-                            console.log(
-                                'Estado actualizado con éxito para la fila con id ' +
-                                id + ':', response);
+                        dataType: 'json',
+                        success: function(data) {
+                            // Limpiar tabla antes de agregar resultados
+                            $('#miTabla tbody').empty();
+                            // Mostrar resultados en la tabla
+                            $.each(data, function(index, item) {
+                                $('#miTabla tbody').append('<tr><td>' + (index + 1) +
+                                    '</td><td>' + item.OrdenCompra + '</td><td>' +
+                                    item.Estilos + '</td></tr>');
+                            });
                         },
-                        error: function(xhr, status, error) {
-                            console.error(
-                                'Error al actualizar el estado para la fila con id ' +
-                                id + ':', status, error);
-                        },
-                        complete: function() {
-                            // Recargar la página después de completar la solicitud
-                            // location.reload();
+                        error: function(error) {
+                            console.error('Error al buscar datos de auditoría: ', error);
                         }
                     });
-                });
+                } else {
+                    console.error('No se ha seleccionado ninguna orden.');
+                }
             });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#dtHorizontalVerticalExample').DataTable({
-                "scrollX": true,
-                "scrollY": 200,
+            // Controlador de eventos para clic en fila de la tabla
+            $('#miTabla tbody').on('click', 'tr', function() {
+                // Eliminar la clase de selección de todas las filas
+                $('#miTabla tbody tr').removeClass('selected');
+                // Agregar la clase de selección a la fila clicada
+                $(this).addClass('selected');
+                // Obtener la orden seleccionada
+                var ordenSeleccionada = $(this).find('td:nth-child(2)').text();
+                var estiloSeleccionado = $(this).find('td:nth-child(3)').text(); // Obtener el estilo de la fila seleccionada
+                // Realizar la solicitud AJAX para obtener los datos específicos para el modal
+                $.ajax({
+                    url: '/buscarDatosAuditoriaModal',
+                    type: 'GET',
+                    data: {
+                        orden: ordenSeleccionada,
+                        estilo: estiloSeleccionado // Agregar el estilo seleccionado aquí
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        // Mostrar los datos en el modal
+                        var modalContent = '';
+                        $.each(data, function(index, item) {
+                            modalContent += '<p>Estilos: ' + item.Estilos + '</p>';
+                            modalContent += '<p>Talla: ' + item.Talla + '</p>';
+                            modalContent += '<p>Color: ' + item.Color + '</p>';
+                            modalContent += '<p>Cantidad: ' + item.Cantidad + '</p>';
+                            modalContent += '<p>Lotes: ' + item.Lotes + '</p>';
+                        });
+                        $('#modalBody').html(modalContent);
+                        // Abrir el modal
+                        $('#myModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error('Error al buscar datos de auditoría para el modal: ',
+                            error);
+                    }
+                });
+    
             });
-            $('.dataTables_length').addClass('bs-select');
         });
     </script>
-    <script>
-        function descartarClicked() {
-            location.reload();
-        }
-    </script>
+    
 @endsection

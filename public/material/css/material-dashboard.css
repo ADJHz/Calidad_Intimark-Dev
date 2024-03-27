@@ -16,6 +16,13 @@
         /* Añade estilos para el tema oscuro */
         /* Estilos personalizados para los elementos de tipo "radio" */
         
+        #miTabla tbody tr.selected {
+            background-color: #8A2BE2;
+            /* Púrpura */
+            color: white;
+            /* Texto blanco para contrastar */
+        }
+        
         .table-cebra1 .CtrHorno {
             border: solid 1px #ccc;
             border-spacing: 0;

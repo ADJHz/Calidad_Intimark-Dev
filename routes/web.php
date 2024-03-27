@@ -216,6 +216,6 @@ Route::view('/error', 'error')->name('error');
 
 
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
-Route::get('/ClientesProv/{ordenes}', [DatosAuditoriaEtiquetas::class, 'ClientesProv']);
-Route::get('/Estilositem/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Estilositem']);
-Route::get('/Color/{ordenes}', [DatosAuditoriaEtiquetas::class, 'Colores']);
+Route::get('/buscarDatosAuditoria', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoria']);
+Route::get('/buscarDatosAuditoriaModal', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaModal']);
+
