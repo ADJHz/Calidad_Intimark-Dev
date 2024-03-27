@@ -14,14 +14,12 @@ use App\Models\CategoriaAccionCorrectiva;
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
-class AuditoriaProcesoController extends Controller
+class AuditoriaAQLController extends Controller
 {
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
-        $fechaActual = Carbon::now()->toDateString();
         return [
-            'fechaActual' => $fechaActual,
             'auditorDato' => Auth::user()->name,
             'auditorPlanta' => Auth::user()->Planta,
             'AuditoriaProceso' => AuditoriaProceso::all(),
@@ -41,49 +39,13 @@ class AuditoriaProcesoController extends Controller
                 ->select('moduleid', 'itemid')
                 ->distinct()
                 ->get(), 
-            'procesoActual' => AseguramientoCalidad::where('estatus', NULL)
-                ->where('area', 'AUDITORIA EN PROCESO')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
-            'procesoFinal' => AseguramientoCalidad::where('estatus', 1)
-                ->where('area', 'AUDITORIA EN PROCESO')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
-            'playeraActual' => AseguramientoCalidad::where('estatus', NULL)
-                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
-            'playeraFinal' => AseguramientoCalidad::where('estatus', 1)
-                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
-            'empaqueActual' => AseguramientoCalidad::where('estatus', NULL)
-                ->where('area', 'AUDITORIA EN EMPAQUE')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
-            'empaqueFinal' => AseguramientoCalidad::where('estatus', 1)
-                ->where('area', 'AUDITORIA EN EMPAQUE')
-                ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
-                ->distinct()
-                ->get(),
 
         ];
     }
 
 
 
-    public function altaProceso(Request $request)
+    public function altaAQL(Request $request)
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
@@ -95,26 +57,21 @@ class AuditoriaProcesoController extends Controller
         ];
 
         
-        return view('aseguramientoCalidad.altaProceso', array_merge($categorias, [
+        return view('auditoriaAQL.altaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage]));
     }
 
-    public function obtenerItemId(Request $request) 
+    public function obtenerItemId(Request $request)
     {
         $moduleid = $request->input('moduleid');
-        $auditoriaProceso = AuditoriaProceso::where('moduleid', $moduleid)->get();
-        $itemid = $auditoriaProceso->pluck('itemid', 'id')->unique()->toArray();
+        $auditoriaProceso = AuditoriaProceso::where('moduleid', $moduleid)->first();
+        $itemid = $auditoriaProceso ? $auditoriaProceso->itemid : '';
         
-        return response()->json([
-            'itemid' => $itemid,
-            'selectedItemid' => $itemid[0] ?? null // Asigna el primer itemid como selectedItemid, o null si no hay elementos
-        ]);
-    } 
+        return response()->json(['itemid' => $itemid]);
+    }
 
-
-
-    public function auditoriaProceso(Request $request)
+    public function auditoriaAQL(Request $request)
     {
         
         $activePage ='';
@@ -182,7 +139,7 @@ class AuditoriaProcesoController extends Controller
         
 
         
-        return view('aseguramientoCalidad.auditoriaProceso', array_merge($categorias, [
+        return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
             'data' => $data, 
@@ -209,12 +166,11 @@ class AuditoriaProcesoController extends Controller
             'area' => $request->area,
             'modulo' => $request->modulo,
             'estilo' => $request->estilo,
-            'team_leader' => $request->team_leader,
             'auditor' => $request->auditor,
             'turno' => $request->turno,
         ];
-        //dd($data, $request->all());
-        return redirect()->route('aseguramientoCalidad.auditoriaProceso', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
+        //dd($data);
+        return redirect()->route('auditoriaAQL.auditoriaAQL', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
     }
 
     public function formRegistroAuditoriaProceso(Request $request)

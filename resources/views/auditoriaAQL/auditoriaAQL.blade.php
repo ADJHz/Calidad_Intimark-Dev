@@ -81,7 +81,7 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('aseguramientoCalidad.formRegistroAuditoriaProceso') }}">
+                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProceso') }}">
                         @csrf
                         <input type="hidden" class="form-control" name="area" id="area"
                             value="{{ $data['area'] }}">
@@ -90,8 +90,7 @@
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>MODULO</th>
-                                        <th>ESTILO</th>
-                                        <th>TEAM LEADER</th>
+                                        <th>OP</th>
                                         <th>AUDITOR</th>
                                         <th>TURNO</th>
                                     </tr>
@@ -102,8 +101,6 @@
                                                 value="{{ $data['modulo'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="estilo" id="estilo"
                                                 value="{{ $data['estilo'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="team_leader" id="team_leader"
-                                                value="{{ $data['team_leader'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="auditor" id="auditor"
                                                 value="{{ $data['auditor'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="turno" id="turno"
@@ -121,8 +118,8 @@
                                         <tr>
                                             <th>NOMBRE</th>
                                             <th>OPERACION</th>
-                                            <th>PIEZAS AUDITADAS</th>
-                                            <th>PIEZAS RECHAZADOS</th>
+                                            <th>LIENZOS</th>
+                                            <th>LIENZOS RECHAZADOS</th>
                                             <th>T.P</th>
                                             <th>A.C</th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -227,8 +224,8 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Operacion </th>
-                                        <th>Piezas Auditadas</th>
-                                        <th>Piezas Rechazadas</th>
+                                        <th>Lienzo tendido</th>
+                                        <th>Lienzo rechazado</th>
                                         <th>T. P. </th>
                                         <th>Accion Correctiva </th>
                                         @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -240,7 +237,7 @@
                                 <tbody>
                                     @foreach ($mostrarRegistro as $registro)
                                         <tr>
-                                            <form action="{{ route('aseguramientoCalidad.formUpdateDeleteProceso') }}"
+                                            <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                 method="POST">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $registro->id }}">
@@ -298,8 +295,8 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Operacion </th>
-                                            <th>Piezas Auditadas</th>
-                                            <th>Piezas Rechazadas</th>
+                                            <th>Lienzo tendido</th>
+                                            <th>Lienzo rechazado</th>
                                             <th>T. P. </th>
                                             <th>Accion Correctiva </th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
@@ -313,7 +310,7 @@
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
-                                                <form action="{{ route('aseguramientoCalidad.formUpdateDeleteProceso') }}"
+                                                <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
@@ -476,7 +473,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <form action="{{ route('aseguramientoCalidad.formFinalizarProceso') }}" method="POST">
+                                <form action="{{ route('auditoriaAQL.formFinalizarProceso') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="area" value="{{ $data['area'] }}">
                                     <input type="hidden" name="modulo" value="{{ $data['modulo'] }}">
@@ -512,9 +509,9 @@
                             <thead class="thead-primary">
                                 <tr>
                                     <th>Nombre </th>
-                                    <th>Total Pizas Auditada</th>
-                                    <th>Total Pizas Rechazada</th>
-                                    <th>Porcentaje Rechazado</th>
+                                    <th>Total Auditada</th>
+                                    <th>Total Rechazada</th>
+                                    <th>Porcentaje Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -541,9 +538,9 @@
                         <table class="table">
                             <thead class="thead-primary">
                                 <tr>
-                                    <th>Total de Piezas Auditadas</th>
-                                    <th>Total de Piezas Rechazados</th>
-                                    <th>Porcentaje Rechazo Total</th>
+                                    <th>total de cantidad Lienzos Tendidos</th>
+                                    <th>total de cantidad Lienzos Rechazados</th>
+                                    <th>Porcentaje Total</th>
                                 </tr>
                             </thead>
                             <tbody>

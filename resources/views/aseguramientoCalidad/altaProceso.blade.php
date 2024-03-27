@@ -127,8 +127,8 @@
                                                 @endif
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
-                                                placeholder="estilo" readonly /></td>
+                                        <td>
+                                            <select name="estilo" id="estilo" class="form-control" data-selected-itemid="" required>
                                         <td>
                                             <select name="team_leader" id="team_leader" class="form-control" required
                                                 title="Por favor, selecciona una opción">
@@ -165,6 +165,388 @@
                     <!--Fin de la edicion del codigo para mostrar el contenido-->
                 </div>
             </div>
+            <div class="card">
+                <!--Aqui se edita el encabezado que es el que se muestra -->
+                <div class="card-header card-header-primary">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col">
+                            <h5 class="card-title">ESTATUS</h5>
+                        </div>
+                        <div class="col-auto">
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-body">
+                    <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        AUDITORIA EN PROCESO
+                                    </button>
+                                </h2>
+                            </div>
+                    
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample5">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne5">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseOne5" aria-expanded="true" aria-controls="collapseOne5">
+                                                                En Proceso
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseOne5" class="collapse show" aria-labelledby="headingOne5"
+                                                        data-parent="#accordionExample5">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($procesoActual as $proceso)
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 1 -->
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample6">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne6">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseOne6" aria-expanded="true" aria-controls="collapseOne6">
+                                                                Finalizado
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseOne6" class="collapse show" aria-labelledby="headingOne6"
+                                                        data-parent="#accordionExample6">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($procesoFinal as $proceso)
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 2 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--Fin del apartado del primer acordeon externo--}}
+                    {{--Inicio del Segundo acordeon externo--}}
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        AUDITORIA EN PROCESO PLAYERA
+                                    </button>
+                                </h2>
+                            </div>
+                    
+                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample5">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne5">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseTwo5" aria-expanded="true" aria-controls="collapseTwo5">
+                                                                En Proceso
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseTwo5" class="collapse show" aria-labelledby="headingOne5"
+                                                        data-parent="#accordionExample5">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($playeraActual as $proceso)
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 1 -->
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample6">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne6">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseTwo6" aria-expanded="true" aria-controls="collapseTwo6">
+                                                                Finalizado
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseTwo6" class="collapse show" aria-labelledby="headingOne6"
+                                                        data-parent="#accordionExample6">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($playeraFinal as $proceso)
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 2 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--Fin del Segundo Acordeon Externo--}}
+                    {{--Inicio del Tercer Acordeon Externo--}}
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        AUDITORIA EN PROCESO EMPAQUE
+                                    </button>
+                                </h2>
+                            </div>
+                    
+                            <div id="collapseThree" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample5">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne5">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseThree5" aria-expanded="true" aria-controls="collapseThree5">
+                                                                En Proceso
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseThree5" class="collapse show" aria-labelledby="headingOne5"
+                                                        data-parent="#accordionExample5">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($empaqueActual as $proceso)
+                                                                            <tr>
+                                                                                <td><button class="btn btn-primary">Acceder</button></td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 1 -->
+                                        <div class="col-md-6">
+                                            {{-- Inicio de Acordeon --}}
+                                            <div class="accordion" id="accordionExample6">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne6">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                                data-target="#collapseThree6" aria-expanded="true" aria-controls="collapseThree6">
+                                                                Finalizado
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                    
+                                                    <div id="collapseThree6" class="collapse show" aria-labelledby="headingOne6"
+                                                        data-parent="#accordionExample6">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Accion</th>
+                                                                            <th>Módulo</th>
+                                                                            <th>Estilo</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($empaqueFinal as $proceso)
+                                                                            <tr>
+                                                                                <td><button class="btn btn-primary">Acceder</button></td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->estilo }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin del acordeón 2 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--Fin del Tercer Acordeon Externo--}}
+                    
+                    
+                    <!--Fin de la edicion del codigo para mostrar el contenido-->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -182,22 +564,38 @@
                 placeholder: 'Seleccione una opción',
                 allowClear: true
             });
-
+    
             $('#modulo').on('select2:select', function(e) {
-                var itemid = e.params.data.element.dataset.itemid;
-                $('#estilo').val(itemid);
+                var moduleid = e.params.data.element.value;
+                $('#estilo').empty(); // Limpiar opciones anteriores
+                $.ajax({
+                    url: '{{ route("obtenerItemId") }}',
+                    type: 'POST',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'moduleid': moduleid
+                    },
+                    success: function(response) {
+                        $('#estilo').empty(); // Limpiar opciones anteriores
+                        $.each(response.itemid, function(key, value) {
+                            var selected = ($('#estilo').val() == key); // Verificar si esta opción está seleccionada actualmente
+                            $('#estilo').append($('<option>', {
+                                value: value, // Usar el valor de la columna "itemid"
+                                text: value,
+                                selected: selected // Marcar la opción como seleccionada si coincide con el valor actualmente seleccionado en el select
+                            }));
+                        });
+                    }
+                });
+            });
+    
+            $('form').submit(function() {
+                var selectedItemId = $('#estilo').val();
+                $('#estilo').val(selectedItemId); // Establecer el valor seleccionado como el "itemid"
             });
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#modulo').change(function() {
-                var itemid = $(this).find(':selected').data('itemid');
-                $('#estilo').val(itemid);
-            });
-        });
-    </script>
 
 
 
