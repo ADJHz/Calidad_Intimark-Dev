@@ -13,7 +13,9 @@ class DatosAuditoriaEtiquetas extends Controller
         $mesesEnEspanol = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
-
+        $Proveedor = ModelsDatosAuditoriaEtiquetas::select('Proveedor')
+        ->distinct()
+        ->get();
         return view('formulariosCalidad.auditoriaEtiquetas', compact('mesesEnEspanol'));
     }
     public function NoOrdenes()
@@ -30,8 +32,8 @@ class DatosAuditoriaEtiquetas extends Controller
         $orden = $request->input('orden');
         // Buscar datos relacionados con la orden seleccionada
         $datos = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $orden)
-        ->select('OrdenCompra', 'Estilos')
-       
+        ->select('OrdenCompra', 'Estilos','Cantidad','Talla','Color')
+
         ->get();
         return response()->json($datos);
     }

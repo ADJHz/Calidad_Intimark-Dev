@@ -54,12 +54,24 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th
-                                            style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1px;">
+                                            style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.001%;">
                                             #</th>
-                                        <th>
+                                        <th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.1%;">
                                             No/Orden</th>
-                                        <th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
                                             Estilos</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                            Color</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                            Talla</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                            Cantidad</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                            Tamaño Muestra</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.1%;">
+                                            Defectos</th>
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                            Tipo Defectos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,39 +146,44 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            // Controlador para el botón de búsqueda
-            $('#Buscar').click(function() {
-                var ordenSeleccionada = $('#ordenSelect').val();
-                if (ordenSeleccionada) {
-                    $.ajax({
-                        url: '/buscarDatosAuditoria',
-                        type: 'GET',
-                        data: {
-                            orden: ordenSeleccionada
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            // Limpiar tabla antes de agregar resultados
-                            $('#miTabla tbody').empty();
-                            // Mostrar resultados en la tabla
-                            $.each(data, function(index, item) {
-                                $('#miTabla tbody').append('<tr><td>' + (index + 1) +
-                                    '</td><td>' + item.OrdenCompra + '</td><td>' +
-                                    item.Estilos + '</td></tr>');
-                            });
-                        },
-                        error: function(error) {
-                            console.error('Error al buscar datos de auditoría: ', error);
-                        }
-                    });
-                } else {
-                    console.error('No se ha seleccionado ninguna orden.');
-                }
-            });
+   <script>
+    $(document).ready(function() {
+        // Controlador para el botón de búsqueda
+        $('#Buscar').click(function() {
+            var ordenSeleccionada = $('#ordenSelect').val();
+            if (ordenSeleccionada) {
+                $.ajax({
+                    url: '/buscarDatosAuditoria',
+                    type: 'GET',
+                    data: {
+                        orden: ordenSeleccionada
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        // Limpiar tabla antes de agregar resultados
+                        $('#miTabla tbody').empty();
+                        // Mostrar resultados en la tabla
+                        $.each(data, function(index, item) {
+                            $('#miTabla tbody').append('<tr><td>' + (index + 1) +
+                                '</td><td style="text-align: center;">' + item.OrdenCompra +
+                                '</td><td style="text-align: center;">' + item.Estilos +
+                                '</td><td style="text-align: center;">' + item.Color +
+                                '</td><td style="text-align: center;">' + item.Talla +
+                                '</td><td style="text-align: center;">' + item.Cantidad +
+                                '</td></tr>');
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error al buscar datos de auditoría: ', error);
+                    }
+                });
+            } else {
+                console.error('No se ha seleccionado ninguna orden.');
+            }
         });
-    </script>
+    });
+</script>
+
     <script>
         $(document).ready(function() {
             // Controlador de eventos para clic en fila de la tabla
@@ -206,9 +223,9 @@
                             error);
                     }
                 });
-    
+
             });
         });
     </script>
-    
+
 @endsection
