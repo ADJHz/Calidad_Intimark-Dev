@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'proceso', 'titlePage' => __('proceso')])
+@extends('layouts.app', ['activePage' => 'AQL', 'titlePage' => __('AQL')])
 
 @section('content')
     {{-- ... dentro de tu vista ... --}}

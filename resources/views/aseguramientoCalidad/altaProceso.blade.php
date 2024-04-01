@@ -201,7 +201,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne5">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-danger btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseOne5" aria-expanded="true" aria-controls="collapseOne5">
                                                                 En Proceso
                                                             </button>
@@ -255,7 +255,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne6">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-success btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseOne6" aria-expanded="true" aria-controls="collapseOne6">
                                                                 Finalizado
                                                             </button>
@@ -330,7 +330,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne5">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-danger btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseTwo5" aria-expanded="true" aria-controls="collapseTwo5">
                                                                 En Proceso
                                                             </button>
@@ -383,7 +383,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne6">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-success btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseTwo6" aria-expanded="true" aria-controls="collapseTwo6">
                                                                 Finalizado
                                                             </button>
@@ -458,7 +458,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne5">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-danger btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseThree5" aria-expanded="true" aria-controls="collapseThree5">
                                                                 En Proceso
                                                             </button>
@@ -500,7 +500,7 @@
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne6">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                                                            <button class="btn btn-success btn-block" type="button" data-toggle="collapse"
                                                                 data-target="#collapseThree6" aria-expanded="true" aria-controls="collapseThree6">
                                                                 Finalizado
                                                             </button>

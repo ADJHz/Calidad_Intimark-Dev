@@ -21,7 +21,8 @@ use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
 use App\Models\CategoriaParteCorte;
 use App\Models\CategoriaAccionCorrectiva;
-use App\Models\AuditoriaProcesoCorte;
+use App\Models\AuditoriaProcesoCorte; 
+use App\Models\AuditoriaAQL; 
 
 
 use App\Exports\DatosExport;
@@ -35,6 +36,7 @@ class AuditoriaProcesoCorteController extends Controller
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
+        $fechaActual = Carbon::now()->toDateString();
         return [ 
             'CategoriaColor' => CategoriaColor::where('estado', 1)->get(),
             'CategoriaEstilo' => CategoriaEstilo::where('estado', 1)->get(),
@@ -72,6 +74,31 @@ class AuditoriaProcesoCorteController extends Controller
                 })
                 ->get(),
             'CategoriaAccionCorrectiva' => CategoriaAccionCorrectiva::where('estado', 1)->get(), 
+
+            'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'procesoFinalAQL' => AuditoriaAQL::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraActualAQL' => AuditoriaAQL::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraFinalAQL' => AuditoriaAQL::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
         ];
     }
 

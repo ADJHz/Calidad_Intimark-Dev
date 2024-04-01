@@ -88,7 +88,7 @@
                                 <p style="text-align: center;">{{ __('AUDITORIA DE PROCESOS') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'Auditoria AQL' ? ' active' : '' }}">
+                        <li class="nav-item{{ $activePage == 'AQL' ? ' active' : '' }}">
                             <a class="nav-link" href="{{ route('auditoriaAQL.altaAQL') }}">
                                 <i class="material-icons">edit_document</i>
                                 <p>{{ __('FCC-009-B') }}</p>

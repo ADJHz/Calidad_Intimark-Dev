@@ -9,7 +9,8 @@ use App\Models\AuditoriaProceso;
 use App\Models\AseguramientoCalidad;  
 use App\Models\CategoriaTeamLeader;  
 use App\Models\CategoriaTipoProblema; 
-use App\Models\CategoriaAccionCorrectiva; 
+use App\Models\CategoriaAccionCorrectiva;  
+use App\Models\AuditoriaAQL;  
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -19,6 +20,7 @@ class AuditoriaAQLController extends Controller
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
+        $fechaActual = Carbon::now()->toDateString();
         return [
             'auditorDato' => Auth::user()->name,
             'auditorPlanta' => Auth::user()->Planta,
@@ -39,6 +41,31 @@ class AuditoriaAQLController extends Controller
                 ->select('moduleid', 'itemid')
                 ->distinct()
                 ->get(), 
+            'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'procesoFinalAQL' => AuditoriaAQL::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraActualAQL' => AuditoriaAQL::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'playeraFinalAQL' => AuditoriaAQL::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+
 
         ];
     }

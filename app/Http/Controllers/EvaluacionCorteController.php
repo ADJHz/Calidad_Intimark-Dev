@@ -7,25 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\CategoriaAuditor;
 use App\Models\CategoriaTecnico;
-use App\Models\CategoriaCliente;
+use App\Models\AuditoriaAQL;
 use App\Models\CategoriaColor;
 use App\Models\CategoriaEstilo;
 use App\Models\CategoriaNoRecibo;
 use App\Models\CategoriaTallaCantidad;
 use App\Models\CategoriaTamañoMuestra;
-use App\Models\CategoriaDefecto;
-use App\Models\CategoriaTipoDefecto;
 use App\Models\CategoriaMaterialRelajado;
 use App\Models\CategoriaDefectoCorte;
 use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\AuditoriaMarcada;
 use App\Models\CategoriaParteCorte;
-use App\Models\AuditoriaTendido;
-use App\Models\Lectra;
-use App\Models\AuditoriaBulto;
-use App\Models\AuditoriaFinal;
 
-use App\Exports\DatosExport;
 use App\Models\DatoAX;
 use App\Models\EvaluacionCorte;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,6 +29,7 @@ class EvaluacionCorteController extends Controller
 
     // Método privado para cargar las categorías
     private function cargarCategorias() {
+        $fechaActual = Carbon::now()->toDateString();
         return [ 
             'CategoriaColor' => CategoriaColor::where('estado', 1)->get(),
             'CategoriaEstilo' => CategoriaEstilo::where('estado', 1)->get(),
@@ -65,6 +59,18 @@ class EvaluacionCorteController extends Controller
             'DatoAXFin' => DatoAX::where('estatus', 'fin')->get(),
             'EncabezadoAuditoriaCorte' => EncabezadoAuditoriaCorte::all(),
             'auditoriasMarcadas' => AuditoriaMarcada::all(),
+            'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
+            'procesoFinalAQL' => AuditoriaAQL::where('estatus', 1)
+                ->where('area', 'AUDITORIA EN PROCESO')
+                ->whereDate('created_at', $fechaActual)
+                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->distinct()
+                ->get(),
         ];
     }
 
