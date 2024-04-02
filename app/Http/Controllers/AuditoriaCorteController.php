@@ -23,6 +23,7 @@ use App\Models\AuditoriaTendido;
 use App\Models\Lectra;
 use App\Models\AuditoriaBulto;
 use App\Models\AuditoriaFinal;
+use App\Models\CategoriaAccionCorrectiva;
 
 use App\Exports\DatosExport;
 use App\Models\DatoAX;
@@ -71,6 +72,7 @@ class AuditoriaCorteController extends Controller
             'DatoAXRechazado' => DatoAX::where('estatus', 'rechazado')->get(),
             'EncabezadoAuditoriaCorte' => EncabezadoAuditoriaCorte::all(),
             'auditoriasMarcadas' => AuditoriaMarcada::all(),
+            'CategoriaAccionCorrectiva' => CategoriaAccionCorrectiva::where('estado', 1)->where('area', '0')->get(),
         ];
     }
 
@@ -106,6 +108,11 @@ class AuditoriaCorteController extends Controller
         $Lectra = Lectra::where('id', $id)->first();
         $auditoriaBulto = AuditoriaBulto::where('id', $id)->first();
         $auditoriaFinal = AuditoriaFinal::where('id', $id)->first();
+        $auditoriaMarcadaTalla = DatoAX::where('op', $orden)
+            ->select('sizename')
+            ->distinct()
+            ->pluck('sizename');
+
         // apartado para validar los checbox
 
         $mostrarFinalizarMarcada = $auditoriaMarcada ? session('estatus_checked_AuditoriaMarcada') : false;
@@ -137,6 +144,7 @@ class AuditoriaCorteController extends Controller
             'mostrarFinalizarBulto' => $mostrarFinalizarBulto,
             'mostrarFinalizarFinal' => $mostrarFinalizarFinal,
             'encabezadoAuditoriaCorte' => $encabezadoAuditoriaCorte,
+            'auditoriaMarcadaTalla' => $auditoriaMarcadaTalla,
             'auditorDato' => $auditorDato]));
     }
 
@@ -450,8 +458,7 @@ class AuditoriaCorteController extends Controller
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA DE TENDIDO.')->with('activePage', $activePage);
         }
 
-        $allChecked = trim($request->input('yarda_orden_estatus')) === "1" &&
-              trim($request->input('yarda_marcada_estatus')) === "1";
+        $allChecked = trim($request->input('yarda_orden_estatus')) === "1";
 
         $request->session()->put('estatus_checked_AuditoriaMarcada', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
@@ -461,40 +468,42 @@ class AuditoriaCorteController extends Controller
         if ($existeOrden) {
             $existeOrden->yarda_orden = $request->input('yarda_orden');
             $existeOrden->yarda_orden_estatus = $request->input('yarda_orden_estatus');
-            $existeOrden->yarda_marcada = $request->input('yarda_marcada');
-            $existeOrden->yarda_marcada_estatus = $request->input('yarda_marcada_estatus');
-            $existeOrden->yarda_tendido = $request->input('yarda_tendido');
-            $existeOrden->yarda_tendido_estatus = $request->input('yarda_tendido_estatus');
             $existeOrden->talla1 = $request->input('talla1');
             $existeOrden->talla2 = $request->input('talla2');
             $existeOrden->talla3 = $request->input('talla3');
             $existeOrden->talla4 = $request->input('talla4');
             $existeOrden->talla5 = $request->input('talla5');
             $existeOrden->talla6 = $request->input('talla6');
-            $existeOrden->talla7 = $request->input('talla7');
-            $existeOrden->talla8 = $request->input('talla8');
-            $existeOrden->talla9 = $request->input('talla9');
-            $existeOrden->talla10 = $request->input('talla10');
+            $existeOrden->talla_parcial1 = $request->input('talla_parcial1');
+            $existeOrden->talla_parcial2 = $request->input('talla_parcial2');
+            $existeOrden->talla_parcial3 = $request->input('talla_parcial3');
+            $existeOrden->talla_parcial4 = $request->input('talla_parcial4');
+            $existeOrden->talla_parcial5 = $request->input('talla_parcial5');
+            $existeOrden->talla_parcial6 = $request->input('talla_parcial6');
             $existeOrden->bulto1 = $request->input('bulto1');
             $existeOrden->bulto2 = $request->input('bulto2');
             $existeOrden->bulto3 = $request->input('bulto3');
             $existeOrden->bulto4 = $request->input('bulto4');
             $existeOrden->bulto5 = $request->input('bulto5');
             $existeOrden->bulto6 = $request->input('bulto6');
-            $existeOrden->bulto7 = $request->input('bulto7');
-            $existeOrden->bulto8 = $request->input('bulto8');
-            $existeOrden->bulto9 = $request->input('bulto9');
-            $existeOrden->bulto10 = $request->input('bulto10');
+            $existeOrden->bulto_parcial1 = $request->input('bulto_parcial1');
+            $existeOrden->bulto_parcial2 = $request->input('bulto_parcial2');
+            $existeOrden->bulto_parcial3 = $request->input('bulto_parcial3');
+            $existeOrden->bulto_parcial4 = $request->input('bulto_parcial4');
+            $existeOrden->bulto_parcial5 = $request->input('bulto_parcial5');
+            $existeOrden->bulto_parcial6 = $request->input('bulto_parcial6');
             $existeOrden->total_pieza1 = $request->input('total_pieza1');
             $existeOrden->total_pieza2 = $request->input('total_pieza2');
             $existeOrden->total_pieza3 = $request->input('total_pieza3');
             $existeOrden->total_pieza4 = $request->input('total_pieza4');
             $existeOrden->total_pieza5 = $request->input('total_pieza5');
             $existeOrden->total_pieza6 = $request->input('total_pieza6');
-            $existeOrden->total_pieza7 = $request->input('total_pieza7');
-            $existeOrden->total_pieza8 = $request->input('total_pieza8');
-            $existeOrden->total_pieza9 = $request->input('total_pieza9');
-            $existeOrden->total_pieza10 = $request->input('total_pieza10');
+            $existeOrden->total_pieza_parcial1 = $request->input('total_pieza_parcial1');
+            $existeOrden->total_pieza_parcial2 = $request->input('total_pieza_parcial2');
+            $existeOrden->total_pieza_parcial3 = $request->input('total_pieza_parcial3');
+            $existeOrden->total_pieza_parcial4 = $request->input('total_pieza_parcial4');
+            $existeOrden->total_pieza_parcial5 = $request->input('total_pieza_parcial5');
+            $existeOrden->total_pieza_parcial6 = $request->input('total_pieza_parcial6');
             $existeOrden->largo_trazo =  $request->input('largo_trazo');
             $existeOrden->ancho_trazo = $request->input('ancho_trazo');
             $existeOrden->save();
@@ -576,8 +585,10 @@ class AuditoriaCorteController extends Controller
             $existeOrden->alineacion_tendido_estatus = "1";
             $existeOrden->arruga_tendido = $request->input('arruga_tendido');
             $existeOrden->arruga_tendido_estatus = "1";
-            $existeOrden->defecto_material = $request->input('defecto_material');
-            $existeOrden->defecto_material_estatus = "1";
+            $existeOrden->defecto_material = $request->input('defecto_material'); 
+            $existeOrden->defecto_material_estatus = "1"; 
+            $existeOrden->yarda_marcada = $request->input('yarda_marcada'); 
+            $existeOrden->yarda_marcada_estatus = $request->input('yarda_marcada_estatus');
             $existeOrden->accion_correctiva = $request->input('accion_correctiva');
             //$existeOrden->libera_tendido = $request->input('libera_tendido');
 

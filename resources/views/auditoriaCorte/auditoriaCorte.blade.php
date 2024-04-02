@@ -220,85 +220,88 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="yarda_marcada" class="col-sm-6 col-form-label">Yardas en la
-                                                marcada</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="yarda_marcada" id="yarda_marcada" placeholder="..."
-                                                        value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->yarda_marcada : '' }}"
-                                                        required />
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_marcada_estatus" id="yarda_marcada_estatus1"
-                                                        value="1"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="yarda_marcada_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_marcada_estatus" id="yarda_marcada_estatus2"
-                                                        value="0"
-                                                        {{ isset($auditoriaMarcada) && $auditoriaMarcada->yarda_marcada_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="yarda_marcada_estatus2">✖ </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <br>
-                                        {{-- 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="pieza_bulto" class="col-sm-3 col-form-label">Piezas X Bulto </label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2" name="pieza_bulto" id="pieza_bulto"
-                                                    placeholder="..." />
-                                            </div>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <p>CANTIDADES ABSOLUTAS</p>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Tallas</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <select name="talla{{ $i }}" class="form-control">
+                                                                <option value="">Selecciona una talla</option>
+                                                                @foreach ($auditoriaMarcadaTalla as $sizename)
+                                                                    <option value="{{ $sizename }}" {{ isset($auditoriaMarcada) && $auditoriaMarcada->{'talla'.$i} == $sizename ? 'selected' : '' }}>
+                                                                        {{ $sizename }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                    <tr>
+                                                        <td># Bultos</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <input type="number" step="0.1" class="form-control" name="bulto{{ $i }}"
+                                                                value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto'.$i} : '' }}" />
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Piezas</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <input type="number" step="0.1" class="form-control" name="total_pieza{{ $i }}"
+                                                                value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza'.$i} : '' }}" />
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="pieza_total" class="col-sm-3 col-form-label">Piezas Totales</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="number" step="0.0001" class="form-control me-2" name="pieza_total" id="pieza_total"
-                                                    placeholder="..." />
-                                            </div>
+                                        <div class="table-responsive">
+                                            <p>CANTIDADES PARCIALES</p>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Tallas</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <select name="talla_parcial{{ $i }}" class="form-control">
+                                                                <option value="">Selecciona una talla</option>
+                                                                @foreach ($auditoriaMarcadaTalla as $sizename)
+                                                                    <option value="{{ $sizename }}" {{ isset($auditoriaMarcada) && $auditoriaMarcada->{'talla_parcial'.$i} == $sizename ? 'selected' : '' }}>
+                                                                        {{ $sizename }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                    <tr>
+                                                        <td># Bultos</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <input type="number" step="0.1" class="form-control" name="bulto_parcial{{ $i }}"
+                                                                value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto_parcial'.$i} : '' }}" />
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Piezas</td>
+                                                        @for ($i = 1; $i <= 6; $i++)
+                                                        <td>
+                                                            <input type="number" step="0.1" class="form-control" name="total_pieza_parcial{{ $i }}"
+                                                                value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza_parcial'.$i} : '' }}" />
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        --}}
-                                    </div>
-                                    <hr>
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Tallas</td>
-                                                    @for ($i = 1; $i <= 10; $i++)
-                                                    <td>
-                                                        <input type="text" class="form-control" name="talla{{ $i }}"
-                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'talla'.$i} : '' }}" />
-                                                    </td>
-                                                    @endfor
-                                                </tr>
-                                                <tr>
-                                                    <td># Bultos</td>
-                                                    @for ($i = 1; $i <= 10; $i++)
-                                                    <td>
-                                                        <input type="number" step="0.0001" class="form-control" name="bulto{{ $i }}"
-                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto'.$i} : '' }}" />
-                                                    </td>
-                                                    @endfor
-                                                </tr>
-                                                <tr>
-                                                    <td>Total Piezas</td>
-                                                    @for ($i = 1; $i <= 10; $i++)
-                                                    <td>
-                                                        <input type="number" step="0.0001" class="form-control" name="total_pieza{{ $i }}"
-                                                            value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza'.$i} : '' }}" />
-                                                    </td>
-                                                    @endfor
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -321,6 +324,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
                                     <div>
                                         <button type="submit" name="accion" class="btn btn-success">Guardar</button>
                                         @if($mostrarFinalizarMarcada)
@@ -497,27 +501,29 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="nombre" id="nombre" class="form-control"
-                                                    title="Por favor, selecciona una opción" required>
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaTecnico as $nombre)
-                                                        <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                            <div class="row">
+                                                <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR 1</label>
+                                                <div class="col-sm-6">
+                                                    <select name="nombre" id="nombre" class="form-control" title="Por favor, selecciona una opción" required>
+                                                        <option value="">Selecciona una opción</option>
+                                                        @foreach ($CategoriaTecnico as $nombre)
+                                                        <option value="{{ $nombre->nombre }}" {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
-                                                    @endforeach
-                                                </select>
-                                                &nbsp;&nbsp;
-                                                <select name="nombre2" id="nombre2" class="form-control"
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaTecnico as $nombre)
-                                                        <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <label for="nombre2" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR 2</label>
+                                                <div class="col-sm-6">
+                                                    <select name="nombre2" id="nombre2" class="form-control" title="Por favor, selecciona una opción">
+                                                        <option value="">Selecciona una opción</option>
+                                                        @foreach ($CategoriaTecnico as $nombre)
+                                                        <option value="{{ $nombre->nombre }}" {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
-                                                    @endforeach
-                                                </select>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -902,24 +908,6 @@
                                             <label for="defecto_material" class="col-sm-6 col-form-label">13. defecto de
                                                 material</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
-                                                {{--
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="defecto_material_estatus" id="defecto_material_estatus1"
-                                                        value="1"
-                                                        {{ isset($auditoriaTendido) && $auditoriaTendido->defecto_material_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="defecto_material_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="defecto_material_estatus" id="defecto_material_estatus2"
-                                                        value="0"
-                                                        {{ isset($auditoriaTendido) && $auditoriaTendido->defecto_material_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="defecto_material_estatus2">✖ </label>
-                                                </div>
-                                                --}}
                                                 <div class="form-check form-check-inline">
                                                     <select name="defecto_material" id="defecto_material" class="form-control"
                                                     title="Por favor, selecciona una opción">
@@ -934,6 +922,34 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="yarda_marcada" class="col-sm-6 col-form-label">Yardas en la
+                                                marcada</label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                        name="yarda_marcada" id="yarda_marcada" placeholder="..."
+                                                        value="{{ isset($auditoriaTendido) ? $auditoriaTendido->yarda_marcada : '' }}"
+                                                        required />
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_marcada_estatus" id="yarda_marcada_estatus1"
+                                                        value="1"
+                                                        {{ isset($auditoriaTendido) && $auditoriaTendido->yarda_marcada_estatus == 1 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-paloma" for="yarda_marcada_estatus1">✔ </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="quitar-espacio" type="radio"
+                                                        name="yarda_marcada_estatus" id="yarda_marcada_estatus2"
+                                                        value="0"
+                                                        {{ isset($auditoriaTendido) && $auditoriaTendido->yarda_marcada_estatus == 0 ? 'checked' : '' }}
+                                                        required />
+                                                    <label class="label-tache" for="yarda_marcada_estatus2">✖ </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <hr>
                                     <div class="row">
@@ -941,10 +957,14 @@
                                             <label for="accion_correctiva" class="col-sm-6 col-form-label">Accion
                                                 correctiva </label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2" name="accion_correctiva"
-                                                    id="accion_correctiva" placeholder="COMENTARIO"
-                                                    value="{{ isset($auditoriaTendido) ? $auditoriaTendido->accion_correctiva : '' }}"
-                                                    required />
+                                                <select name="accion_correctiva" id="accion_correctiva" class="form-control me-2" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($CategoriaAccionCorrectiva as $categoria)
+                                                        <option value="{{ $categoria->accion_correctiva }}" {{ isset($auditoriaTendido) && $auditoriaTendido->accion_correctiva == $categoria->accion_correctiva ? 'selected' : '' }}>
+                                                            {{ $categoria->accion_correctiva }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         {{--
@@ -1200,6 +1220,22 @@
                                             <div class="form-check form-check-inline">
                                                 <input type="text" class="form-control" name="informacion_trazo" id="informacion_trazo" readonly
                                                     value="{{ isset($auditoriaTendido) ? $auditoriaTendido->defecto_material : '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="yarda_marcada" class="col-sm-6 col-form-label">Yardas en la
+                                            marcada</label>
+                                        <div class="col-sm-12 d-flex align-items-center">
+                                            <div class="form-check form-check-inline">
+                                                <h4>{{ isset($auditoriaTendido) ? $auditoriaTendido->yarda_marcada : '' }}</h4>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @if(isset($auditoriaTendido) && $auditoriaTendido->yarda_marcada_estatus == 1)
+                                                    <label class="label-paloma" for="yarda_orden_estatus1">✔</label>
+                                                @elseif(isset($auditoriaTendido) && $auditoriaTendido->yarda_marcada_estatus == 0)
+                                                    <label class="label-tache" for="yarda_orden_estatus2">✖</label>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
