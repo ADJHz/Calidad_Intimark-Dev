@@ -68,15 +68,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                                    <div class="card">
-                                        <img src="{{ asset('material') }}/img/Intimark.png" class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">INTIMARK CONTROL DE CALIDAD EMPAQUE<br>FCC-008</h5>
-
-                                        </div>
-                                    </div>
-                                </div>
                               @endif
                               @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta2')
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">

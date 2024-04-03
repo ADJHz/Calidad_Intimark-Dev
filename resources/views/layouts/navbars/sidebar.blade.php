@@ -95,13 +95,6 @@
                                 <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item{{ $activePage == 'Empaque' ? ' active' : '' }}">
-
-                                <i class="material-icons">edit_document</i>
-                                <p>{{ __('FCC-008') }}</p>
-                                <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>
-                            </a>
-                        </li>
                     @endif
                     @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta2')
                     <li class="nav-item{{ $activePage == 'ScreenPrint' ? ' active' : '' }}">
