@@ -54,21 +54,21 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th
-                                            style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.001%;">
+                                            style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .01%">
                                             #</th>
-                                        <th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.1%;">
+                                        <th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             No/Orden</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Estilos</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Color</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Talla</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Cantidad</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Tamaño Muestra</th>
-                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 0.1%;">
+                                        <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">
                                             Defectos</th>
                                         <th   style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">
                                             Tipo Defectos</th>
@@ -83,6 +83,11 @@
                                                 <span>Finalizar</span>
                                             </button>
                                         </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success" id="Saved">
+                                                <span>Guardar</span>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -91,27 +96,6 @@
                 </div>
             </div>
         </div>
-     <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document"> <!-- Agrega la clase 'modal-lg' para hacer el modal más ancho -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalles de la Fila</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Aquí se mostrarán los detalles de la fila seleccionada -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
     </div>
     <script>
         $(document).ready(function() {
@@ -146,7 +130,18 @@
             });
         });
     </script>
-   <script>
+<style>
+    .rechazado {
+        background-color: #d91f1f; /* Fondo rojo */
+        color: #fff; /* Texto blanco */
+    }
+
+    .rechazado td {
+        border: 1px solid #fff; /* Borde blanco */
+    }
+</style>
+
+<script>
     $(document).ready(function() {
         // Controlador para el botón de búsqueda
         $('#Buscar').click(function() {
@@ -164,13 +159,63 @@
                         $('#miTabla tbody').empty();
                         // Mostrar resultados en la tabla
                         $.each(data, function(index, item) {
-                            $('#miTabla tbody').append('<tr><td>' + (index + 1) +
-                                '</td><td style="text-align: center;">' + item.OrdenCompra +
-                                '</td><td style="text-align: center;">' + item.Estilos +
-                                '</td><td style="text-align: center;">' + item.Color +
-                                '</td><td style="text-align: center;">' + item.Talla +
-                                '</td><td style="text-align: center;">' + item.Cantidad +
-                                '</td></tr>');
+                            // Formatear la cantidad
+                            var cantidadFormateada = item.Cantidad;
+                            var puntoIndex = cantidadFormateada.indexOf('.');
+                            if (puntoIndex !== -1) {
+                                var parteDecimal = cantidadFormateada.substring(puntoIndex + 1);
+                                if (parteDecimal.length > 2) {
+                                    parteDecimal = parteDecimal.substring(0, 2);
+                                }
+                                cantidadFormateada = cantidadFormateada.substring(0, puntoIndex + 1) + parteDecimal;
+                            }
+                            // Verificar si el tamaño de muestra está en el rango de 2 a 20
+                            var tamañoMuestra = parseInt(item.tamaño_muestra);
+                            var inputHTML = '<input type="number" class="form-control" id="cantidadInput_' + index + '" value="0">';
+                            // Verificar si el tamaño de muestra está en el rango específico
+                            if (tamañoMuestra == 32 || tamañoMuestra == 50 || tamañoMuestra == 80 || tamañoMuestra == 125 || tamañoMuestra == 200 || tamañoMuestra == 315 || tamañoMuestra == 500 || tamañoMuestra == 800 || tamañoMuestra == 2000) {
+                                inputHTML = '<input type="number" class="form-control" id="cantidadInput_' + index + '" value="0">';
+                            }
+                            // Agregar fila a la tabla
+                            var fila = '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td style="text-align: center;">' + item.OrdenCompra + '</td>' +
+                                '<td style="text-align: center;">' + item.Estilos + '</td>' +
+                                '<td style="text-align: center;">' + item.Color + '</td>' +
+                                '<td style="text-align: center;">' + item.Talla + '</td>' +
+                                '<td style="text-align: center;">' + cantidadFormateada + '</td>' +
+                                '<td style="text-align: center;">' + item.tamaño_muestra + '</td>' +
+                                '<td style="text-align: center; position: relative;">' +
+                                inputHTML +
+                                '</td>' +
+                                '<td id="leyenda_' + index + '" style="text-align: center;"></td>' +
+                                '</tr>';
+                            $('#miTabla tbody').append(fila);
+                        });
+
+                        // Agregar controlador de eventos para validar los inputs
+                        $('input[type="number"]').on('change', function() {
+                            var index = $(this).attr('id').split('_')[1];
+                            var cantidad = parseInt($(this).val());
+                            var tamañoMuestra = parseInt(data[index].tamaño_muestra);
+                            if (isNaN(cantidad)) {
+                                cantidad = 0;
+                            }
+                            if ((tamañoMuestra == 32 && cantidad > 1) ||
+                                (tamañoMuestra == 50 && cantidad > 2) ||
+                                (tamañoMuestra == 80 && cantidad > 3) ||
+                                (tamañoMuestra == 125 && cantidad > 5) ||
+                                (tamañoMuestra == 200 && cantidad > 7) ||
+                                (tamañoMuestra == 315 && cantidad > 10) ||
+                                (tamañoMuestra == 500 && cantidad > 14) ||
+                                (tamañoMuestra == 800 && cantidad > 21) ||
+                                (tamañoMuestra == 2000 && cantidad > 28)) {
+                                $('#leyenda_' + index).text('Rechazado');
+                                marcarFilaRechazada(index);
+                            } else {
+                                $('#leyenda_' + index).text('');
+                                desmarcarFilaRechazada(index);
+                            }
                         });
                     },
                     error: function(error) {
@@ -181,51 +226,19 @@
                 console.error('No se ha seleccionado ninguna orden.');
             }
         });
+
+        // Función para marcar la fila como rechazada
+        function marcarFilaRechazada(index) {
+            $('#miTabla tbody tr').eq(index).addClass('rechazado');
+        }
+
+        // Función para desmarcar la fila como rechazada
+        function desmarcarFilaRechazada(index) {
+            $('#miTabla tbody tr').eq(index).removeClass('rechazado');
+        }
     });
 </script>
 
-    <script>
-        $(document).ready(function() {
-            // Controlador de eventos para clic en fila de la tabla
-            $('#miTabla tbody').on('click', 'tr', function() {
-                // Eliminar la clase de selección de todas las filas
-                $('#miTabla tbody tr').removeClass('selected');
-                // Agregar la clase de selección a la fila clicada
-                $(this).addClass('selected');
-                // Obtener la orden seleccionada
-                var ordenSeleccionada = $(this).find('td:nth-child(2)').text();
-                var estiloSeleccionado = $(this).find('td:nth-child(3)').text(); // Obtener el estilo de la fila seleccionada
-                // Realizar la solicitud AJAX para obtener los datos específicos para el modal
-                $.ajax({
-                    url: '/buscarDatosAuditoriaModal',
-                    type: 'GET',
-                    data: {
-                        orden: ordenSeleccionada,
-                        estilo: estiloSeleccionado // Agregar el estilo seleccionado aquí
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        // Mostrar los datos en el modal
-                        var modalContent = '';
-                        $.each(data, function(index, item) {
-                            modalContent += '<p>Estilos: ' + item.Estilos + '</p>';
-                            modalContent += '<p>Talla: ' + item.Talla + '</p>';
-                            modalContent += '<p>Color: ' + item.Color + '</p>';
-                            modalContent += '<p>Cantidad: ' + item.Cantidad + '</p>';
-                            modalContent += '<p>Lotes: ' + item.Lotes + '</p>';
-                        });
-                        $('#modalBody').html(modalContent);
-                        // Abrir el modal
-                        $('#myModal').modal('show');
-                    },
-                    error: function(error) {
-                        console.error('Error al buscar datos de auditoría para el modal: ',
-                            error);
-                    }
-                });
 
-            });
-        });
-    </script>
 
 @endsection

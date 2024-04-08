@@ -32,24 +32,54 @@ class DatosAuditoriaEtiquetas extends Controller
         $orden = $request->input('orden');
         // Buscar datos relacionados con la orden seleccionada
         $datos = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $orden)
-        ->select('OrdenCompra', 'Estilos','Cantidad','Talla','Color')
-
-        ->get();
-        return response()->json($datos);
-    }
-    public function buscarDatosAuditoriaModal(Request $request)
-    {
-        $orden = $request->input('orden');
-        $estilo = $request->input('estilo'); // Obtener el estilo de la fila seleccionada
-
-        // Buscar datos relacionados con la orden y el estilo seleccionados, y obtener columnas específicas
-        $datos = ModelsDatosAuditoriaEtiquetas::select('Estilos', 'Talla', 'Color', 'Cantidad', 'Lotes')
-            ->where('OrdenCompra', $orden)
-            ->where('Estilos', $estilo) // Agregar la condición para el estilo
-            ->distinct('Lotes')
+            ->select('OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color')
             ->get();
 
+        // Iterar sobre los datos y determinar el tamaño de muestra
+        foreach ($datos as $dato) {
+            $cantidad = $dato->Cantidad;
+            $tamaño_muestra = '';
+
+            // Determinar el rango de cantidad y asignar el tamaño de muestra correspondiente
+            if ($cantidad >= 2 && $cantidad <= 8) {
+                $tamaño_muestra = '2';
+            } elseif ($cantidad >= 9 && $cantidad <= 15) {
+                $tamaño_muestra = '3';
+            } elseif ($cantidad >= 16 && $cantidad <= 25) {
+                $tamaño_muestra = '5';
+            } elseif ($cantidad >= 26 && $cantidad <= 50) {
+                $tamaño_muestra = '8';
+            } elseif ($cantidad >= 51 && $cantidad <= 90) {
+                $tamaño_muestra = '13';
+            } elseif ($cantidad >= 91 && $cantidad <= 150) {
+                $tamaño_muestra = '20';
+            } elseif ($cantidad >= 151 && $cantidad <= 280) {
+                $tamaño_muestra = '32';
+            } elseif ($cantidad >= 281 && $cantidad <= 500) {
+                $tamaño_muestra = '50';
+            } elseif ($cantidad >= 501 && $cantidad <= 1200) {
+                $tamaño_muestra = '80';
+            } elseif ($cantidad >= 1201 && $cantidad <= 3200) {
+                $tamaño_muestra = '125';
+            } elseif ($cantidad >= 3201 && $cantidad <= 10000) {
+                $tamaño_muestra = '200';
+            } elseif ($cantidad >= 10001 && $cantidad <= 35000) {
+                $tamaño_muestra = '315';
+            } elseif ($cantidad >= 35001 && $cantidad <= 150000) {
+                $tamaño_muestra = '500';
+            } elseif ($cantidad >= 150001 && $cantidad <= 5000000) {
+                $tamaño_muestra = '800';
+            } elseif ($cantidad > 5000000) {
+                $tamaño_muestra = '2000';
+            }
+
+            // Asignar el tamaño de muestra al modelo
+            $dato->tamaño_muestra = $tamaño_muestra;
+        }
+
         return response()->json($datos);
     }
+
+
 
 }
