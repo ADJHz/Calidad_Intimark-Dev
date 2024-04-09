@@ -1297,6 +1297,18 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <label for="nombre" class="col-sm-6 col-form-label">AUXILIAR DEL CORTADOR</label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <select name="nombre2" id="nombre2" class="form-control"
+                                                    title="Por favor, selecciona una opción">
+                                                    <option value="">Selecciona una opción</option>
+                                                    @foreach ($CategoriaTecnico as $nombre)
+                                                        <option value="{{ $nombre->nombre }}"
+                                                            {{ isset($Lectra) && trim($Lectra->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                                            {{ $nombre->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="fecha" class="col-sm-6 col-form-label">Fecha</label>
@@ -1335,8 +1347,8 @@
                                                     <tr>
                                                         <th scope="col">Panel</th>
                                                         <th scope="col">Simetria de piezas</th>
-                                                        <th scope="col" colspan="5">X° ANCHO</th>
-                                                        <th scope="col" colspan="5">Y° LARGO</th>
+                                                        <th scope="col" colspan="2">X° ANCHO</th>
+                                                        <th scope="col" colspan="2">Y° LARGO</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1344,30 +1356,42 @@
                                                         <tr>
                                                             <th scope="row">Panel {{ $panel }}</th>
                                                             <td>
-                                                                <input type="text" class="form-control"
-                                                                    name="simetria_pieza{{ $panel }}" id="simetria_pieza{{ $panel }}" placeholder="panel {{ $panel }}"
-                                                                    value="{{ isset($Lectra) ? $Lectra->{'simetria_pieza'.$panel} : '' }}" />
+                                                                <input type="text" class="form-control" name="simetria_pieza{{ $panel }}" id="simetria_pieza{{ $panel }}" placeholder="panel {{ $panel }}" value="{{ isset($Lectra) ? $Lectra->{'simetria_pieza'.$panel} : '' }}" />
                                                             </td>
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <td>
-                                                                    <select name="panel{{ $panel }}_x{{ $i }}" id="panel{{ $panel }}_x{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                                        <option value=""> X{{ $i }}° </option>
-                                                                        @foreach($options as $option)
-                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_x'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                            @endfor
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <td>
-                                                                    <select name="panel{{ $panel }}_y{{ $i }}" id="panel{{ $panel }}_y{{ $i }}" class="form-control" title="Por favor, selecciona una opción">
-                                                                        <option value=""> Y{{ $i }}° </option>
-                                                                        @foreach($options as $option)
-                                                                            <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_y'.$i} == $option ? 'selected' : '' }}>{{ $option }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                            @endfor
+                                                            <!-- Panel X -->
+                                                            <td>
+                                                                <select name="panel{{ $panel }}_x1" id="panel{{ $panel }}_x1" class="form-control" title="Por favor, selecciona una opción">
+                                                                    <option value="">Rango Inicial </option>
+                                                                    @foreach($options as $option)
+                                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_x1'} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select name="panel{{ $panel }}_x2" id="panel{{ $panel }}_x2" class="form-control" title="Por favor, selecciona una opción">
+                                                                    <option value="">Rango Final </option>
+                                                                    @foreach($options as $option)
+                                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_x2'} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <!-- Panel Y -->
+                                                            <td>
+                                                                <select name="panel{{ $panel }}_y1" id="panel{{ $panel }}_y1" class="form-control" title="Por favor, selecciona una opción">
+                                                                    <option value="">Rango Inicial </option>
+                                                                    @foreach($options as $option)
+                                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_y1'} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select name="panel{{ $panel }}_y2" id="panel{{ $panel }}_y2" class="form-control" title="Por favor, selecciona una opción">
+                                                                    <option value="">Rango Final </option>
+                                                                    @foreach($options as $option)
+                                                                        <option value="{{ $option }}" {{ isset($Lectra) && $Lectra->{'panel'.$panel.'_y2'} == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
                                                         </tr>
                                                     @endfor
                                                 </tbody>

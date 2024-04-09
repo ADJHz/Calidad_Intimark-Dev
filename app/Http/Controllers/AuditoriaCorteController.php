@@ -638,6 +638,7 @@ class AuditoriaCorteController extends Controller
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
             $existeOrden->nombre = $request->input('nombre');
+            $existeOrden->nombre2 = $request->input('nombre2');
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->simetria_pieza1 = $request->input('simetria_pieza1');
