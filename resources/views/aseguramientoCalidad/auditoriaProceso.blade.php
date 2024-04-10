@@ -206,8 +206,7 @@
                                             <td>
                                                 @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
                                                 @else
-                                                    <input type="text" class="form-control" name="pxp" id="pxp"
-                                                        required>
+                                                    <input type="text" class="form-control" name="pxp" id="pxp">
                                                 @endif
                                             </td>
                                         </tr>
@@ -513,8 +512,8 @@
                                 <tr>
                                     <th>Nombre </th>
                                     <th>No. Recorridos </th>
-                                    <th>Total Pizas Auditada</th>
-                                    <th>Total Pizas Rechazada</th>
+                                    <th>Total Piezas Auditada</th>
+                                    <th>Total Piezas Rechazada</th>
                                     <th>Porcentaje Rechazado</th>
                                 </tr>
                             </thead>
