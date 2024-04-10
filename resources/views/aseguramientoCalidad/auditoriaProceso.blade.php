@@ -123,8 +123,8 @@
                                             <th>OPERACION</th>
                                             <th>PIEZAS AUDITADAS</th>
                                             <th>PIEZAS RECHAZADOS</th>
-                                            <th>T.P</th>
-                                            <th>A.C</th>
+                                            <th>TIPO DE PROBLEMA</th>
+                                            <th>ACCION CORRECTIVA</th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
                                             @else
                                                 <th>P x P</th>
@@ -229,7 +229,7 @@
                                         <th>Operacion </th>
                                         <th>Piezas Auditadas</th>
                                         <th>Piezas Rechazadas</th>
-                                        <th>T. P. </th>
+                                        <th>Tipo de Problema </th>
                                         <th>Accion Correctiva </th>
                                         @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
                                         @else
@@ -300,11 +300,11 @@
                                             <th>Operacion </th>
                                             <th>Piezas Auditadas</th>
                                             <th>Piezas Rechazadas</th>
-                                            <th>T. P. </th>
+                                            <th>Tipo de Problema </th>
                                             <th>Accion Correctiva </th>
                                             @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
                                             @else
-                                                <th>pxp </th>
+                                                <th>PxP </th>
                                             @endif
                                             <th>Editar </th>
                                             <th>Eliminar </th>
@@ -512,6 +512,7 @@
                             <thead class="thead-primary">
                                 <tr>
                                     <th>Nombre </th>
+                                    <th>No. Recorridos </th>
                                     <th>Total Pizas Auditada</th>
                                     <th>Total Pizas Rechazada</th>
                                     <th>Porcentaje Rechazado</th>
@@ -522,6 +523,8 @@
                                     <tr>
                                         <td><input type="text" class="form-control" value="{{ $registro->nombre }}"
                                                 readonly></td>
+                                        <td><input type="text" class="form-control" 
+                                            value="{{ $registro->cantidad_registros }}" readonly></td>
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_auditada }}" readonly></td>
                                         <td><input type="text" class="form-control"

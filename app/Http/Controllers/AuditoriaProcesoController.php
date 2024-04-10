@@ -167,7 +167,7 @@ class AuditoriaProcesoController extends Controller
         $registrosIndividual = AseguramientoCalidad::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
-            ->selectRaw('nombre, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
+            ->selectRaw('nombre, COUNT(*) as cantidad_registros, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
             ->groupBy('nombre')
             ->get();
 
@@ -183,7 +183,7 @@ class AuditoriaProcesoController extends Controller
         //dd($registros, $fechaActual);
         // Calcula el porcentaje total
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
-
+        
         
 
         
