@@ -128,11 +128,16 @@ class AuditoriaProcesoController extends Controller
         $data = $data ?? [];
 
         //dd($request->all(), $data);
-        $nombresPlanta1= AuditoriaProceso::where('prodpoolid', 'Intimark1')
+        $nombresPlanta1 = AuditoriaProceso::where('prodpoolid', 'Intimark1')
             ->where('moduleid', $data['modulo'])
+            ->select('name')
+            ->distinct()
             ->get();
-        $nombresPlanta2= AuditoriaProceso::where('prodpoolid', 'Intimark2')
+
+        $nombresPlanta2 = AuditoriaProceso::where('prodpoolid', 'Intimark2')
             ->where('moduleid', $data['modulo'])
+            ->select('name')
+            ->distinct()
             ->get();
 
 
