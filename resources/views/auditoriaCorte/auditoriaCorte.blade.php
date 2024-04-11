@@ -1338,7 +1338,8 @@
                                     <hr>
                                     <div class="row">
                                         @php
-                                            $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
+                                            $options = ['-1', '-15/16', '-7/8', '-13/16', '-3/4', '-11/16', '-5/8', '-9/16', '-1/2', '-7/16', '-3/8', '-5/16', '-1/4', '-3/16', '-1/8', '-1/16', 
+                                            '+0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
                                             $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                         @endphp
                                         <div class="table-responsive">
@@ -1398,38 +1399,8 @@
                                             </table>
                                         </div>
                                         
-                                        <div class="col-md-6 mb-3">
-                                            <label for="pieza_completa" class="col-sm-6 col-form-label">2. Piezas completas</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <div class="col-sm-12 d-flex align-items-center"
-                                                    style="margin-right: -5px;">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="quitar-espacio" type="radio"
-                                                            name="pieza_completa_estatus" id="pieza_completa_estatus1"
-                                                            value="1"
-                                                            {{ isset($Lectra) && $Lectra->pieza_completa_estatus == 1 ? 'checked' : '' }}
-                                                            required />
-                                                        <label class="label-paloma" for="pieza_completa_estatus1">✔ </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="quitar-espacio" type="radio"
-                                                            name="pieza_completa_estatus" id="pieza_completa_estatus2"
-                                                            value="0"
-                                                            {{ isset($Lectra) && $Lectra->pieza_completa_estatus == 0 ? 'checked' : '' }}
-                                                            required /> 
-                                                        <label class="label-tache" for="pieza_completa_estatus2">✖ </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input type="number" step="0.0001" class="form-control me-2"
-                                                            name="pieza_completa" id="pieza_completa" placeholder="..."
-                                                            value="{{ isset($Lectra) ? $Lectra->pieza_completa : '' }}"
-                                                            required />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-6 mb-3"> 
-                                            <label for="pieza_contrapatron" class="col-sm-6 col-form-label">3. Piezas contra patron</label>
+                                            <label for="pieza_contrapatron" class="col-sm-6 col-form-label">1. Piezas contra patron</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                                 <div class="form-check form-check-inline">
                                                     <input class="quitar-espacio" type="radio"
@@ -1452,35 +1423,6 @@
                                                     <input type="number" step="0.0001" class="form-control me-2"
                                                         name="pieza_contrapatron" id="pieza_contrapatron" placeholder="..."
                                                         value="{{ isset($Lectra) ? $Lectra->pieza_contrapatron : '' }}"
-                                                        required />
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="yarda_tendido" class="col-sm-6 col-form-label">4. Yardas en el
-                                                tendido</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus1"
-                                                        value="1"
-                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="yarda_tendido_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="yarda_tendido_estatus" id="yarda_tendido_estatus2"
-                                                        value="0"
-                                                        {{ isset($Lectra) && $Lectra->yarda_tendido_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="yarda_tendido_estatus2">✖ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="yarda_tendido" id="yarda_tendido" placeholder="..."
-                                                        value="{{ isset($Lectra) ? $Lectra->yarda_tendido : '' }}"
                                                         required />
                                                 </div>
                                             </div>
@@ -1541,13 +1483,13 @@
                                         @php
                                             $cantidadDefecto = isset($Lectra->cantidad_defecto) ? $Lectra->cantidad_defecto : 0;
                                             $piezaInspeccionada = isset($Lectra->pieza_inspeccionada) ? $Lectra->pieza_inspeccionada : 0;
-                                            $calculoPorcentaje = $piezaInspeccionada != 0 ? intval(($cantidadDefecto / $piezaInspeccionada) * 100) : 0;
+                                            $calculoPorcentaje = $piezaInspeccionada != 0 ? round(($cantidadDefecto / $piezaInspeccionada) * 100, 2) : 0;
                                         @endphp
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <input type="text" class="form-control me-2" name="porcentaje" id="porcentaje" placeholder="..."
-                                                    value="{{ isset($calculoPorcentaje) ? $calculoPorcentaje : '' }}" readonly />
+                                                    value="{{ isset($calculoPorcentaje) ? $calculoPorcentaje : '' }}" readonly step="0.01"/>
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -1593,7 +1535,8 @@
                                 <hr>
                                 <div class="row">
                                     @php
-                                        $options = ['-1/16', '-1/8', '-1/4', '-1/2', '0', '+1/2', '+1/4', '+1/8', '+1/16'];
+                                        $options = ['-1', '-15/16', '-7/8', '-13/16', '-3/4', '-11/16', '-5/8', '-9/16', '-1/2', '-7/16', '-3/8', '-5/16', '-1/4', '-3/16', '-1/8', '-1/16', 
+                                            '+0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
                                         $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                     @endphp
                                     <div class="col-md-6 mb-3">
@@ -1672,28 +1615,9 @@
                                         </div>
                                     </div>
                                     
+
                                     <div class="col-md-6 mb-3">
-                                        <label for="pieza_completa" class="col-sm-6 col-form-label">2. Piezas completas</label>
-                                        <div class="col-sm-12 d-flex align-items-center">
-                                            <div class="col-sm-12 d-flex align-items-center"
-                                                style="margin-right: -5px;">
-                                                <div class="form-check form-check-inline">
-                                                    @if(isset($Lectra) && $Lectra->pieza_completa_estatus == 1)
-                                                        <label class="label-paloma" for="pieza_completa_estatus1">✔</label>
-                                                    @elseif(isset($Lectra) && $Lectra->pieza_completa_estatus == 0)
-                                                        <label class="label-tache" for="pieza_completa_estatus2">✖</label>
-                                                    @endif
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
-                                                        name="pieza_completa" id="pieza_completa" readonly
-                                                        value="{{ isset($Lectra) ? $Lectra->pieza_completa : '' }}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="pieza_contrapatron" class="col-sm-6 col-form-label">3. Piezas contra patron</label>
+                                        <label for="pieza_contrapatron" class="col-sm-6 col-form-label">1. Piezas contra patron</label>
                                         <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                             <div class="form-check form-check-inline">
                                                 @if(isset($Lectra) && $Lectra->pieza_contrapatron_estatus == 1)
@@ -1780,7 +1704,7 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE TECNICO</label>
+                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL SELLADOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre" id="nombre" class="form-control"
                                                     title="Por favor, selecciona una opción">

@@ -523,7 +523,7 @@
                                         <td><input type="text" class="form-control" value="{{ $registro->nombre }}"
                                                 readonly></td>
                                         <td><input type="text" class="form-control" 
-                                            value="{{ $registro->cantidad_registros }}" readonly></td>
+                                            value="{{ $registro->cantidad_registros }}" readonly></td> 
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_auditada }}" readonly></td>
                                         <td><input type="text" class="form-control"

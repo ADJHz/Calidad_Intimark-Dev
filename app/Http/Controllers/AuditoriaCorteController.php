@@ -626,9 +626,7 @@ class AuditoriaCorteController extends Controller
             return back()->with('cambio-estatus', 'Se Cambio a estatus: AUDITORIA EN BULTOS.')->with('activePage', $activePage);
         }
 
-        $allChecked = trim($request->input('pieza_completa_estatus')) === "1" &&
-              trim($request->input('pieza_contrapatron_estatus')) === "1" &&
-              trim($request->input('yarda_tendido_estatus')) === "1";
+        $allChecked = trim($request->input('pieza_contrapatron_estatus')) === "1";
 
         $request->session()->put('estatus_checked_Lectra', $allChecked);
         // Verificar si ya existe un registro con el mismo valor de orden_id
