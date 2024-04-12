@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DatosAuditoriaEtiquetas as ModelsDatosAuditoriaEtiquetas;
+use App\Models\Cat_DefEtiquetas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -79,7 +80,14 @@ class DatosAuditoriaEtiquetas extends Controller
 
         return response()->json($datos);
     }
+    public function obtenerTiposDefectos()
+    {
+        // Aquí colocas la lógica para obtener los tipos de defectos desde tu base de datos
+        $tiposDefectos = Cat_DefEtiquetas::all(); // Suponiendo que tienes un modelo TipoDefecto
 
+        // Devolver los tipos de defectos como un JSON
+        return response()->json($tiposDefectos);
+    }
 
 
 }

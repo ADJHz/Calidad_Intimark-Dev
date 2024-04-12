@@ -10,7 +10,7 @@ use App\Http\Controllers\DatosAuditoriaEtiquetas;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
-use App\Http\Controllers\AuditoriaAQLController; 
+use App\Http\Controllers\AuditoriaAQLController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
 
@@ -228,5 +228,5 @@ Route::view('/error', 'error')->name('error');
 
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
 Route::get('/buscarDatosAuditoria', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoria']);
-Route::get('/buscarDatosAuditoriaModal', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaModal']);
+Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTiposDefectos']);
 
