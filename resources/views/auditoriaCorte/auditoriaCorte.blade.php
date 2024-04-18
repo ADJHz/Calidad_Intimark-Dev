@@ -1438,29 +1438,29 @@
                                             <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label> 
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 @if($encabezadoAuditoriaCorte->pieza >= 2 && $encabezadoAuditoriaCorte->pieza <= 8)
-                                                    <input type="text" class="form-control" readonly value="2" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="2" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 9 && $encabezadoAuditoriaCorte->pieza <= 15)
-                                                    <input type="text" class="form-control" readonly value="3" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="3" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 16 && $encabezadoAuditoriaCorte->pieza <= 25)
-                                                    <input type="text" class="form-control" readonly value="5" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="5" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 26 && $encabezadoAuditoriaCorte->pieza <= 50)
-                                                    <input type="text" class="form-control" readonly value="8" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="8" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 51 && $encabezadoAuditoriaCorte->pieza <= 90)
-                                                    <input type="text" class="form-control" readonly value="13" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="13" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 91 && $encabezadoAuditoriaCorte->pieza <= 150)
-                                                    <input type="text" class="form-control" readonly value="20" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="20" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 151 && $encabezadoAuditoriaCorte->pieza <= 280)
-                                                    <input type="text" class="form-control" readonly value="32" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="32" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 281 && $encabezadoAuditoriaCorte->pieza <= 500)
-                                                    <input type="text" class="form-control" readonly value="50" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="50" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 501 && $encabezadoAuditoriaCorte->pieza <= 1200)
-                                                    <input type="text" class="form-control" readonly value="80" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="80" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 1201 && $encabezadoAuditoriaCorte->pieza <= 3200)
-                                                    <input type="text" class="form-control" readonly value="125" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="125" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 3201 && $encabezadoAuditoriaCorte->pieza <= 10000)
-                                                    <input type="text" class="form-control" readonly value="200" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="200" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @elseif($encabezadoAuditoriaCorte->pieza >= 10001 && $encabezadoAuditoriaCorte->pieza <= 35000)
-                                                    <input type="text" class="form-control" readonly value="315" name="pieza_inspeccionada">
+                                                    <input type="text" class="form-control" readonly value="315" name="pieza_inspeccionada" id="pieza_inspeccionada_input">
                                                 @endif
                                             </div> 
                                         </div>
@@ -1494,11 +1494,6 @@
                                                 --}}
                                             </div>
                                         </div>
-                                        @php
-                                            $cantidadDefecto = isset($Lectra->cantidad_defecto) ? $Lectra->cantidad_defecto : 0;
-                                            $piezaInspeccionada = isset($Lectra->pieza_inspeccionada) ? $Lectra->pieza_inspeccionada : 0;
-                                            $calculoPorcentaje = $piezaInspeccionada != 0 ? round(($cantidadDefecto / $piezaInspeccionada) * 100, 2) : 0;
-                                        @endphp
 
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
@@ -1513,17 +1508,39 @@
                                             // Obtener referencia al input de cantidad de defectos y al input de porcentaje
                                             const cantidadDefectosInput = document.getElementById('cantidad_defecto');
                                             const porcentajeInput = document.getElementById('porcentaje');
-
+                                            const piezasInspeccionadasInput = document.getElementById('pieza_inspeccionada_input');
+                                        
                                             // Función para calcular el porcentaje y actualizar el input de porcentaje
                                             function actualizarPorcentaje() {
                                                 const cantidadDefectos = parseFloat(cantidadDefectosInput.value);
-                                                const porcentaje = (cantidadDefectos / {{ $piezaInspeccionada }}) * 100 || 0; // Evitar división por cero
+                                                const piezasInspeccionadas = parseFloat(piezasInspeccionadasInput.value);
+                                        
+                                                // Si piezasInspeccionadas es 0, asignarle el valor del select inicial
+                                                const piezasIniciales = {
+                                                    2: 2,
+                                                    3: 3,
+                                                    5: 5,
+                                                    8: 8,
+                                                    13: 13,
+                                                    20: 20,
+                                                    32: 32,
+                                                    50: 50,
+                                                    80: 80,
+                                                    125: 125,
+                                                    200: 200,
+                                                    315: 315
+                                                };
+                                        
+                                                const valorInicial = piezasIniciales[piezasInspeccionadas] || 0;
+                                                const porcentaje = piezasInspeccionadas !== 0 ? (cantidadDefectos / valorInicial) * 100 : 0; // Evitar división por cero
                                                 porcentajeInput.value = porcentaje.toFixed(2);
                                             }
-
+                                        
                                             // Escuchar el evento input en el input de cantidad de defectos para actualizar el porcentaje
                                             cantidadDefectosInput.addEventListener('input', actualizarPorcentaje);
-
+                                            // Escuchar el evento change en el select de piezas inspeccionadas para actualizar el porcentaje
+                                            piezasInspeccionadasInput.addEventListener('change', actualizarPorcentaje);
+                                        
                                             // Calcular el porcentaje inicial al cargar la página
                                             actualizarPorcentaje();
                                         </script>
