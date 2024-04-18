@@ -2038,31 +2038,6 @@
                             <div class="card-body">
                                 {{-- Inicio cuerpo acordeon --}}
                                 @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == 'estatusAuditoriaFinal')
-                                    
-                                    @if (auth()->check() && auth()->user()->no_empleado == '2222')
-                                    <form method="POST"
-                                        action="{{ route('auditoriaCorte.formAuditoriaFinal', ['id' => $datoAX->id]) }}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $datoAX->id }}">
-                                        <input type="hidden" name="idAuditoriaFinal" value="{{ $auditoriaFinal->id }}">
-                                        <input type="hidden" name="orden" value="{{ $datoAX->orden }}">
-                                        <input type="hidden" name="enterado" value="enterado">
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="supervisor_corte" class="col-sm-6 col-form-label">Supervisor de Corte: {{$auditorDato}} </label>
-                                                <div class="col-sm-12 d-flex align-items-center">
-                                                    @if($auditoriaFinal->supervisor_corte == '1')
-                                                        <button type="submit" class="btn btn-success" disabled>Listo</button>
-                                                    @else
-                                                        <button type="submit" class="btn btn-success">Confirma de Enterado</button>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </form>
-                                    @elseif(auth()->check() && auth()->user()->hasRole('Gerente de Calidad'))
                                     <form method="POST"
                                         action="{{ route('auditoriaCorte.formAuditoriaFinal', ['id' => $datoAX->id]) }}">
                                         @csrf
@@ -2081,13 +2056,6 @@
                                                     <input type="text" class="form-control me-2" name="supervisor_corte" id="supervisor_corte"
                                                         value="{{ $supervisorCorteFinal }}" readonly />
                                                     <input type="hidden" name="supervisor_corte" value="{{ $supervisorCorteFinal }}">
-                                                </div>
-                                                <div class="col-sm-12 d-flex align-items-center">
-                                                    @if($auditoriaFinal->supervisor_corte == '1')
-                                                        <h3 style="background-color: green; padding: 5px; color: white;">Enterado</h3>
-                                                    @else
-                                                        <h3 style="background-color: red; padding: 5px;  color: white;">No enterado</h3>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
@@ -2129,7 +2097,6 @@
                                             @endif
                                         </div>
                                     </form>
-                                    @endif
                                 @endif
                                 {{-- Fin cuerpo acordeon --}}
                             </div>

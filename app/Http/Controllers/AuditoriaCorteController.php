@@ -772,15 +772,7 @@ class AuditoriaCorteController extends Controller
         $idAuditoriaFinal = $request->input('idAuditoriaFinal');
         $orden = $request->input('orden');
         $accion = $request->input('accion'); // Obtener el valor del campo 'accion'
-        $enterado = $request->input('enterado'); // Obtener el valor del campo 'accion'
-
-        if($enterado == 'enterado'){
-            $auditoriaFinal = AuditoriaFinal::where('id', $idAuditoriaFinal)->first();
-            $auditoriaFinal->supervisor_corte = '1';
-            // Asegúrate de llamar a save() en la variable actualizada
-            $auditoriaFinal->save();
-            return back()->with('cambio-estatus', 'Confirmacion guardada.')->with('activePage', $activePage);
-        }
+        
 
         if ($accion === 'finalizar') {
             // Buscar la fila en la base de datos utilizando el modelo AuditoriaMarcada
@@ -805,8 +797,7 @@ class AuditoriaCorteController extends Controller
         // Verificar si ya existe un registro con el mismo valor de orden_id
         $existeOrden = AuditoriaFinal::where('id', $idAuditoriaFinal)->first();
         // Verificar si todos los checkboxes tienen el valor de "1"
-        $allChecked = trim($request->input('aceptado_rechazado')) === "1"  &&
-        $existeOrden->supervisor_corte == "1";
+        $allChecked = trim($request->input('aceptado_rechazado')) === "1";
         // Guardar el estado del checkbox en la sesión
         $request->session()->put('estatus_checked_AuditoriaFinal', $allChecked);
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
