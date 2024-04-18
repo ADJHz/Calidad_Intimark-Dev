@@ -220,7 +220,7 @@ class AuditoriaCorteController extends Controller
         $color = $request->input('color');
         $eventoInicial = $request->input('evento');
 
-        //dd($estilo, $request->all());
+        //dd($request->all());
         $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $idEncabezadoAuditoriaCorte)->first();
         //dd($encabezadoAuditoriaCorte);
         // Verificar si ya existen datos para el dato_ax_id especificado
@@ -231,6 +231,7 @@ class AuditoriaCorteController extends Controller
                 $encabezadoAuditoriaCorte->color_id = $request->input('color_id');
             }
             $encabezadoAuditoriaCorte->lienzo = $request->input('lienzo');
+            $encabezadoAuditoriaCorte->qtysched_id = $request->input('qtysched_id');
             $encabezadoAuditoriaCorte->estatus = 'estatusAuditoriaMarcada';
             $encabezadoAuditoriaCorte->save();
 
@@ -257,6 +258,7 @@ class AuditoriaCorteController extends Controller
             $auditoria->color_id = $request->input('color_id') ?? $color;
             $auditoria->material = $request->input('material');
             $auditoria->pieza = $request->input('pieza');
+            $auditoria->qtysched_id = $request->input('qtysched_id');
             $auditoria->trazo = $request->input('trazo');
             $auditoria->lienzo = $request->input('lienzo');
             $auditoria->total_evento = $request->input('total_evento');

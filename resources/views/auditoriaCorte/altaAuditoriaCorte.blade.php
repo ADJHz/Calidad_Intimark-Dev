@@ -80,6 +80,7 @@
                                 <th>Planta</th>
                                 <th>Temporada</th>
                                 <th>Cliente</th>
+                                <th>Piezas Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +90,7 @@
                                 <td>{{ $datoAX->planta }}</td>
                                 <td>{{ $datoAX->temporada }}</td>
                                 <td>{{ $datoAX->custorname }}</td>
+                                <td>{{ intval($datoAX->qtysched) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,6 +104,7 @@
                     <input type="hidden" name="temporada" value="{{ $datoAX->temporada }}">
                     <input type="hidden" name="cliente" value="{{ $datoAX->custorname }}">
                     <input type="hidden" name="color" value="{{ $datoAX->inventcolorid }}">
+                    <input type="hidden" name="qtysched_id" value="{{ $datoAX->qtysched }}">
                     <!-- Desde aquí inicia la edición del código para mostrar el contenido -->
                     <div class="table-responsive">
                         <table class="table">

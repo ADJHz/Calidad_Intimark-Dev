@@ -84,6 +84,7 @@
                     <input type="hidden" name="id" value="{{ $datoAX->id }}">
                     <input type="hidden" name="orden" value="{{ $datoAX->op }}">
                     <input type="hidden" name="idEncabezadoAuditoriaCorte" value="{{ $encabezadoAuditoriaCorte->id }}">
+                    <input type="hidden" name="qtysched_id" value="{{ $datoAX->qtysched }}">
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <h4>Orden: {{ $encabezadoAuditoriaCorte->orden_id }}</h4>
@@ -165,6 +166,9 @@
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                         <h4>Piezas: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->pieza : '' }}</h4>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <h4>Piezas Total: {{ isset($encabezadoAuditoriaCorte) ? $encabezadoAuditoriaCorte->qtysched_id : '' }}</h4>
                     </div>
                 </div>
                 @endif
@@ -1339,7 +1343,7 @@
                                     <div class="row">
                                         @php
                                             $options = ['-1', '-15/16', '-7/8', '-13/16', '-3/4', '-11/16', '-5/8', '-9/16', '-1/2', '-7/16', '-3/8', '-5/16', '-1/4', '-3/16', '-1/8', '-1/16', 
-                                            '+0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
+                                            '0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
                                             $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                         @endphp
                                         <div class="table-responsive">
@@ -1431,24 +1435,34 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label>
+                                            <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label> 
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="pieza_inspeccionada" id="pieza_inspeccionada" class="form-control" title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="2" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '2' ? 'selected' : '' }}>2 - 8 => 2</option>
-                                                    <option value="3" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '3' ? 'selected' : '' }}>9 - 15 => 3 </option>
-                                                    <option value="5" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '5' ? 'selected' : '' }}>16 - 25 => 5 </option>
-                                                    <option value="8" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '8' ? 'selected' : '' }}>26 - 50 => 8 </option>
-                                                    <option value="13" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '13' ? 'selected' : '' }}>51 - 90 => 13 </option>
-                                                    <option value="20" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '20' ? 'selected' : '' }}>91 - 150 => 20 </option>
-                                                    <option value="32" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '32' ? 'selected' : '' }}>151 - 280 => 32 </option>
-                                                    <option value="50" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '50' ? 'selected' : '' }}>281 - 500 => 50 </option>
-                                                    <option value="80" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '80' ? 'selected' : '' }}>501 - 1,200 => 80 </option>
-                                                    <option value="125" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '125' ? 'selected' : '' }}>1,201 - 3,200 => 125 </option>
-                                                    <option value="200" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '200' ? 'selected' : '' }}>3,201 - 10,000 => 200 </option>
-                                                    <option value="315" {{ isset($Lectra) && $Lectra->pieza_inspeccionada == '315' ? 'selected' : '' }}>10,001 - 35,000 => 315 </option>
-                                                </select>
-                                            </div>
+                                                @if($encabezadoAuditoriaCorte->qtysched_id >= 2 && $encabezadoAuditoriaCorte->qtysched_id <= 8)
+                                                    <input type="text" class="form-control" readonly value="2" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 9 && $encabezadoAuditoriaCorte->qtysched_id <= 15)
+                                                    <input type="text" class="form-control" readonly value="3" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 16 && $encabezadoAuditoriaCorte->qtysched_id <= 25)
+                                                    <input type="text" class="form-control" readonly value="5" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 26 && $encabezadoAuditoriaCorte->qtysched_id <= 50)
+                                                    <input type="text" class="form-control" readonly value="8" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 51 && $encabezadoAuditoriaCorte->qtysched_id <= 90)
+                                                    <input type="text" class="form-control" readonly value="13" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 91 && $encabezadoAuditoriaCorte->qtysched_id <= 150)
+                                                    <input type="text" class="form-control" readonly value="20" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 151 && $encabezadoAuditoriaCorte->qtysched_id <= 280)
+                                                    <input type="text" class="form-control" readonly value="32" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 281 && $encabezadoAuditoriaCorte->qtysched_id <= 500)
+                                                    <input type="text" class="form-control" readonly value="50" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 501 && $encabezadoAuditoriaCorte->qtysched_id <= 1200)
+                                                    <input type="text" class="form-control" readonly value="80" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 1201 && $encabezadoAuditoriaCorte->qtysched_id <= 3200)
+                                                    <input type="text" class="form-control" readonly value="125" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 3201 && $encabezadoAuditoriaCorte->qtysched_id <= 10000)
+                                                    <input type="text" class="form-control" readonly value="200" name="pieza_inspeccionada">
+                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 10001 && $encabezadoAuditoriaCorte->qtysched_id <= 35000)
+                                                    <input type="text" class="form-control" readonly value="315" name="pieza_inspeccionada">
+                                                @endif
+                                            </div> 
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="cantidad_defecto" class="col-sm-6 col-form-label">Cantidad de Defectos </label>
@@ -1536,7 +1550,7 @@
                                 <div class="row">
                                     @php
                                         $options = ['-1', '-15/16', '-7/8', '-13/16', '-3/4', '-11/16', '-5/8', '-9/16', '-1/2', '-7/16', '-3/8', '-5/16', '-1/4', '-3/16', '-1/8', '-1/16', 
-                                            '+0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
+                                            '0', '+1/16', '+1/8', '+3/16', '+1/4', '+5/16', '+3/8', '+7/16', '+1/2', '+9/16', '+5/8', '+11/16', '+3/4', '+13/16', '+7/8', '+15/16', '+1'];
                                         $paneles = ['DELANTERO', 'TRACERO', 'PARCHE', 'ADICIONAL'];
                                     @endphp
                                     <div class="col-md-6 mb-3">
