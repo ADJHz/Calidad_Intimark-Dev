@@ -1292,7 +1292,7 @@
                                             <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL CORTADOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre" id="nombre" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                    title="Por favor, selecciona una opción" required>
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
@@ -1304,7 +1304,7 @@
                                             <label for="nombre" class="col-sm-6 col-form-label">AUXILIAR DEL CORTADOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="nombre2" id="nombre2" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                    title="Por favor, selecciona una opción" required>
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
