@@ -1437,29 +1437,29 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label> 
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                @if($encabezadoAuditoriaCorte->qtysched_id >= 2 && $encabezadoAuditoriaCorte->qtysched_id <= 8)
+                                                @if($encabezadoAuditoriaCorte->pieza >= 2 && $encabezadoAuditoriaCorte->pieza <= 8)
                                                     <input type="text" class="form-control" readonly value="2" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 9 && $encabezadoAuditoriaCorte->qtysched_id <= 15)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 9 && $encabezadoAuditoriaCorte->pieza <= 15)
                                                     <input type="text" class="form-control" readonly value="3" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 16 && $encabezadoAuditoriaCorte->qtysched_id <= 25)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 16 && $encabezadoAuditoriaCorte->pieza <= 25)
                                                     <input type="text" class="form-control" readonly value="5" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 26 && $encabezadoAuditoriaCorte->qtysched_id <= 50)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 26 && $encabezadoAuditoriaCorte->pieza <= 50)
                                                     <input type="text" class="form-control" readonly value="8" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 51 && $encabezadoAuditoriaCorte->qtysched_id <= 90)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 51 && $encabezadoAuditoriaCorte->pieza <= 90)
                                                     <input type="text" class="form-control" readonly value="13" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 91 && $encabezadoAuditoriaCorte->qtysched_id <= 150)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 91 && $encabezadoAuditoriaCorte->pieza <= 150)
                                                     <input type="text" class="form-control" readonly value="20" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 151 && $encabezadoAuditoriaCorte->qtysched_id <= 280)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 151 && $encabezadoAuditoriaCorte->pieza <= 280)
                                                     <input type="text" class="form-control" readonly value="32" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 281 && $encabezadoAuditoriaCorte->qtysched_id <= 500)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 281 && $encabezadoAuditoriaCorte->pieza <= 500)
                                                     <input type="text" class="form-control" readonly value="50" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 501 && $encabezadoAuditoriaCorte->qtysched_id <= 1200)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 501 && $encabezadoAuditoriaCorte->pieza <= 1200)
                                                     <input type="text" class="form-control" readonly value="80" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 1201 && $encabezadoAuditoriaCorte->qtysched_id <= 3200)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 1201 && $encabezadoAuditoriaCorte->pieza <= 3200)
                                                     <input type="text" class="form-control" readonly value="125" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 3201 && $encabezadoAuditoriaCorte->qtysched_id <= 10000)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 3201 && $encabezadoAuditoriaCorte->pieza <= 10000)
                                                     <input type="text" class="form-control" readonly value="200" name="pieza_inspeccionada">
-                                                @elseif($encabezadoAuditoriaCorte->qtysched_id >= 10001 && $encabezadoAuditoriaCorte->qtysched_id <= 35000)
+                                                @elseif($encabezadoAuditoriaCorte->pieza >= 10001 && $encabezadoAuditoriaCorte->pieza <= 35000)
                                                     <input type="text" class="form-control" readonly value="315" name="pieza_inspeccionada">
                                                 @endif
                                             </div> 
@@ -1468,9 +1468,9 @@
                                             <label for="cantidad_defecto" class="col-sm-6 col-form-label">Cantidad de Defectos </label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <input type="text" class="form-control me-2" name="cantidad_defecto"
-                                                    id="cantidad_defecto" placeholder="..."
-                                                    value="{{ isset($Lectra) ? $Lectra->cantidad_defecto : '' }}"
-                                                    required />
+                                                       id="cantidad_defecto" placeholder="..."
+                                                       value="{{ isset($Lectra) ? $Lectra->cantidad_defecto : '' }}"
+                                                       required />
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -1499,6 +1499,7 @@
                                             $piezaInspeccionada = isset($Lectra->pieza_inspeccionada) ? $Lectra->pieza_inspeccionada : 0;
                                             $calculoPorcentaje = $piezaInspeccionada != 0 ? round(($cantidadDefecto / $piezaInspeccionada) * 100, 2) : 0;
                                         @endphp
+
                                         <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
                                             <div class="col-sm-12 d-flex align-items-center">
@@ -1507,6 +1508,25 @@
                                                 <span>%</span>
                                             </div>
                                         </div>
+
+                                        <script>
+                                            // Obtener referencia al input de cantidad de defectos y al input de porcentaje
+                                            const cantidadDefectosInput = document.getElementById('cantidad_defecto');
+                                            const porcentajeInput = document.getElementById('porcentaje');
+
+                                            // Función para calcular el porcentaje y actualizar el input de porcentaje
+                                            function actualizarPorcentaje() {
+                                                const cantidadDefectos = parseFloat(cantidadDefectosInput.value);
+                                                const porcentaje = (cantidadDefectos / {{ $piezaInspeccionada }}) * 100 || 0; // Evitar división por cero
+                                                porcentajeInput.value = porcentaje.toFixed(2);
+                                            }
+
+                                            // Escuchar el evento input en el input de cantidad de defectos para actualizar el porcentaje
+                                            cantidadDefectosInput.addEventListener('input', actualizarPorcentaje);
+
+                                            // Calcular el porcentaje inicial al cargar la página
+                                            actualizarPorcentaje();
+                                        </script>
                                     </div>
                                     <div>
                                         <button type="submit" class="btn btn-success">Guardar</button>
@@ -1761,75 +1781,46 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            @php
-                                                // Primero, verificamos si la variable existe
-                                                $calculoPorcentajeBulto = isset($auditoriaBulto->pieza_paquete) ?
-
-                                                // Si existe, verificamos si es igual a 0
-                                                ($auditoriaBulto->pieza_paquete === 0 ? 0 : intval(($encabezadoAuditoriaCorte->pieza / $auditoriaBulto->pieza_paquete)))
-
-                                                // Si no existe, asignamos 0
-                                                : 0;
-                                                //dd($calculoPorcentajeBulto, $encabezadoAuditoriaCorte->pieza, $auditoriaBulto->pieza_paquete);
-                                            @endphp
-                                            <label for="cantidad_bulto" class="col-sm-6 col-form-label">1. Cantidad de Bultos</label>
-                                            <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
-                                                {{--
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="cantidad_bulto_estatus" id="cantidad_bulto_estatus1"
-                                                        value="1"
-                                                        {{ isset($auditoriaBulto) && $auditoriaBulto->cantidad_bulto_estatus == 1 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-paloma" for="cantidad_bulto_estatus1">✔ </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="quitar-espacio" type="radio"
-                                                        name="cantidad_bulto_estatus" id="cantidad_bulto_estatus2"
-                                                        value="0"
-                                                        {{ isset($auditoriaBulto) && $auditoriaBulto->cantidad_bulto_estatus == 0 ? 'checked' : '' }}
-                                                        required />
-                                                    <label class="label-tache" for="cantidad_bulto_estatus2">✖ </label>
-                                                </div>
-                                                --}}
-                                                <div class="form-check form-check-inline">
-                                                    <input type="text" class="form-control me-2" name="cantidad_bulto" id="cantidad_bulto" placeholder="..."
-                                                        value="{{ isset($calculoPorcentajeBulto) ? $calculoPorcentajeBulto : '' }}" readonly />
+                                            <label for="pieza_paquete" class="col-sm-6 col-form-label">1. Piezas por paquete</label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="number" step="0.0001" class="form-control me-2"
+                                                               name="pieza_paquete" id="pieza_paquete" placeholder="..."
+                                                               value="{{ isset($auditoriaBulto) ? $auditoriaBulto->pieza_paquete : '' }}"
+                                                               required />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="pieza_paquete" class="col-sm-6 col-form-label">2. Piezas por paquete</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <div class="col-sm-12 d-flex align-items-center"
-                                                    style="margin-right: -5px;">
-                                                    {{--
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="quitar-espacio" type="radio"
-                                                            name="pieza_paquete_estatus" id="pieza_paquete_estatus1"
-                                                            value="1"
-                                                            {{ isset($auditoriaBulto) && $auditoriaBulto->pieza_paquete_estatus == 1 ? 'checked' : '' }}
-                                                            required />
-                                                        <label class="label-paloma" for="pieza_paquete_estatus1">✔ </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="quitar-espacio" type="radio"
-                                                            name="pieza_paquete_estatus" id="pieza_paquete_estatus2"
-                                                            value="0"
-                                                            {{ isset($auditoriaBulto) && $auditoriaBulto->pieza_paquete_estatus == 0 ? 'checked' : '' }}
-                                                            required />
-                                                        <label class="label-tache" for="pieza_paquete_estatus2">✖ </label>
-                                                    </div>
-                                                    --}}
-                                                    <div class="form-check form-check-inline">
-                                                        <input type="number" step="0.0001" class="form-control me-2"
-                                                            name="pieza_paquete" id="pieza_paquete" placeholder="..."
-                                                            value="{{ isset($auditoriaBulto) ? $auditoriaBulto->pieza_paquete : '' }}"
-                                                            required />
-                                                    </div>
+                                            <label for="cantidad_bulto" class="col-sm-6 col-form-label">2. Cantidad de Bultos</label>
+                                            <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="text" class="form-control me-2" name="cantidad_bulto" id="cantidad_bulto" placeholder="..."
+                                                           value="{{ isset($calculoPorcentajeBulto) ? $calculoPorcentajeBulto : '' }}" readonly />
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <script>
+                                            // Obtener referencia al input de piezas por paquete y al input de cantidad de bultos
+                                            const piezasPorPaqueteInput = document.getElementById('pieza_paquete');
+                                            const cantidadBultoInput = document.getElementById('cantidad_bulto');
+                                        
+                                            // Función para calcular la cantidad de bultos y actualizar el input de cantidad de bultos
+                                            function actualizarCantidadBulto() {
+                                                const piezasPorPaquete = parseFloat(piezasPorPaqueteInput.value);
+                                                const cantidadBulto = piezasPorPaquete !== 0 ? Math.ceil({{ $encabezadoAuditoriaCorte->pieza }} / piezasPorPaquete) : 0; // Evitar división por cero
+                                                cantidadBultoInput.value = cantidadBulto;
+                                            }
+                                        
+                                            // Escuchar el evento input en el input de piezas por paquete para actualizar la cantidad de bultos
+                                            piezasPorPaqueteInput.addEventListener('input', actualizarCantidadBulto);
+                                        
+                                            // Calcular la cantidad de bultos inicial al cargar la página
+                                            actualizarCantidadBulto();
+                                        </script>
                                         <div class="col-md-6 mb-3">
                                             <label for="ingreso_ticket" class="col-sm-6 col-form-label">3. Ingreso de Tickets</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
