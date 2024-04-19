@@ -227,6 +227,7 @@ Route::view('/error', 'error')->name('error');
 
 
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
-Route::get('/buscarDatosAuditoria', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoria']);
+Route::get('/buscarEstilos', [DatosAuditoriaEtiquetas::class, 'buscarEstilos']);
+Route::get('/buscarDatosAuditoriaPorEstilo', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaPorEstilo']);
 Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTiposDefectos']);
-
+Route::post('/guardarInformacion', [DatosAuditoriaEtiquetas::class, 'guardarInformacion']);
