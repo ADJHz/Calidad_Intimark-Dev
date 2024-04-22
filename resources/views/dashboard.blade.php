@@ -6,19 +6,49 @@
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
+            <div class="card-header card-header-primary card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">content_copy</i>
+                <i class="material-icons">content_cut</i>
               </div>
               <p class="card-category"></p>
-              <h3 class="card-title">
-                <small></small>
+              <h3 class="card-title"> 
+                <small>Auditoria Corte</small>
               </h3>
             </div>
             <div class="card-footer">
-              <div class="stats">
+              {{-- <div class="stats">
                 <i class="material-icons text-danger">warning</i>
-                <a href="#pablo"></a>
+                <a href="#brayam"></a>
+              </div> --}}
+              <div>
+                <p>Metricas de datos a mostrar</p>
+                <p>Porcentaje de errores: {{$porcentajeTotalCorte}}%</p>
+
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Ver Detalles
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade fullscreen" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                      <div class="modal-content fullscreen">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Corte</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              Contenido del modal...
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -27,14 +57,43 @@
           <div class="card card-stats">
             <div class="card-header card-header-success card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">store</i>
+                <i class="material-icons">cable</i>
               </div>
               <p class="card-category"></p>
-              <h3 class="card-title"></h3>
+              <h3 class="card-title">
+                <small>Auditoria Proceso</small>
+              </h3>
             </div>
             <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">date_range</i>
+              <div>
+                <p>Metricas de datos a mostrar</p>
+                <p>Porcentaje de errores: {{$totalPorcentajeProceso}}%</p>
+
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalProceso">
+                  Ver Detalles
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade fullscreen" id="exampleModalProceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                      <div class="modal-content fullscreen">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Proceso</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              Contenido del modal...
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -43,14 +102,43 @@
           <div class="card card-stats">
             <div class="card-header card-header-danger card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">info_outline</i>
+                <i class="material-icons">perm_contact_calendar</i>
               </div>
               <p class="card-category"></p>
-              <h3 class="card-title"></h3>
+              <h3 class="card-title">
+                <small>Auditoria Playera</small>
+              </h3>
             </div>
             <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">local_offer</i>
+              <div>
+                <p>Metricas de datos a mostrar</p>
+                <p>Porcentaje de errores: {{$totalPorcentajePlayera}}%</p>
+
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalPlayera">
+                  Ver Detalles
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade fullscreen" id="exampleModalPlayera" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                      <div class="modal-content fullscreen">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Payera 👩‍💻</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              nbps
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -59,15 +147,15 @@
           <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
               <div class="card-icon">
-                <i class="fa fa-twitter"></i>
+                <i class="material-icons">view_in_ar</i>
               </div>
               <p class="card-category"></p>
-              <h3 class="card-title"></h3>
+              <h3 class="card-title">
+                <small>Auditoria Etiquetas</small>
+              </h3>
             </div>
             <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">update</i>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -393,6 +481,30 @@
       </div>
     </div>
   </div>
+
+  <style>
+    .modal.fullscreen {
+        width: 100vw;
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100%;
+        margin: 0;
+    }
+
+    .modal-dialog.fullscreen {
+        margin: 0;
+        width: 100vw;
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100%;
+    }
+
+    .modal-content.fullscreen {
+        height: 100%;
+        border: none;
+        border-radius: 0;
+    }
+  </style>
 @endsection
 
 @push('js')
