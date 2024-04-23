@@ -48,7 +48,7 @@ class DatosAuditoriaEtiquetas extends Controller
     // Buscar datos relacionados con el estilo especificado y la orden de compra
     $datos = ModelsDatosAuditoriaEtiquetas::where('Estilos', $estilo)
         ->where('OrdenCompra', $orden)
-        ->select('OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color')
+        ->select('id','OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color')
         ->get();
 
     // Iterar sobre los datos y determinar el tamaño de muestra
@@ -95,53 +95,108 @@ class DatosAuditoriaEtiquetas extends Controller
 
     return response()->json($datos);
 }
+public function obtenerTiposDefectos()
+{
+    $tiposDefectos = Cat_DefEtiquetas::all();
 
+    return response()->json($tiposDefectos);
+}
 
-    public function obtenerTiposDefectos()
-    {
-        $tiposDefectos = Cat_DefEtiquetas::all();
+public function guardarInformacion(Request $request) {
+    // Obtener los datos enviados desde el frontend
+    $datos = $request->input('datos');
 
-        return response()->json($tiposDefectos);
-    }
+    $contador = count($datos);
 
-    public function guardarInformacion(Request $request) {
-        // Obtener los datos enviados desde el frontend
-        $datos = $request->input('datos');
-
-        // Registrar los datos recibidos en el log
-        Log::info('Datos recibidos para guardar:', $datos);
-
-        try {
-            // Iterar sobre los datos recibidos
-            foreach ($datos as $dato) {
-                // Crear una nueva instancia del modelo ReporteAuditoriaEtiqueta
+    try {
+        // Iterar sobre los datos recibidos
+        for ($i = 0; $i < $contador; $i++) {
+            // Buscar si existe un registro con el mismo ID
+            $registroExistente = ReporteAuditoriaEtiqueta::find($datos[$i]['id']);
+            $registroExistenteModel = ModelsDatosAuditoriaEtiquetas::find($datos[$i]['id']);
+            if ($registroExistente) {
+                // Si existe un registro, actualizar sus atributos
+                $registroExistente->Status = 'Update';
+                $registroExistenteModel->status = 'Iniciado';
+                $registroExistente->Defectos = $datos[$i]['defectos'] ?? 'N/A';
+                $registroExistente->Tipo_Defectos = $datos[$i]['tipoDefecto'] ?? 'N/A';
+                $registroExistente->save();
+            } else {
+                // Si no existe, crear un nuevo registro
                 $reporte = new ReporteAuditoriaEtiqueta();
-
-                // Asignar los valores a los atributos del modelo
-                $reporte->Orden = $dato['orden'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Estilos = $dato['estilo'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Cantidad = $dato['cantidad'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Muestreo = $dato['muestreo'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Defectos = $dato['defectos'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Tipo_Defectos = $dato['tipoDefecto'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Talla = $dato['talla'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
-                $reporte->Color = $dato['color'] ?? 'N/A'; // Si el valor es null, asigna 'N/A'
+                $reporte->id = $datos[$i]['id'] ?? 'N/A';
+                $reporte->Orden = $datos[$i]['orden'] ?? 'N/A';
+                $reporte->Estilos = $datos[$i]['estilo'] ?? 'N/A';
+                $reporte->Cantidad = $datos[$i]['cantidad'] ?? 'N/A';
+                $reporte->Muestreo = $datos[$i]['muestreo'] ?? 'N/A';
+                $reporte->Defectos = $datos[$i]['defectos'] ?? 'N/A';
+                $reporte->Tipo_Defectos = $datos[$i]['tipoDefecto'] ?? 'N/A';
+                $reporte->Talla = $datos[$i]['talla'] ?? 'N/A';
+                $reporte->Color = $datos[$i]['color'] ?? 'N/A';
                 $reporte->Status = 'Guardado';
-
-                // Guardar el registro en la base de datos
                 $reporte->save();
             }
-
-            // Retornar una respuesta JSON indicando el éxito del guardado
-            return response()->json(['mensaje' => 'Los datos han sido guardados correctamente'], 200);
-        } catch (\Exception $e) {
-            // Registrar el error en el log
-            Log::error('Error al guardar los datos: ' . $e->getMessage());
-
-            // Retornar una respuesta JSON con el mensaje de error
-            return response()->json(['error' => 'Error al guardar los datos: ' . $e->getMessage()], 500);
         }
+
+        // Retornar una respuesta JSON indicando el éxito
+        return response()->json(['mensaje' => 'Los datos han sido actualizados correctamente'], 200);
+    } catch (\Exception $e) {
+        // Retornar una respuesta JSON con el mensaje de error
+        return response()->json(['error' => 'Error al actualizar los datos: ' . $e->getMessage()], 500);
     }
+}
+
+public function actualizarStatus(Request $request)
+{
+    // Obtener los datos enviados desde el frontend
+    $datos = $request->input('datos');
+    // Obtener el status del dropdown
+    $status = $request->input('status');
+    $contador = count($datos);
+    //Log::info('Datos entrantes:',  $contador);
+    try {
+        // Iterar sobre los datos recibidos
+
+            // Buscar si existe un registro con la misma orden y estilo
+            $registroExistente = ReporteAuditoriaEtiqueta::where('Orden',$datos[0]['orden'])
+                                                        ->where('Estilos', $datos[0]['estilo'])
+                                                        ->first();
+                                                       //
+           if ($registroExistente) {
+
+                $registroExistente = ReporteAuditoriaEtiqueta::where('Orden',$datos[0]['orden'])
+                                                        ->where('Estilos',  $datos[0]['estilo'])
+                                                        ->UPDATE(['Status' => $status]);
+
+            } else {
+                for($i = 0; $i < $contador; $i++){
+             //
+
+                // Si no existe, crear un nuevo registro
+                $reporte = new ReporteAuditoriaEtiqueta();
+                $reporte->Orden = $datos[$i]['orden'] ?? 'N/A';
+                $reporte->Estilos = $datos[$i]['estilo'] ?? 'N/A';
+                $reporte->Cantidad = $datos[$i]['cantidad'] ?? 'N/A';
+                $reporte->Muestreo = $datos[$i]['muestreo'] ?? 'N/A';
+                $reporte->Defectos = $datos[$i]['defectos'] ?? 'N/A';
+                $reporte->Tipo_Defectos = $datos[$i]['tipoDefecto'] ?? 'N/A';
+                $reporte->Talla = $datos[$i]['talla'] ?? 'N/A';
+                $reporte->Color = $datos[$i]['color'] ?? 'N/A';
+                $reporte->Status = $status;
+                $reporte->save();
+
+            }
+        }
+
+        // Retornar una respuesta JSON indicando el éxito
+        return response()->json(['mensaje' => 'Los datos han sido actualizados correctamente'], 200);
+    } catch (\Exception $e) {
+        // Retornar una respuesta JSON con el mensaje de error
+        return response()->json(['error' => 'Error al actualizar los datos: ' . $e->getMessage()], 500);
+    }
+}
+
+
 
 
 
