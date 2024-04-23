@@ -50,7 +50,7 @@
                 <p>Cantidad rechazada: {{$procesoRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajeProceso}}%</p>
 
-                <a href="" class="btn btn-primary">Ver Detalles</a>
+                <a href="dashboarAProceso" class="btn btn-primary">Ver Detalles</a>
 
               </div>
             </div>

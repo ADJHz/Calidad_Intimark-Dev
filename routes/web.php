@@ -12,8 +12,9 @@ use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
 use App\Http\Controllers\AuditoriaAQLController;
 use App\Http\Controllers\Maquila;
-use App\Http\Controllers\viewlistaFormularios;
-
+use App\Http\Controllers\viewlistaFormularios; 
+use App\Http\Controllers\DashboardController; 
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -233,3 +234,6 @@ Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTip
 Route::post('/guardarInformacion', [DatosAuditoriaEtiquetas::class, 'guardarInformacion']);
 Route::put('/actualizarStatus', [DatosAuditoriaEtiquetas::class, 'actualizarStatus']);
 
+
+// Apartado para detalles dashboard
+Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso');
