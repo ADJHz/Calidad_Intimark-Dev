@@ -33,29 +33,39 @@ class HomeController extends Controller
 
             // Obtener la suma total de la columna 'porcentaje' de Lectra
             $sumaPorcentaje = Lectra::whereNotNull('porcentaje')->sum('porcentaje');
-
             // Obtener el número total de registros en la tabla Lectra
             $totalRegistros = Lectra::whereNotNull('porcentaje')->count();
-
             // Calcular el porcentaje total
             $porcentajeTotalCorte = $totalRegistros > 0 ? number_format(($totalRegistros / $sumaPorcentaje) * 100, 2) : 0;
+            // Obtener el número total de registros en la tabla Lectra sin valores nulos y "0"
+            $corteRechazados = Lectra::whereNotNull('porcentaje')->where('porcentaje', '!=', 0)->count();
+            // Obtener el número total de registros en la tabla Lectra con valores "0"
+            $corteAprobados = Lectra::where('porcentaje', 0)->count();
 
             // Obtener los datos de cantidad_auditada y cantidad_rechazada de AuditoriaProcesoCorte
             $cantidadAuditada = AuditoriaProcesoCorte::sum('cantidad_auditada');
             $cantidadRechazada = AuditoriaProcesoCorte::sum('cantidad_rechazada');
-
             // Calcular el porcentaje total de los registros actuales
             $totalPorcentajeProceso = $cantidadAuditada != 0 ? number_format(($cantidadRechazada / $cantidadAuditada) * 100, 2) : 0;
+            // Obtener el número total de registros en la tabla AuditoriaProcesoCorte sin valores nulos y "0"
+            $procesoRechazados = AuditoriaProcesoCorte::whereNotNull('cantidad_rechazada')->where('cantidad_rechazada', '!=', 0)->count();
+            // Obtener el número total de registros en la tabla AuditoriaProcesoCorte con valores "0"
+            $procesoAprobados = AuditoriaProcesoCorte::where('cantidad_rechazada', 0)->count();
 
             // Obtener los datos de cantidad_auditada y cantidad_rechazada de AseguramientoCalidad
             $cantidadAuditadaPlayera = AseguramientoCalidad::sum('cantidad_auditada');
             $cantidadRechazadaPlayera = AseguramientoCalidad::sum('cantidad_rechazada');
-
             // Calcular el porcentaje total de los registros actuales
             $totalPorcentajePlayera = $cantidadAuditadaPlayera != 0 ? number_format(($cantidadRechazadaPlayera / $cantidadAuditadaPlayera) * 100, 2) : 0;
+            // Obtener el número total de registros en la tabla AseguramientoCalidad sin valores nulos y "0"
+            $playeraRechazados = AseguramientoCalidad::whereNotNull('cantidad_rechazada')->where('cantidad_rechazada', '!=', 0)->count();
+            // Obtener el número total de registros en la tabla AseguramientoCalidad con valores "0"
+            $playeraAprobados = AseguramientoCalidad::where('cantidad_rechazada', 0)->count();
 
 
-            return view('dashboard', compact('title', 'porcentajeTotalCorte', 'totalPorcentajeProceso', 'totalPorcentajePlayera'));
+            return view('dashboard', compact('title', 'porcentajeTotalCorte', 'corteAprobados', 'corteRechazados', 
+                                    'totalPorcentajeProceso', 'procesoAprobados', 'procesoRechazados',
+                                    'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados' ));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios
             return redirect()->route('viewlistaFormularios');

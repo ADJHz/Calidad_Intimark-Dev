@@ -83,6 +83,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('auditoriaProcesoCorte.formRegistroAuditoriaProcesoCorte') }}">
                         @csrf
+                        <input type="hidden" name="cliente_id" id="cliente_id" value="">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="thead-primary">
@@ -118,8 +119,8 @@
                                         <th>MESA</th>
                                         <th>LIENZOS</th>
                                         <th>LIENZOS RECHAZADOS</th>
-                                        <th>T.P</th>
-                                        <th>A.C</th>
+                                        <th>TIPO DE PROBLEMA</th>
+                                        <th>ACCION CORRECTIVA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -181,6 +182,7 @@
                                                 <select name="tp" id="tp" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="ninguno">Ninguno</option>
                                                     @foreach ($CategoriaDefectoCorteTendido as $corteTendido)
                                                         <option value="{{ $corteTendido->nombre }}">
                                                             {{ $corteTendido->nombre }}</option>
@@ -190,6 +192,7 @@
                                                 <select name="tp" id="tp" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="ninguno">Ninguno</option>
                                                     @foreach ($CategoriaDefectoCorteLectraSellado as $corteTendido)
                                                         <option value="{{ $corteTendido->nombre }}">
                                                             {{ $corteTendido->nombre }}</option>
@@ -201,6 +204,7 @@
                                             <select name="ac" id="ac" class="form-control" required
                                                 title="Por favor, selecciona una opción">
                                                 <option value="">Selecciona una opción</option>
+                                                <option value="ninguno">Ninguno</option>
                                                 @foreach ($CategoriaAccionCorrectiva as $accionCorrectiva)
                                                     <option value="{{ $accionCorrectiva->accion_correctiva }}">
                                                         {{ $accionCorrectiva->accion_correctiva }}</option>
@@ -370,6 +374,7 @@
                     console.log(response); // Verifica la respuesta en la consola
                     document.getElementById('estilo_id').value = response.estilo;
                     document.getElementById('evento').value = eventoSeleccionado; // Asignar el valor del evento obtenido
+                    document.getElementById('cliente_id').value = response.cliente;
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText); // Muestra el mensaje de error en la consola

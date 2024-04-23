@@ -85,7 +85,8 @@ class EvaluacionCorteController extends Controller
 
         $datos = [
             'estilo' => $encabezado->estilo_id,
-            'evento' => $encabezado->evento
+            'evento' => $encabezado->evento,
+            'cliente' => $encabezado->cliente_id // Agregar el dato del cliente
         ];
 
         return response()->json($datos);

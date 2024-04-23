@@ -22,6 +22,8 @@
               </div> --}}
               <div>
                 <p>Metricas de datos a mostrar</p>
+                <p>Cantidad Aceptada: {{$corteAprobados}}</p>
+                <p>Cantidad rechazada: {{$corteRechazados}}</p>
                 <p>Porcentaje de errores: {{$porcentajeTotalCorte}}%</p>
 
                 <!-- Botón para abrir el modal -->
@@ -67,6 +69,8 @@
             <div class="card-footer">
               <div>
                 <p>Metricas de datos a mostrar</p>
+                <p>Cantidad Aceptada: {{$procesoAprobados}}</p>
+                <p>Cantidad rechazada: {{$procesoRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajeProceso}}%</p>
 
                 <!-- Botón para abrir el modal -->
@@ -112,6 +116,8 @@
             <div class="card-footer">
               <div>
                 <p>Metricas de datos a mostrar</p>
+                <p>Cantidad Aceptada: {{$playeraAprobados}}</p>
+                <p>Cantidad rechazada: {{$playeraRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajePlayera}}%</p>
 
                 <!-- Botón para abrir el modal -->

@@ -165,8 +165,8 @@ class AuditoriaProcesoCorteController extends Controller
 
         $registrosIndividual = AuditoriaProcesoCorte::whereDate('created_at', $fechaActual)
             ->where('area', $data['area'])
-            ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
-            ->groupBy('nombre_1', 'nombre_2')
+            ->selectRaw('nombre_1, nombre_2, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada, orden_id, estilo_id')
+            ->groupBy('nombre_1', 'nombre_2', 'orden_id', 'estilo_id')
             ->get();
 
         // Inicializa las variables para evitar errores
@@ -211,7 +211,8 @@ class AuditoriaProcesoCorteController extends Controller
 
         $datos = [
             'estilo' => $encabezado->estilo_id,
-            'evento' => $encabezado->evento
+            'evento' => $encabezado->evento,
+            'cliente' => $encabezado->cliente_id // Agregar el dato del cliente
         ];
 
         return response()->json($datos);
@@ -243,6 +244,7 @@ class AuditoriaProcesoCorteController extends Controller
         $procesoCorte->estilo = $request->estilo;
         $procesoCorte->orden_id = $request->orden_id;
         $procesoCorte->estilo_id = $request->estilo_id;
+        $procesoCorte->cliente = $request->cliente_id;
         $procesoCorte->supervisor_corte = $request->supervisor_corte;
         $procesoCorte->auditor = $request->auditor;
         $procesoCorte->turno = $request->turno;
