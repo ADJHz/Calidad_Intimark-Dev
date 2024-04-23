@@ -26,31 +26,8 @@
                 <p>Cantidad rechazada: {{$corteRechazados}}</p>
                 <p>Porcentaje de errores: {{$porcentajeTotalCorte}}%</p>
 
-                <!-- Botón para abrir el modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Ver Detalles
-                </button>
+                <a href="" class="btn btn-primary">Ver Detalles</a>
 
-                <!-- Modal -->
-                <div class="modal fade fullscreen" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
-                      <div class="modal-content fullscreen">
-                          <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Corte</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-                              Contenido del modal...
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -73,31 +50,8 @@
                 <p>Cantidad rechazada: {{$procesoRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajeProceso}}%</p>
 
-                <!-- Botón para abrir el modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalProceso">
-                  Ver Detalles
-                </button>
+                <a href="" class="btn btn-primary">Ver Detalles</a>
 
-                <!-- Modal -->
-                <div class="modal fade fullscreen" id="exampleModalProceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
-                      <div class="modal-content fullscreen">
-                          <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Proceso</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-                              Contenido del modal...
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -120,31 +74,8 @@
                 <p>Cantidad rechazada: {{$playeraRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajePlayera}}%</p>
 
-                <!-- Botón para abrir el modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalPlayera">
-                  Ver Detalles
-                </button>
+                <a href="" class="btn btn-primary">Ver Detalles</a>
 
-                <!-- Modal -->
-                <div class="modal fade fullscreen" id="exampleModalPlayera" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
-                      <div class="modal-content fullscreen">
-                          <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Auditoria Payera 👩‍💻</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-                              nbps
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
