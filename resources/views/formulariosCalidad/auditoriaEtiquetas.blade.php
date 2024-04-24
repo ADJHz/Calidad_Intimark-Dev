@@ -170,37 +170,20 @@
                                 accordion +=
                                     '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Tamaño Muestra</th>';
                                 accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;"></th>';
-                                accordion +=
                                     '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Defectos</th>';
                                 accordion +=
                                     '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">Tipo Defectos</th>';
                                 accordion +=
-                                    '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%; display: none;">id</th>';
+                                    '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Acciones</th>';
+                                accordion +=
+                                    '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%; display: none;">id</th>';
+
                                 accordion += '</tr>';
                                 accordion += '</thead>';
                                 accordion += '<tbody>';
                                 accordion += '</tbody>';
                                 accordion += '<tfoot>';
                                 accordion += '<tr>';
-                                accordion += '<td>';
-                                accordion += '<div class="dropup-center dropup">';
-                                accordion += '<button id="dropdownToggle_' + key +
-                                    '" class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">';
-                                accordion += 'Opciones';
-                                accordion += '</button>';
-                                accordion +=
-                                    '<ul class="dropdown-menu" aria-labelledby="dropdownToggle_' +
-                                    key + '">';
-                                accordion +=
-                                    '<li><a class="dropdown-item text-success" value="Aprovado">Aprobado</a></li>';
-                                accordion +=
-                                    '<li><a class="dropdown-item text-warning" value="Aprovado Condicionalmente">Aprobado Condicionalmente</a></li>';
-                                accordion +=
-                                    '<li><a class="dropdown-item text-danger" value="Rechazado">Rechazado</a></li>';
-                                accordion += '</ul>';
-                                accordion += '</div>';
-                                accordion += '</td>';
                                 accordion += '<td>';
                                 accordion +=
                                     '<button type="button" class="btn btn-success" id="Saved">';
@@ -261,16 +244,18 @@
                         $.each(data, function(index, item) {
                             // Formatear la cantidad
                             var cantidadFormateada = item.Cantidad;
-if (typeof cantidadFormateada === 'string') {
-    var puntoIndex = cantidadFormateada.indexOf('.');
-    if (puntoIndex !== -1) {
-        var parteDecimal = cantidadFormateada.substring(puntoIndex + 1);
-        if (parteDecimal.length > 2) {
-            parteDecimal = parteDecimal.substring(0, 2);
-        }
-        cantidadFormateada = cantidadFormateada.substring(0, puntoIndex + 1) + parteDecimal;
-    }
-}
+                            if (typeof cantidadFormateada === 'string') {
+                                var puntoIndex = cantidadFormateada.indexOf('.');
+                                if (puntoIndex !== -1) {
+                                    var parteDecimal = cantidadFormateada.substring(
+                                        puntoIndex + 1);
+                                    if (parteDecimal.length > 2) {
+                                        parteDecimal = parteDecimal.substring(0, 2);
+                                    }
+                                    cantidadFormateada = cantidadFormateada.substring(0,
+                                        puntoIndex + 1) + parteDecimal;
+                                }
+                            }
 
                             // Verificar si el tamaño de muestra está en el rango de 2 a 20
                             var tamañoMuestra = parseInt(item.tamaño_muestra);
@@ -292,25 +277,57 @@ if (typeof cantidadFormateada === 'string') {
                             // Agregar fila a la tabla
                             var fila = '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
-                                '<td style="text-align: center;">' + item.OrdenCompra +
-                                '</td>' +
-                                '<td style="text-align: center;">' + item.Estilos +
-                                '</td>' +
-                                '<td style="text-align: center;">' + item.Color +
-                                '</td>' +
-                                '<td style="text-align: center;">' + item.Talla +
-                                '</td>' +
-                                '<td style="text-align: center;">' +
-                                cantidadFormateada +
-                                '</td>' +
+                                '<td style="text-align: center;">' + (item.OrdenCompra ?
+                                    item.OrdenCompra : item.Orden) + '</td>' +
+                                '<td style="text-align: center;">' + (item.Estilos ?
+                                    item.Estilos : item.Estilo) + '</td>' +
+                                '<td style="text-align: center;">' + (item.Color ? item
+                                    .Color : 'N/A') + '</td>' +
+                                '<td style="text-align: center;">' + (item.Talla ? item
+                                    .Talla : 'N/A') + '</td>' +
+                                '<td style="text-align: center;">' + (
+                                    cantidadFormateada ? cantidadFormateada : item
+                                    .Cantidad) + '</td>' +
                                 '<td style="text-align: center;"><span class="tamañoMuestra">' +
-                                item.tamaño_muestra + '</span></td>' +
+                                (item.tamaño_muestra ? item.tamaño_muestra : 'N/A') +
+                                '</span></td>' +
                                 '<td style="text-align: center; position: relative;">' +
-                                inputHTML +
+                                '<input type="number" class="form-control cantidadInput" id="cantidadInput_' +
+                                index + '_acordeon_' + estilo + '" value="0">' +
                                 '</td>' +
-                                '<td class="select-container" style="text-align: center;"></td>' +
-                                '<td style="display: none;">' + item.id + '</td>' +
+                                '<td class="select-container" style="text-align: center;">' +
+                                (item.Tipo_Defectos ?
+                                    '<select class="form-control" id="tipoDefectos_' +
+                                    index + '">' +
+                                    '<option value="' + item.Tipo_Defectos + '">' + item
+                                    .Tipo_Defectos + '</option>' +
+                                    '</select>' :
+                                    '<select class="form-control" id="tipoDefectos_' +
+                                    index + '"></select>'
+                                ) +
+                                '</td>' +
+                                '<td>' +
+                                '<div class="dropup-center dropup">' +
+                                '<button id="dropdownToggle_' + index + '_acordeon_' +
+                                estilo +
+                                '" class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">' +
+                                'Opciones' +
+                                '</button>' +
+                                '<ul class="dropdown-menu" aria-labelledby="dropdownToggle_' +
+                                index + '_acordeon_' + estilo + '">' +
+                                '<li><a class="dropdown-item text-success" value="Aprobado" data-row-id="' +
+                                item.id + '">Aprobado</a></li>' +
+                                '<li><a class="dropdown-item text-warning" value="Aprobado Condicionalmente" data-row-id="' +
+                                item.id + '">Aprobado Condicionalmente</a></li>' +
+                                '<li><a class="dropdown-item text-danger" value="Rechazado" data-row-id="' +
+                                item.id + '">Rechazado</a></li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</td>' +
+                                '<td style="display: none;">' + (item.id ? item.id :
+                                    'N/A') + '</td>' +
                                 '</tr>';
+
                             $('#miTabla tbody').append(fila);
                         });
                         // Cargar opciones del select mediante AJAX (fuera del bucle)
@@ -385,10 +402,6 @@ if (typeof cantidadFormateada === 'string') {
 
                 });
             });
-
-            // Mostrar los datos antes de enviarlos
-            alert("Datos a enviar al servidor: " + JSON.stringify(datosAEnviar));
-
             // Realizar la solicitud AJAX para guardar los datos
             $.ajax({
                 url: '/guardarInformacion',
@@ -419,6 +432,8 @@ if (typeof cantidadFormateada === 'string') {
                 var selectedOption = $(this).attr('value');
                 // Obtener el texto del botón de alternancia más cercano (dropdown-toggle)
                 var status = $(this).text().trim();
+                // Obtener el ID de la fila correspondiente
+                var rowId = $(this).data('row-id');
 
                 // Obtener los datos de las filas de la tabla dentro del acordeón actual
                 var datosAEnviar = [];
@@ -431,8 +446,7 @@ if (typeof cantidadFormateada === 'string') {
                     var cantidad = $(fila).find('td:nth-child(6)').text().trim();
                     var tipoDefecto = $(fila).find('.select-container select').val();
                     var muestreo = $(fila).find('.tamañoMuestra').text().trim();
-                    var defectos = $(fila).find('.cantidadInput')
-                .val(); // Agregar el campo defectos
+                    var defectos = $(fila).find('.cantidadInput').val(); // Agregar el campo defectos
                     var id = $(fila).find('td:nth-child(11)').text().trim();
                     // Agregar los datos de la fila al arreglo datosAEnviar
                     datosAEnviar.push({
@@ -456,7 +470,8 @@ if (typeof cantidadFormateada === 'string') {
                     _token: '{{ csrf_token() }}',
                     orden: ordenSeleccionada,
                     datos: datosAEnviar, // Datos de las filas de la tabla
-                    status: status // Status seleccionado del dropdown
+                    status: status, // Status seleccionado del dropdown
+                    rowId: rowId // ID de la fila seleccionada
                 };
 
                 // Realizar la solicitud AJAX para enviar los datos al servidor
@@ -478,4 +493,5 @@ if (typeof cantidadFormateada === 'string') {
             });
         });
     </script>
+
 @endsection
