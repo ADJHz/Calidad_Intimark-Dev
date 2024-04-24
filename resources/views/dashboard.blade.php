@@ -140,7 +140,7 @@
                 <p>Cantidad rechazada: {{$playeraRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajePlayera}}%</p>
 
-                <a href="" class="btn btn-primary">Ver Detalles</a>
+                <a href="dashboarAProcesoPlayera" class="btn btn-primary">Ver Detalles</a>
 
               </div>
             </div>
