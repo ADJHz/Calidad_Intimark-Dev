@@ -71,8 +71,65 @@ class DashboardController extends Controller
 
             $porcentajesError[$cliente] = $porcentajeError;
         }
+        // Ordenar los cleintes por el porcentaje de error de mayor a menor
+        arsort($porcentajesError);
+
+
+        // apartado para operarios de maquina
+        $nombres = AseguramientoCalidad::whereNotNull('nombre')
+            ->orderBy('nombre')
+            ->pluck('nombre')
+            ->unique();
+        $porcentajesErrorNombre = [];
+
+        foreach ($nombres as $nombre) {
+            $sumaAuditadaNombre = AseguramientoCalidad::where('nombre', $nombre)->sum('cantidad_auditada');
+            $sumaRechazadaNombre = AseguramientoCalidad::where('nombre', $nombre)->sum('cantidad_rechazada');
+
+            if ($sumaAuditadaNombre != 0) {
+                $porcentajeErrorNombre = ($sumaRechazadaNombre / $sumaAuditadaNombre) * 100;
+            } else {
+                $porcentajeErrorNombre = 0;
+            }
+
+            $porcentajesErrorNombre[$nombre] = $porcentajeErrorNombre;
+
+            // Obtener la operación correspondiente al operario de máquina
+            $operacion = AseguramientoCalidad::where('nombre', $nombre)->value('operacion');
+            $operacionesPorNombre[$nombre] = $operacion;
+            // Obtener la operación correspondiente al team leader vinculado al operario de máquina
+            $teamleader = AseguramientoCalidad::where('nombre', $nombre)->value('team_leader');
+            $teamLeaderPorNombre[$nombre] = $teamleader;
+            
+        }
+        // Ordenar los operarios de maquina por el porcentaje de error de mayor a menor
+        arsort($porcentajesErrorNombre);
+
+        //apartado para team leader
+        $teamLeaders = AseguramientoCalidad::whereNotNull('team_leader')
+            ->orderBy('team_leader')
+            ->pluck('team_leader')
+            ->unique();
+        $porcentajesErrorTeamLeader = [];
+
+        foreach ($teamLeaders as $teamLeader) {
+            $sumaAuditadaTeamLeader = AseguramientoCalidad::where('team_leader', $teamLeader)->sum('cantidad_auditada');
+            $sumaRechazadaTeamLeader = AseguramientoCalidad::where('team_leader', $teamLeader)->sum('cantidad_rechazada');
+
+            if ($sumaAuditadaTeamLeader != 0) {
+                $porcentajeErrorTeamLeader = ($sumaRechazadaTeamLeader / $sumaAuditadaTeamLeader) * 100;
+            } else {
+                $porcentajeErrorTeamLeader = 0;
+            }
+
+            $porcentajesErrorTeamLeader[$teamLeader] = $porcentajeErrorTeamLeader;
+        }
+        // Ordenar los team leaders por el porcentaje de error de mayor a menor
+        arsort($porcentajesErrorTeamLeader);
         
-        return view('dashboar.dashboarAProceso', compact('title', 'clientes', 'porcentajesError'));
+        return view('dashboar.dashboarAProcesoPlayera', compact('title', 'clientes', 'porcentajesError', 
+                'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre',
+                'teamLeaders', 'porcentajesErrorTeamLeader'));
     }
 
 }
