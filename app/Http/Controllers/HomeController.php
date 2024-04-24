@@ -62,8 +62,15 @@ class HomeController extends Controller
             // Obtener el número total de registros en la tabla AseguramientoCalidad con valores "0"
             $playeraAprobados = AseguramientoCalidad::where('cantidad_rechazada', 0)->count();
 
+            $concentradoTotalSuma = $sumaPorcentaje + $cantidadAuditada + $cantidadAuditadaPlayera;
+            $concentradoTotalRechazo = $totalRegistros + $cantidadRechazada + $cantidadRechazadaPlayera;
+            $concentradoTotalPorcentaje = $concentradoTotalSuma != 0 ? number_format(($concentradoTotalRechazo / $concentradoTotalSuma) * 100, 2) : 0;
 
-            return view('dashboard', compact('title', 'porcentajeTotalCorte', 'corteAprobados', 'corteRechazados', 
+            $concentradoTotalAprobado = $corteAprobados + $procesoAprobados + $playeraAprobados;
+            $concentradoTotalRechazado = $corteRechazados + $procesoRechazados + $playeraRechazados;
+
+            return view('dashboard', compact('title', 'concentradoTotalAprobado', 'concentradoTotalRechazado', 'concentradoTotalPorcentaje',
+                                    'porcentajeTotalCorte', 'corteAprobados', 'corteRechazados', 
                                     'totalPorcentajeProceso', 'procesoAprobados', 'procesoRechazados',
                                     'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados' ));
         } else {

@@ -1,8 +1,74 @@
 @extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => __('Dashboard')])
 
 @section('content')
+  <style>
+    .card-header-custom1 {
+      background-image: linear-gradient(to right, #a3e2a5d7, #4CAF50); /* Gradiente de izquierda a derecha */
+      color: #fff; /* Texto en blanco para contraste */
+    }
+    .card-header-custom2 {
+      background-image: linear-gradient(to right, #f59b95ec, #F44336); /* Gradiente de izquierda a derecha */
+      color: #fff; /* Texto en blanco para contraste */
+    }
+    .card-header-custom3 {
+      background-image: linear-gradient(to right, rgba(174, 197, 224, 0.918), #2196F3); /* Gradiente de izquierda a derecha */
+      color: #fff; /* Texto en blanco para contraste */
+    }
+
+    .card-header-icono1 {
+      background-image: linear-gradient(to right, rgba(174, 197, 224, 0.918), #25045a); /* Gradiente de izquierda a derecha */
+      color: #fff; /* Texto en blanco para contraste */
+    }
+  </style>
   <div class="content">
     <div class="container-fluid">
+      <div class="row"> 
+        <div class="col-md-4">
+          <div class="card card-stats">
+            <div class="card-header-custom1">
+              <p>&nbsp;</p>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Concentrado Aceptados Total: </h4>
+              <h3>{{$concentradoTotalAprobado}} </h3>
+            </div>
+            <div class="card-footer">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-stats">
+            <div class="card-header-custom2">
+              <p>&nbsp;</p>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Concentrado Rechazados Total: </h4>
+              <h3>{{$concentradoTotalRechazado}} </h3>
+            </div>
+            <div class="card-footer">
+              {{--<div class="stats">
+                <i class="material-icons">access_time</i>
+              </div>--}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-stats">
+            <div class="card-header-custom3">
+              <p>&nbsp;</p>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Concentrado Porcentaje Total: </h4>
+              <h3>{{$concentradoTotalPorcentaje}}% </h3>
+            </div>
+            <div class="card-footer">
+              {{--<div class="stats">
+                <i class="material-icons">access_time</i>
+              </div>--}}
+            </div>
+          </div>
+        </div>
+      </div> 
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
@@ -34,7 +100,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
+            <div class="card-header card-header-info card-header-icon">
               <div class="card-icon">
                 <i class="material-icons">cable</i>
               </div>
@@ -97,57 +163,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card card-chart">
-            <div class="card-header card-header-success">
-              <div class="ct-chart" id="dailySalesChart"></div>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title"></h4>
-              <p class="card-category">
-                <span class="text-success"><i class="fa fa-long-arrow-up"></i> </span> </p>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-chart">
-            <div class="card-header card-header-warning">
-              <div class="ct-chart" id="websiteViewsChart"></div>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title"></h4>
-              <p class="card-category"></p>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-chart">
-            <div class="card-header card-header-danger">
-              <div class="ct-chart" id="completedTasksChart"></div>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title"></h4>
-              <p class="card-category"></p>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="row">
         <div class="col-lg-6 col-md-12">
           <div class="card">
@@ -440,6 +456,15 @@
         height: 100%;
         border: none;
         border-radius: 0;
+    }
+  </style>
+
+  <style>
+    .card-header-custom1 {
+      background-color: #53280f;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #ccc;
     }
   </style>
 @endsection
