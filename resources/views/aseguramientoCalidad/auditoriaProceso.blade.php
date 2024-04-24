@@ -94,6 +94,7 @@
                                         <th>TEAM LEADER</th>
                                         <th>AUDITOR</th>
                                         <th>TURNO</th>
+                                        <th>CLIENTE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,6 +109,8 @@
                                                 value="{{ $data['auditor'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="turno" id="turno"
                                                 value="{{ $data['turno'] }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="cliente" id="cliente"
+                                                value="{{ $data['cliente'] }}" readonly></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -137,7 +140,7 @@
                                                 <select name="nombre" id="nombre" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    <option value="NINGUNO">NINGUNO</option>
+                                                    <option value="OTRO">OTRO</option>
                                                     @if ($auditorPlanta == 'Planta1')
                                                         @foreach ($nombresPlanta1 as $nombre)
                                                             <option value="{{ $nombre->name }}">{{ $nombre->name }}

@@ -112,6 +112,16 @@ class AuditoriaProcesoController extends Controller
         ]);
     } 
 
+    public function obtenerCliente1(Request $request)
+{
+    $moduleid = $request->input('moduleid');
+    $auditoriaProceso = AuditoriaProceso::where('moduleid', $moduleid)->first();
+
+    return response()->json([
+        'cliente' => $auditoriaProceso->customername ?? ''
+    ]);
+}
+
 
 
     public function auditoriaProceso(Request $request)
@@ -217,6 +227,7 @@ class AuditoriaProcesoController extends Controller
             'team_leader' => $request->team_leader,
             'auditor' => $request->auditor,
             'turno' => $request->turno,
+            'cliente' => $request->cliente,
         ];
         //dd($data, $request->all());
         return redirect()->route('aseguramientoCalidad.auditoriaProceso', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
@@ -231,6 +242,7 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
         $nuevoRegistro->estilo = $request->estilo;
+        $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
