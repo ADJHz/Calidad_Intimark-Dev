@@ -175,18 +175,18 @@ public function actualizarStatus(Request $request)
             ]);
         } else {
             // Crear un nuevo registro si no existe en ReporteAuditoriaEtiqueta
-            $reporte = new ReporteAuditoriaEtiqueta();
-            $reporte->id = $rowId;
-            $reporte->Orden = $datos[0]['orden'] ?? 'N/A';
-            $reporte->Estilos = $datos[0]['estilo'] ?? 'N/A';
-            $reporte->Cantidad = $datos[0]['cantidad'] ?? 'N/A';
-            $reporte->Muestreo = $datos[0]['muestreo'] ?? 'N/A';
-            $reporte->Defectos = $datos[0]['defectos'] ?? 'N/A';
-            $reporte->Tipo_Defectos = $datos[0]['tipoDefecto'] ?? 'N/A';
-            $reporte->Talla = $datos[0]['talla'] ?? 'N/A';
-            $reporte->Color = $datos[0]['color'] ?? 'N/A';
-            $reporte->Status = $status;
-            $reporte->save();
+            $registroExistente = new ReporteAuditoriaEtiqueta();
+            $registroExistente->id = $rowId;
+            $registroExistente->Orden = $datos[0]['orden'] ?? 'N/A';
+            $registroExistente->Estilos = $datos[0]['estilo'] ?? 'N/A';
+            $registroExistente->Cantidad = $datos[0]['cantidad'] ?? 'N/A';
+            $registroExistente->Muestreo = $datos[0]['muestreo'] ?? 'N/A';
+            $registroExistente->Defectos = $datos[0]['defectos'] ?? 'N/A';
+            $registroExistente->Tipo_Defectos = $datos[0]['tipoDefecto'] ?? 'N/A';
+            $registroExistente->Talla = $datos[0]['talla'] ?? 'N/A';
+            $registroExistente->Color = $datos[0]['color'] ?? 'N/A';
+            $registroExistente->Status = $status;
+            $registroExistente->save();
         }
 
         // Buscar si existe un registro con el ID de la fila seleccionada en ModelsDatosAuditoriaEtiquetas
@@ -205,6 +205,7 @@ public function actualizarStatus(Request $request)
         return response()->json(['error' => 'Error al actualizar los datos: ' . $e->getMessage()], 500);
     }
 }
+
 
 
 

@@ -12,9 +12,9 @@ use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
 use App\Http\Controllers\AuditoriaAQLController;
 use App\Http\Controllers\Maquila;
-use App\Http\Controllers\viewlistaFormularios; 
-use App\Http\Controllers\DashboardController; 
- 
+use App\Http\Controllers\viewlistaFormularios;
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
