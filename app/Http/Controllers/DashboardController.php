@@ -100,6 +100,9 @@ class DashboardController extends Controller
             // Obtener la operación correspondiente al team leader vinculado al operario de máquina
             $teamleader = AseguramientoCalidad::where('nombre', $nombre)->value('team_leader');
             $teamLeaderPorNombre[$nombre] = $teamleader;
+            // Obtener la modulo correspondiente al operario de máquina
+            $modulo = AseguramientoCalidad::where('nombre', $nombre)->value('modulo');
+            $moduloPorNombre[$nombre] = $modulo;
             
         }
         // Ordenar los operarios de maquina por el porcentaje de error de mayor a menor
@@ -128,7 +131,7 @@ class DashboardController extends Controller
         arsort($porcentajesErrorTeamLeader);
         
         return view('dashboar.dashboarAProcesoPlayera', compact('title', 'clientes', 'porcentajesError', 
-                'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre',
+                'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre', 'moduloPorNombre',
                 'teamLeaders', 'porcentajesErrorTeamLeader'));
     }
 

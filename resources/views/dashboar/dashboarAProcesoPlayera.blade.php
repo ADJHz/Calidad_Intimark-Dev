@@ -49,8 +49,8 @@
                 <hr>
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-                    <table class="table table-striped table-bordered table-hover table1">
-                        <thead class="thead-custom1">
+                    <table class="table  table-bordered table1">
+                        <thead class="thead-custom1 text-center">
                             <tr>
                                 <th>Cliente</th>
                                 <th>% Error</th>
@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                             @foreach ($porcentajesError as $cliente => $porcentajeError)
-                                <tr>
+                                <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
                                     <td>{{ $cliente }}</td>
                                     <td>{{ number_format($porcentajeError, 2) }}%</td>
                                 </tr>
@@ -67,10 +67,11 @@
                         </tbody>
                     </table>
                     <hr>
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead class="thead-custom2">
+                    <table class="table table-bordered ">
+                        <thead class="thead-custom2 text-center">
                             <tr>
                                 <th>Operario de Maquina</th>
+                                <th>Modulo</th>
                                 <th>Operacion</th>
                                 <th>Team Leader</th>
                                 <th>% Error</th>
@@ -79,9 +80,10 @@
                         </thead>
                         <tbody>
                             @foreach ($porcentajesErrorNombre as $nombre => $porcentajeErrorNombre)
-                                <tr>
+                                <tr class="{{ ($porcentajeErrorNombre > 9 && $porcentajeErrorNombre <= 15) ? 'error-bajo' : ($porcentajeErrorNombre > 15 ? 'error-alto' : '') }}">
                                     <td>{{ $nombre }}</td>
-                                    <td>{{ $operacionesPorNombre[$nombre] }}</td> 
+                                    <td>{{ $moduloPorNombre[$nombre] }}</td>
+                                    <td>{{ $operacionesPorNombre[$nombre] }}</td>
                                     <td>{{ $teamLeaderPorNombre[$nombre] }}</td>
                                     <td>{{ number_format($porcentajeErrorNombre, 2) }}%</td>
                                 </tr>
@@ -89,8 +91,8 @@
                         </tbody>
                     </table>
                     <hr>
-                    <table class="table table-striped table-bordered table-hover table1">
-                        <thead class="thead-custom3">
+                    <table class="table table-bordered table1">
+                        <thead class="thead-custom3 text-center">
                             <tr>
                                 <th>Team Leader</th>
                                 <th>% Error</th>
@@ -99,12 +101,11 @@
                         </thead>
                         <tbody>
                             @foreach ($porcentajesErrorTeamLeader as $teamLeader => $porcentajeError)
-                                <tr>
+                                <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
                                     <td>{{ $teamLeader }}</td>
                                     <td>{{ number_format($porcentajeError, 2) }}%</td>
                                 </tr>
                             @endforeach
-                            
                         </tbody>
                     </table>
                 </div>
@@ -139,6 +140,17 @@
             color: #fff; /* Ajusta el color del texto si es necesario */
             border: 1px solid #ddd; /* Ajusta el borde si es necesario */
             padding: 10px; /* Ajusta el relleno si es necesario */
+        }
+
+
+        .error-bajo {
+            background-color: #f8d7da; /* Rojo claro */
+            color: #721c24; /* Texto oscuro */
+        }
+
+        .error-alto {
+            background-color: #dc3545; /* Rojo */
+            color: #ffffff; /* Texto blanco */
         }
     </style>
 
