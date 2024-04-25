@@ -125,8 +125,18 @@
                                                 @endif
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
-                                                placeholder="estilo" readonly /></td>
+                                        <td>
+                                            <select name="op" id="op" class="form-control" required
+                                            title="Por favor, selecciona una opción">
+                                            <option value="" selected>Selecciona una opción</option>
+                                            <!-- Agrega el atributo selected aquí -->
+                                            @foreach ($ordenOPs as $orden)
+                                                <option value="{{ $orden->op }}">
+                                                    {{ $orden->op }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        </td>
                                         <td><input type="text" class="form-control me-2" name="auditor" id="auditor"
                                                 value="{{ $auditorDato }}" readonly required /></td>
                                         <td><input type="text" class="form-control me-2" name="turno" id="turno"
@@ -441,6 +451,13 @@
             $('#modulo').on('select2:select', function(e) {
                 var itemid = e.params.data.element.dataset.itemid;
                 $('#estilo').val(itemid);
+            });
+        });
+
+        $(document).ready(function() {
+            $('#op').select2({
+                placeholder: 'Seleccione una opción',
+                allowClear: true
             });
         });
     </script>

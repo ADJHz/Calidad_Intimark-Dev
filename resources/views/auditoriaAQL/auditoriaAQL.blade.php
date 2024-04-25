@@ -99,8 +99,8 @@
                                     <tr>
                                         <td><input type="text" class="form-control" name="modulo" id="modulo"
                                                 value="{{ $data['modulo'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
-                                                value="{{ $data['estilo'] }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="op" id="op"
+                                                value="{{ $data['op'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="auditor" id="auditor"
                                                 value="{{ $data['auditor'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="turno" id="turno"
@@ -113,42 +113,39 @@
                         @if ($estatusFinalizar)
                         @else
                             <div class="table-responsive">
-                                <table class="table flex-container">
+                                <table class="table">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>NOMBRE</th>
-                                            <th>OPERACION</th>
-                                            <th>LIENZOS</th>
-                                            <th>LIENZOS RECHAZADOS</th>
-                                            <th>T.P</th>
-                                            <th>A.C</th>
-                                            @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                            @else
-                                                <th>P x P</th>
-                                            @endif
+                                            <th>ESTILO</th>
+                                            <th>COLOR</th>
+                                            <th>TALLA</th>
+                                            <th># BULTO</th>
+                                            <th>PIEZAS INSPECCIONADAS</th>
+                                            <th>PIEZAS RECHAZADAS</th>
+                                            <th>TIPO DE DEFECTO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <select name="nombre" id="nombre" class="form-control" required
+                                                <input type="text" class="form-control" name="estilo" id="estilo"
+                                                value="{{$datoUnicoOP->estilo}}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="color" id="color"
+                                                value="{{$datoUnicoOP->colorname}}" readonly>
+                                            </td>
+                                            <td>
+                                                <select name="talla" id="talla" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($auditorPlanta == 'Planta1')
-                                                        @foreach ($nombresPlanta1 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @elseif($auditorPlanta == 'Planta2')
-                                                        @foreach ($nombresPlanta2 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
+                                                    @foreach ($datoOP as $op)
+                                                        <option value="{{ $op->sizename }}">{{ $op->sizename }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" name="operacion" id="operacion"
+                                            <td><input type="text" class="form-control" name="bulto" id="bulto"
                                                     required></td>
                                             <td><input type="text" class="form-control" name="cantidad_auditada"
                                                     id="cantidad_auditada" required></td>
@@ -159,53 +156,18 @@
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($data['area'] == 'AUDITORIA EN PROCESO')
+                                                    @if ($data['area'] == 'AUDITORIA AQL')
                                                         @foreach ($categoriaTPProceso as $proceso)
                                                             <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
                                                             </option>
                                                         @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                    @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
                                                         @foreach ($categoriaTPPlayera as $playera)
                                                             <option value="{{ $playera->nombre }}">{{ $playera->nombre }}
                                                             </option>
                                                         @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                        @foreach ($categoriaTPEmpaque as $empque)
-                                                            <option value="{{ $empque->nombre }}">{{ $empque->nombre }}
-                                                            </option>
-                                                        @endforeach
                                                     @endif
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <select name="ac" id="ac" class="form-control" required
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                        @foreach ($categoriaACProceso as $proceso)
-                                                            <option value="{{ $proceso->accion_correctiva }}">
-                                                                {{ $proceso->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                        @foreach ($categoriaACPlayera as $playera)
-                                                            <option value="{{ $playera->accion_correctiva }}">
-                                                                {{ $playera->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                        @foreach ($categoriaACEmpaque as $empque)
-                                                            <option value="{{ $empque->accion_correctiva }}">
-                                                                {{ $empque->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </td>
-                                            <td>
-                                                @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                @else
-                                                    <input type="text" class="form-control" name="pxp" id="pxp"
-                                                        required>
-                                                @endif
                                             </td>
                                         </tr>
                                     </tbody>
@@ -228,10 +190,6 @@
                                         <th>Lienzo rechazado</th>
                                         <th>T. P. </th>
                                         <th>Accion Correctiva </th>
-                                        @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                        @else
-                                            <th>pxp </th>
-                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -570,28 +528,28 @@
             /* Color del texto */
         }
 
-        .table th:nth-child(1) {
-            min-width: 180px;
-            /* Ajusta el ancho mínimo según tu necesidad */
-        }
-
-        .table th:nth-child(5) {
+        .table th:nth-child(2) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
-        .table th:nth-child(6) {
+        .table23 th:nth-child(5) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
-        .table th:nth-child(7) {
+        .table23 th:nth-child(6) {
+            min-width: 200px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table23 th:nth-child(7) {
             min-width: 70px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
         @media (max-width: 768px) {
-            .table th:nth-child(3) {
+            .table23 th:nth-child(3) {
                 min-width: 100px;
                 /* Ajusta el ancho mínimo para móviles */
             }

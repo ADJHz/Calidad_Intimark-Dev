@@ -11,7 +11,8 @@ use App\Models\CategoriaTeamLeader;
 use App\Models\CategoriaTipoProblema; 
 use App\Models\CategoriaAccionCorrectiva;  
 use App\Models\AuditoriaAQL;  
-
+use App\Models\DatoAX;
+use App\Models\DatosAX;
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
@@ -65,7 +66,9 @@ class AuditoriaAQLController extends Controller
                 ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
                 ->distinct()
                 ->get(),
-
+            'ordenOPs' => DatoAX::select('op')
+                ->distinct()
+                ->get(),
 
         ];
     }
@@ -112,6 +115,11 @@ class AuditoriaAQLController extends Controller
         $data = $data ?? [];
 
         //dd($request->all(), $data);
+
+        $datoOP = DatosAX::whereIn('op', (array) $data['op'])
+        ->get();
+        $datoUnicoOP = DatosAX::where('op', $data['op'])
+        ->first();
         $nombresPlanta1= AuditoriaProceso::where('prodpoolid', 'Intimark1')
             ->where('moduleid', $data['modulo'])
             ->get();
@@ -169,6 +177,8 @@ class AuditoriaAQLController extends Controller
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
+            'datoOP' => $datoOP, 
+            'datoUnicoOP' => $datoUnicoOP, 
             'data' => $data, 
             'nombresPlanta1' => $nombresPlanta1, 
             'nombresPlanta2' => $nombresPlanta2, 
@@ -192,7 +202,7 @@ class AuditoriaAQLController extends Controller
         $data = [
             'area' => $request->area,
             'modulo' => $request->modulo,
-            'estilo' => $request->estilo,
+            'op' => $request->op,
             'auditor' => $request->auditor,
             'turno' => $request->turno,
         ];
@@ -205,21 +215,20 @@ class AuditoriaAQLController extends Controller
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
         //dd($request->all());
-        $nuevoRegistro = new AseguramientoCalidad();
+        $nuevoRegistro = new AuditoriaAQL();
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
-        $nuevoRegistro->estilo = $request->estilo;
-        $nuevoRegistro->team_leader = $request->team_leader;
+        $nuevoRegistro->op = $request->op;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
-        $nuevoRegistro->nombre = $request->nombre;
-        $nuevoRegistro->operacion = $request->operacion;
+
+        $nuevoRegistro->estilo = $request->estilo;
+        $nuevoRegistro->color = $request->color; 
+        $nuevoRegistro->talla = $request->talla; 
+        $nuevoRegistro->bulto = $request->bulto; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
         $nuevoRegistro->tp = $request->tp;
-        $nuevoRegistro->ac = $request->ac;
-        $nuevoRegistro->pxp = $request->pxp;
-
         $nuevoRegistro->save();
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
