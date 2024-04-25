@@ -461,7 +461,7 @@
                         tipoDefecto: tipoDefecto, // Agregar el campo tipoDefecto
                     });
                 });
-
+alert(rowId);
                 // Obtener la orden seleccionada
                 var ordenSeleccionada = $('#ordenSelect').val();
 
