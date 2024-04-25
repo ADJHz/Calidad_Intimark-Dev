@@ -45,25 +45,25 @@ class AuditoriaAQLController extends Controller
             'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
                 ->where('area', 'AUDITORIA AQL')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'procesoFinalAQL' => AuditoriaAQL::where('estatus', 1)
                 ->where('area', 'AUDITORIA AQL')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'playeraActualAQL' => AuditoriaAQL::where('estatus', NULL)
                 ->where('area', 'AUDITORIA AQL PLAYERA')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'playeraFinalAQL' => AuditoriaAQL::where('estatus', 1)
                 ->where('area', 'AUDITORIA AQL PLAYERA')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'ordenOPs' => DatoAX::select('op')
@@ -186,16 +186,19 @@ class AuditoriaAQLController extends Controller
 
 
 
-    public function formAltaProceso(Request $request) 
+    public function formAltaProcesoAQL(Request $request) 
     {
         $activePage ='';
 
         $data = [
             'area' => $request->area,
             'modulo' => $request->modulo,
+            'estilo' => $request->estilo,
             'op' => $request->op,
+            'cliente' => $request->cliente,
             'auditor' => $request->auditor,
-            'turno' => $request->turno,
+            'turno' => $request->turno, 
+            'team_leader' => $request->team_leader,
         ];
         //dd($data);
         return redirect()->route('auditoriaAQL.auditoriaAQL', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
@@ -210,6 +213,8 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
         $nuevoRegistro->op = $request->op;
+        $nuevoRegistro->cliente = $request->cliente;
+        $nuevoRegistro->team_leader = $request->team_leader;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
 
@@ -269,7 +274,7 @@ class AuditoriaAQLController extends Controller
         $fechaActual = Carbon::now()->toDateString();
 
         // Actualizar todos los registros que cumplan con las condiciones
-        AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        AuditoriaAQL::whereDate('created_at', $fechaActual)
         ->where('modulo', $modulo)
         ->where('area', $area)
         ->update(['observacion' => $observacion, 'estatus' => $estatus]);

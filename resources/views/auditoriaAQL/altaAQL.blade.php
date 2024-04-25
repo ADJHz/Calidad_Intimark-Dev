@@ -81,7 +81,7 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProceso') }}">
+                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
                         @csrf
                         <div class="table-responsive">
                             <table class="table">
@@ -90,6 +90,7 @@
                                         <th>AREA</th>
                                         <th>MODULO</th>
                                         <th>OP</th>
+                                        <th>TEAM LEADER</th>
                                         <th>AUDITOR</th>
                                         <th>TURNO</th>
                                     </tr>
@@ -136,6 +137,26 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        </td>
+                                        <td>
+                                            <select name="team_leader" id="team_leader" class="form-control" required
+                                                title="Por favor, selecciona una opción">
+                                                <option value="" selected>Selecciona una opción</option>
+                                                <!-- Agrega el atributo selected aquí -->
+                                                @if ($auditorPlanta == 'Planta1')
+                                                    @foreach ($teamLeaderPlanta1 as $teamLeader)
+                                                        <option value="{{ $teamLeader->nombre }}">
+                                                            {{ $teamLeader->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                @elseif($auditorPlanta == 'Planta2')
+                                                    @foreach ($teamLeaderPlanta2 as $teamLeader)
+                                                        <option value="{{ $teamLeader->nombre }}">
+                                                            {{ $teamLeader->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
                                         </td>
                                         <td><input type="text" class="form-control me-2" name="auditor" id="auditor"
                                                 value="{{ $auditorDato }}" readonly required /></td>
@@ -211,26 +232,36 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @php
+                                                                        $valoresMostrados = [];
+                                                                    @endphp
                                                                     @foreach($procesoActualAQL as $proceso)
-                                                                        <tr>
-                                                                            <td>
-                                                                                <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                    <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                    <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                    <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                    <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                    <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                    <button type="submit" class="btn btn-primary">Acceder</button>
-                                                                                </form>
-                                                                            </td>
-                                                                            <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->op }}</td>
-
-                                                                        </tr>
+                                                                        @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->op }}</td>
+                                                                                <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
+                                                                            </tr>
+                                                                            @php
+                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                            @endphp
+                                                                        @endif
                                                                     @endforeach
-                                                                </tbody>
+                                                                </tbody>                                                                
                                                             </table>
                                                         </div>
                                                     </div>
@@ -265,23 +296,34 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @php
+                                                                        $valoresMostrados = [];
+                                                                    @endphp
                                                                     @foreach($procesoFinalAQL as $proceso)
-                                                                        <tr>
-                                                                            <td>
-                                                                                <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                    <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                    <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                    <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                    <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                    <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                    <button type="submit" class="btn btn-primary">Acceder</button>
-                                                                                </form>
-                                                                            </td>
-                                                                            <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->op }}</td>
-                                                                        </tr>
+                                                                        @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->op }}</td>
+                                                                                <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
+                                                                            </tr>
+                                                                            @php
+                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                            @endphp
+                                                                        @endif
                                                                     @endforeach
                                                                 </tbody>
                                                             </table>
@@ -340,25 +382,36 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @php
+                                                                        $valoresMostrados = [];
+                                                                    @endphp
                                                                     @foreach($playeraActualAQL as $proceso)
-                                                                        <tr>
-                                                                            <td>
-                                                                                <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                    <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                    <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                    <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                    <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                    <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                    <button type="submit" class="btn btn-primary">Acceder</button>
-                                                                                </form>
-                                                                            </td>
-                                                                            <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->op }}</td>
-                                                                        </tr>
+                                                                        @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->op }}</td>
+                                                                                <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
+                                                                            </tr>
+                                                                            @php
+                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                            @endphp
+                                                                        @endif
                                                                     @endforeach
-                                                                </tbody>
+                                                                </tbody>                                                                
                                                             </table>
                                                         </div>
                                                     </div>
@@ -393,25 +446,36 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @php
+                                                                        $valoresMostrados = [];
+                                                                    @endphp
                                                                     @foreach($playeraFinalAQL as $proceso)
-                                                                        <tr>
-                                                                            <td>
-                                                                                <form method="POST" action="{{ route('aseguramientoCalidad.formAltaProceso') }}">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                    <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                    <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                    <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                    <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                    <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                    <button type="submit" class="btn btn-primary">Acceder</button>
-                                                                                </form>
-                                                                            </td>
-                                                                            <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->op }}</td>
-                                                                        </tr>
+                                                                        @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                        @csrf
+                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
+                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
+                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
+                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td>{{ $proceso->modulo }}</td>
+                                                                                <td>{{ $proceso->op }}</td>
+                                                                                <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
+                                                                            </tr>
+                                                                            @php
+                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                            @endphp
+                                                                        @endif
                                                                     @endforeach
-                                                                </tbody>
+                                                                </tbody>                                                                
                                                             </table>
                                                         </div>
                                                     </div>

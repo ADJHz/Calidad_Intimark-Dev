@@ -91,6 +91,8 @@
                                     <tr>
                                         <th>MODULO</th>
                                         <th>OP</th>
+                                        <th>CLIENTE</th>
+                                        <th>TEAM LEADER</th>
                                         <th>AUDITOR</th>
                                         <th>TURNO</th>
                                     </tr>
@@ -101,6 +103,10 @@
                                                 value="{{ $data['modulo'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="op" id="op"
                                                 value="{{ $data['op'] }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="cliente" id="cliente"
+                                                value="{{ $datoUnicoOP->custorname }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="team_leader" id="team_leader"
+                                                value="{{ $data['team_leader'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="auditor" id="auditor"
                                                 value="{{ $data['auditor'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="turno" id="turno"

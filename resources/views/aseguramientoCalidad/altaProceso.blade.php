@@ -231,6 +231,7 @@
                                                                                         @csrf
                                                                                         <input type="hidden" name="area" value="{{ $proceso->area }}">
                                                                                         <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
                                                                                         <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
                                                                                         <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
                                                                                         <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
@@ -285,6 +286,7 @@
                                                                                         @csrf
                                                                                         <input type="hidden" name="area" value="{{ $proceso->area }}">
                                                                                         <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
                                                                                         <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
                                                                                         <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
                                                                                         <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
@@ -360,6 +362,7 @@
                                                                                         @csrf
                                                                                         <input type="hidden" name="area" value="{{ $proceso->area }}">
                                                                                         <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
                                                                                         <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
                                                                                         <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
                                                                                         <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
@@ -413,6 +416,7 @@
                                                                                         @csrf
                                                                                         <input type="hidden" name="area" value="{{ $proceso->area }}">
                                                                                         <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
                                                                                         <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
                                                                                         <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
                                                                                         <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
