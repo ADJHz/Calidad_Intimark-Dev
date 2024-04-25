@@ -238,4 +238,5 @@ Route::put('/actualizarStatus', [DatosAuditoriaEtiquetas::class, 'actualizarStat
 
 // Apartado para detalles dashboard
 Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso'); 
-Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera');
+Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera'); 
+Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL'); 

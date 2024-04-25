@@ -6,6 +6,7 @@ use App\Models\EncabezadoAuditoriaCorte;
 use App\Models\Lectra; 
 use App\Models\AuditoriaProcesoCorte; 
 use App\Models\AseguramientoCalidad;  
+use App\Models\AuditoriaAQL;  
 class HomeController extends Controller
 {
     /**
@@ -62,17 +63,28 @@ class HomeController extends Controller
             // Obtener el número total de registros en la tabla AseguramientoCalidad con valores "0"
             $playeraAprobados = AseguramientoCalidad::where('cantidad_rechazada', 0)->count();
 
-            $concentradoTotalSuma = $sumaPorcentaje + $cantidadAuditada + $cantidadAuditadaPlayera;
-            $concentradoTotalRechazo = $totalRegistros + $cantidadRechazada + $cantidadRechazadaPlayera;
+            // Obtener los datos de cantidad_auditada y cantidad_rechazada de AuditoriaAQL
+            $cantidadAuditadaAQL = AuditoriaAQL::sum('cantidad_auditada');
+            $cantidadRechazadaAQL = AuditoriaAQL::sum('cantidad_rechazada');
+            // Calcular el porcentaje total de los registros actuales
+            $totalPorcentajeAQL = $cantidadAuditadaAQL != 0 ? number_format(($cantidadRechazadaAQL / $cantidadAuditadaAQL) * 100, 2) : 0;
+            // Obtener el número total de registros en la tabla AuditoriaAQL sin valores nulos y "0"
+            $aQLRechazados = AuditoriaAQL::whereNotNull('cantidad_rechazada')->where('cantidad_rechazada', '!=', 0)->count();
+            // Obtener el número total de registros en la tabla AuditoriaAQL con valores "0"
+            $aQLAprobados = AuditoriaAQL::where('cantidad_rechazada', 0)->count();
+
+            $concentradoTotalSuma = $sumaPorcentaje + $cantidadAuditada + $cantidadAuditadaPlayera + $cantidadAuditadaAQL;
+            $concentradoTotalRechazo = $totalRegistros + $cantidadRechazada + $cantidadRechazadaPlayera + $cantidadRechazadaAQL;
             $concentradoTotalPorcentaje = $concentradoTotalSuma != 0 ? number_format(($concentradoTotalRechazo / $concentradoTotalSuma) * 100, 2) : 0;
 
-            $concentradoTotalAprobado = $corteAprobados + $procesoAprobados + $playeraAprobados;
-            $concentradoTotalRechazado = $corteRechazados + $procesoRechazados + $playeraRechazados;
+            $concentradoTotalAprobado = $corteAprobados + $procesoAprobados + $playeraAprobados + $aQLAprobados;
+            $concentradoTotalRechazado = $corteRechazados + $procesoRechazados + $playeraRechazados +$aQLRechazados;
 
             return view('dashboard', compact('title', 'concentradoTotalAprobado', 'concentradoTotalRechazado', 'concentradoTotalPorcentaje',
                                     'porcentajeTotalCorte', 'corteAprobados', 'corteRechazados', 
                                     'totalPorcentajeProceso', 'procesoAprobados', 'procesoRechazados',
-                                    'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados' ));
+                                    'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados',
+                                    'totalPorcentajeAQL', 'aQLAprobados', 'aQLRechazados', ));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios
             return redirect()->route('viewlistaFormularios');

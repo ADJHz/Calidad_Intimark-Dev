@@ -58,7 +58,7 @@
               <p>&nbsp;</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Concentrado Porcentaje Total: </h4>
+              <h4 class="card-title">Concentrado de Error por Porcentaje Total: </h4>
               <h3>{{$concentradoTotalPorcentaje}}% </h3>
             </div>
             <div class="card-footer">
@@ -154,11 +154,19 @@
               </div>
               <p class="card-category"></p>
               <h3 class="card-title">
-                <small>Auditoria Etiquetas</small>
+                <small>Auditoria AQL</small>
               </h3>
             </div>
             <div class="card-footer">
-              
+              <div>
+                <p>Metricas de datos a mostrar</p>
+                <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
+                <p>Cantidad rechazada: {{$aQLRechazados}}</p>
+                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p>
+
+                <a href="dashboarAProcesoAQL" class="btn btn-primary">Ver Detalles</a>
+
+              </div>
             </div>
           </div>
         </div>

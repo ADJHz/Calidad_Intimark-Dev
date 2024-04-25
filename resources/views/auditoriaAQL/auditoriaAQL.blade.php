@@ -113,7 +113,7 @@
                         @if ($estatusFinalizar)
                         @else
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table32">
                                     <thead class="thead-primary">
                                         <tr>
                                             <th>ESTILO</th>
@@ -184,7 +184,6 @@
                             <table class="table">
                                 <thead class="thead-primary">
                                     <tr>
-                                        <th>Nombre</th>
                                         <th>Operacion </th>
                                         <th>Lienzo tendido</th>
                                         <th>Lienzo rechazado</th>
@@ -199,10 +198,6 @@
                                                 method="POST">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $registro->id }}">
-                                                <td>
-                                                    <input type="text" class="form-control" name="nombre"
-                                                        value="{{ $registro->nombre }}" readonly>
-                                                </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="operacion"
                                                         value="{{ $registro->operacion }}" readonly>
@@ -251,73 +246,68 @@
                                 <table class="table">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Operacion </th>
-                                            <th>Lienzo tendido</th>
-                                            <th>Lienzo rechazado</th>
-                                            <th>T. P. </th>
-                                            <th>Accion Correctiva </th>
-                                            @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                            @else
-                                                <th>pxp </th>
-                                            @endif
-                                            <th>Editar </th>
+                                            <th>ESTILO</th>
+                                            <th>COLOR</th>
+                                            <th>TALLA</th>
+                                            <th># BULTO</th>
+                                            <th>PIEZAS INSPECCIONADAS</th>
+                                            <th>PIEZAS RECHAZADAS</th>
+                                            <th>TIPO DE DEFECTO</th>
+                                            <th>GUARDAR </th>
                                             <th>Eliminar </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
+                                                <td>
+                                                    <input type="text" class="form-control" name="estilo" id="estilo"
+                                                    value="{{$registro->estilo}}" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="color" id="color"
+                                                    value="{{$registro->color}}" readonly>
+                                                </td>
                                                 <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
 
                                                     <td>
-                                                        <select name="nombre" id="nombre" class="form-control"
+                                                        <select name="talla" id="talla" class="form-control"
                                                             required title="Por favor, selecciona una opción">
-                                                            <option value="">Selecciona una opción</option>
-                                                            @if ($auditorPlanta == 'Planta1')
-                                                                @foreach ($nombresPlanta1 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($auditorPlanta == 'Planta2')
-                                                                @foreach ($nombresPlanta2 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
+                                                            @foreach ($datoOP as $proceso)
+                                                                <option value="{{ $proceso->sizename }}"
+                                                                    {{ $registro->talla == $proceso->sizename ? 'selected' : '' }}>
+                                                                    {{ $proceso->sizename }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" name="operacion_text"
-                                                            id="operacion_text_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}" required>
-                                                        <input type="hidden" name="operacion"
-                                                            id="operacion_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}">
+                                                        <input type="text" class="form-control" name="bulto_text"
+                                                            id="bulto_text_{{ $registro->id }}"
+                                                            value="{{ $registro->bulto }}" required>
+                                                        <input type="hidden" name="bulto"
+                                                            id="bulto_hidden_{{ $registro->id }}"
+                                                            value="{{ $registro->bulto }}">
                                                     </td>
                                                     <script>
-                                                        document.getElementById('operacion_text_{{ $registro->id }}').addEventListener('input', function() {
+                                                        document.getElementById('bulto_text_{{ $registro->id }}').addEventListener('input', function() {
                                                             console.log('Input cambiado. Nuevo valor:', this.value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = this.value;
+                                                            document.getElementById('bulto_hidden_{{ $registro->id }}').value = this.value;
                                                             console.log('Campo oculto actualizado. Nuevo valor:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
+                                                                'bulto_hidden_{{ $registro->id }}').value);
                                                         });
 
                                                         // Actualizar el campo oculto al cargar la página
                                                         document.addEventListener('DOMContentLoaded', function() {
                                                             console.log('Página cargada. Valor actual:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = document.getElementById(
-                                                                'operacion_text_{{ $registro->id }}').value;
+                                                                'bulto_hidden_{{ $registro->id }}').value);
+                                                            document.getElementById('bulto_hidden_{{ $registro->id }}').value = document.getElementById(
+                                                                'bulto_text_{{ $registro->id }}').value;
                                                             console.log('Campo oculto actualizado al valor inicial:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
+                                                                'bulto_hidden_{{ $registro->id }}').value);
                                                         });
                                                     </script>
                                                     <td>
@@ -350,74 +340,23 @@
                                                         <select name="tp" id="tp" class="form-control"
                                                             required title="Por favor, selecciona una opción">
                                                             <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
+                                                            @if ($data['area'] == 'AUDITORIA AQL')
                                                                 @foreach ($categoriaTPProceso as $proceso)
                                                                     <option value="{{ $proceso->nombre }}"
                                                                         {{ $registro->tp == $proceso->nombre ? 'selected' : '' }}>
                                                                         {{ $proceso->nombre }}
                                                                     </option>
                                                                 @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                            @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
                                                                 @foreach ($categoriaTPPlayera as $playera)
                                                                     <option value="{{ $playera->nombre }}"
                                                                         {{ $registro->tp == $playera->nombre ? 'selected' : '' }}>
                                                                         {{ $playera->nombre }}
                                                                     </option>
                                                                 @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaTPEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->nombre }}"
-                                                                        {{ $registro->tp == $empaque->nombre ? 'selected' : '' }}>
-                                                                        {{ $empaque->nombre }}
-                                                                    </option>
-                                                                @endforeach
                                                             @endif
                                                         </select>
                                                     </td>
-                                                    <td>
-                                                        <select name="ac" id="ac" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                                @foreach ($categoriaACProceso as $proceso)
-                                                                    <option value="{{ $proceso->accion_correctiva }}"
-                                                                        {{ $registro->ac == $proceso->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $proceso->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                                @foreach ($categoriaACPlayera as $playera)
-                                                                    <option value="{{ $playera->accion_correctiva }}"
-                                                                        {{ $registro->ac == $playera->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $playera->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaACEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->accion_correctiva }}"
-                                                                        {{ $registro->ac == $empaque->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $empaque->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </td>
-                                                    @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                    @else
-                                                        <td>
-                                                            <input type="text" class="form-control" name="pxp_text"
-                                                                id="pxp_text_{{ $registro->id }}"
-                                                                value="{{ $registro->pxp }}" required>
-                                                            <input type="hidden" name="pxp"
-                                                                id="pxp_hidden_{{ $registro->id }}"
-                                                                value="{{ $registro->pxp }}">
-                                                        </td>
-                                                        <script>
-                                                            document.getElementById('pxp_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                                document.getElementById('pxp_hidden_{{ $registro->id }}').value = this.value;
-                                                            });
-                                                        </script>
-                                                    @endif
                                                     <td>
                                                         <button type="submit" name="action" value="update"
                                                             class="btn btn-success">Guardar</button>
@@ -528,7 +467,7 @@
             /* Color del texto */
         }
 
-        .table th:nth-child(2) {
+        .table32 th:nth-child(2) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }

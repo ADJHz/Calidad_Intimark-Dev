@@ -207,7 +207,7 @@
                                                                     <tr>
                                                                         <th>Accion</th>
                                                                         <th>Módulo</th>
-                                                                        <th>Estilo</th>
+                                                                        <th>OP</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -226,7 +226,7 @@
                                                                                 </form>
                                                                             </td>
                                                                             <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->estilo }}</td>
+                                                                            <td>{{ $proceso->op }}</td>
 
                                                                         </tr>
                                                                     @endforeach
@@ -261,7 +261,7 @@
                                                                     <tr>
                                                                         <th>Accion</th>
                                                                         <th>Módulo</th>
-                                                                        <th>Estilo</th>
+                                                                        <th>OP</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -280,7 +280,7 @@
                                                                                 </form>
                                                                             </td>
                                                                             <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->estilo }}</td>
+                                                                            <td>{{ $proceso->op }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>
@@ -336,7 +336,7 @@
                                                                     <tr>
                                                                         <th>Accion</th>
                                                                         <th>Módulo</th>
-                                                                        <th>Estilo</th>
+                                                                        <th>OP</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -355,7 +355,7 @@
                                                                                 </form>
                                                                             </td>
                                                                             <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->estilo }}</td>
+                                                                            <td>{{ $proceso->op }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>
@@ -389,7 +389,7 @@
                                                                     <tr>
                                                                         <th>Accion</th>
                                                                         <th>Módulo</th>
-                                                                        <th>Estilo</th>
+                                                                        <th>OP</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -408,7 +408,7 @@
                                                                                 </form>
                                                                             </td>
                                                                             <td>{{ $proceso->modulo }}</td>
-                                                                            <td>{{ $proceso->estilo }}</td>
+                                                                            <td>{{ $proceso->op }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>
