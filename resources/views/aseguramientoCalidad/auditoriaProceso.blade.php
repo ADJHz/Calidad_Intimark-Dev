@@ -136,24 +136,145 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <input type="hidden" name="nombre_hidden" id="nombre_hidden" value="">
                                             <td>
-                                                <select name="nombre" id="nombre" class="form-control" required
-                                                    title="Por favor, selecciona una opción">
+                                                <button class="btn btn-secondary" type="button" onclick="resetForm()">Restablecer</button>
+                                                <select name="nombre" id="nombre" class="form-control" required title="Por favor, selecciona una opción" onchange="showOtherOptions()">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="OTRO">OTRO</option>
+                                                    <option value="UTILITY">UTILITY</option>
                                                     @if ($auditorPlanta == 'Planta1')
                                                         @foreach ($nombresPlanta1 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
+                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}</option>
                                                         @endforeach
                                                     @elseif($auditorPlanta == 'Planta2')
                                                         @foreach ($nombresPlanta2 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
+                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                
+                                            
+                                                <div id="otroOptions" style="display: none;">
+                                                    <select name="modulo_adicional" id="module" class="form-control" onchange="loadNames()">
+                                                        <option value="">Selecciona un módulo</option>
+                                                    </select>
+                                                    <select name="nombre" id="name" class="form-control">
+                                                        <option value="">Selecciona un nombre</option>
+                                                    </select>
+                                                </div>
+
+                                                <div id="utilityOptions" style="display: none;">
+                                                    <select name="utility" id="utility" class="form-control">
+                                                        <option value="">Selecciona un Utility</option>
+                                                    </select>
+                                                </div>
+                                                
                                             </td>
+                                            
+                                            <script>
+                                                function showOtherOptions() {
+                                                    var select = document.getElementById("nombre");
+                                                    var otroOptions = document.getElementById("otroOptions");
+                                                    var utilityOptions = document.getElementById("utilityOptions");
+                                                    var nombreHidden = document.getElementById("nombre_hidden");
+
+                                                    if (select.value !== "OTRO" && select.value !== "UTILITY") {
+                                                        select.style.display = "block";
+                                                        select.disabled = false;
+                                                        otroOptions.style.display = "none";
+                                                        utilityOptions.style.display = "none";
+                                                        nombreHidden.value = select.value; // Actualiza el campo oculto con el valor seleccionado del primer select
+                                                    } else if (select.value === "UTILITY") {
+                                                        select.style.display = "none";
+                                                        select.disabled = true;
+                                                        otroOptions.style.display = "none";
+                                                        utilityOptions.style.display = "block";
+                                                        loadUtilities(); // Cargar los utilities disponibles
+                                                    } else {
+                                                        select.style.display = "none";
+                                                        select.disabled = true;
+                                                        otroOptions.style.display = "block";
+                                                        utilityOptions.style.display = "none";
+                                                        loadModules(); // Cargar los módulos disponibles
+                                                    }
+                                                }
+                                            
+                                                function loadModules() {
+                                                    fetch("{{ route('modules.getModules') }}")
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            var select = document.getElementById("module");
+                                                            select.innerHTML = "";
+                                                            data.forEach(module => {
+                                                                var option = document.createElement("option");
+                                                                option.text = module.moduleid;
+                                                                option.value = module.moduleid;
+                                                                select.appendChild(option);
+                                                            });
+                                                        });
+                                                }
+                                            
+                                                function loadNames() {
+                                                    var moduleid = document.getElementById("module").value;
+                                                    fetch("{{ route('modules.getNamesByModule') }}?moduleid=" + moduleid)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            var select = document.getElementById("name");
+                                                            select.innerHTML = "";
+                                                            data.forEach(name => {
+                                                                var option = document.createElement("option");
+                                                                option.text = name.name;
+                                                                option.value = name.name;
+                                                                select.appendChild(option);
+                                                            });
+                                                        });
+                                                }
+                                            
+                                                // Cargar los módulos iniciales
+                                                loadModules();
+                                                function loadUtilities() {
+                                                    fetch("{{ route('utilities.getUtilities') }}")
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            var select = document.getElementById("utility");
+                                                            select.innerHTML = "";
+                                                            data.forEach(utility => {
+                                                                var option = document.createElement("option");
+                                                                option.text = utility.nombre; // Usa 'nombre' en lugar de 'name'
+                                                                option.value = utility.nombre; // Usa 'nombre' en lugar de 'name'
+                                                                select.appendChild(option);
+                                                            });
+                                                        });
+                                                }
+                                                
+                                            </script>
+                                            <script>
+                                                function resetForm() {
+                                                    var select = document.getElementById("nombre");
+                                                    var otroOptions = document.getElementById("otroOptions");
+                                                    var utilityOptions = document.getElementById("utilityOptions");
+                                                    var nombreHidden = document.getElementById("nombre_hidden");
+
+                                                    select.style.display = "block";
+                                                    select.disabled = false;
+                                                    otroOptions.style.display = "none";
+                                                    utilityOptions.style.display = "none";
+                                                    nombreHidden.value = ""; // Restablecer el valor del campo oculto
+
+                                                    // Limpiar select de módulos y nombres si fuera necesario
+                                                    var moduleSelect = document.getElementById("module");
+                                                    moduleSelect.innerHTML = "<option value=''>Selecciona un módulo</option>";
+
+                                                    var nameSelect = document.getElementById("name");
+                                                    nameSelect.innerHTML = "<option value=''>Selecciona un nombre</option>";
+
+                                                    // Cargar los módulos iniciales
+                                                    loadModules();
+                                                }
+
+                                            </script>
+                                            
                                             <td><input type="text" class="form-control" name="operacion" id="operacion"
                                                     required></td>
                                             <td><input type="text" class="form-control" name="cantidad_auditada"
@@ -317,32 +438,14 @@
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nombre"
+                                                        value="{{ $registro->nombre }}" readonly>
+                                                </td>
                                                 <form action="{{ route('aseguramientoCalidad.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
-
-                                                    <td>
-                                                        <select name="nombre" id="nombre" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="">Selecciona una opción</option>
-                                                            @if ($auditorPlanta == 'Planta1')
-                                                                @foreach ($nombresPlanta1 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($auditorPlanta == 'Planta2')
-                                                                @foreach ($nombresPlanta2 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </td>
                                                     <td>
                                                         <input type="text" class="form-control" name="operacion_text"
                                                             id="operacion_text_{{ $registro->id }}"

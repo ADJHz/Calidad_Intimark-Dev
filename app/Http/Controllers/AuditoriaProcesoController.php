@@ -9,7 +9,8 @@ use App\Models\AuditoriaProceso;
 use App\Models\AseguramientoCalidad;  
 use App\Models\CategoriaTeamLeader;  
 use App\Models\CategoriaTipoProblema; 
-use App\Models\CategoriaAccionCorrectiva; 
+use App\Models\CategoriaAccionCorrectiva;
+use App\Models\CategoriaUtility; 
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -137,8 +138,8 @@ class AuditoriaProcesoController extends Controller
         // Asegurarse de que la variable $data esté definida
         $data = $data ?? [];
 
-        //dd($request->all(), $data);
-        $nombresPlanta1 = AuditoriaProceso::where('prodpoolid', 'Intimark1')
+        //dd($request->all(), $data); 
+        $nombresPlanta1 = AuditoriaProceso::where('prodpoolid', 'Intimark1') 
             ->where('moduleid', $data['modulo'])
             ->select('name')
             ->distinct()
@@ -151,7 +152,14 @@ class AuditoriaProcesoController extends Controller
             ->get();
 
 
+        $utilityPlanta1 = CategoriaUtility::where('planta', 'Intimark1') 
+            ->where('estado', 1)
+            ->get();
 
+        $utilityPlanta2 = CategoriaUtility::where('planta', 'Intimark2')
+            ->where('estado', 1)    
+            ->get();
+        //dd($utilityPlanta1->all(), $utilityPlanta2);
         $fechaActual = Carbon::now()->toDateString();
 
         $mostrarRegistro = AseguramientoCalidad::whereDate('created_at', $fechaActual)
@@ -203,6 +211,8 @@ class AuditoriaProcesoController extends Controller
             'data' => $data, 
             'nombresPlanta1' => $nombresPlanta1, 
             'nombresPlanta2' => $nombresPlanta2, 
+            'utilityPlanta1' => $utilityPlanta1, 
+            'utilityPlanta2' => $utilityPlanta2, 
             'total_auditada' => $total_auditada, 
             'total_rechazada' => $total_rechazada,
             'total_porcentaje' => $total_porcentaje,
@@ -215,6 +225,59 @@ class AuditoriaProcesoController extends Controller
     }
 
 
+
+    public function getModules()
+    {
+        $auditorPlanta = Auth::user()->Planta;
+    $modules = AuditoriaProceso::select('moduleid')
+        ->distinct();
+
+    if ($auditorPlanta == 'Planta1') {
+        $modules->where('prodpoolid', 'Intimark1');
+    } elseif ($auditorPlanta == 'Planta2') {
+        $modules->where('prodpoolid', 'Intimark2');
+    }
+
+    $modules = $modules->get();
+
+
+        return response()->json($modules);
+    }
+
+    public function getNamesByModule(Request $request)
+    {
+        $auditorPlanta = Auth::user()->Planta;
+        $moduleName = $request->input('moduleid');
+        $names = AuditoriaProceso::where('moduleid', $moduleName);
+
+        if ($auditorPlanta == 'Planta1') {
+            $names->where('prodpoolid', 'Intimark1');
+        } elseif ($auditorPlanta == 'Planta2') {
+            $names->where('prodpoolid', 'Intimark2');
+        }
+
+        $names = $names->select('name')
+            ->distinct()
+            ->get();
+
+        return response()->json($names);
+    }
+
+    public function getUtilities()
+    {
+        $auditorPlanta = Auth::user()->Planta;
+        $utilities = CategoriaUtility::where('estado', 1);
+
+        if ($auditorPlanta == 'Planta1') {
+            $utilities->where('planta', 'Intimark1');
+        } elseif ($auditorPlanta == 'Planta2') {
+            $utilities->where('planta', 'Intimark2');
+        }
+
+        $utilities = $utilities->get();
+
+        return response()->json($utilities);
+    }
 
     public function formAltaProceso(Request $request) 
     {
@@ -241,12 +304,22 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
+        $nuevoRegistro->modulo_adicional = ($request->modulo == $request->modulo_adicional) ? NULL : $request->modulo_adicional;
         $nuevoRegistro->estilo = $request->estilo;
         $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
-        $nuevoRegistro->nombre = $request->nombre;
+        if($request->utility){
+            $nuevoRegistro->nombre = $request->utility;
+            $nuevoRegistro->utility = 1;
+        }else{ 
+            if(!$request->input('nombre')){
+                $nuevoRegistro->nombre = $request->input('nombre_hidden');
+            }else{
+                $nuevoRegistro->nombre = $request->nombre;
+            }
+        }
         $nuevoRegistro->operacion = $request->operacion;
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
@@ -268,7 +341,6 @@ class AuditoriaProcesoController extends Controller
         //dd($request->all());
         if($action == 'update'){
             $actualizarRegistro = AseguramientoCalidad::where('id', $id)->first();
-            $actualizarRegistro->nombre = $request->nombre;
             $actualizarRegistro->operacion = $request->operacion;
             $actualizarRegistro->cantidad_auditada = $request->cantidad_auditada;
             $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
