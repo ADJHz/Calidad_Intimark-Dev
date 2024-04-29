@@ -121,7 +121,7 @@ Route::post('/formRegistroAuditoriaProcesoCorte', [AuditoriaProcesoCorteControll
 Route::get('/auditoriaProceso', [AuditoriaProcesoController::class, 'auditoriaProceso'])->name('aseguramientoCalidad.auditoriaProceso');
 Route::get('/altaProceso', [AuditoriaProcesoController::class, 'altaProceso'])->name('aseguramientoCalidad.altaProceso');
 Route::post('/obtenerItemId', [AuditoriaProcesoController::class, 'obtenerItemId'])->name('obtenerItemId');
-Route::post('/obtenerCliente1', [AuditoriaProcesoController::class, 'obtenerCliente1'])->name('obtenerCliente1'); 
+Route::post('/obtenerCliente1', [AuditoriaProcesoController::class, 'obtenerCliente1'])->name('obtenerCliente1');
 Route::post('/formAltaProceso', [AuditoriaProcesoController::class, 'formAltaProceso'])->name('aseguramientoCalidad.formAltaProceso');
 Route::post('/formRegistroAuditoriaProceso', [AuditoriaProcesoController::class, 'formRegistroAuditoriaProceso'])->name('aseguramientoCalidad.formRegistroAuditoriaProceso');
 Route::post('/formUpdateDeleteProceso', [AuditoriaProcesoController::class, 'formUpdateDeleteProceso'])->name('aseguramientoCalidad.formUpdateDeleteProceso');
@@ -229,6 +229,7 @@ Route::view('/error', 'error')->name('error');
 
 
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
+Route::get('/StatusDef', [DatosAuditoriaEtiquetas::class, 'StatusDef']);
 Route::get('/buscarEstilos', [DatosAuditoriaEtiquetas::class, 'buscarEstilos']);
 Route::get('/buscarDatosAuditoriaPorEstilo', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaPorEstilo']);
 Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTiposDefectos']);
@@ -237,5 +238,5 @@ Route::put('/actualizarStatus', [DatosAuditoriaEtiquetas::class, 'actualizarStat
 
 
 // Apartado para detalles dashboard
-Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso'); 
+Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso');
 Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera');

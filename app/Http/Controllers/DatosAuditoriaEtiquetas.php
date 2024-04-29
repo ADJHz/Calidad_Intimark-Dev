@@ -40,6 +40,81 @@ class DatosAuditoriaEtiquetas extends Controller
 
         return response()->json($estilos);
     }
+    public function StatusDef($ordenes, $estilos)
+    {
+         // Obtener los parámetros de la solicitud AJAX
+    $ordenes = $ordenes;
+    $estilos = $estilos;
+        // Inicializar el arreglo para almacenar los estados de auditoría
+        Log::info('Se están consultando los estatus de las etiquetas', [
+            'ordenes' => $ordenes,
+            'estilos' => $estilos,
+        ]);
+        $estados = [];
+
+        // Iterar sobre cada orden para obtener los estilos y determinar el estado de auditoría
+        foreach ($ordenes as $orden) {
+            $ordenCompra = $orden['OrdenCompra'];
+
+            // Iterar sobre cada estilo para determinar el estado de auditoría
+            foreach ($estilos as $estilo) {
+                $estilo = $estilo['Estilos'];
+
+                // Obtener todos los registros para esta orden y estilo
+                $registros = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $ordenCompra)
+                    ->where('Estilos', $estilo)->get();
+
+                // Contadores para los distintos estados
+                $iniciado = 0;
+                $aprobado = 0;
+                $rechazado = 0;
+                $nulo = 0;
+
+                // Contar los registros por estado
+                foreach ($registros as $registro) {
+                    switch ($registro->status) {
+                        case 'Iniciado':
+                        case 'Guardado':
+                        case 'Update':
+                            $iniciado++;
+                            break;
+                        case 'Aprobado':
+                        case 'Aprobado Condicionalmente':
+                        case 'Rechazado':
+                            $aprobado++;
+                            break;
+                        case null:
+                            $nulo++;
+                            break;
+                        default:
+                            $rechazado++;
+                            break;
+                    }
+                }
+
+                // Determinar el estado de auditoría según las reglas especificadas
+                if ($iniciado > 0 && $aprobado == 0 && $rechazado == 0 && $nulo == 0) {
+                    $estado = 'En Proceso de Auditoria';
+                } elseif ($iniciado == 0 && $aprobado > 0 && $rechazado == 0 && $nulo == 0) {
+                    $estado = 'Proceso de Auditoria Finalizado';
+                } elseif ($iniciado == 0 && $aprobado == 0 && $rechazado == 0 && $nulo > 0) {
+                    $estado = 'Auditoria no Iniciada';
+                } else {
+                    $estado = 'Estado Desconocido';
+                }
+
+                // Almacenar el estado de auditoría para esta orden y estilo
+                $estados[] = [
+                    'OrdenCompra' => $ordenCompra,
+                    'Estilos' => $estilo,
+                    'status' => $estado
+                ];
+            }
+        }
+
+        return response()->json($estados);
+    }
+
     public function buscarDatosAuditoriaPorEstilo(Request $request)
     {
         $estilo = $request->input('estilo');
@@ -47,10 +122,14 @@ class DatosAuditoriaEtiquetas extends Controller
 
         // Buscar datos relacionados con el estilo especificado y la orden de compra
         $datos = ModelsDatosAuditoriaEtiquetas::where('Estilos', $estilo)
-            ->where('OrdenCompra', $orden)
-            ->whereIn('status', [null, 'iniciado'])
-            ->select('id', 'OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color')
-            ->get();
+        ->where('OrdenCompra', $orden)
+        ->where(function ($query) {
+            $query->whereNull('status')
+                ->orWhereIn('status', ['Iniciado', 'Guardado']);
+        })
+        ->select('id', 'OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color')
+        ->get();
+
         // Iterar sobre los datos y determinar el tamaño de muestra
         foreach ($datos as $dato) {
             $cantidad = $dato->Cantidad;
@@ -163,7 +242,7 @@ class DatosAuditoriaEtiquetas extends Controller
 
             $contador = count($datos);
             $rowId = $request->input('rowId');
-            Log::info("Se están actualizando " . $rowId . " id select, " . $status . " status select");
+
             // Iterar sobre los datos recibidos
             for ($i = 0; $i < $contador; $i++) {
                 // Obtener el ID de la fila seleccionada

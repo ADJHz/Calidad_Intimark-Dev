@@ -108,7 +108,6 @@
                     console.error('Error al cargar opciones de ordenes: ', error);
                 }
             });
-
             // Manejar clic en el botón de búsqueda
             $('#Buscar').click(function() {
                 var orden = $('#ordenSelect').val();
@@ -125,7 +124,6 @@
                             // Limpiar los acordeones existentes
                             $('#accordion').empty();
                             // Generar acordeones para cada estilo encontrado
-                            // Generar acordeones para cada estilo encontrado
                             $.each(data, function(key, value) {
                                 var accordion =
                                     '<div class="card border-primary mb-3">';
@@ -140,8 +138,11 @@
                                     key + '">';
                                 accordion += '<span style="font-size: 20px;">' +
                                     'Estilo: ' + value.Estilos + '</span>';
-                                accordion += '<span style="font-size: 18px;">' +
-                                    'Status: ' + +'</span>';
+                                accordion +=
+                                    '<span style="font-size: 18px;" id="status_' + key +
+                                    '">' +
+                                    'Status: Cargando...' +
+                                    '</span>'; // Inicialmente muestra "Cargando..."
                                 accordion += '</button>';
                                 accordion += '</h2>';
                                 accordion += '</div>';
@@ -199,6 +200,24 @@
                                 accordion += '</div>';
                                 accordion += '</div>';
                                 $('#accordion').append(accordion);
+
+                                // Realizar la solicitud AJAX para obtener el estado de auditoría
+                                $.ajax({
+                                    url: '/StatusDef', // Reemplaza '/ruta-al-controlador/llamarStatusDef' con la URL correcta
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(response) {
+                                        // Actualizar el estado de auditoría en el acordeón correspondiente
+                                        $('#status_' + key).text(
+                                            'status: ' + response[key]
+                                            .status);
+                                    },
+                                    error: function(error) {
+                                        console.error(
+                                            'Error al obtener el estado de auditoría: ',
+                                            error);
+                                    }
+                                });
                             });
 
                         },
@@ -446,7 +465,8 @@
                     var cantidad = $(fila).find('td:nth-child(6)').text().trim();
                     var tipoDefecto = $(fila).find('.select-container select').val();
                     var muestreo = $(fila).find('.tamañoMuestra').text().trim();
-                    var defectos = $(fila).find('.cantidadInput').val(); // Agregar el campo defectos
+                    var defectos = $(fila).find('.cantidadInput')
+                .val(); // Agregar el campo defectos
                     var id = $(fila).find('td:nth-child(11)').text().trim();
                     // Agregar los datos de la fila al arreglo datosAEnviar
                     datosAEnviar.push({
@@ -461,7 +481,6 @@
                         tipoDefecto: tipoDefecto, // Agregar el campo tipoDefecto
                     });
                 });
-alert(rowId);
                 // Obtener la orden seleccionada
                 var ordenSeleccionada = $('#ordenSelect').val();
 
@@ -493,5 +512,4 @@ alert(rowId);
             });
         });
     </script>
-
 @endsection
