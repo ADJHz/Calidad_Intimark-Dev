@@ -91,6 +91,8 @@
                                     <tr>
                                         <th>MODULO</th>
                                         <th>OP</th>
+                                        <th>CLIENTE</th>
+                                        <th>TEAM LEADER</th>
                                         <th>AUDITOR</th>
                                         <th>TURNO</th>
                                     </tr>
@@ -99,8 +101,12 @@
                                     <tr>
                                         <td><input type="text" class="form-control" name="modulo" id="modulo"
                                                 value="{{ $data['modulo'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="estilo" id="estilo"
-                                                value="{{ $data['estilo'] }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="op" id="op"
+                                                value="{{ $data['op'] }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="cliente" id="cliente"
+                                                value="{{ $datoUnicoOP->custorname }}" readonly></td>
+                                        <td><input type="text" class="form-control" name="team_leader" id="team_leader"
+                                                value="{{ $data['team_leader'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="auditor" id="auditor"
                                                 value="{{ $data['auditor'] }}" readonly></td>
                                         <td><input type="text" class="form-control" name="turno" id="turno"
@@ -113,42 +119,39 @@
                         @if ($estatusFinalizar)
                         @else
                             <div class="table-responsive">
-                                <table class="table flex-container">
+                                <table class="table table32">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>NOMBRE</th>
-                                            <th>OPERACION</th>
-                                            <th>LIENZOS</th>
-                                            <th>LIENZOS RECHAZADOS</th>
-                                            <th>T.P</th>
-                                            <th>A.C</th>
-                                            @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                            @else
-                                                <th>P x P</th>
-                                            @endif
+                                            <th>ESTILO</th>
+                                            <th>COLOR</th>
+                                            <th>TALLA</th>
+                                            <th># BULTO</th>
+                                            <th>PIEZAS INSPECCIONADAS</th>
+                                            <th>PIEZAS RECHAZADAS</th>
+                                            <th>TIPO DE DEFECTO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <select name="nombre" id="nombre" class="form-control" required
+                                                <input type="text" class="form-control" name="estilo" id="estilo"
+                                                value="{{$datoUnicoOP->estilo}}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="color" id="color"
+                                                value="{{$datoUnicoOP->colorname}}" readonly>
+                                            </td>
+                                            <td>
+                                                <select name="talla" id="talla" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
-                                                    <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($auditorPlanta == 'Planta1')
-                                                        @foreach ($nombresPlanta1 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @elseif($auditorPlanta == 'Planta2')
-                                                        @foreach ($nombresPlanta2 as $nombre)
-                                                            <option value="{{ $nombre->name }}">{{ $nombre->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
+                                                    @foreach ($datoOP as $op)
+                                                        <option value="{{ $op->sizename }}">{{ $op->sizename }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" name="operacion" id="operacion"
+                                            <td><input type="text" class="form-control" name="bulto" id="bulto"
                                                     required></td>
                                             <td><input type="text" class="form-control" name="cantidad_auditada"
                                                     id="cantidad_auditada" required></td>
@@ -159,53 +162,18 @@
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($data['area'] == 'AUDITORIA EN PROCESO')
+                                                    @if ($data['area'] == 'AUDITORIA AQL')
                                                         @foreach ($categoriaTPProceso as $proceso)
                                                             <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
                                                             </option>
                                                         @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                    @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
                                                         @foreach ($categoriaTPPlayera as $playera)
                                                             <option value="{{ $playera->nombre }}">{{ $playera->nombre }}
                                                             </option>
                                                         @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                        @foreach ($categoriaTPEmpaque as $empque)
-                                                            <option value="{{ $empque->nombre }}">{{ $empque->nombre }}
-                                                            </option>
-                                                        @endforeach
                                                     @endif
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <select name="ac" id="ac" class="form-control" required
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                        @foreach ($categoriaACProceso as $proceso)
-                                                            <option value="{{ $proceso->accion_correctiva }}">
-                                                                {{ $proceso->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                        @foreach ($categoriaACPlayera as $playera)
-                                                            <option value="{{ $playera->accion_correctiva }}">
-                                                                {{ $playera->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                        @foreach ($categoriaACEmpaque as $empque)
-                                                            <option value="{{ $empque->accion_correctiva }}">
-                                                                {{ $empque->accion_correctiva }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </td>
-                                            <td>
-                                                @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                @else
-                                                    <input type="text" class="form-control" name="pxp" id="pxp"
-                                                        required>
-                                                @endif
                                             </td>
                                         </tr>
                                     </tbody>
@@ -222,16 +190,11 @@
                             <table class="table">
                                 <thead class="thead-primary">
                                     <tr>
-                                        <th>Nombre</th>
                                         <th>Operacion </th>
                                         <th>Lienzo tendido</th>
                                         <th>Lienzo rechazado</th>
                                         <th>T. P. </th>
                                         <th>Accion Correctiva </th>
-                                        @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                        @else
-                                            <th>pxp </th>
-                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -241,10 +204,6 @@
                                                 method="POST">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $registro->id }}">
-                                                <td>
-                                                    <input type="text" class="form-control" name="nombre"
-                                                        value="{{ $registro->nombre }}" readonly>
-                                                </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="operacion"
                                                         value="{{ $registro->operacion }}" readonly>
@@ -293,73 +252,70 @@
                                 <table class="table">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Operacion </th>
-                                            <th>Lienzo tendido</th>
-                                            <th>Lienzo rechazado</th>
-                                            <th>T. P. </th>
-                                            <th>Accion Correctiva </th>
-                                            @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                            @else
-                                                <th>pxp </th>
-                                            @endif
-                                            <th>Editar </th>
+                                            <th>ESTILO</th>
+                                            <th>COLOR</th>
+                                            <th>TALLA</th>
+                                            <th># BULTO</th>
+                                            <th>PIEZAS INSPECCIONADAS</th>
+                                            <th>PIEZAS RECHAZADAS</th>
+                                            <th>TIPO DE DEFECTO</th>
+                                            <th>GUARDAR </th>
                                             <th>Eliminar </th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
+                                                <td>
+                                                    <input type="text" class="form-control" name="estilo" id="estilo"
+                                                    value="{{$registro->estilo}}" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="color" id="color"
+                                                    value="{{$registro->color}}" readonly>
+                                                </td>
                                                 <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
 
                                                     <td>
-                                                        <select name="nombre" id="nombre" class="form-control"
+                                                        <select name="talla" id="talla" class="form-control"
                                                             required title="Por favor, selecciona una opción">
-                                                            <option value="">Selecciona una opción</option>
-                                                            @if ($auditorPlanta == 'Planta1')
-                                                                @foreach ($nombresPlanta1 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($auditorPlanta == 'Planta2')
-                                                                @foreach ($nombresPlanta2 as $nombre)
-                                                                    <option value="{{ $nombre->name }}"
-                                                                        {{ $registro->nombre == $nombre->name ? 'selected' : '' }}>
-                                                                        {{ $nombre->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
+                                                            @foreach ($datoOP as $proceso)
+                                                                <option value="{{ $proceso->sizename }}"
+                                                                    {{ $registro->talla == $proceso->sizename ? 'selected' : '' }}>
+                                                                    {{ $proceso->sizename }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" name="operacion_text"
-                                                            id="operacion_text_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}" required>
-                                                        <input type="hidden" name="operacion"
-                                                            id="operacion_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}">
+                                                        <input type="text" class="form-control" name="bulto_text"
+                                                            id="bulto_text_{{ $registro->id }}"
+                                                            value="{{ $registro->bulto }}" required>
+                                                        <input type="hidden" name="bulto"
+                                                            id="bulto_hidden_{{ $registro->id }}"
+                                                            value="{{ $registro->bulto }}">
                                                     </td>
                                                     <script>
-                                                        document.getElementById('operacion_text_{{ $registro->id }}').addEventListener('input', function() {
+                                                        document.getElementById('bulto_text_{{ $registro->id }}').addEventListener('input', function() {
                                                             console.log('Input cambiado. Nuevo valor:', this.value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = this.value;
+                                                            document.getElementById('bulto_hidden_{{ $registro->id }}').value = this.value;
                                                             console.log('Campo oculto actualizado. Nuevo valor:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
+                                                                'bulto_hidden_{{ $registro->id }}').value);
                                                         });
 
                                                         // Actualizar el campo oculto al cargar la página
                                                         document.addEventListener('DOMContentLoaded', function() {
                                                             console.log('Página cargada. Valor actual:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = document.getElementById(
-                                                                'operacion_text_{{ $registro->id }}').value;
+                                                                'bulto_hidden_{{ $registro->id }}').value);
+                                                            document.getElementById('bulto_hidden_{{ $registro->id }}').value = document.getElementById(
+                                                                'bulto_text_{{ $registro->id }}').value;
                                                             console.log('Campo oculto actualizado al valor inicial:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
+                                                                'bulto_hidden_{{ $registro->id }}').value);
                                                         });
                                                     </script>
                                                     <td>
@@ -392,74 +348,23 @@
                                                         <select name="tp" id="tp" class="form-control"
                                                             required title="Por favor, selecciona una opción">
                                                             <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
+                                                            @if ($data['area'] == 'AUDITORIA AQL')
                                                                 @foreach ($categoriaTPProceso as $proceso)
                                                                     <option value="{{ $proceso->nombre }}"
                                                                         {{ $registro->tp == $proceso->nombre ? 'selected' : '' }}>
                                                                         {{ $proceso->nombre }}
                                                                     </option>
                                                                 @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
+                                                            @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
                                                                 @foreach ($categoriaTPPlayera as $playera)
                                                                     <option value="{{ $playera->nombre }}"
                                                                         {{ $registro->tp == $playera->nombre ? 'selected' : '' }}>
                                                                         {{ $playera->nombre }}
                                                                     </option>
                                                                 @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaTPEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->nombre }}"
-                                                                        {{ $registro->tp == $empaque->nombre ? 'selected' : '' }}>
-                                                                        {{ $empaque->nombre }}
-                                                                    </option>
-                                                                @endforeach
                                                             @endif
                                                         </select>
                                                     </td>
-                                                    <td>
-                                                        <select name="ac" id="ac" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                                @foreach ($categoriaACProceso as $proceso)
-                                                                    <option value="{{ $proceso->accion_correctiva }}"
-                                                                        {{ $registro->ac == $proceso->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $proceso->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                                @foreach ($categoriaACPlayera as $playera)
-                                                                    <option value="{{ $playera->accion_correctiva }}"
-                                                                        {{ $registro->ac == $playera->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $playera->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaACEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->accion_correctiva }}"
-                                                                        {{ $registro->ac == $empaque->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $empaque->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </td>
-                                                    @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                    @else
-                                                        <td>
-                                                            <input type="text" class="form-control" name="pxp_text"
-                                                                id="pxp_text_{{ $registro->id }}"
-                                                                value="{{ $registro->pxp }}" required>
-                                                            <input type="hidden" name="pxp"
-                                                                id="pxp_hidden_{{ $registro->id }}"
-                                                                value="{{ $registro->pxp }}">
-                                                        </td>
-                                                        <script>
-                                                            document.getElementById('pxp_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                                document.getElementById('pxp_hidden_{{ $registro->id }}').value = this.value;
-                                                            });
-                                                        </script>
-                                                    @endif
                                                     <td>
                                                         <button type="submit" name="action" value="update"
                                                             class="btn btn-success">Guardar</button>
@@ -467,6 +372,12 @@
                                                     <td>
                                                         <button type="submit" name="action" value="delete"
                                                             class="btn btn-danger">Eliminar</button>
+                                                    </td>
+                                                    <td>
+                                                        {{ $registro->created_at->format('d-m-Y') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $registro->created_at->format('H:i:s') }}
                                                     </td>
                                                 </form>
                                             </tr>
@@ -570,28 +481,28 @@
             /* Color del texto */
         }
 
-        .table th:nth-child(1) {
-            min-width: 180px;
-            /* Ajusta el ancho mínimo según tu necesidad */
-        }
-
-        .table th:nth-child(5) {
+        .table32 th:nth-child(2) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
-        .table th:nth-child(6) {
+        .table23 th:nth-child(5) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
-        .table th:nth-child(7) {
+        .table23 th:nth-child(6) {
+            min-width: 200px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table23 th:nth-child(7) {
             min-width: 70px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
         @media (max-width: 768px) {
-            .table th:nth-child(3) {
+            .table23 th:nth-child(3) {
                 min-width: 100px;
                 /* Ajusta el ancho mínimo para móviles */
             }

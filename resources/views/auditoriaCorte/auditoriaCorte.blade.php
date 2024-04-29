@@ -1424,7 +1424,7 @@
                                                     <label class="label-tache" for="pieza_contrapatron_estatus2">✖ </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="number" step="0.0001" class="form-control me-2"
+                                                    <input type="text" step="0.0001" class="form-control me-2"
                                                         name="pieza_contrapatron" id="pieza_contrapatron" placeholder="..."
                                                         value="{{ isset($Lectra) ? $Lectra->pieza_contrapatron : '' }}"
                                                         required />

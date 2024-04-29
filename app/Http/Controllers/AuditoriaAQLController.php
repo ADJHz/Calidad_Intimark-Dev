@@ -11,7 +11,8 @@ use App\Models\CategoriaTeamLeader;
 use App\Models\CategoriaTipoProblema; 
 use App\Models\CategoriaAccionCorrectiva;  
 use App\Models\AuditoriaAQL;  
-
+use App\Models\DatoAX;
+use App\Models\DatosAX;
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
@@ -42,30 +43,32 @@ class AuditoriaAQLController extends Controller
                 ->distinct()
                 ->get(), 
             'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
-                ->where('area', 'AUDITORIA EN PROCESO')
+                ->where('area', 'AUDITORIA AQL')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'procesoFinalAQL' => AuditoriaAQL::where('estatus', 1)
-                ->where('area', 'AUDITORIA EN PROCESO')
+                ->where('area', 'AUDITORIA AQL')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'playeraActualAQL' => AuditoriaAQL::where('estatus', NULL)
-                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->where('area', 'AUDITORIA AQL PLAYERA')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
             'playeraFinalAQL' => AuditoriaAQL::where('estatus', 1)
-                ->where('area', 'AUDITORIA EN PROCESO PLAYERA')
+                ->where('area', 'AUDITORIA AQL PLAYERA')
                 ->whereDate('created_at', $fechaActual)
-                ->select('area','modulo','estilo', 'team_leader', 'turno', 'auditor')
+                ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
-
+            'ordenOPs' => DatoAX::select('op')
+                ->distinct()
+                ->get(),
 
         ];
     }
@@ -112,28 +115,27 @@ class AuditoriaAQLController extends Controller
         $data = $data ?? [];
 
         //dd($request->all(), $data);
-        $nombresPlanta1= AuditoriaProceso::where('prodpoolid', 'Intimark1')
-            ->where('moduleid', $data['modulo'])
-            ->get();
-        $nombresPlanta2= AuditoriaProceso::where('prodpoolid', 'Intimark2')
-            ->where('moduleid', $data['modulo'])
-            ->get();
+
+        $datoOP = DatosAX::whereIn('op', (array) $data['op'])
+        ->get();
+        $datoUnicoOP = DatosAX::where('op', $data['op'])
+        ->first();
 
 
 
         $fechaActual = Carbon::now()->toDateString();
 
-        $mostrarRegistro = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        $mostrarRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
             ->get();
-        $estatusFinalizar = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        $estatusFinalizar = AuditoriaAQL::whereDate('created_at', $fechaActual)
         ->where('modulo', $data['modulo'])
         ->where('area', $data['area'])
         ->where('estatus', 1)
         ->exists();
 
-        $registros = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        $registros = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
             ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
@@ -143,11 +145,10 @@ class AuditoriaAQLController extends Controller
         $total_porcentaje = $total_auditada != 0 ? ($total_rechazada / $total_auditada) * 100 : 0;
 
 
-        $registrosIndividual = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        $registrosIndividual = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
-            ->selectRaw('nombre, SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
-            ->groupBy('nombre')
+            ->selectRaw('SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
             ->get();
 
         // Inicializa las variables para evitar errores
@@ -169,9 +170,9 @@ class AuditoriaAQLController extends Controller
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
+            'datoOP' => $datoOP, 
+            'datoUnicoOP' => $datoUnicoOP, 
             'data' => $data, 
-            'nombresPlanta1' => $nombresPlanta1, 
-            'nombresPlanta2' => $nombresPlanta2, 
             'total_auditada' => $total_auditada, 
             'total_rechazada' => $total_rechazada,
             'total_porcentaje' => $total_porcentaje,
@@ -185,7 +186,7 @@ class AuditoriaAQLController extends Controller
 
 
 
-    public function formAltaProceso(Request $request) 
+    public function formAltaProcesoAQL(Request $request) 
     {
         $activePage ='';
 
@@ -193,8 +194,11 @@ class AuditoriaAQLController extends Controller
             'area' => $request->area,
             'modulo' => $request->modulo,
             'estilo' => $request->estilo,
+            'op' => $request->op,
+            'cliente' => $request->cliente,
             'auditor' => $request->auditor,
-            'turno' => $request->turno,
+            'turno' => $request->turno, 
+            'team_leader' => $request->team_leader,
         ];
         //dd($data);
         return redirect()->route('auditoriaAQL.auditoriaAQL', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
@@ -205,21 +209,22 @@ class AuditoriaAQLController extends Controller
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
         //dd($request->all());
-        $nuevoRegistro = new AseguramientoCalidad();
+        $nuevoRegistro = new AuditoriaAQL();
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
-        $nuevoRegistro->estilo = $request->estilo;
+        $nuevoRegistro->op = $request->op;
+        $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
-        $nuevoRegistro->nombre = $request->nombre;
-        $nuevoRegistro->operacion = $request->operacion;
+
+        $nuevoRegistro->estilo = $request->estilo;
+        $nuevoRegistro->color = $request->color; 
+        $nuevoRegistro->talla = $request->talla; 
+        $nuevoRegistro->bulto = $request->bulto; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
         $nuevoRegistro->tp = $request->tp;
-        $nuevoRegistro->ac = $request->ac;
-        $nuevoRegistro->pxp = $request->pxp;
-
         $nuevoRegistro->save();
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
@@ -233,14 +238,12 @@ class AuditoriaAQLController extends Controller
         $id = $request->input('id');
         //dd($request->all());
         if($action == 'update'){
-            $actualizarRegistro = AseguramientoCalidad::where('id', $id)->first();
-            $actualizarRegistro->nombre = $request->nombre;
-            $actualizarRegistro->operacion = $request->operacion;
+            $actualizarRegistro = AuditoriaAQL::where('id', $id)->first();
+            $actualizarRegistro->talla = $request->talla;
+            $actualizarRegistro->bulto = $request->bulto;
             $actualizarRegistro->cantidad_auditada = $request->cantidad_auditada;
             $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
             $actualizarRegistro->tp = $request->tp;
-            $actualizarRegistro->ac = $request->ac;
-            $actualizarRegistro->pxp = $request->pxp;
             $actualizarRegistro->save();
 
             //dd($request->all(), $actualizarRegistro, $id);
@@ -249,7 +252,7 @@ class AuditoriaAQLController extends Controller
             // Lógica para actualizar el registro
         } elseif ($action == 'delete'){
             // Lógica para eliminar el registro
-            AseguramientoCalidad::where('id', $id)->delete();
+            AuditoriaAQL::where('id', $id)->delete();
             return back()->with('error', 'Registro eliminado.')->with('activePage', $activePage);
         }
 
@@ -271,7 +274,7 @@ class AuditoriaAQLController extends Controller
         $fechaActual = Carbon::now()->toDateString();
 
         // Actualizar todos los registros que cumplan con las condiciones
-        AseguramientoCalidad::whereDate('created_at', $fechaActual)
+        AuditoriaAQL::whereDate('created_at', $fechaActual)
         ->where('modulo', $modulo)
         ->where('area', $area)
         ->update(['observacion' => $observacion, 'estatus' => $estatus]);

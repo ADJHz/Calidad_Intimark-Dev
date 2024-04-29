@@ -310,6 +310,8 @@
                                             @endif
                                             <th>Editar </th>
                                             <th>Eliminar </th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -472,6 +474,12 @@
                                                     <td>
                                                         <button type="submit" name="action" value="delete"
                                                             class="btn btn-danger">Eliminar</button>
+                                                    </td>
+                                                    <td>
+                                                        {{ $registro->created_at->format('d-m-Y') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $registro->created_at->format('H:i:s') }}
                                                     </td>
                                                 </form>
                                             </tr>
