@@ -282,28 +282,26 @@
                                             <td><input type="text" class="form-control" name="cantidad_rechazada"
                                                     id="cantidad_rechazada" required></td>
                                             <td>
-                                                <select name="tp" id="tp" class="form-control" required
-                                                    title="Por favor, selecciona una opción">
+                                                <select name="tp[]" id="tp" class="form-control" required multiple title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="NINGUNO">NINGUNO</option>
+                                                    <option value="OTRO">OTRO</option>
                                                     @if ($data['area'] == 'AUDITORIA EN PROCESO')
                                                         @foreach ($categoriaTPProceso as $proceso)
-                                                            <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
-                                                            </option>
+                                                               <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}</option>
                                                         @endforeach
                                                     @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
                                                         @foreach ($categoriaTPPlayera as $playera)
-                                                            <option value="{{ $playera->nombre }}">{{ $playera->nombre }}
-                                                            </option>
+                                                            <option value="{{ $playera->nombre }}">{{ $playera->nombre }}</option>
                                                         @endforeach
                                                     @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
                                                         @foreach ($categoriaTPEmpaque as $empque)
-                                                            <option value="{{ $empque->nombre }}">{{ $empque->nombre }}
-                                                            </option>
+                                                            <option value="{{ $empque->nombre }}">{{ $empque->nombre }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
                                             </td>
+                                                    
                                             <td>
                                                 <select name="ac" id="ac" class="form-control" required
                                                     title="Por favor, selecciona una opción">
@@ -499,60 +497,12 @@
                                                         });
                                                     </script>
                                                     <td>
-                                                        <select name="tp" id="tp" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                                @foreach ($categoriaTPProceso as $proceso)
-                                                                    <option value="{{ $proceso->nombre }}"
-                                                                        {{ $registro->tp == $proceso->nombre ? 'selected' : '' }}>
-                                                                        {{ $proceso->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                                @foreach ($categoriaTPPlayera as $playera)
-                                                                    <option value="{{ $playera->nombre }}"
-                                                                        {{ $registro->tp == $playera->nombre ? 'selected' : '' }}>
-                                                                        {{ $playera->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaTPEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->nombre }}"
-                                                                        {{ $registro->tp == $empaque->nombre ? 'selected' : '' }}>
-                                                                        {{ $empaque->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                        <input type="text" class="form-control" readonly
+                                                               value="{{ implode(', ', $registro->tpAseguramientoCalidad->pluck('tp')->toArray()) }}">
                                                     </td>
                                                     <td>
-                                                        <select name="ac" id="ac" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA EN PROCESO')
-                                                                @foreach ($categoriaACProceso as $proceso)
-                                                                    <option value="{{ $proceso->accion_correctiva }}"
-                                                                        {{ $registro->ac == $proceso->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $proceso->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN PROCESO PLAYERA')
-                                                                @foreach ($categoriaACPlayera as $playera)
-                                                                    <option value="{{ $playera->accion_correctiva }}"
-                                                                        {{ $registro->ac == $playera->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $playera->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                                @foreach ($categoriaACEmpaque as $empaque)
-                                                                    <option value="{{ $empaque->accion_correctiva }}"
-                                                                        {{ $registro->ac == $empaque->accion_correctiva ? 'selected' : '' }}>
-                                                                        {{ $empaque->accion_correctiva }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                        <input type="text" class="form-control" name="ac"
+                                                        value="{{ $registro->ac }}" readonly>
                                                     </td>
                                                     @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
                                                     @else
@@ -717,6 +667,13 @@
         }
     </style>
 
+    <script>
+        $('#tp').select2({
+                placeholder: 'Seleccione una o varias opciones',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+    </script>
 
 
 @endsection

@@ -158,7 +158,7 @@
                                             <td><input type="text" class="form-control" name="cantidad_rechazada"
                                                     id="cantidad_rechazada" required></td>
                                             <td>
-                                                <select name="tp" id="tp" class="form-control" required
+                                                <select name="tp[]" id="tp" class="form-control" required
                                                     title="Por favor, selecciona una opción">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="NINGUNO">NINGUNO</option>
@@ -345,25 +345,8 @@
                                                         });
                                                     </script>
                                                     <td>
-                                                        <select name="tp" id="tp" class="form-control"
-                                                            required title="Por favor, selecciona una opción">
-                                                            <option value="NINGUNO">NINGUNO</option>
-                                                            @if ($data['area'] == 'AUDITORIA AQL')
-                                                                @foreach ($categoriaTPProceso as $proceso)
-                                                                    <option value="{{ $proceso->nombre }}"
-                                                                        {{ $registro->tp == $proceso->nombre ? 'selected' : '' }}>
-                                                                        {{ $proceso->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
-                                                                @foreach ($categoriaTPPlayera as $playera)
-                                                                    <option value="{{ $playera->nombre }}"
-                                                                        {{ $registro->tp == $playera->nombre ? 'selected' : '' }}>
-                                                                        {{ $playera->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                        <input type="text" class="form-control" readonly
+                                                               value="{{ implode(', ', $registro->tpAuditoriaAQL->pluck('tp')->toArray()) }}">
                                                     </td>
                                                     <td>
                                                         <button type="submit" name="action" value="update"
@@ -508,7 +491,13 @@
             }
         }
     </style>
-
+    <script>
+        $('#tp').select2({
+                placeholder: 'Seleccione una o varias opciones',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+    </script>
 
 
 @endsection

@@ -11,6 +11,7 @@ use App\Models\CategoriaTeamLeader;
 use App\Models\CategoriaTipoProblema; 
 use App\Models\CategoriaAccionCorrectiva;
 use App\Models\CategoriaUtility; 
+use App\Models\TpAseguramientoCalidad; 
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -300,7 +301,7 @@ class AuditoriaProcesoController extends Controller
     {
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
-        //dd($request->all());
+        // dd($request->all());
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
@@ -323,11 +324,21 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->operacion = $request->operacion;
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
-        $nuevoRegistro->tp = $request->tp;
         $nuevoRegistro->ac = $request->ac;
         $nuevoRegistro->pxp = $request->pxp;
 
         $nuevoRegistro->save();
+
+        // Obtener el ID del nuevo registro
+        $nuevoRegistroId = $nuevoRegistro->id;
+
+        // Almacenar los valores de tp en la tabla tp_aseguramiento_calidad
+        foreach ($request->tp as $tp) {
+            $nuevoTp = new TpAseguramientoCalidad();
+            $nuevoTp->aseguramiento_calidad_id = $nuevoRegistroId;
+            $nuevoTp->tp = $tp;
+            $nuevoTp->save();
+        }
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
@@ -344,8 +355,6 @@ class AuditoriaProcesoController extends Controller
             $actualizarRegistro->operacion = $request->operacion;
             $actualizarRegistro->cantidad_auditada = $request->cantidad_auditada;
             $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
-            $actualizarRegistro->tp = $request->tp;
-            $actualizarRegistro->ac = $request->ac;
             $actualizarRegistro->pxp = $request->pxp;
             $actualizarRegistro->save();
 

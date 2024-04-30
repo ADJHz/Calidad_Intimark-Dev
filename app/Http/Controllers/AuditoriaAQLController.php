@@ -13,7 +13,8 @@ use App\Models\CategoriaAccionCorrectiva;
 use App\Models\AuditoriaAQL;  
 use App\Models\DatoAX;
 use App\Models\DatosAX;
-use App\Models\EvaluacionCorte;
+use App\Models\EvaluacionCorte; 
+use App\Models\TpAuditoriaAQL;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
 class AuditoriaAQLController extends Controller
@@ -224,8 +225,19 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->bulto = $request->bulto; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
-        $nuevoRegistro->tp = $request->tp;
         $nuevoRegistro->save();
+
+         // Obtener el ID del nuevo registro
+        $nuevoRegistroId = $nuevoRegistro->id;
+
+        // Almacenar los valores de tp en la tabla tp_auditoria_aql
+        foreach ($request->tp as $tp) {
+            $nuevoTp = new TpAuditoriaAQL();
+            $nuevoTp->auditoria_aql_id = $nuevoRegistroId;
+            $nuevoTp->tp = $tp;
+            $nuevoTp->save();
+        }
+
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }

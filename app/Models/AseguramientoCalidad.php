@@ -10,4 +10,8 @@ class AseguramientoCalidad extends Model
     use HasFactory;
     protected $table = 'aseguramientos_calidad';
 
+    public function tpAseguramientoCalidad()
+    {
+        return $this->hasMany(TpAseguramientoCalidad::class, 'aseguramiento_calidad_id');
+    }
 }
