@@ -7,6 +7,7 @@ use App\Http\Controllers\AuditoriaCorteController;
 use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
+use App\Http\Controllers\DatosAuditoriaEtiquetasOP;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
@@ -221,6 +222,7 @@ Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers
 Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password'])->middleware('checkrole');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/auditoriaEtiquetas',  [DatosAuditoriaEtiquetas::class, 'auditoriaEtiquetas'])->name('formulariosCalidad.auditoriaEtiquetas')->middleware('checkroleandplant1');
+Route::get('/auditoriaEtiquetasOP',  [DatosAuditoriaEtiquetasOP::class, 'auditoriaEtiquetasOP'])->name('formulariosCalidad.auditoriaEtiquetasOP')->middleware('checkroleandplant1');
 Route::get('/inicioAuditoriaCorte', 'App\Http\Controllers\AuditoriaCorteController@inicioAuditoriaCorte')->name('auditoriaCorte.inicioAuditoriaCorte')->middleware('checkroleandplant1');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/ScreenPrint',  [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint')->middleware('checkroleandplant2');
@@ -230,16 +232,19 @@ Route::get('/Maquila',  [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maqui
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::view('/error', 'error')->name('error');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
-Route::get('/StatusDef', [DatosAuditoriaEtiquetas::class, 'StatusDef']);
 Route::get('/buscarEstilos', [DatosAuditoriaEtiquetas::class, 'buscarEstilos']);
 Route::get('/buscarDatosAuditoriaPorEstilo', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaPorEstilo']);
 Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTiposDefectos']);
 Route::post('/guardarInformacion', [DatosAuditoriaEtiquetas::class, 'guardarInformacion']);
 Route::put('/actualizarStatus', [DatosAuditoriaEtiquetas::class, 'actualizarStatus']);
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Route::get('/NoOrdenesOP', [DatosAuditoriaEtiquetasOP::class, 'NoOrdenesOP']);
+Route::get('/buscarEstilosOP', [DatosAuditoriaEtiquetasOP::class, 'buscarEstilosOP']);
+Route::get('/buscarDatosAuditoriaPorEstiloOP', [DatosAuditoriaEtiquetasOP::class, 'buscarDatosAuditoriaPorEstiloOP']);
+Route::get('/obtenerTiposDefectosOP', [DatosAuditoriaEtiquetasOP::class, 'obtenerTiposDefectosOP']);
+Route::post('/guardarInformacionOP', [DatosAuditoriaEtiquetasOP::class, 'guardarInformacionOP']);
+Route::put('/actualizarStatusOP', [DatosAuditoriaEtiquetasOP::class, 'actualizarStatusOP']);
 
 // Apartado para detalles dashboard
 

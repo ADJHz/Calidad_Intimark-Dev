@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Etiquetas', 'titlePage' => __('Etiquetas')])
+@extends('layouts.app', ['activePage' => 'EtiquetasOP', 'titlePage' => __('Etiquetas OP')])
 @section('content')
     <div class="content">
         <div class="container-fluid">
@@ -6,7 +6,7 @@
                 <div class="card-header card-header-primary">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="card-title">{{ __('Auditoria Etiquetas.') }}</h3>
+                            <h3 class="card-title">{{ __('Auditoria Etiquetas OP.') }}</h3>
                         </div>
                         <div class="col-md-6 text-right">
                             Fecha: {{ now()->format('d ') . $mesesEnEspanol[now()->format('n') - 1] . now()->format(' Y') }}
@@ -32,11 +32,6 @@
                             <button type="button" class="btn btn-success" id="Buscar">
                                 Buscar
                             </button>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <a href="{{ route('formulariosCalidad.auditoriaEtiquetasOP') }}" class="btn btn-info float-right">
-                                Auditoria Por OP
-                            </a>
                         </div>
                     </div>
                     <br>
@@ -91,7 +86,7 @@
                 allowClear: true
             });
             $.ajax({
-                url: '/NoOrdenes',
+                url: '/NoOrdenesOP',
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -105,7 +100,7 @@
                     // Agregar las nuevas opciones desde la respuesta del servidor
                     $.each(data, function(key, value) {
                         $('#ordenSelect').append($('<option>', {
-                            text: value.OrdenCompra
+                            text: value.op
                         }));
                     });
                 },
@@ -119,7 +114,7 @@
                 if (orden) {
                     // Realizar la solicitud AJAX para buscar estilos
                     $.ajax({
-                        url: '/buscarEstilos',
+                        url: '/buscarEstilosOP',
                         type: 'GET',
                         data: {
                             orden: orden
@@ -129,85 +124,96 @@
                             // Limpiar los acordeones existentes
                             $('#accordion').empty();
                             // Generar acordeones para cada estilo encontrado
-                            $.each(data.estilos, function(key, value) {
-                                var accordion =
-                                    '<div class="card border-primary mb-3">';
-                                accordion +=
-                                    '<div class="card-header bg-primary" id="heading' +
-                                    key + '">';
-                                accordion += '<h2 class="mb-0">';
-                                accordion +=
-                                    '<button class="btn btn-link btn-block text-white" data-toggle="collapse" data-target="#collapse' +
-                                    key +
-                                    '" aria-expanded="true" aria-controls="collapse' +
-                                    key + '">';
-                                accordion += '<span style="font-size: 20px;">' +
-                                    'Estilo: ' + value.Estilos + '</span>';
-                                accordion +=
-                                    '<span style="font-size: 18px;" id="status_' + key +
-                                    '">' +
-                                    'Status: ' +
-                                    data.status[key] +
-                                    // Mostrar el estado de la auditoría
-                                    '</span>';
-                                accordion += '</button>';
-                                accordion += '</h2>';
-                                accordion += '</div>';
-                                accordion += '<div id="collapse' + key +
-                                    '" class="collapse" aria-labelledby="heading' +
-                                    key + '" data-parent="#accordion">';
-                                accordion += '<div class="card-body">';
-                                // Contenido del acordeon
-                                accordion += '<div class="tab-pane" id="messages">';
-                                accordion += '<div class="card-body table-responsive">';
-                                accordion += '<table class="table" id="miTabla">';
-                                accordion += '<thead class="text-primary">';
-                                accordion += '<tr>';
-                                accordion +=
-                                    '<th style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">#</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">No/Orden</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Estilos</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Color</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Talla</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Cantidad</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Tamaño Muestra</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Defectos</th>';
-                                accordion +=
-                                    '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">Tipo Defectos</th>';
-                                accordion +=
-                                    '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Acciones</th>';
-                                accordion +=
-                                    '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%; display: none;">id</th>';
+                            if (data && data.estilo) {
+                                $.each(data.estilo, function(key, value) {
+                                    var accordion =
+                                        '<div class="card border-primary mb-3">';
+                                    accordion +=
+                                        '<div class="card-header bg-primary" id="heading' +
+                                        key + '">';
+                                    accordion += '<h2 class="mb-0">';
+                                    accordion +=
+                                        '<button class="btn btn-link btn-block text-white" data-toggle="collapse" data-target="#collapse' +
+                                        key +
+                                        '" aria-expanded="true" aria-controls="collapse' +
+                                        key + '">';
+                                    accordion += '<span style="font-size: 20px;">' +
+                                        'Estilo: ' + (value.estilo || 'Sin estilo') +
+                                        '</span>'; // Manejo de caso donde value.estilo es undefined
+                                    accordion +=
+                                        '<span style="font-size: 18px;" id="status_' +
+                                        key +
+                                        '">' +
+                                        'Status: ' +
+                                        (data.statusOP && data.statusOP[key] ? data.statusOP[
+                                            key] : 'Sin estado') +
+                                        // Manejo de caso donde data.status no está definido o data.status[key] es undefined
+                                        '</span>';
+                                    accordion += '</button>';
+                                    accordion += '</h2>';
+                                    accordion += '</div>';
+                                    accordion += '<div id="collapse' + key +
+                                        '" class="collapse" aria-labelledby="heading' +
+                                        key + '" data-parent="#accordion">';
+                                    accordion += '<div class="card-body">';
+                                    // Contenido del acordeon
+                                    accordion += '<div class="tab-pane" id="messages">';
+                                    accordion +=
+                                        '<div class="card-body table-responsive">';
+                                    accordion += '<table class="table" id="miTabla">';
+                                    accordion += '<thead class="text-primary">';
+                                    accordion += '<tr>';
+                                    accordion +=
+                                        '<th style="text-align: left; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">#</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">No/Orden</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Estilos</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Color</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Talla</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Cantidad</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Tamaño Muestra</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Defectos</th>';
+                                    accordion +=
+                                        '<th style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 1%;">Tipo Defectos</th>';
+                                    accordion +=
+                                        '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%;">Acciones</th>';
+                                    accordion +=
+                                        '<th  style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: .1%; display: none;">id</th>';
 
-                                accordion += '</tr>';
-                                accordion += '</thead>';
-                                accordion += '<tbody>';
-                                accordion += '</tbody>';
-                                accordion += '<tfoot>';
-                                accordion += '<tr>';
-                                accordion += '<td>';
-                                accordion +=
-                                    '<button type="button" class="btn btn-success" id="Saved">';
-                                accordion += '<span>Guardar</span>';
-                                accordion += '</button>';
-                                accordion += '</td>';
-                                accordion += '</tr>';
-                                accordion += '</tfoot>';
-                                accordion += '</table>';
-                                accordion += '</div>';
-                                accordion += '</div>';
-                                accordion += '</div>';
-                                accordion += '</div>';
-                                accordion += '</div>';
-                                $('#accordion').append(accordion);
-                            });
+                                    accordion += '</tr>';
+                                    accordion += '</thead>';
+                                    accordion += '<tbody>';
+                                    accordion += '</tbody>';
+                                    accordion += '<tfoot>';
+                                    accordion += '<tr>';
+                                    accordion += '<td>';
+                                    accordion +=
+                                        '<button type="button" class="btn btn-success" id="Saved">';
+                                    accordion += '<span>Guardar</span>';
+                                    accordion += '</button>';
+                                    accordion += '</td>';
+                                    accordion += '</tr>';
+                                    accordion += '</tfoot>';
+                                    accordion += '</table>';
+                                    accordion += '</div>';
+                                    accordion += '</div>';
+                                    accordion += '</div>';
+                                    accordion += '</div>';
+                                    accordion += '</div>';
+                                    $('#accordion').append(accordion);
+                                });
+                            } else {
+                                console.error(
+                                    'No se encontraron estilos en los datos proporcionados.'
+                                    );
+                            }
+
 
                         },
                         error: function(error) {
@@ -238,7 +244,7 @@
                 var ordenSeleccionada = $('#ordenSelect').val();
                 var estilo = $(this).find('span:first').text().split(':')[1].trim();
                 $.ajax({
-                    url: '/buscarDatosAuditoriaPorEstilo',
+                    url: '/buscarDatosAuditoriaPorEstiloOP',
                     type: 'GET',
                     data: {
                         estilo: estilo,
@@ -251,7 +257,7 @@
                         // Mostrar resultados en la tabla
                         $.each(data, function(index, item) {
                             // Formatear la cantidad
-                            var cantidadFormateada = item.Cantidad;
+                            var cantidadFormateada = item.qty;
                             if (typeof cantidadFormateada === 'string') {
                                 var puntoIndex = cantidadFormateada.indexOf('.');
                                 if (puntoIndex !== -1) {
@@ -285,14 +291,16 @@
                             // Agregar fila a la tabla
                             var fila = '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
-                                '<td style="text-align: center;">' + (item.OrdenCompra ?
-                                    item.OrdenCompra : item.Orden) + '</td>' +
-                                '<td style="text-align: center;">' + (item.Estilos ?
-                                    item.Estilos : item.Estilo) + '</td>' +
-                                '<td style="text-align: center;">' + (item.Color ? item
-                                    .Color : 'N/A') + '</td>' +
-                                '<td style="text-align: center;">' + (item.Talla ? item
-                                    .Talla : 'N/A') + '</td>' +
+                                '<td style="text-align: center;">' + (item.op ?
+                                    item.op : item.op) + '</td>' +
+                                '<td style="text-align: center;">' + (item.estilo ?
+                                    item.estilo : item.estilo) + '</td>' +
+                                '<td style="text-align: center;">' + (item
+                                    .inventcolorid ? item
+                                    .inventcolorid : 'N/A') + '</td>' +
+                                '<td style="text-align: center;">' + (item.sizename ?
+                                    item
+                                    .sizename : 'N/A') + '</td>' +
                                 '<td style="text-align: center;">' + (
                                     cantidadFormateada ? cantidadFormateada : item
                                     .Cantidad) + '</td>' +
@@ -340,7 +348,7 @@
                         });
                         // Cargar opciones del select mediante AJAX (fuera del bucle)
                         $.ajax({
-                            url: '/obtenerTiposDefectos',
+                            url: '/obtenerTiposDefectosOP',
                             type: 'GET',
                             dataType: 'json',
                             success: function(options) {
@@ -412,7 +420,7 @@
             });
             // Realizar la solicitud AJAX para guardar los datos
             $.ajax({
-                url: '/guardarInformacion',
+                url: '/guardarInformacionOP',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -484,7 +492,7 @@
 
                 // Realizar la solicitud AJAX para enviar los datos al servidor
                 $.ajax({
-                    url: '/actualizarStatus',
+                    url: '/actualizarStatusOP',
                     type: 'PUT', // Cambiado a PUT
                     data: datosAEnviar,
                     dataType: 'json',
