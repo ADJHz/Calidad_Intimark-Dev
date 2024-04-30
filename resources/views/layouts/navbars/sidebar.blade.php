@@ -121,6 +121,20 @@
                             <p>{{ __('Maquila') }}</p>
                         </a>
                     </li>
+                    <li class="nav-item{{ $activePage == 'proceso' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('aseguramientoCalidad.altaProceso') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('FCC-001') }}</p>
+                            <p style="text-align: center;">{{ __('AUDITORIA DE PROCESOS') }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item{{ $activePage == 'AQL' ? ' active' : '' }}">
+                        <a class="nav-link" href="{{ route('auditoriaAQL.altaAQL') }}">
+                            <i class="material-icons">edit_document</i>
+                            <p>{{ __('FCC-009-B') }}</p>
+                            <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
+                        </a>
+                    </li>
                 @endif
                     </ul>
                 </div>
