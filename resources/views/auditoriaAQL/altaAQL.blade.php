@@ -132,8 +132,8 @@
                                             <option value="" selected>Selecciona una opción</option>
                                             <!-- Agrega el atributo selected aquí -->
                                             @foreach ($ordenOPs as $orden)
-                                                <option value="{{ $orden->op }}">
-                                                    {{ $orden->op }}
+                                                <option value="{{ $orden->prodid }}">
+                                                    {{ $orden->prodid }}
                                                 </option>
                                             @endforeach
                                         </select>

@@ -282,7 +282,7 @@
                                             <td><input type="text" class="form-control" name="cantidad_rechazada"
                                                     id="cantidad_rechazada" required></td>
                                             <td>
-                                                <select name="tp[]" id="tp" class="form-control" required multiple title="Por favor, selecciona una opción">
+                                                <select name="tp[]" id="tp" class="form-control" required multiple title="Por favor, selecciona una opción"> 
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="NINGUNO">NINGUNO</option>
                                                     <option value="OTRO">OTRO</option>

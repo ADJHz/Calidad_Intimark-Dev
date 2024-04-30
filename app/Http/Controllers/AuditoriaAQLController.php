@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\User; 
+use App\Models\JobAQL; 
 use App\Models\AuditoriaProceso;  
 use App\Models\AseguramientoCalidad;  
 use App\Models\CategoriaTeamLeader;  
@@ -14,7 +15,7 @@ use App\Models\AuditoriaAQL;
 use App\Models\DatoAX;
 use App\Models\DatosAX;
 use App\Models\EvaluacionCorte; 
-use App\Models\TpAuditoriaAQL;
+use App\Models\TpAuditoriaAQL; 
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
 
 class AuditoriaAQLController extends Controller
@@ -67,7 +68,7 @@ class AuditoriaAQLController extends Controller
                 ->select('area','modulo','op', 'team_leader', 'turno', 'auditor', 'estilo', 'cliente')
                 ->distinct()
                 ->get(),
-            'ordenOPs' => DatoAX::select('op')
+            'ordenOPs' => JobAQL::select('prodid')
                 ->distinct()
                 ->get(),
 
@@ -117,10 +118,12 @@ class AuditoriaAQLController extends Controller
 
         //dd($request->all(), $data);
 
-        $datoOP = DatosAX::whereIn('op', (array) $data['op'])
-        ->get();
-        $datoUnicoOP = DatosAX::where('op', $data['op'])
-        ->first();
+        $datoBultos = JobAQL::whereIn('prodid', (array) $data['op'])
+            ->select('prodpackticketid', 'qty', 'itemid', 'colorname', 'inventsizeid')
+            ->distinct()
+            ->get();
+        $datoUnicoOP = JobAQL::where('prodid', $data['op']) 
+            ->first();
 
 
 
@@ -147,11 +150,17 @@ class AuditoriaAQLController extends Controller
 
 
         $registrosIndividual = AuditoriaAQL::whereDate('created_at', $fechaActual)
-            ->where('modulo', $data['modulo'])
             ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
             ->selectRaw('SUM(cantidad_auditada) as total_auditada, SUM(cantidad_rechazada) as total_rechazada')
             ->get();
 
+        //apartado para suma de piezas por cada bulto
+        $registrosIndividualPieza = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
+            ->selectRaw('SUM(pieza) as total_pieza, SUM(cantidad_rechazada) as total_rechazada')
+            ->get();
         // Inicializa las variables para evitar errores
         $total_auditadaIndividual = 0;
         $total_rechazadaIndividual = 0;
@@ -162,6 +171,17 @@ class AuditoriaAQLController extends Controller
             $total_rechazadaIndividual = $registrosIndividual->sum('total_rechazada');
         }
         //dd($registros, $fechaActual);
+         //conteo de registros del dia respecto a la cantidad de bultos, que es lo mismo a los bultos
+        $conteoBultos = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
+            ->count();
+        //conteo de registros del dia respecto a los rechazos
+        $conteoPiezaConRechazo = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
+            ->where('cantidad_rechazada', '>', 0)
+            ->count('pieza');
         // Calcula el porcentaje total
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
 
@@ -171,7 +191,7 @@ class AuditoriaAQLController extends Controller
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
-            'datoOP' => $datoOP, 
+            'datoBultos' => $datoBultos, 
             'datoUnicoOP' => $datoUnicoOP, 
             'data' => $data, 
             'total_auditada' => $total_auditada, 
@@ -181,7 +201,10 @@ class AuditoriaAQLController extends Controller
             'total_auditadaIndividual' => $total_auditadaIndividual, 
             'total_rechazadaIndividual' => $total_rechazadaIndividual,
             'total_porcentajeIndividual' => $total_porcentajeIndividual,
-            'estatusFinalizar' => $estatusFinalizar,
+            'estatusFinalizar' => $estatusFinalizar, 
+            'registrosIndividualPieza' => $registrosIndividualPieza,
+            'conteoBultos' => $conteoBultos,  
+            'conteoPiezaConRechazo' => $conteoPiezaConRechazo, 
             'mostrarRegistro' => $mostrarRegistro]));
     }
 
@@ -219,10 +242,11 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
 
+        $nuevoRegistro->bulto = $request->bulto; 
+        $nuevoRegistro->pieza = $request->pieza;
         $nuevoRegistro->estilo = $request->estilo;
         $nuevoRegistro->color = $request->color; 
         $nuevoRegistro->talla = $request->talla; 
-        $nuevoRegistro->bulto = $request->bulto; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
         $nuevoRegistro->save();
@@ -251,8 +275,6 @@ class AuditoriaAQLController extends Controller
         //dd($request->all());
         if($action == 'update'){
             $actualizarRegistro = AuditoriaAQL::where('id', $id)->first();
-            $actualizarRegistro->talla = $request->talla;
-            $actualizarRegistro->bulto = $request->bulto;
             $actualizarRegistro->cantidad_auditada = $request->cantidad_auditada;
             $actualizarRegistro->cantidad_rechazada = $request->cantidad_rechazada;
             $actualizarRegistro->tp = $request->tp;
