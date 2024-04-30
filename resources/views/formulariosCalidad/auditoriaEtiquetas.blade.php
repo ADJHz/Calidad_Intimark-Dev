@@ -124,7 +124,7 @@
                             // Limpiar los acordeones existentes
                             $('#accordion').empty();
                             // Generar acordeones para cada estilo encontrado
-                            $.each(data, function(key, value) {
+                            $.each(data.estilos, function(key, value) {
                                 var accordion =
                                     '<div class="card border-primary mb-3">';
                                 accordion +=
@@ -141,8 +141,10 @@
                                 accordion +=
                                     '<span style="font-size: 18px;" id="status_' + key +
                                     '">' +
-                                    'Status: Cargando...' +
-                                    '</span>'; // Inicialmente muestra "Cargando..."
+                                    'Status: ' +
+                                    data.status[key] +
+                                    // Mostrar el estado de la auditoría
+                                    '</span>';
                                 accordion += '</button>';
                                 accordion += '</h2>';
                                 accordion += '</div>';
@@ -200,24 +202,6 @@
                                 accordion += '</div>';
                                 accordion += '</div>';
                                 $('#accordion').append(accordion);
-
-                                // Realizar la solicitud AJAX para obtener el estado de auditoría
-                                $.ajax({
-                                    url: '/StatusDef', // Reemplaza '/ruta-al-controlador/llamarStatusDef' con la URL correcta
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(response) {
-                                        // Actualizar el estado de auditoría en el acordeón correspondiente
-                                        $('#status_' + key).text(
-                                            'status: ' + response[key]
-                                            .status);
-                                    },
-                                    error: function(error) {
-                                        console.error(
-                                            'Error al obtener el estado de auditoría: ',
-                                            error);
-                                    }
-                                });
                             });
 
                         },
@@ -466,7 +450,7 @@
                     var tipoDefecto = $(fila).find('.select-container select').val();
                     var muestreo = $(fila).find('.tamañoMuestra').text().trim();
                     var defectos = $(fila).find('.cantidadInput')
-                .val(); // Agregar el campo defectos
+                        .val(); // Agregar el campo defectos
                     var id = $(fila).find('td:nth-child(11)').text().trim();
                     // Agregar los datos de la fila al arreglo datosAEnviar
                     datosAEnviar.push({

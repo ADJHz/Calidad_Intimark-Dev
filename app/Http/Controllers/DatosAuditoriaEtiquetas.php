@@ -32,87 +32,65 @@ class DatosAuditoriaEtiquetas extends Controller
     public function buscarEstilos(Request $request)
     {
         $orden = $request->input('orden');
+
         // Buscar datos relacionados con la orden seleccionada
         $estilos = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $orden)
             ->select('Estilos')
             ->distinct()
             ->get();
 
-        return response()->json($estilos);
+        $status = [];
+
+        foreach ($estilos as $key => $estilo) {
+            // Obtener el estado de la auditoría para este estilo
+            $auditoriaEstado = $this->obtenerEstadoAuditoria($orden, $estilo->Estilos);
+            $status[$key] = $auditoriaEstado;
+        }
+
+        return response()->json(['estilos' => $estilos, 'status' => $status]);
     }
-    public function StatusDef($ordenes, $estilos)
+
+    private function obtenerEstadoAuditoria($orden, $estilo)
     {
-         // Obtener los parámetros de la solicitud AJAX
-    $ordenes = $ordenes;
-    $estilos = $estilos;
-        // Inicializar el arreglo para almacenar los estados de auditoría
-        Log::info('Se están consultando los estatus de las etiquetas', [
-            'ordenes' => $ordenes,
-            'estilos' => $estilos,
-        ]);
-        $estados = [];
+        // Obtener todos los registros relacionados con la orden y el estilo
+        $registros = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $orden)
+            ->where('Estilos', $estilo)
+            ->get();
 
-        // Iterar sobre cada orden para obtener los estilos y determinar el estado de auditoría
-        foreach ($ordenes as $orden) {
-            $ordenCompra = $orden['OrdenCompra'];
+        // Verificar los diferentes estados de auditoría
+        $todosNulos = true;
+        $todosIniciados = true;
+        $alMenosUnoEnProceso = false;
+        $todosFinalizados = true;
 
-            // Iterar sobre cada estilo para determinar el estado de auditoría
-            foreach ($estilos as $estilo) {
-                $estilo = $estilo['Estilos'];
+        foreach ($registros as $registro) {
+            if ($registro->status !== null) {
+                $todosNulos = false;
+            }
 
-                // Obtener todos los registros para esta orden y estilo
-                $registros = ModelsDatosAuditoriaEtiquetas::where('OrdenCompra', $ordenCompra)
-                    ->where('Estilos', $estilo)->get();
+            if ($registro->status !== 'Iniciado' && $registro->status !== null) {
+                $todosIniciados = false;
+            }
 
-                // Contadores para los distintos estados
-                $iniciado = 0;
-                $aprobado = 0;
-                $rechazado = 0;
-                $nulo = 0;
+            if ($registro->status === 'Guardado' || $registro->status === 'Update' || $registro->status === 'Iniciado') {
+                $alMenosUnoEnProceso = true;
+            }
 
-                // Contar los registros por estado
-                foreach ($registros as $registro) {
-                    switch ($registro->status) {
-                        case 'Iniciado':
-                        case 'Guardado':
-                        case 'Update':
-                            $iniciado++;
-                            break;
-                        case 'Aprobado':
-                        case 'Aprobado Condicionalmente':
-                        case 'Rechazado':
-                            $aprobado++;
-                            break;
-                        case null:
-                            $nulo++;
-                            break;
-                        default:
-                            $rechazado++;
-                            break;
-                    }
-                }
-
-                // Determinar el estado de auditoría según las reglas especificadas
-                if ($iniciado > 0 && $aprobado == 0 && $rechazado == 0 && $nulo == 0) {
-                    $estado = 'En Proceso de Auditoria';
-                } elseif ($iniciado == 0 && $aprobado > 0 && $rechazado == 0 && $nulo == 0) {
-                    $estado = 'Proceso de Auditoria Finalizado';
-                } elseif ($iniciado == 0 && $aprobado == 0 && $rechazado == 0 && $nulo > 0) {
-                    $estado = 'Auditoria no Iniciada';
-                } else {
-                    $estado = 'Estado Desconocido';
-                }
-
-                // Almacenar el estado de auditoría para esta orden y estilo
-                $estados[] = [
-                    'OrdenCompra' => $ordenCompra,
-                    'Estilos' => $estilo,
-                    'status' => $estado
-                ];
+            if ($registro->status !== 'Aprobado' && $registro->status !== 'Aprobado Condicionalmente' && $registro->status !== 'Rechazado') {
+                $todosFinalizados = false;
             }
         }
 
-        return response()->json($estados);
+        // Determinar el estado de la auditoría
+        if ($todosNulos) {
+            return 'No iniciada';
+        } elseif ($todosIniciados) {
+            return 'Auditoría Iniciada';
+        } elseif ($alMenosUnoEnProceso) {
+            return 'En Proceso de auditoría';
+        } elseif ($todosFinalizados) {
+            return 'Auditoría Finalizada';
+        }
     }
 
     public function buscarDatosAuditoriaPorEstilo(Request $request)
