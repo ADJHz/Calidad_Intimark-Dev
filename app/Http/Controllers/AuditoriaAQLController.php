@@ -182,6 +182,7 @@ class AuditoriaAQLController extends Controller
             ->where('modulo', $data['modulo'])
             ->where('cantidad_rechazada', '>', 0)
             ->count('pieza');
+        $porcentajeBulto = $conteoBultos != 0 ? ($conteoPiezaConRechazo / $conteoBultos) * 100: 0;
         // Calcula el porcentaje total
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
 
@@ -205,6 +206,7 @@ class AuditoriaAQLController extends Controller
             'registrosIndividualPieza' => $registrosIndividualPieza,
             'conteoBultos' => $conteoBultos,  
             'conteoPiezaConRechazo' => $conteoPiezaConRechazo, 
+            'porcentajeBulto' => $porcentajeBulto, 
             'mostrarRegistro' => $mostrarRegistro]));
     }
 

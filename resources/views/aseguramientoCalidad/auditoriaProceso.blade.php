@@ -427,9 +427,7 @@
                                             @else
                                                 <th>PxP </th>
                                             @endif
-                                            <th>Editar </th>
                                             <th>Eliminar </th>
-                                            <th>Fecha</th>
                                             <th>Hora</th>
                                         </tr>
                                     </thead>
@@ -440,62 +438,22 @@
                                                     <input type="text" class="form-control" name="nombre"
                                                         value="{{ $registro->nombre }}" readonly>
                                                 </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="operacion"
+                                                        value="{{ $registro->operacion }}" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_auditada"
+                                                        value="{{ $registro->cantidad_auditada }}" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_rechazada"
+                                                        value="{{ $registro->cantidad_rechazada }}" readonly>
+                                                </td>
                                                 <form action="{{ route('aseguramientoCalidad.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
-                                                    <td>
-                                                        <input type="text" class="form-control" name="operacion_text"
-                                                            id="operacion_text_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}" required>
-                                                        <input type="hidden" name="operacion"
-                                                            id="operacion_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->operacion }}">
-                                                    </td>
-                                                    <script>
-                                                        document.getElementById('operacion_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                            console.log('Input cambiado. Nuevo valor:', this.value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = this.value;
-                                                            console.log('Campo oculto actualizado. Nuevo valor:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
-                                                        });
-
-                                                        // Actualizar el campo oculto al cargar la página
-                                                        document.addEventListener('DOMContentLoaded', function() {
-                                                            console.log('Página cargada. Valor actual:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
-                                                            document.getElementById('operacion_hidden_{{ $registro->id }}').value = document.getElementById(
-                                                                'operacion_text_{{ $registro->id }}').value;
-                                                            console.log('Campo oculto actualizado al valor inicial:', document.getElementById(
-                                                                'operacion_hidden_{{ $registro->id }}').value);
-                                                        });
-                                                    </script>
-                                                    <td>
-                                                        <input type="text" class="form-control"
-                                                            name="cantidad_auditada_text"
-                                                            id="cantidad_auditada_text_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_auditada }}" required>
-                                                        <input type="hidden" name="cantidad_auditada"
-                                                            id="cantidad_auditada_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_auditada }}">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control"
-                                                            name="cantidad_rechazada_text"
-                                                            id="cantidad_rechazada_text_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_rechazada }}" required>
-                                                        <input type="hidden" name="cantidad_rechazada"
-                                                            id="cantidad_rechazada_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_rechazada }}">
-                                                    </td>
-                                                    <script>
-                                                        document.getElementById('cantidad_auditada_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                            document.getElementById('cantidad_auditada_hidden_{{ $registro->id }}').value = this.value;
-                                                        });
-                                                        document.getElementById('cantidad_rechazada_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                            document.getElementById('cantidad_rechazada_hidden_{{ $registro->id }}').value = this.value;
-                                                        });
-                                                    </script>
                                                     <td>
                                                         <input type="text" class="form-control" readonly
                                                                value="{{ implode(', ', $registro->tpAseguramientoCalidad->pluck('tp')->toArray()) }}">
@@ -509,7 +467,7 @@
                                                         <td>
                                                             <input type="text" class="form-control" name="pxp_text"
                                                                 id="pxp_text_{{ $registro->id }}"
-                                                                value="{{ $registro->pxp }}" required>
+                                                                value="{{ $registro->pxp }}" readonly>
                                                             <input type="hidden" name="pxp"
                                                                 id="pxp_hidden_{{ $registro->id }}"
                                                                 value="{{ $registro->pxp }}">
@@ -521,15 +479,8 @@
                                                         </script>
                                                     @endif
                                                     <td>
-                                                        <button type="submit" name="action" value="update"
-                                                            class="btn btn-success">Guardar</button>
-                                                    </td>
-                                                    <td>
                                                         <button type="submit" name="action" value="delete"
                                                             class="btn btn-danger">Eliminar</button>
-                                                    </td>
-                                                    <td>
-                                                        {{ $registro->created_at->format('d-m-Y') }}
                                                     </td>
                                                     <td>
                                                         {{ $registro->created_at->format('H:i:s') }}

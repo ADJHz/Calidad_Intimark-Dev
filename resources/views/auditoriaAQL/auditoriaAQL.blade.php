@@ -282,9 +282,7 @@
                                             <th>PIEZAS INSPECCIONADAS</th>
                                             <th>PIEZAS RECHAZADAS</th>
                                             <th>TIPO DE DEFECTO</th>
-                                            <th>GUARDAR </th>
                                             <th>Eliminar </th>
-                                            <th>Fecha</th>
                                             <th>Hora</th>
                                         </tr>
                                     </thead>
@@ -311,52 +309,26 @@
                                                     <input type="text" class="form-control" name="estilo" id="estilo"
                                                     value="{{$registro->estilo}}" readonly>
                                                 </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_auditada" id="cantidad_auditada"
+                                                    value="{{$registro->cantidad_auditada}}" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_rechazada" id="cantidad_rechazada"
+                                                    value="{{$registro->cantidad_rechazada}}" readonly>
+                                                </td>
                                                 
                                                 <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                     method="POST">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{ $registro->id }}">
-
-                                                    <td>
-                                                        <input type="text" class="form-control"
-                                                            name="cantidad_auditada_text"
-                                                            id="cantidad_auditada_text_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_auditada }}" required>
-                                                        <input type="hidden" name="cantidad_auditada"
-                                                            id="cantidad_auditada_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_auditada }}">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control"
-                                                            name="cantidad_rechazada_text"
-                                                            id="cantidad_rechazada_text_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_rechazada }}" required>
-                                                        <input type="hidden" name="cantidad_rechazada"
-                                                            id="cantidad_rechazada_hidden_{{ $registro->id }}"
-                                                            value="{{ $registro->cantidad_rechazada }}">
-                                                    </td>
-                                                    <script>
-                                                        document.getElementById('cantidad_auditada_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                            document.getElementById('cantidad_auditada_hidden_{{ $registro->id }}').value = this.value;
-                                                        });
-                                                        document.getElementById('cantidad_rechazada_text_{{ $registro->id }}').addEventListener('input', function() {
-                                                            document.getElementById('cantidad_rechazada_hidden_{{ $registro->id }}').value = this.value;
-                                                        });
-                                                    </script>
                                                     <td>
                                                         <input type="text" class="form-control" readonly
                                                                value="{{ implode(', ', $registro->tpAuditoriaAQL->pluck('tp')->toArray()) }}">
                                                     </td>
                                                     <td>
-                                                        <button type="submit" name="action" value="update"
-                                                            class="btn btn-success">Guardar</button>
-                                                    </td>
-                                                    <td>
                                                         <button type="submit" name="action" value="delete"
                                                             class="btn btn-danger">Eliminar</button>
-                                                    </td>
-                                                    <td>
-                                                        {{ $registro->created_at->format('d-m-Y') }}
                                                     </td>
                                                     <td>
                                                         {{ $registro->created_at->format('H:i:s') }}
@@ -414,7 +386,7 @@
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_rechazada }}" readonly></td>
                                         <td><input type="text" class="form-control"
-                                                value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_auditada) * 100, 3) : 0 }}"
+                                                value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_auditada) * 100, 2) : 0 }}"
                                                 readonly></td>
                                     </tr>
                                 @endforeach
@@ -437,7 +409,7 @@
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_rechazada }}" readonly></td>
                                         <td><input type="text" class="form-control"
-                                                value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_pieza) * 100, 3) : 0 }}"
+                                                value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_pieza) * 100, 2) : 0 }}"
                                                 readonly></td>
                                     </tr>
                                 @endforeach
@@ -463,7 +435,7 @@
                                     <td><input type="text" class="form-control" name="total_rechazada"
                                             id="total_rechazada" value="{{ $conteoPiezaConRechazo }}" readonly></td>
                                     <td><input type="text" class="form-control" name="total_porcentaje"
-                                            id="total_porcentaje" value="{{ number_format($total_porcentaje, 3) }}"
+                                            id="total_porcentaje" value="{{ number_format($porcentajeBulto, 2) }}"
                                             readonly></td>
                                 </tr>
                             </tbody>
@@ -487,21 +459,26 @@
             min-width: 150px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
+        .table32 th:nth-child(8) {
+            min-width: 200px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+        .table32 th:nth-child(3) {
+            min-width: 100px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table32 th:nth-child(4) {
+            min-width: 150px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
 
         .table55 th:nth-child(1) {
             min-width: 100px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
-
-        .table23 th:nth-child(6) {
-            min-width: 200px;
-            /* Ajusta el ancho mínimo según tu necesidad */
-        }
-
-        .table23 th:nth-child(7) {
-            min-width: 70px;
-            /* Ajusta el ancho mínimo según tu necesidad */
-        }
+        
 
         @media (max-width: 768px) {
             .table23 th:nth-child(3) {
