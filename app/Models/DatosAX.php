@@ -11,9 +11,15 @@ class DatosAX extends Model
     protected $table = 'datos_auditorias';
     protected $fillable = [
         'id',
+        'op',
+        'estilo',
+        'inventcolorid',
+        'sizename',
+        'qty',
+        'statusOP',
         'custorname',
-    'estilo',
-    'op',
+
+
     ];
 
 
