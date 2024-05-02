@@ -373,8 +373,8 @@
                         <table class="table">
                             <thead class="thead-primary">
                                 <tr>
-                                    <th>Total de piezas Auditadas </th>
-                                    <th>Total de piezas Rechazadas</th>
+                                    <th>Total de piezas Muestra Auditadas </th>
+                                    <th>Total de piezas Muestra Rechazadas</th>
                                     <th>Porcentaje AQL</th>
                                 </tr>
                             </thead>
@@ -392,30 +392,30 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <hr>
-                        <table class="table">
-                            <thead class="thead-primary">
+                    </div>
+                    <hr>
+                    <table class="table contenedor-tabla">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>Total de piezas en bultos Auditados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($registrosIndividualPieza as $registro)
                                 <tr>
-                                    <th>Total de bultos Auditados</th>
-                                    <th>Total de bultos Rechazadas</th>
-                                    <th>Porcentaje AQL</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($registrosIndividualPieza as $registro)
-                                    <tr>
-                                        <td><input type="text" class="form-control"
-                                                value="{{ $registro->total_pieza }}" readonly></td>
+                                    <td><input type="text" class="form-control"
+                                        value="{{ $registro->total_pieza }}" readonly></td>
+                                        {{--
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_rechazada }}" readonly></td>
                                         <td><input type="text" class="form-control"
                                                 value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_pieza) * 100, 2) : 0 }}"
                                                 readonly></td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        --}}
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                     <hr>
                     <div class="table-responsive">
@@ -475,10 +475,17 @@
 
 
         .table55 th:nth-child(1) {
-            min-width: 100px;
+            min-width: 150px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
         
+
+        /* Estilo general para el contenedor de la tabla */
+        .contenedor-tabla {
+            width: 30%; /* Ajusta el ancho según tus necesidades */
+            
+        }
+
 
         @media (max-width: 768px) {
             .table23 th:nth-child(3) {
