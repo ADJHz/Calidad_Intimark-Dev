@@ -16,7 +16,7 @@ use App\Models\DatoAX;
 use App\Models\DatosAX;
 use App\Models\EvaluacionCorte; 
 use App\Models\TpAuditoriaAQL; 
-use Carbon\Carbon; // Asegúrate de importar la clase Carbon
+use Carbon\Carbon; // Asegúrate de importar la clase Carbon 
 
 class AuditoriaAQLController extends Controller
 {

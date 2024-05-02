@@ -7,6 +7,8 @@ use App\Models\Lectra;
 use App\Models\AuditoriaProcesoCorte; 
 use App\Models\AseguramientoCalidad;  
 use App\Models\AuditoriaAQL;  
+use Carbon\Carbon; // Asegúrate de importar la clase Carbon
+
 class HomeController extends Controller
 {
     /**
@@ -27,6 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $title = "";
+        $fechaActual = Carbon::now()->toDateString();
 
 
         // Verifica si el usuario tiene los roles 'Administrador' o 'Gerente de Calidad'
@@ -72,6 +75,7 @@ class HomeController extends Controller
             $aQLRechazados = AuditoriaAQL::whereNotNull('cantidad_rechazada')->where('cantidad_rechazada', '!=', 0)->count();
             // Obtener el número total de registros en la tabla AuditoriaAQL con valores "0"
             $aQLAprobados = AuditoriaAQL::where('cantidad_rechazada', 0)->count();
+            //dd($aQLRechazados, $aQLAprobados);
 
             $concentradoTotalSuma = $sumaPorcentaje + $cantidadAuditada + $cantidadAuditadaPlayera + $cantidadAuditadaAQL;
             $concentradoTotalRechazo = $totalRegistros + $cantidadRechazada + $cantidadRechazadaPlayera + $cantidadRechazadaAQL;
@@ -80,7 +84,42 @@ class HomeController extends Controller
             $concentradoTotalAprobado = $corteAprobados + $procesoAprobados + $playeraAprobados + $aQLAprobados;
             $concentradoTotalRechazado = $corteRechazados + $procesoRechazados + $playeraRechazados +$aQLRechazados;
 
+            //conteo de registros de plantas AQL por dia 
+            $conteoBultosDia = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->count();
+            //conteo de registros del dia respecto a los rechazos
+            $conteoPiezaConRechazoDia = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('cantidad_rechazada', '>', 0)
+                ->count('pieza');
+            $conteoPiezaAceptadoDia = $conteoBultosDia - $conteoPiezaConRechazoDia;
+
+            //conteo de registros de plantas AQL por dia y separado por plantas, primero planta 1
+            $conteoBultosDiaPlanta1 = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('planta', 'Intimark1')
+                ->count();
+            //conteo de registros del dia respecto a los rechazos
+            $conteoPiezaConRechazoDiaPlanta1 = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('planta', 'Intimark1')
+                ->where('cantidad_rechazada', '>', 0)
+                ->count('pieza');
+            $conteoPiezaAceptadoDiaPlanta1 = $conteoBultosDiaPlanta1 - $conteoPiezaConRechazoDiaPlanta1;
+
+            //conteo de registros de plantas AQL por dia y separado por plantas, primero planta 2
+            $conteoBultosDiaPlanta2 = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('planta', 'Intimark2')
+                ->count();
+            //conteo de registros del dia respecto a los rechazos
+            $conteoPiezaConRechazoDiaPlanta2 = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('planta', 'Intimark2')
+                ->where('cantidad_rechazada', '>', 0)
+                ->count('pieza');
+            $conteoPiezaAceptadoDiaPlanta2 = $conteoBultosDiaPlanta2 - $conteoPiezaConRechazoDiaPlanta2;
+
+
             return view('dashboard', compact('title', 'concentradoTotalAprobado', 'concentradoTotalRechazado', 'concentradoTotalPorcentaje',
+                                    'conteoBultosDia', 'conteoPiezaConRechazoDia', 'conteoPiezaAceptadoDia',
+                                    'conteoBultosDiaPlanta1', 'conteoPiezaConRechazoDiaPlanta1', 'conteoPiezaAceptadoDiaPlanta1',
+                                    'conteoBultosDiaPlanta2', 'conteoPiezaConRechazoDiaPlanta2', 'conteoPiezaAceptadoDiaPlanta2',
                                     'porcentajeTotalCorte', 'corteAprobados', 'corteRechazados', 
                                     'totalPorcentajeProceso', 'procesoAprobados', 'procesoRechazados',
                                     'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados',

@@ -11,7 +11,7 @@
       color: #fff; /* Texto en blanco para contraste */
     }
     .card-header-custom3 {
-      background-image: linear-gradient(to right, rgba(174, 197, 224, 0.918), #2196F3); /* Gradiente de izquierda a derecha */
+      background-image: linear-gradient(to left, rgba(174, 197, 224, 0.918), #2196F3); /* Gradiente de izquierda a derecha */
       color: #fff; /* Texto en blanco para contraste */
     }
 
@@ -25,12 +25,16 @@
       <div class="row"> 
         <div class="col-md-4">
           <div class="card card-stats">
-            <div class="card-header-custom1">
-              <p>&nbsp;</p>
+            <div class="card-header-custom3">
+              <p>&nbsp;AQL por dia general</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Concentrado Aceptados Total: </h4>
-              <h3>{{$concentradoTotalAprobado}} </h3>
+              <h4 class="card-title">Total de registros: </h4>
+              <h3>{{$conteoBultosDia}} </h3>
+              <h4 class="card-title">Total de Aceptados: </h4>
+              <h3>{{$conteoPiezaAceptadoDia}} </h3>
+              <h4 class="card-title">Total de Rechazos: </h4>
+              <h3>{{$conteoPiezaConRechazoDia}} </h3>
             </div>
             <div class="card-footer">
             </div>
@@ -38,12 +42,16 @@
         </div>
         <div class="col-md-4">
           <div class="card card-stats">
-            <div class="card-header-custom2">
-              <p>&nbsp;</p>
+            <div class="card-header-custom3">
+              <p>&nbsp;AQL por dia Planta 1</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Concentrado Rechazados Total: </h4>
-              <h3>{{$concentradoTotalRechazado}} </h3>
+              <h4 class="card-title">Total de registros: </h4>
+              <h3>{{$conteoBultosDiaPlanta1}} </h3>
+              <h4 class="card-title">Total de Aceptados: </h4>
+              <h3>{{$conteoPiezaAceptadoDiaPlanta1}} </h3>
+              <h4 class="card-title">Total de Rechazos: </h4>
+              <h3>{{$conteoPiezaConRechazoDiaPlanta1}} </h3>
             </div>
             <div class="card-footer">
               {{--<div class="stats">
@@ -55,11 +63,15 @@
         <div class="col-md-4">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <p>&nbsp;</p>
+              <p>&nbsp;AQL por dia Planta 2</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Concentrado de Error por Porcentaje Total: </h4>
-              <h3>{{$concentradoTotalPorcentaje}}% </h3>
+              <h4 class="card-title">Total de registros: </h4>
+              <h3>{{$conteoBultosDiaPlanta2}} </h3>
+              <h4 class="card-title">Total de Aceptados: </h4>
+              <h3>{{$conteoPiezaAceptadoDiaPlanta2}} </h3>
+              <h4 class="card-title">Total de Rechazos: </h4>
+              <h3>{{$conteoPiezaConRechazoDiaPlanta2}} </h3>
             </div>
             <div class="card-footer">
               {{--<div class="stats">
@@ -162,7 +174,7 @@
                 <p>Metricas de datos a mostrar</p>
                 <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
                 <p>Cantidad rechazada: {{$aQLRechazados}}</p>
-                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p>
+                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p> 
 
                 <a href="dashboarAProcesoAQL" class="btn btn-primary">Ver Detalles</a>
 
