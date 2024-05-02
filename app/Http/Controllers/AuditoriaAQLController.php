@@ -187,7 +187,7 @@ class AuditoriaAQLController extends Controller
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
 
         
-
+ 
         
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
@@ -234,6 +234,10 @@ class AuditoriaAQLController extends Controller
     {
         $activePage ='';
         // Obtener el ID seleccionado desde el formulario
+        $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
+            ->pluck('prodpoolid')
+            ->first();
+        //dd($plantaBusqueda);
         //dd($request->all());
         $nuevoRegistro = new AuditoriaAQL();
         $nuevoRegistro->area = $request->area;
@@ -243,6 +247,7 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->team_leader = $request->team_leader;
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
+        $nuevoRegistro->planta = $plantaBusqueda;
 
         $nuevoRegistro->bulto = $request->bulto; 
         $nuevoRegistro->pieza = $request->pieza;

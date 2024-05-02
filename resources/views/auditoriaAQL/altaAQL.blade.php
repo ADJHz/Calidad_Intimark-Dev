@@ -127,7 +127,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="op" id="op" class="form-control" required
+                                            <select name="op" id="op" class="form-control" required 
                                             title="Por favor, selecciona una opción">
                                             <option value="" selected>Selecciona una opción</option>
                                             <!-- Agrega el atributo selected aquí -->
