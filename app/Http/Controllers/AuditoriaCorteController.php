@@ -592,6 +592,8 @@ class AuditoriaCorteController extends Controller
             $existeOrden->yarda_marcada = $request->input('yarda_marcada'); 
             $existeOrden->yarda_marcada_estatus = $request->input('yarda_marcada_estatus');
             $existeOrden->accion_correctiva = $request->input('accion_correctiva');
+            $existeOrden->bio_tension = $request->input('bio_tension'); 
+            $existeOrden->velocidad = $request->input('velocidad'); 
             //$existeOrden->libera_tendido = $request->input('libera_tendido');
 
             $existeOrden->save();

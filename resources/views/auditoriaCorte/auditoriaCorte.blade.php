@@ -900,7 +900,7 @@
                                                 </div>
                                                 --}}
                                                 <div class="form-check form-check-inline">
-                                                    <select name="arruga_tendido" id="arruga_tendido" class="form-control" title="Por favor, selecciona una opción">
+                                                    <select name="arruga_tendido" id="arruga_tendido" class="form-control" title="Por favor, selecciona una opción"> 
                                                         <option value="">Selecciona una opción</option>
                                                         <option value="Algunas" {{ isset($auditoriaTendido) && $auditoriaTendido->arruga_tendido == 'Algunas' ? 'selected' : '' }}>Algunas </option>
                                                         <option value="Pocas" {{ isset($auditoriaTendido) && $auditoriaTendido->arruga_tendido == 'Pocas' ? 'selected' : '' }}>Pocas </option>
@@ -927,7 +927,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="yarda_marcada" class="col-sm-6 col-form-label">Yardas en la
+                                            <label for="yarda_marcada" class="col-sm-6 col-form-label">14. Yardas en la
                                                 marcada</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <div class="form-check form-check-inline">
@@ -952,6 +952,29 @@
                                                         required />
                                                     <label class="label-tache" for="yarda_marcada_estatus2">✖ </label>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="bio_tension" class="col-sm-6 col-form-label">
+                                                15. Parametro de Brio Tension:
+                                            </label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <select class="form-control me-2" name="bio_tension" id="bio_tension" required>
+                                                    <option value="">Selecciona una opcion</option>
+                                                    <option value="automatico" {{ isset($auditoriaTendido) && $auditoriaTendido->bio_tension === 'automatico' ? 'selected' : '' }}>Automático</option>
+                                                    <option value="manual" {{ isset($auditoriaTendido) && $auditoriaTendido->bio_tension === 'manual' ? 'selected' : '' }}>Manual</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="velocidad" class="col-sm-6 col-form-label">
+                                                16. Velocidad:
+                                            </label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <input type="text" class="form-control me-2"
+                                                    name="velocidad" id="velocidad" placeholder="..."
+                                                    value="{{ isset($auditoriaTendido) ? $auditoriaTendido->velocidad : '' }}"
+                                                    required />
                                             </div>
                                         </div>
                                     </div>
