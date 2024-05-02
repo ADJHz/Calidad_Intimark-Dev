@@ -17786,6 +17786,15 @@
         .card.card-rotate.bg-info .back {
             background: linear-gradient(60deg, #26c6da, #00acc1);
         }
+
+        .card .card-header-azul1 .card-icon,
+        .card .card-header-azul1 .card-text,
+        .card .card-header-azul1:not(.card-header-icon):not(.card-header-text),
+        .card.bg-azul1,
+        .card.card-rotate.bg-azul1 .front,
+        .card.card-rotate.bg-azul1 .back {
+            background: linear-gradient(60deg, #2196F3, #2196F3);
+        }
         
         .card .card-header-success .card-icon,
         .card .card-header-success .card-text,
@@ -17851,6 +17860,12 @@
         .card .card-header-info:not(.card-header-icon):not(.card-header-text),
         .card .card-header-info .card-text {
             box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+        }
+        
+        .card .card-header-azul1 .card-icon,
+        .card .card-header-azul1:not(.card-header-icon):not(.card-header-text),
+        .card .card-header-azul1 .card-text{
+            box-shadow: 0 4px 20px 0px rgba(33, 150, 243, 0.14), 0 7px 10px -5px rgba(33, 150, 243, 0.4);
         }
         
         .card .card-header-success .card-icon,

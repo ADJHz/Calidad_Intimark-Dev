@@ -112,7 +112,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
+            <div class="card-header card-header-rose card-header-icon">
               <div class="card-icon">
                 <i class="material-icons">cable</i>
               </div>
@@ -160,7 +160,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
+            <div class="card-header card-header-azul1 card-header-icon">
               <div class="card-icon">
                 <i class="material-icons">view_in_ar</i>
               </div>
@@ -171,7 +171,7 @@
             </div>
             <div class="card-footer">
               <div>
-                <p>Metricas de datos a mostrar</p>
+                <p>Metricas de datos a mostrar global</p>
                 <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
                 <p>Cantidad rechazada: {{$aQLRechazados}}</p>
                 <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p> 
