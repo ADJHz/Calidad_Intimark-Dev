@@ -300,11 +300,15 @@ class AuditoriaProcesoController extends Controller
     public function formRegistroAuditoriaProceso(Request $request)
     {
         $activePage ='';
-        // Obtener el ID seleccionado desde el formulario
+        $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
+            ->pluck('prodpoolid')
+            ->first();
+        //dd($plantaBusqueda);
         // dd($request->all());
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
         $nuevoRegistro->modulo = $request->modulo;
+        $nuevoRegistro->planta = $plantaBusqueda;
         $nuevoRegistro->modulo_adicional = ($request->modulo == $request->modulo_adicional) ? NULL : $request->modulo_adicional;
         $nuevoRegistro->estilo = $request->estilo;
         $nuevoRegistro->cliente = $request->cliente;
