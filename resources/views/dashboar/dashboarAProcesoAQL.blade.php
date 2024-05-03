@@ -49,6 +49,45 @@
                 <hr>
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
+                    <form action="{{ route('dashboar.dashboarAProcesoAQL') }}" method="GET" id="filterForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_inicio">Fecha de inicio</label>
+                                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_fin">Fecha de fin</label>
+                                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Mostrar datos</button>
+                    </form>
+                    
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // Obtener los parámetros de la URL
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const fechaInicio = urlParams.get('fecha_inicio');
+                            const fechaFin = urlParams.get('fecha_fin');
+                    
+                            // Establecer los valores de los campos de fecha
+                            document.getElementById("fecha_inicio").value = fechaInicio || '';
+                            document.getElementById("fecha_fin").value = fechaFin || '';
+                    
+                            // Manejar el evento de envío del formulario
+                            document.getElementById("filterForm").addEventListener("submit", function(event) {
+                                // Agregar los valores de los campos de fecha a la URL del formulario
+                                const fechaInicioValue = document.getElementById("fecha_inicio").value;
+                                const fechaFinValue = document.getElementById("fecha_fin").value;
+                                this.action = "{{ route('dashboar.dashboarAProcesoAQL') }}?fecha_inicio=" + fechaInicioValue + "&fecha_fin=" + fechaFinValue;
+                            });
+                        });
+                    </script>
+                    <hr>                    
                     <table class="table  table-bordered table1">
                         <thead class="thead-custom1 text-center">
                             <tr>

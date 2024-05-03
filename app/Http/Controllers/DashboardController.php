@@ -7,6 +7,10 @@ use App\Models\Lectra;
 use App\Models\AuditoriaProcesoCorte; 
 use App\Models\AseguramientoCalidad;   
 use App\Models\AuditoriaAQL;   
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+
 class DashboardController extends Controller
 {
     /**
@@ -136,20 +140,28 @@ class DashboardController extends Controller
                 'teamLeaders', 'porcentajesErrorTeamLeader'));
     }
 
-    public function dashboarAProcesoAQL()
+    public function dashboarAProcesoAQL(Request $request)
     {
         $title = "";
 
+        $fechaInicio = $request->input('fecha_inicio' . ' 00:00:00', Carbon::now()->format('Y-m-d') . ' 00:00:00');
+        $fechaFin = $request->input('fecha_fin' . ' 23:59:59', Carbon::now()->format('Y-m-d') . ' 23:59:59');
+
         // Obtener clientes y porcentajes de error por cliente
         $clientes = AuditoriaAQL::whereNotNull('cliente')
+            ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->orderBy('cliente')
             ->pluck('cliente')
             ->unique();
         $porcentajesError = [];
 
         foreach ($clientes as $cliente) {
-            $sumaAuditada = AuditoriaAQL::where('cliente', $cliente)->sum('cantidad_auditada');
-            $sumaRechazada = AuditoriaAQL::where('cliente', $cliente)->sum('cantidad_rechazada');
+            $sumaAuditada = AuditoriaAQL::where('cliente', $cliente)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_auditada');
+            $sumaRechazada = AuditoriaAQL::where('cliente', $cliente)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_rechazada');
 
             $porcentajeError = ($sumaAuditada != 0) ? ($sumaRechazada / $sumaAuditada) * 100 : 0;
 
@@ -159,6 +171,7 @@ class DashboardController extends Controller
 
         // Obtener operarios de máquina, porcentajes de error por operario y otras relaciones por operario
         $nombres = AuditoriaAQL::whereNotNull('modulo')
+            ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->orderBy('modulo')
             ->pluck('modulo')
             ->unique();
@@ -168,18 +181,26 @@ class DashboardController extends Controller
         $moduloPorNombre = [];
 
         foreach ($nombres as $nombre) {
-            $sumaAuditadaNombre = AuditoriaAQL::where('modulo', $nombre)->sum('cantidad_auditada');
-            $sumaRechazadaNombre = AuditoriaAQL::where('modulo', $nombre)->sum('cantidad_rechazada');
+            $sumaAuditadaNombre = AuditoriaAQL::where('modulo', $nombre)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_auditada');
+            $sumaRechazadaNombre = AuditoriaAQL::where('modulo', $nombre)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_rechazada');
 
             $porcentajeErrorNombre = ($sumaAuditadaNombre != 0) ? ($sumaRechazadaNombre / $sumaAuditadaNombre) * 100 : 0;
 
             $porcentajesErrorNombre[$nombre] = $porcentajeErrorNombre;
 
             // Obtener la operación, el team leader y el módulo correspondientes al operario de máquina
-            $operacion = AuditoriaAQL::where('modulo', $nombre)->value('op');
+            $operacion = AuditoriaAQL::where('modulo', $nombre)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->value('op');
             $operacionesPorNombre[$nombre] = $operacion;
 
-            $teamleader = AuditoriaAQL::where('modulo', $nombre)->value('team_leader');
+            $teamleader = AuditoriaAQL::where('modulo', $nombre)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->value('team_leader');
             $teamLeaderPorNombre[$nombre] = $teamleader;
 
             $moduloPorNombre[$nombre] = $nombre;
@@ -188,14 +209,19 @@ class DashboardController extends Controller
 
         // Obtener team leaders y porcentajes de error por team leader
         $teamLeaders = AuditoriaAQL::whereNotNull('team_leader')
+            ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->orderBy('team_leader')
             ->pluck('team_leader')
             ->unique();
         $porcentajesErrorTeamLeader = [];
 
         foreach ($teamLeaders as $teamLeader) {
-            $sumaAuditadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)->sum('cantidad_auditada');
-            $sumaRechazadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)->sum('cantidad_rechazada');
+            $sumaAuditadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_auditada');
+            $sumaRechazadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_rechazada');
 
             $porcentajeErrorTeamLeader = ($sumaAuditadaTeamLeader != 0) ? ($sumaRechazadaTeamLeader / $sumaAuditadaTeamLeader) * 100 : 0;
 

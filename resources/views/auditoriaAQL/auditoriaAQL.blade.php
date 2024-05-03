@@ -209,51 +209,63 @@
                     @if ($mostrarRegistro)
                         @if ($estatusFinalizar)
                             <h2>Registro</h2>
-                            <table class="table">
+                            <table class="table table55">
                                 <thead class="thead-primary">
                                     <tr>
-                                        <th>Operacion </th>
-                                        <th>Lienzo tendido</th>
-                                        <th>Lienzo rechazado</th>
-                                        <th>T. P. </th>
-                                        <th>Accion Correctiva </th>
+                                        <th># BULTO</th>
+                                        <th>PIEZAS</th>
+                                        <th>TALLA</th>
+                                        <th>COLOR</th>
+                                        <th>ESTILO</th>
+                                        <th>PIEZAS INSPECCIONADAS</th>
+                                        <th>PIEZAS RECHAZADAS</th>
+                                        <th>TIPO DE DEFECTO</th>
+                                        <th>Hora</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($mostrarRegistro as $registro)
                                         <tr>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->bulto }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="pieza"
+                                                value="{{ $registro->pieza }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="talla"
+                                                value="{{ $registro->talla }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="color" id="color"
+                                                value="{{$registro->color}}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="estilo" id="estilo"
+                                                value="{{$registro->estilo}}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="cantidad_auditada" id="cantidad_auditada"
+                                                value="{{$registro->cantidad_auditada}}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="cantidad_rechazada" id="cantidad_rechazada"
+                                                value="{{$registro->cantidad_rechazada}}" readonly>
+                                            </td>
+                                            
                                             <form action="{{ route('auditoriaAQL.formUpdateDeleteProceso') }}"
                                                 method="POST">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $registro->id }}">
                                                 <td>
-                                                    <input type="text" class="form-control" name="operacion"
-                                                        value="{{ $registro->operacion }}" readonly>
+                                                    <input type="text" class="form-control" readonly
+                                                           value="{{ implode(', ', $registro->tpAuditoriaAQL->pluck('tp')->toArray()) }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="cantidad_auditada"
-                                                        value="{{ $registro->cantidad_auditada }}" readonly>
+                                                    {{ $registro->created_at->format('H:i:s') }}
                                                 </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="cantidad_rechazada"
-                                                        value="{{ $registro->cantidad_rechazada }}" readonly>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="tp"
-                                                        value="{{ $registro->tp }}" readonly>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="ac"
-                                                        value="{{ $registro->ac }}" readonly>
-                                                </td>
-                                                @if ($data['area'] == 'AUDITORIA EN EMPAQUE')
-                                                @else
-                                                    <td>
-                                                        <input type="text" class="form-control" name="pxp"
-                                                            value="{{ $registro->pxp }}" readonly>
-
-                                                    </td>
-                                                @endif
                                             </form>
                                         </tr>
                                     @endforeach
