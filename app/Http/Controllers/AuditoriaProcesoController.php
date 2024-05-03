@@ -310,6 +310,9 @@ class AuditoriaProcesoController extends Controller
             ->pluck('prodpoolid')
             ->first();
         //dd($plantaBusqueda);
+        $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
+            ->where('jefe_produccion', 1)
+            ->first();
         // dd($request->all());
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
@@ -319,6 +322,9 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->estilo = $request->estilo;
         $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
+        if($jefeProduccionBusqueda){
+            $nuevoRegistro->jefe_produccion = 1;
+        }else{$nuevoRegistro->jefe_produccion = NULL; }
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
         if($request->utility){

@@ -246,7 +246,7 @@ class AuditoriaAQLController extends Controller
         //
         $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
             ->where('jefe_produccion', 1)
-            ->first();
+            ->first(); 
         //dd($jefeProduccionBusqueda);
         //dd($request->all());
         $nuevoRegistro = new AuditoriaAQL();
