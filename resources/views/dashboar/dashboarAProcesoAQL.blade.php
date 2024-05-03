@@ -131,7 +131,25 @@
                     <table class="table table-bordered table1">
                         <thead class="thead-custom3 text-center">
                             <tr>
-                                <th>Team Leader</th>
+                                <th>Jefes de Produccion</th> 
+                                <th>% Error</th>
+                                <!-- Aquí puedes agregar más encabezados si es necesario -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($porcentajesErrorJefeProduccion as $jefeProduccion => $porcentajeError)
+                                <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                    <td>{{ $jefeProduccion }}</td>
+                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table class="table table-bordered table1">
+                        <thead class="thead-custom3 text-center">
+                            <tr>
+                                <th>Team Leader</th> 
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>

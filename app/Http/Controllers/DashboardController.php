@@ -209,6 +209,7 @@ class DashboardController extends Controller
 
         // Obtener team leaders y porcentajes de error por team leader
         $teamLeaders = AuditoriaAQL::whereNotNull('team_leader')
+            ->whereNull('jefe_produccion')
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->orderBy('team_leader')
             ->pluck('team_leader')
@@ -217,9 +218,11 @@ class DashboardController extends Controller
 
         foreach ($teamLeaders as $teamLeader) {
             $sumaAuditadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
+                ->whereNull('jefe_produccion')
                 ->whereBetween('created_at', [$fechaInicio, $fechaFin])
                 ->sum('cantidad_auditada');
             $sumaRechazadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
+                ->whereNull('jefe_produccion')
                 ->whereBetween('created_at', [$fechaInicio, $fechaFin])
                 ->sum('cantidad_rechazada');
 
@@ -229,9 +232,36 @@ class DashboardController extends Controller
         }
         arsort($porcentajesErrorTeamLeader);
 
+        //para jefes de produccion
+        // Obtener team leaders y porcentajes de error por team leader
+        $jefesProduccion = AuditoriaAQL::whereNotNull('team_leader')
+            ->where('jefe_produccion', 1)
+            ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+            ->orderBy('team_leader')
+            ->pluck('team_leader')
+            ->unique();
+        $porcentajesErrorJefeProduccion = [];
+
+        foreach ($jefesProduccion as $jefeProduccion) {
+            $sumaAuditadaJefeProduccion = AuditoriaAQL::where('team_leader', $jefeProduccion)
+                ->where('jefe_produccion', 1)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_auditada');
+            $sumaRechazadaJefeProduccion = AuditoriaAQL::where('team_leader', $jefeProduccion)
+                ->where('jefe_produccion', 1)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->sum('cantidad_rechazada');
+
+            $porcentajeErrorJefeProduccion = ($sumaAuditadaJefeProduccion != 0) ? ($sumaRechazadaJefeProduccion / $sumaAuditadaJefeProduccion) * 100 : 0;
+
+            $porcentajesErrorJefeProduccion[$jefeProduccion] = $porcentajeErrorJefeProduccion;
+        }
+        arsort($porcentajesErrorJefeProduccion);
+
         return view('dashboar.dashboarAProcesoAQL', compact('title', 'clientes', 'porcentajesError',
             'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre', 'moduloPorNombre',
-            'teamLeaders', 'porcentajesErrorTeamLeader'));
+            'teamLeaders', 'porcentajesErrorTeamLeader',
+            'jefesProduccion', 'porcentajesErrorJefeProduccion'));
     }
 
 

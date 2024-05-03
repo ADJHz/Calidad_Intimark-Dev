@@ -15,7 +15,7 @@ use App\Models\AuditoriaAQL;
 use App\Models\DatoAX;
 use App\Models\DatosAX;
 use App\Models\EvaluacionCorte; 
-use App\Models\TpAuditoriaAQL; 
+use App\Models\TpAuditoriaAQL;  
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon 
 
 class AuditoriaAQLController extends Controller
@@ -243,7 +243,11 @@ class AuditoriaAQLController extends Controller
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
             ->first();
-        //dd($plantaBusqueda);
+        //
+        $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
+            ->where('jefe_produccion', 1)
+            ->first();
+        //dd($jefeProduccionBusqueda);
         //dd($request->all());
         $nuevoRegistro = new AuditoriaAQL();
         $nuevoRegistro->area = $request->area;
@@ -251,6 +255,9 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->op = $request->op;
         $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
+        if($jefeProduccionBusqueda){
+            $nuevoRegistro->jefe_produccion = 1;
+        }else{$nuevoRegistro->jefe_produccion = NULL; }
         $nuevoRegistro->auditor = $request->auditor;
         $nuevoRegistro->turno = $request->turno;
         $nuevoRegistro->planta = $plantaBusqueda;
