@@ -33,8 +33,14 @@ class AuditoriaProcesoController extends Controller
             'categoriaACProceso' => CategoriaAccionCorrectiva::where('area', 'proceso')->get(),
             'categoriaACPlayera' => CategoriaAccionCorrectiva::where('area', 'playera')->get(),
             'categoriaACEmpaque' => CategoriaAccionCorrectiva::where('area', 'empaque')->get(),
-            'teamLeaderPlanta1' => CategoriaTeamLeader::where('planta', 'Intimark1')->get(),
-            'teamLeaderPlanta2' => CategoriaTeamLeader::where('planta', 'Intimark2')->get(),
+            'teamLeaderPlanta1' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
+                ->orderBy('jefe_produccion')
+                ->where('planta', 'Intimark1')
+                ->get(),
+            'teamLeaderPlanta2' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
+                ->orderBy('jefe_produccion')
+                ->where('planta', 'Intimark2')
+                ->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
                 ->select('moduleid', 'itemid')
                 ->distinct()
