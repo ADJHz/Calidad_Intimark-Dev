@@ -29,14 +29,9 @@
               <p>&nbsp;AQL por dia general</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de registros: </h4>
-              <h3>{{$conteoBultosDia}} </h3>
-              <h4 class="card-title">Total de Aceptados: </h4>
-              <h3>{{$conteoPiezaAceptadoDia}} </h3>
-              <h4 class="card-title">Total de Rechazos: </h4>
-              <h3>{{$conteoPiezaConRechazoDia}} </h3>
-            </div>
-            <div class="card-footer">
+              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDia}}</h4>
+              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDia}}</h4>
+              <h4 class="card-title">Total de registros: {{$conteoBultosDia}}</h4>
             </div>
           </div>
         </div>
@@ -46,18 +41,17 @@
               <p>&nbsp;AQL por dia Planta 1</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de registros: </h4>
-              <h3>{{$conteoBultosDiaPlanta1}} </h3>
-              <h4 class="card-title">Total de Aceptados: </h4>
-              <h3>{{$conteoPiezaAceptadoDiaPlanta1}} </h3>
-              <h4 class="card-title">Total de Rechazos: </h4>
-              <h3>{{$conteoPiezaConRechazoDiaPlanta1}} </h3>
+              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDiaPlanta1}}</h4>
+              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDiaPlanta1}}</h4>
+              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta1}}</h4>
             </div>
+            {{--
             <div class="card-footer">
-              {{--<div class="stats">
+              <div class="stats">
                 <i class="material-icons">access_time</i>
-              </div>--}}
+              </div>
             </div>
+            --}}
           </div>
         </div>
         <div class="col-md-4">
@@ -66,17 +60,9 @@
               <p>&nbsp;AQL por dia Planta 2</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de registros: </h4>
-              <h3>{{$conteoBultosDiaPlanta2}} </h3>
-              <h4 class="card-title">Total de Aceptados: </h4>
-              <h3>{{$conteoPiezaAceptadoDiaPlanta2}} </h3>
-              <h4 class="card-title">Total de Rechazos: </h4>
-              <h3>{{$conteoPiezaConRechazoDiaPlanta2}} </h3>
-            </div>
-            <div class="card-footer">
-              {{--<div class="stats">
-                <i class="material-icons">access_time</i>
-              </div>--}}
+              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta2}}</h4>
+              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDiaPlanta2}}</h4>
+              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDiaPlanta2}}</h4>
             </div>
           </div>
         </div>
