@@ -144,9 +144,14 @@ class DashboardController extends Controller
     {
         $title = "";
 
-        $fechaInicio = $request->input('fecha_inicio' . ' 00:00:00', Carbon::now()->format('Y-m-d') . ' 00:00:00');
-        $fechaFin = $request->input('fecha_fin' . ' 23:59:59', Carbon::now()->format('Y-m-d') . ' 23:59:59');
+        $fechaInicio1 = $request->input('fecha_inicio', Carbon::now()->format('Y-m-d') . ' 00:00:00');
+        $fechaInicio = $fechaInicio1 . ' 00:00:00';
+        $fechaFin1 = $request->input('fecha_fin', Carbon::now()->format('Y-m-d') . ' 23:59:59');
+        $fechaFin = $fechaFin1 . ' 23:59:59';
 
+        //dd($fechaInicio, $fechaFin);
+
+        //Inicio apartado para detalles generales
         // Obtener clientes y porcentajes de error por cliente
         $clientes = AuditoriaAQL::whereNotNull('cliente')
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
@@ -218,11 +223,11 @@ class DashboardController extends Controller
 
         foreach ($teamLeaders as $teamLeader) {
             $sumaAuditadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
-                ->whereNull('jefe_produccion')
+                //->whereNull('jefe_produccion')
                 ->whereBetween('created_at', [$fechaInicio, $fechaFin])
                 ->sum('cantidad_auditada');
             $sumaRechazadaTeamLeader = AuditoriaAQL::where('team_leader', $teamLeader)
-                ->whereNull('jefe_produccion')
+                //->whereNull('jefe_produccion')
                 ->whereBetween('created_at', [$fechaInicio, $fechaFin])
                 ->sum('cantidad_rechazada');
 
@@ -257,6 +262,8 @@ class DashboardController extends Controller
             $porcentajesErrorJefeProduccion[$jefeProduccion] = $porcentajeErrorJefeProduccion;
         }
         arsort($porcentajesErrorJefeProduccion);
+
+        //Fin de apartado para detalles generales
 
         return view('dashboar.dashboarAProcesoAQL', compact('title', 'clientes', 'porcentajesError',
             'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre', 'moduloPorNombre',

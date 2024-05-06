@@ -73,19 +73,20 @@
                             const urlParams = new URLSearchParams(window.location.search);
                             const fechaInicio = urlParams.get('fecha_inicio');
                             const fechaFin = urlParams.get('fecha_fin');
-                    
+
                             // Establecer los valores de los campos de fecha
                             document.getElementById("fecha_inicio").value = fechaInicio || '';
                             document.getElementById("fecha_fin").value = fechaFin || '';
-                    
+
                             // Manejar el evento de envío del formulario
                             document.getElementById("filterForm").addEventListener("submit", function(event) {
                                 // Agregar los valores de los campos de fecha a la URL del formulario
-                                const fechaInicioValue = document.getElementById("fecha_inicio").value;
-                                const fechaFinValue = document.getElementById("fecha_fin").value;
+                                const fechaInicioValue = document.getElementById("fecha_inicio").value || '';
+                                const fechaFinValue = document.getElementById("fecha_fin").value || '';
                                 this.action = "{{ route('dashboar.dashboarAProcesoAQL') }}?fecha_inicio=" + fechaInicioValue + "&fecha_fin=" + fechaFinValue;
                             });
                         });
+
                     </script>
                     <hr>                    
                     <table class="table  table-bordered table1">
