@@ -22,19 +22,21 @@ class DatosAuditoriaEtiquetasOP extends Controller
     }
     public function NoOrdenesOP()
     {
-
-        $ordenes = DatosAX::select('op')
+        $ordenes = DatosAX::select('op', 'cpo', 'salesid')
             ->distinct()
             ->get();
 
         return response()->json($ordenes);
     }
+
     public function buscarEstilosOP(Request $request)
     {
         $orden = $request->input('orden');
 
         // Buscar datos relacionados con la orden seleccionada
         $estilos = DatosAX::where('op', $orden)
+            ->orWhere('cpo', $orden)
+            ->orWhere('salesid', $orden)
             ->select('estilo')
             ->distinct()
             ->get();
@@ -54,6 +56,8 @@ class DatosAuditoriaEtiquetasOP extends Controller
     {
         // Obtener todos los registros relacionados con la orden y el estilo
         $registros = DatosAX::where('op', $orden)
+            ->orWhere('cpo', $orden)
+            ->orWhere('salesid', $orden)
             ->where('estilo', $estilo)
             ->get();
 
@@ -98,15 +102,22 @@ class DatosAuditoriaEtiquetasOP extends Controller
         $estilo = $request->input('estilo');
         $orden = $request->input('orden');
 
+
+        // Seleccionar la columna adecuada basada en $orden
+        $columnaOrden = substr($orden,0,2) === 'OP' ? 'op' : (substr($orden,0,2) === 'OV' ? 'salesid' : 'cpo');
+ // Log para registrar los datos del request
+
+
         // Buscar datos relacionados con el estilo especificado y la orden de compra
         $datos = DatosAX::where('estilo', $estilo)
-        ->where('op', $orden)
+        ->where($columnaOrden, $orden) // Cambio realizado aquí
         ->where(function ($query) {
             $query->whereNull('statusOP')
                 ->orWhereIn('statusOP', ['Iniciado', 'Guardado']);
         })
-        ->select('id', 'op', 'estilo', 'qty', 'sizename', 'inventcolorid')
+        ->select('id', $columnaOrden, 'estilo', 'qty', 'sizename', 'inventcolorid')
         ->get();
+
 
         // Iterar sobre los datos y determinar el tamaño de muestra
         foreach ($datos as $dato) {
@@ -152,6 +163,8 @@ class DatosAuditoriaEtiquetasOP extends Controller
 
         return response()->json($datos);
     }
+
+
     public function obtenerTiposDefectosOP()
     {
         $tiposDefectos = Cat_DefEtiquetas::all();

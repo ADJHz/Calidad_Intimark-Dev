@@ -12,6 +12,8 @@ class DatosAX extends Model
     protected $fillable = [
         'id',
         'op',
+        'cpo',
+        'salesid',
         'estilo',
         'inventcolorid',
         'sizename',
