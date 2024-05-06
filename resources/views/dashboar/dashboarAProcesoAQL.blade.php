@@ -110,6 +110,7 @@
                     <table class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
+                                <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
                                 <th>Team Leader</th>
@@ -120,6 +121,9 @@
                         <tbody>
                             @foreach ($porcentajesErrorNombre as $nombre => $porcentajeErrorNombre)
                                 <tr class="{{ ($porcentajeErrorNombre > 9 && $porcentajeErrorNombre <= 15) ? 'error-bajo' : ($porcentajeErrorNombre > 15 ? 'error-alto' : '') }}">
+                                    <td>
+                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorNombre[$nombre], 'op' => $operacionesPorNombre[$nombre], 'team_leader' => $teamLeaderPorNombre[$nombre], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary">Ver detalles</a>
+                                    </td>
                                     <td>{{ $moduloPorNombre[$nombre] }}</td>
                                     <td>{{ $operacionesPorNombre[$nombre] }}</td>
                                     <td>{{ $teamLeaderPorNombre[$nombre] }}</td>

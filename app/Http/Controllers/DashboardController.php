@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-use App\Models\EncabezadoAuditoriaCorte;
-use App\Models\Lectra; 
+
 use App\Models\AuditoriaProcesoCorte; 
 use App\Models\AseguramientoCalidad;   
 use App\Models\AuditoriaAQL;   
@@ -213,8 +212,11 @@ class DashboardController extends Controller
         arsort($porcentajesErrorNombre);
 
         // Obtener team leaders y porcentajes de error por team leader
-        $teamLeaders = AuditoriaAQL::whereNotNull('team_leader')
-            ->whereNull('jefe_produccion')
+        $teamLeaders = AuditoriaAQL::where(function($query) {
+                $query->whereNull('jefe_produccion')
+                    ->orWhere('jefe_produccion', '0');
+            })
+            ->whereNotNull('team_leader')
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->orderBy('team_leader')
             ->pluck('team_leader')
@@ -335,8 +337,11 @@ class DashboardController extends Controller
         arsort($porcentajesErrorModuloPlanta1);
 
         // Obtener team leaders y porcentajes de error por team leader
-        $teamLeadersPlanta1 = AuditoriaAQL::whereNotNull('team_leader')
-            ->whereNull('jefe_produccion')
+        $teamLeadersPlanta1 = AuditoriaAQL::where(function($query) {
+                $query->whereNull('jefe_produccion')
+                    ->orWhere('jefe_produccion', '0');
+            })
+            ->whereNotNull('team_leader')
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->where('planta', 'Intimark1')
             ->orderBy('team_leader')
@@ -463,8 +468,11 @@ class DashboardController extends Controller
         arsort($porcentajesErrorModuloPlanta2);
 
         // Obtener team leaders y porcentajes de error por team leader
-        $teamLeadersPlanta2 = AuditoriaAQL::whereNotNull('team_leader')
-            ->whereNull('jefe_produccion')
+        $teamLeadersPlanta2 = AuditoriaAQL::where(function($query) {
+                $query->whereNull('jefe_produccion')
+                    ->orWhere('jefe_produccion', '0');
+            })
+            ->whereNotNull('team_leader')
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->where('planta', 'Intimark2')
             ->orderBy('team_leader')
@@ -521,7 +529,8 @@ class DashboardController extends Controller
 
         //Fin de apartado para detalles para Planta 2
 
-        return view('dashboar.dashboarAProcesoAQL', compact('title', 'clientes', 'porcentajesError',
+        return view('dashboar.dashboarAProcesoAQL', compact('title', 'fechaInicio', 'fechaFin',
+            'clientes', 'porcentajesError',
             'nombres', 'porcentajesErrorNombre', 'operacionesPorNombre', 'teamLeaderPorNombre', 'moduloPorNombre',
             'teamLeaders', 'porcentajesErrorTeamLeader',
             'jefesProduccion', 'porcentajesErrorJefeProduccion',
@@ -534,6 +543,44 @@ class DashboardController extends Controller
             'teamLeadersPlanta2', 'porcentajesErrorTeamLeaderPlanta2',
             'jefesProduccionPlanta2', 'porcentajesErrorJefeProduccionPlanta2'));
     }
+
+
+    public function detalleXModuloAQL(Request $request)
+    {
+        $title = "";
+
+        $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
+        $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
+
+        // Obtener el nombre del mes en español
+        $meses = [
+            1 => 'enero',
+            2 => 'febrero',
+            3 => 'marzo',
+            4 => 'abril',
+            5 => 'mayo',
+            6 => 'junio',
+            7 => 'julio',
+            8 => 'agosto',
+            9 => 'septiembre',
+            10 => 'octubre',
+            11 => 'noviembre',
+            12 => 'diciembre'
+        ];
+
+        $rangoInicial = date('d', strtotime($rangoInicialShort)) . ' ' . $meses[date('n', strtotime($rangoInicialShort))] . ' ' . date('Y', strtotime($rangoInicialShort));
+        $rangoFinal = date('d', strtotime($rangofinShort)) . ' ' . $meses[date('n', strtotime($rangofinShort))] . ' ' . date('Y', strtotime($rangofinShort));
+
+
+        $mostrarRegistro = AuditoriaAQL::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->get();
+
+        return view('dashboar.detalleXModuloAQL', compact('title', 'mostrarRegistro', 'rangoInicial', 'rangoFinal'));
+    }
+
 
 
 }

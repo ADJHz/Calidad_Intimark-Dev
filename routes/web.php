@@ -253,5 +253,6 @@ Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAPr
 
 Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso');
 Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera');
-Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL');
+Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL'); 
+Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL'])->name('dashboar.detalleXModuloAQL'); 
 

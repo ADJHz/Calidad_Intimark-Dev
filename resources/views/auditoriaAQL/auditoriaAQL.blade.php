@@ -209,7 +209,7 @@
                     @if ($mostrarRegistro)
                         @if ($estatusFinalizar)
                             <h2>Registro</h2>
-                            <table class="table table55">
+                            <table class="table table55"> 
                                 <thead class="thead-primary">
                                     <tr>
                                         <th># BULTO</th>
@@ -270,7 +270,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            </table>
+                            </table> 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="observacion" class="col-sm-6 col-form-label">Observaciones:</label>
