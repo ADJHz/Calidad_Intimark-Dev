@@ -53,6 +53,72 @@
                 <hr>
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
+                    <h3 style="font-weight: bold;">Piezas auditadas</h3>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="thead-primary">
+                                        <tr>
+                                            <th>Total de piezas Muestra Auditadas </th>
+                                            <th>Total de piezas Muestra Rechazadas</th>
+                                            <th>Porcentaje AQL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($registrosIndividual as $registro)
+                                            <tr>
+                                                <td><input type="text" class="form-control" value="{{ $registro->total_auditada }}" readonly></td>
+                                                <td><input type="text" class="form-control" value="{{ $registro->total_rechazada }}" readonly></td>
+                                                <td><input type="text" class="form-control" value="{{ $registro->total_rechazada != 0 ? number_format(($registro->total_rechazada / $registro->total_auditada) * 100, 2) : 0 }}" readonly></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <table class="table contenedor-tabla">
+                                <thead class="thead-primary">
+                                    <tr>
+                                        <th>Total de piezas en bultos Auditados</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($registrosIndividualPieza as $registro)
+                                        <tr>
+                                            <td><input type="text" class="form-control" value="{{ $registro->total_pieza }}" readonly></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3 style="font-weight: bold;">Total por Bultos </h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-primary">
+                                <tr>
+                                    <th>total de Bultos Auditados</th>
+                                    <th>total de Bultos Rechazados</th>
+                                    <th>Porcentaje Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control" name="conteo_bulto"
+                                            id="conteo_bulto" value="{{ $conteoBultos }}" readonly></td>
+                                    <td><input type="text" class="form-control" name="total_rechazada"
+                                            id="total_rechazada" value="{{ $conteoPiezaConRechazo }}" readonly></td>
+                                    <td><input type="text" class="form-control" name="total_porcentaje"
+                                            id="total_porcentaje" value="{{ number_format($porcentajeBulto, 2) }}"
+                                            readonly></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
                     <table class="table table55"> 
                         <thead class="thead-primary">
                             <tr>
@@ -117,7 +183,7 @@
                     </table> 
                     <hr>
 
-                    
+
                 </div>
             </div>
         </div>

@@ -206,6 +206,7 @@
                     <table class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
+                                <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
                                 <th>Team Leader</th>
@@ -216,6 +217,9 @@
                         <tbody>
                             @foreach ($porcentajesErrorModuloPlanta1 as $modulo => $porcentajeErrorModuloPlanta1)
                                 <tr class="{{ ($porcentajeErrorModuloPlanta1 > 9 && $porcentajeErrorModuloPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorModuloPlanta1 > 15 ? 'error-alto' : '') }}">
+                                    <td>
+                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta1[$modulo], 'op' => $operacionesPorModuloPlanta1[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta1[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary">Ver detalles</a>
+                                    </td>
                                     <td>{{ $moduloPorModuloPlanta1[$modulo] }}</td>
                                     <td>{{ $operacionesPorModuloPlanta1[$modulo] }}</td>
                                     <td>{{ $teamLeaderPorModuloPlanta1[$modulo] }}</td>
@@ -298,6 +302,7 @@
                     <table class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
+                                <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
                                 <th>Team Leader</th>
@@ -308,6 +313,9 @@
                         <tbody>
                             @foreach ($porcentajesErrorModuloPlanta2 as $modulo => $porcentajeErrorModuloPlanta2)
                                 <tr class="{{ ($porcentajeErrorModuloPlanta2 > 9 && $porcentajeErrorModuloPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorModuloPlanta2 > 15 ? 'error-alto' : '') }}">
+                                    <td>
+                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta2[$modulo], 'op' => $operacionesPorModuloPlanta2[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta2[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary">Ver detalles</a>
+                                    </td>
                                     <td>{{ $moduloPorModuloPlanta2[$modulo] }}</td>
                                     <td>{{ $operacionesPorModuloPlanta2[$modulo] }}</td>
                                     <td>{{ $teamLeaderPorModuloPlanta2[$modulo] }}</td>

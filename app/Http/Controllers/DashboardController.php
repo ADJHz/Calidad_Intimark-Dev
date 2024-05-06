@@ -548,7 +548,7 @@ class DashboardController extends Controller
     public function detalleXModuloAQL(Request $request)
     {
         $title = "";
-
+        //dd($request->all());
         $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
         $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
 
@@ -578,9 +578,38 @@ class DashboardController extends Controller
             ->where('team_leader', $request->team_leader)
             ->get();
 
-        return view('dashboar.detalleXModuloAQL', compact('title', 'mostrarRegistro', 'rangoInicial', 'rangoFinal'));
-    }
+        // Actualiza las consultas para los datos que necesitas mostrar en la vista
+        $registrosIndividual = AuditoriaAQL::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->selectRaw('COALESCE(SUM(cantidad_auditada), 0) as total_auditada, COALESCE(SUM(cantidad_rechazada), 0) as total_rechazada')
+            ->get();
 
+        $registrosIndividualPieza = AuditoriaAQL::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->selectRaw('SUM(pieza) as total_pieza, SUM(cantidad_rechazada) as total_rechazada')
+            ->get();
+
+        $conteoBultos = AuditoriaAQL::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->count();
+
+        $conteoPiezaConRechazo = AuditoriaAQL::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->where('cantidad_rechazada', '>', 0)
+            ->count('pieza');
+
+        $porcentajeBulto = $conteoBultos != 0 ? ($conteoPiezaConRechazo / $conteoBultos) * 100 : 0;
+
+        return view('dashboar.detalleXModuloAQL', compact('title', 'mostrarRegistro', 'rangoInicial', 'rangoFinal', 'registrosIndividual', 'registrosIndividualPieza', 'conteoBultos', 'conteoPiezaConRechazo', 'porcentajeBulto'));
+    }
 
 
 }
