@@ -254,81 +254,115 @@
         });
     </script>
     <script>
-   $(document).ready(function() {
-    // Controlador para el evento de clic en cualquier acordeón
-    $('#accordion').on('click', '.card-header', function() {
-        var ordenSeleccionada = $('#ordenSelect').val();
-        var estilo = $(this).find('span:first').text().split(':')[1].trim();
-        $.ajax({
-            url: '/buscarDatosAuditoriaPorEstiloOP',
-            type: 'GET',
-            data: {
-                estilo: estilo,
-                orden: ordenSeleccionada
-            },
-            dataType: 'json',
-            success: function(data) {
-                console.log(data); // Verificar la respuesta del servidor en la consola
-                // Limpiar tabla antes de agregar resultados
-                $('#miTabla tbody').empty();
-                // Mostrar resultados en la tabla
-                $.each(data, function(index, item) {
-                    // Obtener la columna adecuada (op, cpo, o salesid) basada en el nombre de la columna
-                    var columnaOrden = ordenSeleccionada === 'op' ? 'op' : (ordenSeleccionada === 'cpo' ? 'cpo' : 'salesid');
-                    console.log(columnaOrden); // Verificar la columna seleccionada
-                    // Formatear la cantidad
-                    var cantidadFormateada = item.qty;
-                    if (typeof cantidadFormateada === 'string') {
-                        var puntoIndex = cantidadFormateada.indexOf('.');
-                        if (puntoIndex !== -1) {
-                            var parteDecimal = cantidadFormateada.substring(puntoIndex + 1);
-                            if (parteDecimal.length > 2) {
-                                parteDecimal = parteDecimal.substring(0, 2);
-                            }
-                            cantidadFormateada = cantidadFormateada.substring(0, puntoIndex + 1) + parteDecimal;
-                        }
-                    }
-                    // Verificar si el tamaño de muestra está en el rango de 2 a 20
-                    var tamañoMuestra = parseInt(item.tamaño_muestra);
-                    var inputHTML = '<input type="number" class="form-control cantidadInput" id="cantidadInput_' + index + '_acordeon_' + estilo + '" value="0">';
-                    if (tamañoMuestra == 32 || tamañoMuestra == 50 || tamañoMuestra == 80 || tamañoMuestra == 125 || tamañoMuestra == 200 || tamañoMuestra == 315 || tamañoMuestra == 500 || tamañoMuestra == 800 || tamañoMuestra == 2000) {
-                        inputHTML = '<td style="text-align: center;"><input type="number" class="form-control cantidadInput" id="cantidadInput_' + index + '_acordeon_' + estilo + '" value="0"></td>';
-                    }
-                    // Agregar fila a la tabla
-                    var fila = '<tr>' +
-                        '<td>' + (index + 1) + '</td>' +
-                        '<td style="text-align: center;">' + (item[columnaOrden] ? item[columnaOrden] : '') + '</td>' + // Modificado: usar la variable columnaOrden
-                        '<td style="text-align: center;">' + (item.estilo ? item.estilo : '') + '</td>' +
-                        '<td style="text-align: center;">' + (item.inventcolorid ? item.inventcolorid : 'N/A') + '</td>' +
-                        '<td style="text-align: center;">' + (item.sizename ? item.sizename : 'N/A') + '</td>' +
-                        '<td style="text-align: center;">' + (cantidadFormateada ? cantidadFormateada : 'N/A') + '</td>' +
-                        '<td style="text-align: center;"><span class="tamañoMuestra">' + (item.tamaño_muestra ? item.tamaño_muestra : 'N/A') + '</span></td>' +
-                        '<td style="text-align: center; position: relative;">' +
-                        '<input type="number" class="form-control cantidadInput" id="cantidadInput_' + index + '_acordeon_' + estilo + '" value="0">' +
-                        '</td>' +
-                        '<td class="select-container" style="text-align: center;">' +
-                        (item.Tipo_Defectos ? '<select class="form-control" id="tipoDefectos_' + index + '">' +
-                            '<option value="' + item.Tipo_Defectos + '">' + item.Tipo_Defectos + '</option>' +
-                            '</select>' :
-                            '<select class="form-control" id="tipoDefectos_' + index + '"></select>') +
-                        '</td>' +
-                        '<td>' +
-                        '<div class="dropup-center dropup">' +
-                        '<button id="dropdownToggle_' + index + '_acordeon_' + estilo + '" class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">' +
-                        'Opciones' +
-                        '</button>' +
-                        '<ul class="dropdown-menu" aria-labelledby="dropdownToggle_' + index + '_acordeon_' + estilo + '">' +
-                        '<li><a class="dropdown-item text-success" value="Aprobado" data-row-id="' + item.id + '">Aprobado</a></li>' +
-                        '<li><a class="dropdown-item text-warning" value="Aprobado Condicionalmente" data-row-id="' + item.id + '">Aprobado Condicionalmente</a></li>' +
-                        '<li><a class="dropdown-item text-danger" value="Rechazado" data-row-id="' + item.id + '">Rechazado</a></li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</td>' +
-                        '<td style="display: none;">' + (item.id ? item.id : 'N/A') + '</td>' +
-                        '</tr>';
+        $(document).ready(function() {
+            // Controlador para el evento de clic en cualquier acordeón
+            $('#accordion').on('click', '.card-header', function() {
+                var ordenSeleccionada = $('#ordenSelect').val();
+                var estilo = $(this).find('span:first').text().split(':')[1].trim();
+                $.ajax({
+                    url: '/buscarDatosAuditoriaPorEstiloOP',
+                    type: 'GET',
+                    data: {
+                        estilo: estilo,
+                        orden: ordenSeleccionada
+                    },
+                    dataType: 'json',
+                    success: function(data) {
 
-                    $('#miTabla tbody').append(fila);
-                });
+                        // Limpiar tabla antes de agregar resultados
+                        $('#miTabla tbody').empty();
+                        // Mostrar resultados en la tabla
+                        $.each(data, function(index, item) {
+                            // Obtener la columna adecuada (op, cpo, o salesid) basada en el nombre de la columna
+                            // Seleccionar la columna adecuada basada en la orden seleccionada
+                            var columnaOrden = ordenSeleccionada.substring(0, 2) ===
+                                'OP' ? item.op : (ordenSeleccionada.substring(0, 2) ===
+                                    'OV' ? item.salesid : item.cpo);
+
+
+                            // Formatear la cantidad
+                            var cantidadFormateada = item.qty;
+                            if (typeof cantidadFormateada === 'string') {
+                                var puntoIndex = cantidadFormateada.indexOf('.');
+                                if (puntoIndex !== -1) {
+                                    var parteDecimal = cantidadFormateada.substring(
+                                        puntoIndex + 1);
+                                    if (parteDecimal.length > 2) {
+                                        parteDecimal = parteDecimal.substring(0, 2);
+                                    }
+                                    cantidadFormateada = cantidadFormateada.substring(0,
+                                        puntoIndex + 1) + parteDecimal;
+                                }
+                            }
+                            // Verificar si el tamaño de muestra está en el rango de 2 a 20
+                            var tamañoMuestra = parseInt(item.tamaño_muestra);
+                            var inputHTML =
+                                '<input type="number" class="form-control cantidadInput" id="cantidadInput_' +
+                                index + '_acordeon_' + estilo + '" value="0">';
+                            if (tamañoMuestra == 32 || tamañoMuestra == 50 ||
+                                tamañoMuestra == 80 || tamañoMuestra == 125 ||
+                                tamañoMuestra == 200 || tamañoMuestra == 315 ||
+                                tamañoMuestra == 500 || tamañoMuestra == 800 ||
+                                tamañoMuestra == 2000) {
+                                inputHTML =
+                                    '<td style="text-align: center;"><input type="number" class="form-control cantidadInput" id="cantidadInput_' +
+                                    index + '_acordeon_' + estilo + '" value="0"></td>';
+                            }
+                            // Agregar fila a la tabla
+                            var fila = '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td style="text-align: center;">' + columnaOrden + '</td>' +
+                                '<td style="text-align: center;">' + (item.estilo ? item
+                                    .estilo : '') + '</td>' +
+                                '<td style="text-align: center;">' + (item
+                                    .inventcolorid ? item.inventcolorid : 'N/A') +
+                                '</td>' +
+                                '<td style="text-align: center;">' + (item.sizename ?
+                                    item.sizename : 'N/A') + '</td>' +
+                                '<td style="text-align: center;">' + (
+                                    cantidadFormateada ? cantidadFormateada : 'N/A') +
+                                '</td>' +
+                                '<td style="text-align: center;"><span class="tamañoMuestra">' +
+                                (item.tamaño_muestra ? item.tamaño_muestra : 'N/A') +
+                                '</span></td>' +
+                                '<td style="text-align: center; position: relative;">' +
+                                '<input type="number" class="form-control cantidadInput" id="cantidadInput_' +
+                                index + '_acordeon_' + estilo + '" value="0">' +
+                                '</td>' +
+                                '<td class="select-container" style="text-align: center;">' +
+                                (item.Tipo_Defectos ?
+                                    '<select class="form-control" id="tipoDefectos_' +
+                                    index + '">' +
+                                    '<option value="' + item.Tipo_Defectos + '">' + item
+                                    .Tipo_Defectos + '</option>' +
+                                    '</select>' :
+                                    '<select class="form-control" id="tipoDefectos_' +
+                                    index + '"></select>') +
+                                '</td>' +
+                                '<td>' +
+                                '<div class="dropup-center dropup">' +
+                                '<button id="dropdownToggle_' + index + '_acordeon_' +
+                                estilo +
+                                '" class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">' +
+                                'Opciones' +
+                                '</button>' +
+                                '<ul class="dropdown-menu" aria-labelledby="dropdownToggle_' +
+                                index + '_acordeon_' + estilo + '">' +
+                                '<li><a class="dropdown-item text-success" value="Aprobado" data-row-id="' +
+                                item.id + '">Aprobado</a></li>' +
+                                '<li><a class="dropdown-item text-warning" value="Aprobado Condicionalmente" data-row-id="' +
+                                item.id + '">Aprobado Condicionalmente</a></li>' +
+                                '<li><a class="dropdown-item text-danger" value="Rechazado" data-row-id="' +
+                                item.id + '">Rechazado</a></li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</td>' +
+                                '<td style="display: none;">' + (item.id ? item.id :
+                                    'N/A') + '</td>' +
+                                '</tr>';
+
+                            $('#miTabla tbody').append(fila);
+                        });
                         // Cargar opciones del select mediante AJAX (fuera del bucle)
                         $.ajax({
                             url: '/obtenerTiposDefectosOP',
