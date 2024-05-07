@@ -505,26 +505,15 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <div class="row">
-                                                <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR 1</label>
+                                            <div class="row"> 
+                                                <label for="nombre" class="col-sm-6 col-form-label">NOMBRE(S) TENDEDOR(RES)</label>
                                                 <div class="col-sm-6">
-                                                    <select name="nombre" id="nombre" class="form-control" title="Por favor, selecciona una opción" required>
+                                                    <select name="nombre[]" id="nombre" class="form-control" multiple>
                                                         <option value="">Selecciona una opción</option>
                                                         @foreach ($CategoriaTecnico as $nombre)
-                                                        <option value="{{ $nombre->nombre }}" {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
-                                                            {{ $nombre->nombre }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <label for="nombre2" class="col-sm-6 col-form-label">NOMBRE DEL TENDEDOR 2</label>
-                                                <div class="col-sm-6">
-                                                    <select name="nombre2" id="nombre2" class="form-control" title="Por favor, selecciona una opción">
-                                                        <option value="">Selecciona una opción</option>
-                                                        @foreach ($CategoriaTecnico as $nombre)
-                                                        <option value="{{ $nombre->nombre }}" {{ isset($auditoriaTendido) && trim($auditoriaTendido->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
-                                                            {{ $nombre->nombre }}</option>
+                                                            <option value="{{ $nombre->nombre }}" {{ isset($auditoriaTendido) && in_array(trim($nombre->nombre), explode(',', trim($auditoriaTendido->nombre))) ? 'selected' : '' }}>
+                                                                {{ $nombre->nombre }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -909,23 +898,20 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="defecto_material" class="col-sm-6 col-form-label">13. defecto de
-                                                material</label>
+                                            <label for="defecto_material" class="col-sm-6 col-form-label">13. defecto de material</label>
                                             <div class="col-sm-12 d-flex align-items-center" style="margin-right: -5px;">
                                                 <div class="form-check form-check-inline">
-                                                    <select name="defecto_material" id="defecto_material" class="form-control"
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaDefectoCorte as $defectoMaterial)
-                                                        <option value="{{ $defectoMaterial->nombre }}"
-                                                            {{ isset($auditoriaTendido) && trim($auditoriaTendido->defecto_material) == trim($defectoMaterial->nombre) ? 'selected' : '' }}>
-                                                            {{ $defectoMaterial->nombre }}</option>
-                                                    @endforeach
-                                                </select>
-                                                    
+                                                    <select name="defecto_material[]" id="defecto_material" class="form-control" multiple>
+                                                        <option value="">Selecciona una opción</option>
+                                                        @foreach ($CategoriaDefectoCorte as $defectoMaterial)
+                                                            <option value="{{ $defectoMaterial->nombre }}"
+                                                                {{ isset($auditoriaTendido) && in_array(trim($defectoMaterial->nombre), explode(',', trim($auditoriaTendido->defecto_material))) ? 'selected' : '' }}>
+                                                                {{ $defectoMaterial->nombre }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                         <div class="col-md-6 mb-3">
                                             <label for="yarda_marcada" class="col-sm-6 col-form-label">14. Yardas en la
                                                 marcada</label>
@@ -986,6 +972,7 @@
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <select name="accion_correctiva" id="accion_correctiva" class="form-control me-2" required>
                                                     <option value="">Selecciona una opción</option>
+                                                    <option value="NINGUNO">NINGUNO</option>
                                                     @foreach ($CategoriaAccionCorrectiva as $categoria)
                                                         <option value="{{ $categoria->accion_correctiva }}" {{ isset($auditoriaTendido) && $auditoriaTendido->accion_correctiva == $categoria->accion_correctiva ? 'selected' : '' }}>
                                                             {{ $categoria->accion_correctiva }}
@@ -1312,26 +1299,13 @@
                                     <input type="hidden" name="accion" value="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL CORTADOR</label>
+                                            <label for="nombre" class="col-sm-6 col-form-label">NOMBRE(S) CORTADOR(ES)</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="nombre" id="nombre" class="form-control"
-                                                    title="Por favor, selecciona una opción" required>
+                                                <select name="nombre[]" id="nombrel" class="form-control" multiple required>
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($Lectra) && trim($Lectra->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
-                                                            {{ $nombre->nombre }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <label for="nombre" class="col-sm-6 col-form-label">AUXILIAR DEL CORTADOR</label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="nombre2" id="nombre2" class="form-control"
-                                                    title="Por favor, selecciona una opción" required>
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($CategoriaTecnico as $nombre)
-                                                        <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($Lectra) && trim($Lectra->nombre2) === trim($nombre->nombre) ? 'selected' : '' }}>
+                                                            {{ isset($Lectra) && in_array(trim($nombre->nombre), explode(',', trim($Lectra->nombre))) ? 'selected' : '' }}>
                                                             {{ $nombre->nombre }}</option>
                                                     @endforeach
                                                 </select>
@@ -1499,22 +1473,15 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="defecto" class="col-sm-6 col-form-label">Defectos </label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <input type="text" class="form-control me-2" name="defecto"
-                                                    id="defecto" placeholder="..."
-                                                    value="{{ isset($Lectra) ? $Lectra->defecto : '' }}"
-                                                    required />
-                                                {{--
-                                                <select name="defecto" id="defecto" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                <select name="defecto[]" id="defecto" class="form-control" multiple title="Por favor, selecciona una opción" required>
                                                     <option value="">Selecciona una opción</option>
-                                                    
-                                                    @foreach ($CategoriaDefectoCorte as $defectoCorte)
-                                                        <option value="{{ $defectoCorte->nombre }}"
-                                                            {{ isset($Lectra) && trim($Lectra->defecto) == trim($defectoCorte->nombre) ? 'selected' : '' }}>
-                                                            {{ $defectoCorte->nombre }}</option>
+                                                    <option value="ninguno">Ninguno</option>
+                                                    @foreach ($CategoriaDefectoCorteTendido as $corteTendido)
+                                                        <option value="{{ $corteTendido->nombre }}"
+                                                            {{ isset($Lectra) && in_array(trim($corteTendido->nombre), explode(',', trim($Lectra->defecto))) ? 'selected' : '' }}>
+                                                            {{ $corteTendido->nombre }}</option>
                                                     @endforeach
                                                 </select>
-                                                --}}
                                             </div>
                                         </div>
 
@@ -1780,13 +1747,13 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="nombre" class="col-sm-6 col-form-label">NOMBRE DEL SELLADOR</label>
                                             <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="nombre" id="nombre" class="form-control"
-                                                    title="Por favor, selecciona una opción">
+                                                <select name="nombre[]" id="nombreb" class="form-control" multiple>
                                                     <option value="">Selecciona una opción</option>
                                                     @foreach ($CategoriaTecnico as $nombre)
                                                         <option value="{{ $nombre->nombre }}"
-                                                            {{ isset($auditoriaBulto) && trim($auditoriaBulto->nombre) === trim($nombre->nombre) ? 'selected' : '' }}>
-                                                            {{ $nombre->nombre }}</option>
+                                                            {{ isset($auditoriaBulto) && in_array(trim($nombre->nombre), explode(',', trim($auditoriaBulto->nombre))) ? 'selected' : '' }}>
+                                                            {{ $nombre->nombre }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -2249,18 +2216,46 @@
                 console.log("ERROR: No se pudo obtener el valor de estatus.");
             }
         </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('input[type="text"]');
-        
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
             });
         });
-    });
 
-</script>
+    </script>
+
+    <script>
+        $('#defecto_material').select2({
+                placeholder: 'Seleccione una o varias opciones',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+        $('#nombre').select2({
+                placeholder: 'Seleccione una o varios nombres',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+        $('#nombrel').select2({
+                placeholder: 'Seleccione una o varios nombres',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+        $('#nombreb').select2({
+                placeholder: 'Seleccione una o varios nombres',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+        $('#defecto').select2({
+                placeholder: 'Seleccione una o varios nombres',
+                allowClear: true,
+                multiple: true // Esta opción permite la selección múltiple
+            });
+    </script>
 
 
     @endsection

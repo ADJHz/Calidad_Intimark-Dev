@@ -559,8 +559,7 @@ class AuditoriaCorteController extends Controller
 
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
-            $existeOrden->nombre = $request->input('nombre');
-            $existeOrden->nombre2 = $request->input('nombre2');
+            $existeOrden->nombre = implode(',', $request->input('nombre'));
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->codigo_material = $request->input('codigo_material');
@@ -587,8 +586,7 @@ class AuditoriaCorteController extends Controller
             $existeOrden->alineacion_tendido_estatus = "1";
             $existeOrden->arruga_tendido = $request->input('arruga_tendido');
             $existeOrden->arruga_tendido_estatus = "1";
-            $existeOrden->defecto_material = $request->input('defecto_material'); 
-            $existeOrden->defecto_material_estatus = "1"; 
+            $existeOrden->defecto_material = implode(',', $request->input('defecto_material'));
             $existeOrden->yarda_marcada = $request->input('yarda_marcada'); 
             $existeOrden->yarda_marcada_estatus = $request->input('yarda_marcada_estatus');
             $existeOrden->accion_correctiva = $request->input('accion_correctiva');
@@ -639,54 +637,29 @@ class AuditoriaCorteController extends Controller
 
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
-            $existeOrden->nombre = $request->input('nombre');
-            $existeOrden->nombre2 = $request->input('nombre2');
+            $existeOrden->nombre = implode(',', $request->input('nombre'));
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->simetria_pieza1 = $request->input('simetria_pieza1');
             $existeOrden->panel1_x1 = $request->input('panel1_x1');
             $existeOrden->panel1_x2 = $request->input('panel1_x2');
-            $existeOrden->panel1_x3 = $request->input('panel1_x3');
-            $existeOrden->panel1_x4 = $request->input('panel1_x4');
-            $existeOrden->panel1_x5 = $request->input('panel1_x5');
             $existeOrden->panel1_y1 = $request->input('panel1_y1');
             $existeOrden->panel1_y2 = $request->input('panel1_y2');
-            $existeOrden->panel1_y3 = $request->input('panel1_y3');
-            $existeOrden->panel1_y4 = $request->input('panel1_y4');
-            $existeOrden->panel1_x5 = $request->input('panel1_x5');
             $existeOrden->simetria_pieza2 = $request->input('simetria_pieza2');
             $existeOrden->panel2_x1 = $request->input('panel2_x1');
             $existeOrden->panel2_x2 = $request->input('panel2_x2');
-            $existeOrden->panel2_x3 = $request->input('panel2_x3');
-            $existeOrden->panel2_x4 = $request->input('panel2_x4');
-            $existeOrden->panel2_x5 = $request->input('panel2_x5');
             $existeOrden->panel2_y1 = $request->input('panel2_y1');
             $existeOrden->panel2_y2 = $request->input('panel2_y2');
-            $existeOrden->panel2_y3 = $request->input('panel2_y3');
-            $existeOrden->panel2_y4 = $request->input('panel2_y4');
-            $existeOrden->panel2_x5 = $request->input('panel2_x5');
             $existeOrden->simetria_pieza3 = $request->input('simetria_pieza3');
             $existeOrden->panel3_x1 = $request->input('panel3_x1');
             $existeOrden->panel3_x2 = $request->input('panel3_x2');
-            $existeOrden->panel3_x3 = $request->input('panel3_x3');
-            $existeOrden->panel3_x4 = $request->input('panel3_x4');
-            $existeOrden->panel3_x5 = $request->input('panel3_x5');
             $existeOrden->panel3_y1 = $request->input('panel3_y1');
             $existeOrden->panel3_y2 = $request->input('panel3_y2');
-            $existeOrden->panel3_y3 = $request->input('panel3_y3');
-            $existeOrden->panel3_y4 = $request->input('panel3_y4');
-            $existeOrden->panel3_x5 = $request->input('panel3_x5');
             $existeOrden->simetria_pieza4 = $request->input('simetria_pieza4');
             $existeOrden->panel4_x1 = $request->input('panel4_x1');
             $existeOrden->panel4_x2 = $request->input('panel4_x2');
-            $existeOrden->panel4_x3 = $request->input('panel4_x3');
-            $existeOrden->panel4_x4 = $request->input('panel4_x4');
-            $existeOrden->panel4_x5 = $request->input('panel4_x5');
             $existeOrden->panel4_y1 = $request->input('panel4_y1');
             $existeOrden->panel4_y2 = $request->input('panel4_y2');
-            $existeOrden->panel4_y3 = $request->input('panel4_y3');
-            $existeOrden->panel4_y4 = $request->input('panel4_y4');
-            $existeOrden->panel4_x5 = $request->input('panel4_x5');
             $existeOrden->pieza_completa = $request->input('pieza_completa');
             $existeOrden->pieza_completa_estatus = $request->input('pieza_completa_estatus');
             $existeOrden->pieza_contrapatron = $request->input('pieza_contrapatron');
@@ -695,7 +668,7 @@ class AuditoriaCorteController extends Controller
             $existeOrden->yarda_tendido_estatus = $request->input('yarda_tendido_estatus');
             $existeOrden->pieza_inspeccionada = $request->input('pieza_inspeccionada'); 
             $existeOrden->cantidad_defecto = $request->input('cantidad_defecto');
-            $existeOrden->defecto = $request->input('defecto');
+            $existeOrden->defecto = implode(',', $request->input('defecto'));
             $existeOrden->porcentaje = $request->input('porcentaje');
 
         
@@ -744,7 +717,7 @@ class AuditoriaCorteController extends Controller
         //dd($existeOrden);
         // Si ya existe un registro con el mismo valor de orden_id, puedes mostrar un mensaje de error o tomar alguna otra acción
         if ($existeOrden) {
-            $existeOrden->nombre = $request->input('nombre');
+            $existeOrden->nombre = implode(',', $request->input('nombre'));
             $existeOrden->mesa = $request->input('mesa');
             $existeOrden->auditor = $request->input('auditor');
             $existeOrden->cantidad_bulto = $request->input('cantidad_bulto');
