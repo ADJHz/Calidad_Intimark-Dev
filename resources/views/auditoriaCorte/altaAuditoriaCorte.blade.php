@@ -76,7 +76,7 @@
                         <thead class="thead-primary">
                             <tr>
                                 <th>Orden</th>
-                                <th>Estilo</th>
+                                <th>Estilo</th> 
                                 <th>Planta</th>
                                 <th>Temporada</th>
                                 <th>Cliente</th>

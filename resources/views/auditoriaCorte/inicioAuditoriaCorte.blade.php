@@ -73,7 +73,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tablaBody">
-                                                        @foreach ($DatoAXNoIniciado as $inicio) 
+                                                        @foreach ($DatoAXNoIniciado as $inicio)  
                                                             <tr>
                                                                 <td><a href="{{ route('auditoriaCorte.altaAuditoriaCorte', ['id' => $inicio->id, 'orden' => $inicio->op]) }}"
                                                                         class="btn btn-primary">Acceder</a></td>

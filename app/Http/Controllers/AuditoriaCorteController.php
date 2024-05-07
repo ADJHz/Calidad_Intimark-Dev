@@ -25,7 +25,7 @@ use App\Models\AuditoriaBulto;
 use App\Models\AuditoriaFinal;
 use App\Models\CategoriaAccionCorrectiva;
 
-use App\Exports\DatosExport;
+use App\Exports\DatosExport; 
 use App\Models\DatoAX;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon

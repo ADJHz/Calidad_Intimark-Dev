@@ -249,7 +249,7 @@
                                                         <td># Bultos</td>
                                                         @for ($i = 1; $i <= 6; $i++)
                                                         <td>
-                                                            <input type="number" step="0.1" class="form-control" name="bulto{{ $i }}"
+                                                            <input type="number" class="form-control" name="bulto{{ $i }}"
                                                                 value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto'.$i} : '' }}" />
                                                         </td>
                                                         @endfor
@@ -258,7 +258,7 @@
                                                         <td>Total Piezas</td>
                                                         @for ($i = 1; $i <= 6; $i++)
                                                         <td>
-                                                            <input type="number" step="0.1" class="form-control" name="total_pieza{{ $i }}"
+                                                            <input type="number" class="form-control" name="total_pieza{{ $i }}"
                                                                 value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza'.$i} : '' }}" />
                                                         </td>
                                                         @endfor
@@ -289,7 +289,7 @@
                                                         <td># Bultos</td>
                                                         @for ($i = 1; $i <= 6; $i++)
                                                         <td>
-                                                            <input type="number" step="0.1" class="form-control" name="bulto_parcial{{ $i }}"
+                                                            <input type="number" class="form-control" name="bulto_parcial{{ $i }}"
                                                                 value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'bulto_parcial'.$i} : '' }}" />
                                                         </td>
                                                         @endfor
@@ -298,7 +298,7 @@
                                                         <td>Total Piezas</td>
                                                         @for ($i = 1; $i <= 6; $i++)
                                                         <td>
-                                                            <input type="number" step="0.1" class="form-control" name="total_pieza_parcial{{ $i }}"
+                                                            <input type="number"  class="form-control" name="total_pieza_parcial{{ $i }}"
                                                                 value="{{ isset($auditoriaMarcada) ? $auditoriaMarcada->{'total_pieza_parcial'.$i} : '' }}" />
                                                         </td>
                                                         @endfor
@@ -743,7 +743,7 @@
                                                     <select name="material_relajado" id="material_relajado" class="form-control"
                                                         title="Por favor, selecciona una opción">
                                                         <option value="">Selecciona una opción</option>
-                                                        @foreach ($CategoriaMaterialRelajado as $materialRelajado)
+                                                        @foreach ($CategoriaMaterialRelajado as $materialRelajado) 
                                                             <option value="{{ $materialRelajado->nombre }}"
                                                                 {{ isset($auditoriaTendido) && trim($auditoriaTendido->material_relajado) == trim($materialRelajado->nombre) ? 'selected' : '' }}>
                                                                 {{ $materialRelajado->nombre }}</option>
@@ -1471,21 +1471,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="defecto" class="col-sm-6 col-form-label">Defectos </label>
-                                            <div class="col-sm-12 d-flex align-items-center">
-                                                <select name="defecto[]" id="defecto" class="form-control" multiple title="Por favor, selecciona una opción" required>
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="ninguno">Ninguno</option>
-                                                    @foreach ($CategoriaDefectoCorteTendido as $corteTendido)
-                                                        <option value="{{ $corteTendido->nombre }}"
-                                                            {{ isset($Lectra) && in_array(trim($corteTendido->nombre), explode(',', trim($Lectra->defecto))) ? 'selected' : '' }}>
-                                                            {{ $corteTendido->nombre }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 mb-3">
                                             <label for="porcentaje" class="col-sm-6 col-form-label">Porcentaje</label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <input type="text" class="form-control me-2" name="porcentaje" id="porcentaje" placeholder="..."
@@ -1493,7 +1478,20 @@
                                                 <span>%</span>
                                             </div>
                                         </div>
-
+                                        <div class="col-md-6 mb-3">
+                                            <label for="select_opcion" class="col-sm-6 col-form-label">Opción</label>
+                                            <div class="col-sm-12">
+                                                <select class="form-control" name="select_opcion" id="select_opcion">
+                                                    <option value="1.0">1.0</option>
+                                                    <option value="1.5">1.5</option>
+                                                    <option value="2.0">2.0</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input type="text" class="form-control" readonly id="mensaje_validacion" />
+                                            </div>
+                                        </div>
+                                        
                                         <script>
                                             // Obtener referencia al input de cantidad de defectos y al input de porcentaje
                                             const cantidadDefectosInput = document.getElementById('cantidad_defecto');
@@ -1533,7 +1531,200 @@
                                         
                                             // Calcular el porcentaje inicial al cargar la página
                                             actualizarPorcentaje();
+
+                                            const selectOpcion = document.getElementById('select_opcion');
+                                            const mensajeValidacionInput = document.getElementById('mensaje_validacion');
+
+                                            function validarCantidadDefectos() {
+                                                const piezasInspeccionadas = parseFloat(piezasInspeccionadasInput.value);
+                                                const cantidadDefectos = parseFloat(cantidadDefectosInput.value);
+                                                const opcion = selectOpcion.value;
+
+                                                let minCantidadDefectos;
+                                                let maxCantidadDefectos;
+
+                                                switch (opcion) {
+                                                    case '1.0':
+                                                        switch (piezasInspeccionadas) {
+                                                            case 3:
+                                                            case 5:
+                                                            case 8:
+                                                            case 13:
+                                                            case 20:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                            case 32:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 1;
+                                                                break;
+                                                            case 50:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 1;
+                                                                break;
+                                                            case 80:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 2;
+                                                                break;
+                                                            case 125:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 3;
+                                                                break;
+                                                            case 200:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 5;
+                                                                break;
+                                                            case 315:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 7;
+                                                                break;
+                                                            case 500:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 10;
+                                                                break;
+                                                            case 800:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 14;
+                                                                break;
+                                                            case 1250:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 21;
+                                                                break;
+                                                            default:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                        }
+                                                        break;
+                                                    case '1.5':
+                                                        switch (piezasInspeccionadas) {
+                                                            case 3:
+                                                            case 5:
+                                                            case 8:
+                                                            case 13:
+                                                            case 20:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                            case 32:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 1;
+                                                                break;
+                                                            case 50:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 2;
+                                                                break;
+                                                            case 80:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 3;
+                                                                break;
+                                                            case 125:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 5;
+                                                                break;
+                                                            case 200:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 7;
+                                                                break;
+                                                            case 315:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 10;
+                                                                break;
+                                                            case 500:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 14;
+                                                                break;
+                                                            case 800:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 21;
+                                                                break;
+                                                            default:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                        }
+                                                        break;
+                                                    case '2.0':
+                                                        switch (piezasInspeccionadas) {
+                                                            case 3:
+                                                            case 5:
+                                                            case 8:
+                                                            case 13:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                            case 20:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 1;
+                                                                break;
+                                                            case 32:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 2;
+                                                                break;
+                                                            case 50:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 3;
+                                                                break;
+                                                            case 80:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 5;
+                                                                break;
+                                                            case 125:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 7;
+                                                                break;
+                                                            case 200:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 10;
+                                                                break;
+                                                            case 315:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 14;
+                                                                break;
+                                                            case 500:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 21;
+                                                                break;
+                                                            default:
+                                                                minCantidadDefectos = 0;
+                                                                maxCantidadDefectos = 0;
+                                                                break;
+                                                        }
+                                                        break;
+                                                    default:
+                                                        minCantidadDefectos = 0;
+                                                        maxCantidadDefectos = 0;
+                                                        break;
+                                                }
+
+                                                if (cantidadDefectos >= minCantidadDefectos && cantidadDefectos <= maxCantidadDefectos) {
+                                                    mensajeValidacionInput.value = 'Aceptable';
+                                                } else {
+                                                    mensajeValidacionInput.value = 'Rechazado';
+                                                }
+                                            }
+
+                                            selectOpcion.addEventListener('change', validarCantidadDefectos);
+                                            cantidadDefectosInput.addEventListener('input', validarCantidadDefectos);
+
                                         </script>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="defecto" class="col-sm-6 col-form-label">Defectos </label>
+                                            <div class="col-sm-12 d-flex align-items-center">
+                                                <select name="defecto[]" id="defecto" class="form-control" multiple title="Por favor, selecciona una opción" required>
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="ninguno">Ninguno</option>
+                                                    @foreach ($CategoriaDefectoCorteTendido as $corteTendido)
+                                                        <option value="{{ $corteTendido->nombre }}"
+                                                            {{ isset($Lectra) && in_array(trim($corteTendido->nombre), explode(',', trim($Lectra->defecto))) ? 'selected' : '' }}>
+                                                            {{ $corteTendido->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <button type="submit" class="btn btn-success">Guardar</button>
@@ -1676,7 +1867,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row">
+                                <div class="row"> 
                                     <div class="col-md-6 mb-3">
                                         <label for="pieza_inspeccionada" class="col-sm-6 col-form-label">Piezas inspeccionadas</label>
                                         <div class="col-sm-12 d-flex align-items-center">
