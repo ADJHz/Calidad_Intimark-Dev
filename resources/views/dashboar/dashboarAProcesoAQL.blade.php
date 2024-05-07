@@ -89,23 +89,65 @@
 
                     </script>
                     <hr>                    
-                    <table class="table  table-bordered table1">
-                        <thead class="thead-custom1 text-center">
-                            <tr>
-                                <th>Cliente</th>
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesError as $cliente => $porcentajeError)
-                                <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $cliente }}</td>
-                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom1 text-center">
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesError as $cliente => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $cliente }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Jefes de Produccion</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorJefeProduccion as $jefeProduccion => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $jefeProduccion }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Team Leader</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorTeamLeader as $teamLeader => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $teamLeader }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>                    
                     <hr>
                     <table class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
@@ -113,7 +155,7 @@
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Team Leader</th>
+                                <th>Jefes de Produccion / Team Leader</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>
@@ -132,42 +174,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Jefes de Produccion</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorJefeProduccion as $jefeProduccion => $porcentajeError)
-                                <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $jefeProduccion }}</td>
-                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Team Leader</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorTeamLeader as $teamLeader => $porcentajeError)
-                                <tr class="{{ ($porcentajeError > 10 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $teamLeader }}</td>
-                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    
                 </div>
             </div>
 
@@ -185,23 +192,65 @@
                 <hr>
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-                    <table class="table  table-bordered table1">
-                        <thead class="thead-custom1 text-center">
-                            <tr>
-                                <th>Cliente</th>
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorPlanta1 as $cliente => $porcentajeError)
-                                <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $cliente }}</td>
-                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table  table-bordered table1">
+                                <thead class="thead-custom1 text-center">
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorPlanta1 as $cliente => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $cliente }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Jefes de Produccion</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorJefeProduccionPlanta1 as $jefeProduccion => $porcentajeErrorPlanta1)
+                                        <tr class="{{ ($porcentajeErrorPlanta1 > 10 && $porcentajeErrorPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta1 > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $jefeProduccion }}</td>
+                                            <td>{{ number_format($porcentajeErrorPlanta1, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Team Leader</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorTeamLeaderPlanta1 as $teamLeader => $porcentajeErrorPlanta1)
+                                        <tr class="{{ ($porcentajeErrorPlanta1 > 10 && $porcentajeErrorPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta1 > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $teamLeader }}</td>
+                                            <td>{{ number_format($porcentajeErrorPlanta1, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <hr>
                     <table class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
@@ -209,7 +258,7 @@
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Team Leader</th>
+                                <th>Jefes de Produccion / Team Leader</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>
@@ -224,42 +273,6 @@
                                     <td>{{ $operacionesPorModuloPlanta1[$modulo] }}</td>
                                     <td>{{ $teamLeaderPorModuloPlanta1[$modulo] }}</td>
                                     <td>{{ number_format($porcentajeErrorModuloPlanta1, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Jefes de Produccion</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorJefeProduccionPlanta1 as $jefeProduccion => $porcentajeErrorPlanta1)
-                                <tr class="{{ ($porcentajeErrorPlanta1 > 10 && $porcentajeErrorPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta1 > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $jefeProduccion }}</td>
-                                    <td>{{ number_format($porcentajeErrorPlanta1, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Team Leader</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorTeamLeaderPlanta1 as $teamLeader => $porcentajeErrorPlanta1)
-                                <tr class="{{ ($porcentajeErrorPlanta1 > 10 && $porcentajeErrorPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta1 > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $teamLeader }}</td>
-                                    <td>{{ number_format($porcentajeErrorPlanta1, 2) }}%</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -281,31 +294,73 @@
                 <hr>
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
-                    <table class="table  table-bordered table1">
-                        <thead class="thead-custom1 text-center">
-                            <tr>
-                                <th>Cliente</th>
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorPlanta2 as $cliente => $porcentajeError)
-                                <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $cliente }}</td>
-                                    <td>{{ number_format($porcentajeError, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table  table-bordered table1">
+                                <thead class="thead-custom1 text-center">
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorPlanta2 as $cliente => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $cliente }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Jefes de Produccion</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorJefeProduccionPlanta2 as $jefeProduccion => $porcentajeErrorPlanta2)
+                                        <tr class="{{ ($porcentajeErrorPlanta2 > 10 && $porcentajeErrorPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta2 > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $jefeProduccion }}</td>
+                                            <td>{{ number_format($porcentajeErrorPlanta2, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-bordered table1">
+                                <thead class="thead-custom3 text-center">
+                                    <tr>
+                                        <th>Team Leader</th> 
+                                        <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($porcentajesErrorTeamLeaderPlanta2 as $teamLeader => $porcentajeErrorPlanta2)
+                                        <tr class="{{ ($porcentajeErrorPlanta2 > 10 && $porcentajeErrorPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta2 > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $teamLeader }}</td>
+                                            <td>{{ number_format($porcentajeErrorPlanta2, 2) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <hr>
-                    <table class="table table-bordered ">
+                    <table class="table table-bordered">
                         <thead class="thead-custom2 text-center">
                             <tr>
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Team Leader</th>
+                                <th>Jefes de Produccion / Team Leader</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>
@@ -314,7 +369,7 @@
                             @foreach ($porcentajesErrorModuloPlanta2 as $modulo => $porcentajeErrorModuloPlanta2)
                                 <tr class="{{ ($porcentajeErrorModuloPlanta2 > 9 && $porcentajeErrorModuloPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorModuloPlanta2 > 15 ? 'error-alto' : '') }}">
                                     <td>
-                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta2[$modulo], 'op' => $operacionesPorModuloPlanta2[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta2[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary">Ver detalles</a>
+                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta2[$modulo], 'op' => $operacionesPorModuloPlanta2[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta2[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary" style="margin-right: 0;">Ver detalles</a>
                                     </td>
                                     <td>{{ $moduloPorModuloPlanta2[$modulo] }}</td>
                                     <td>{{ $operacionesPorModuloPlanta2[$modulo] }}</td>
@@ -325,41 +380,6 @@
                         </tbody>
                     </table>
                     <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Jefes de Produccion</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorJefeProduccionPlanta2 as $jefeProduccion => $porcentajeErrorPlanta2)
-                                <tr class="{{ ($porcentajeErrorPlanta2 > 10 && $porcentajeErrorPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta2 > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $jefeProduccion }}</td>
-                                    <td>{{ number_format($porcentajeErrorPlanta2, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <hr>
-                    <table class="table table-bordered table1">
-                        <thead class="thead-custom3 text-center">
-                            <tr>
-                                <th>Team Leader</th> 
-                                <th>% Error</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($porcentajesErrorTeamLeaderPlanta2 as $teamLeader => $porcentajeErrorPlanta2)
-                                <tr class="{{ ($porcentajeErrorPlanta2 > 10 && $porcentajeErrorPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta2 > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $teamLeader }}</td>
-                                    <td>{{ number_format($porcentajeErrorPlanta2, 2) }}%</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -404,6 +424,11 @@
         .error-alto {
             background-color: #dc3545; /* Rojo */
             color: #ffffff; /* Texto blanco */
+        }
+
+        .table32 th:nth-child(1) {
+            min-width: 50px;
+            /* Ajusta el ancho mínimo según tu necesidad */
         }
     </style>
 
