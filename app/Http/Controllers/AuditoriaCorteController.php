@@ -249,7 +249,7 @@ class AuditoriaCorteController extends Controller
 
             // Realizar la actualización en la base de datos
             $auditoria= new EncabezadoAuditoriaCorte();
-            $auditoria->dato_ax_id = $idSeleccionado;
+            //$auditoria->dato_ax_id = $idSeleccionado;
             $auditoria->orden_id = $orden;
             $auditoria->estilo_id = $estilo;
             $auditoria->planta_id = $planta;
@@ -273,7 +273,7 @@ class AuditoriaCorteController extends Controller
 
 
             $auditoriaMarcada = new AuditoriaMarcada();
-            $auditoriaMarcada->dato_ax_id = $idSeleccionado;
+            //$auditoriaMarcada->dato_ax_id = $idSeleccionado;
             $auditoriaMarcada->orden_id = $orden;
             if ($i == $eventoInicial) {
                 $auditoriaMarcada->estatus = "estatusAuditoriaMarcada"; // Cambiar estatus solo para el primer registro
@@ -289,28 +289,31 @@ class AuditoriaCorteController extends Controller
             }
 
             $auditoriaTendido = new AuditoriaTendido();
-            $auditoriaTendido->dato_ax_id = $idSeleccionado;
+            //$auditoriaTendido->dato_ax_id = $idSeleccionado;
             $auditoriaTendido->orden_id = $orden;
             $auditoriaTendido->estatus = "proceso";
             $auditoriaTendido->evento = $i;
             $auditoriaTendido->save();
 
             $lectra = new Lectra();
-            $lectra->dato_ax_id = $idSeleccionado;
+            //$lectra->dato_ax_id = $idSeleccionado;
             $lectra->orden_id = $orden;
+            $lectra->cliente_id = $cliente;
             $lectra->evento = $i;
             $lectra->save();
 
             $auditoriaBulto = new AuditoriaBulto();
-            $auditoriaBulto->dato_ax_id = $idSeleccionado;
+            //$auditoriaBulto->dato_ax_id = $idSeleccionado;
             $auditoriaBulto->orden_id = $orden;
+            $auditoriaBulto->cliente_id = $cliente;
             $auditoriaBulto->estatus = "proceso";
             $auditoriaBulto->evento = $i;
             $auditoriaBulto->save();
 
             $auditoriaFinal = new AuditoriaFinal();
-            $auditoriaFinal->dato_ax_id = $idSeleccionado;
+            //$auditoriaFinal->dato_ax_id = $idSeleccionado;
             $auditoriaFinal->orden_id = $orden;
+            $auditoriaFinal->cliente_id = $cliente;
             $auditoriaFinal->estatus = "proceso";
             $auditoriaFinal->evento = $i;
             $auditoriaFinal->save();

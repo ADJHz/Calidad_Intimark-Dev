@@ -62,7 +62,7 @@
             font-size: 20px;
         }
     </style>
-    {{-- ... el resto de tu vista ... --}}
+    {{-- ... el resto de tu vista ... --}} 
     <div class="content">
         <div class="container-fluid">
             <div class="card">

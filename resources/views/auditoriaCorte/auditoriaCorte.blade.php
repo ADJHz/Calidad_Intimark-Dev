@@ -1739,7 +1739,7 @@
                                     action="{{ route('auditoriaCorte.formAuditoriaBulto', ['id' => $datoAX->id]) }}">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $datoAX->id }}">
-                                    <input type="hidden" name="idBulto" value="{{ $auditoriaBulto->id }}">
+                                    <input type="hidden" name="idBulto" value="{{ $auditoriaBulto->id }}"> 
                                     <input type="hidden" name="orden" value="{{ $datoAX->orden }}">
                                     {{-- Campo oculto para el boton Finalizar --}}
                                     <input type="hidden" name="accion" value="">
