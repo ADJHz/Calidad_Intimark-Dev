@@ -1462,6 +1462,16 @@
                                             </div> 
                                         </div>
                                         <div class="col-md-6 mb-3">
+                                            <label for="nivel_aql" class="col-sm-6 col-form-label">Nivel AQL</label>
+                                            <div class="col-sm-12">
+                                                <select class="form-control" name="nivel_aql" id="nivel_aql">
+                                                    <option value="1.0" {{ isset($Lectra) && $Lectra->nivel_aql == '1.0' ? 'selected' : '' }}>1.0</option>
+                                                    <option value="1.5" {{ isset($Lectra) && $Lectra->nivel_aql == '1.5' ? 'selected' : '' }}>1.5</option>
+                                                    <option value="2.5" {{ isset($Lectra) && $Lectra->nivel_aql == '2.5' ? 'selected' : '' }}>2.5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
                                             <label for="cantidad_defecto" class="col-sm-6 col-form-label">Cantidad de Defectos </label>
                                             <div class="col-sm-12 d-flex align-items-center">
                                                 <input type="text" class="form-control me-2" name="cantidad_defecto"
@@ -1479,16 +1489,11 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="select_opcion" class="col-sm-6 col-form-label">Opción</label>
                                             <div class="col-sm-12">
-                                                <select class="form-control" name="select_opcion" id="select_opcion">
-                                                    <option value="1.0">1.0</option>
-                                                    <option value="1.5">1.5</option>
-                                                    <option value="2.0">2.0</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <input type="text" class="form-control" readonly id="mensaje_validacion" />
+                                                <!-- Campo oculto para enviar el mensaje de validación al formulario -->
+                                                <input type="hidden" name="estado_validacion" id="estado_validacion" />
+                                                <input type="text" class="form-control" name="mensaje_validacion" readonly id="mensaje_validacion" 
+                                                value="{{ isset($Lectra) ? $Lectra->estado_validacion : '' }}" readonly />
                                             </div>
                                         </div>
                                         
@@ -1532,7 +1537,7 @@
                                             // Calcular el porcentaje inicial al cargar la página
                                             actualizarPorcentaje();
 
-                                            const selectOpcion = document.getElementById('select_opcion');
+                                            const selectOpcion = document.getElementById('nivel_aql');
                                             const mensajeValidacionInput = document.getElementById('mensaje_validacion');
 
                                             function validarCantidadDefectos() {
@@ -1644,7 +1649,7 @@
                                                                 break;
                                                         }
                                                         break;
-                                                    case '2.0':
+                                                    case '2.5':
                                                         switch (piezasInspeccionadas) {
                                                             case 3:
                                                             case 5:
@@ -1699,8 +1704,10 @@
 
                                                 if (cantidadDefectos >= minCantidadDefectos && cantidadDefectos <= maxCantidadDefectos) {
                                                     mensajeValidacionInput.value = 'Aceptable';
+                                                    document.getElementById('estado_validacion').value = 'Aceptable';
                                                 } else {
                                                     mensajeValidacionInput.value = 'Rechazado';
+                                                    document.getElementById('estado_validacion').value = 'Rechazado';
                                                 }
                                             }
 

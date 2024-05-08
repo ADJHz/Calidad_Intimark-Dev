@@ -609,6 +609,7 @@ class AuditoriaCorteController extends Controller
     public function formLectra(Request $request)
     {
         $activePage ='';
+        //dd($request->all());
         // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
         $idSeleccionado = $request->input('id');
@@ -673,6 +674,8 @@ class AuditoriaCorteController extends Controller
             $existeOrden->cantidad_defecto = $request->input('cantidad_defecto');
             $existeOrden->defecto = implode(',', $request->input('defecto'));
             $existeOrden->porcentaje = $request->input('porcentaje');
+            $existeOrden->estado_validacion = $request->input('estado_validacion');
+            $existeOrden->nivel_aql = $request->input('nivel_aql');
 
         
             $existeOrden->save();
