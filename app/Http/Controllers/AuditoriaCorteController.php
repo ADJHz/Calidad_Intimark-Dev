@@ -664,12 +664,8 @@ class AuditoriaCorteController extends Controller
             $existeOrden->panel4_x2 = $request->input('panel4_x2');
             $existeOrden->panel4_y1 = $request->input('panel4_y1');
             $existeOrden->panel4_y2 = $request->input('panel4_y2');
-            $existeOrden->pieza_completa = $request->input('pieza_completa');
-            $existeOrden->pieza_completa_estatus = $request->input('pieza_completa_estatus');
-            $existeOrden->pieza_contrapatron = $request->input('pieza_contrapatron');
+            //$existeOrden->pieza_contrapatron = $request->input('pieza_contrapatron');
             $existeOrden->pieza_contrapatron_estatus = $request->input('pieza_contrapatron_estatus');
-            $existeOrden->yarda_tendido = $request->input('yarda_tendido');
-            $existeOrden->yarda_tendido_estatus = $request->input('yarda_tendido_estatus');
             $existeOrden->pieza_inspeccionada = $request->input('pieza_inspeccionada'); 
             $existeOrden->cantidad_defecto = $request->input('cantidad_defecto');
             $existeOrden->defecto = implode(',', $request->input('defecto'));
