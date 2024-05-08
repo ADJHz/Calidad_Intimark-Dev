@@ -166,7 +166,7 @@ class HomeController extends Controller
                     ->sum('cantidad_rechazada');
 
                 // Calcula el porcentaje de error considerando la suma total de módulos únicos
-                $porcentajeErrorGerenteProduccion = ($totalModulosUnicos != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
+                $porcentajeErrorGerenteProduccion = ($totalModulosUnicos != 0 && $sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
 
                 // Guarda el porcentaje de error
                 $porcentajesErrorGerenteProduccion[$teamLeaderName] = $porcentajeErrorGerenteProduccion;
