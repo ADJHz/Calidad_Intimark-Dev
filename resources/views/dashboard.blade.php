@@ -68,6 +68,36 @@
         </div>
       </div> 
       <div class="row">
+        <div class="col-md-12">
+          <div class="card card-stats">
+            <div class="card-header-custom3">
+              <p>&nbsp;AQL Gerente de Produccion por dia Planta 1</p>
+            </div>
+            <div>
+              <table class="table table-bordered">
+                <thead class="thead-custom2 text-center">
+                    <tr>
+                        <th>Team Leader</th>
+                        <th>Cantidad de Módulos</th>
+                        <th>% Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($porcentajesErrorGerenteProduccion as $teamLeader => $porcentajeError)
+                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                            <td>{{ $teamLeader }}</td>
+                            <td>{{ $modulosPorGerenteProduccion[$teamLeader] }}</td>
+                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-primary card-header-icon">

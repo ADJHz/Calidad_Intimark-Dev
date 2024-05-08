@@ -55,11 +55,15 @@ class AuditoriaCorteController extends Controller
                     ->groupBy('op');
             })
             ->get(),
-            'DatoAXNoIniciado' => DatoAX::select('id', 'estilo', 'op')
-                ->whereIn('id', function ($query) {
-                    $query->selectRaw('MIN(id)')
+            'DatoAXNoIniciado' => DatoAX::select('estilo', 'op')
+                ->distinct()
+                ->whereNotIn('id', function ($query) {
+                    $query->select('id')
                         ->from('datos_auditorias')
-                        ->groupBy('op');
+                        ->whereIn('op', function ($subquery) {
+                            $subquery->select('orden_id')
+                                ->from('encabezado_auditoria_cortes');
+                        });
                 })
                 ->whereNull('estatus')
                 ->get(),
@@ -148,7 +152,7 @@ class AuditoriaCorteController extends Controller
             'auditorDato' => $auditorDato]));
     }
 
-    public function altaAuditoriaCorte($id, $orden)
+    public function altaAuditoriaCorte($orden)
     {
         $activePage ='';
         $categorias = $this->cargarCategorias();
@@ -161,12 +165,12 @@ class AuditoriaCorteController extends Controller
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
         // Obtener el registro correspondiente en la tabla AuditoriaMarcada si existe
-        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('id', $id)->first();
-        $auditoriaMarcada = AuditoriaMarcada::where('id', $id)->first();
-        $auditoriaTendido = AuditoriaTendido::where('id', $id)->first();
-        $Lectra = Lectra::where('id', $id)->first();
-        $auditoriaBulto = AuditoriaBulto::where('id', $id)->first();
-        $auditoriaFinal = AuditoriaFinal::where('id', $id)->first();
+        $encabezadoAuditoriaCorte = EncabezadoAuditoriaCorte::where('orden_id', $orden)->first();
+        $auditoriaMarcada = AuditoriaMarcada::where('orden_id', $orden)->first();
+        $auditoriaTendido = AuditoriaTendido::where('orden_id', $orden)->first();
+        $Lectra = Lectra::where('orden_id', $orden)->first();
+        $auditoriaBulto = AuditoriaBulto::where('orden_id', $orden)->first();
+        $auditoriaFinal = AuditoriaFinal::where('orden_id', $orden)->first();
         // apartado para validar los checbox
 
         $mostrarFinalizarMarcada = $auditoriaMarcada ? session('estatus_checked_AuditoriaMarcada') : false;
@@ -210,7 +214,7 @@ class AuditoriaCorteController extends Controller
         // Validar los datos del formulario si es necesario
         // Validar los datos del formulario si es necesario
         // Obtener el ID seleccionado desde el formulario
-        $idSeleccionado = $request->input('id');
+        //$idSeleccionado = $request->input('id');
         $idEncabezadoAuditoriaCorte = $request->input('idEncabezadoAuditoriaCorte');
         $orden = $request->input('orden');
         $estilo = $request->input('estilo');
@@ -238,18 +242,17 @@ class AuditoriaCorteController extends Controller
             return back()->with('sobre-escribir', 'Ya existen datos para este registro.');
         }
 
-        $datoAX = DatoAX::findOrFail($idSeleccionado);
+        //$datoAX = DatoAX::findOrFail($idSeleccionado);
         // Actualizar el valor de la columna deseada
-        $datoAX->estatus = 'estatusAuditoriaMarcada';
-        $datoAX->evento = $request->input('evento');
-        $datoAX->save();
+        //$datoAX->estatus = 'estatusAuditoriaMarcada';
+        //$datoAX->evento = $request->input('evento');
+        //$datoAX->save();
         //dd($request->all());
         // Generar múltiples registros en auditoria_marcadas según el valor de evento
         for ($i = 1; $i <= $request->input('total_evento'); $i++) {
 
             // Realizar la actualización en la base de datos
             $auditoria= new EncabezadoAuditoriaCorte();
-            //$auditoria->dato_ax_id = $idSeleccionado;
             $auditoria->orden_id = $orden;
             $auditoria->estilo_id = $estilo;
             $auditoria->planta_id = $planta;
@@ -289,21 +292,18 @@ class AuditoriaCorteController extends Controller
             }
 
             $auditoriaTendido = new AuditoriaTendido();
-            //$auditoriaTendido->dato_ax_id = $idSeleccionado;
             $auditoriaTendido->orden_id = $orden;
             $auditoriaTendido->estatus = "proceso";
             $auditoriaTendido->evento = $i;
             $auditoriaTendido->save();
 
             $lectra = new Lectra();
-            //$lectra->dato_ax_id = $idSeleccionado;
             $lectra->orden_id = $orden;
             $lectra->cliente_id = $cliente;
             $lectra->evento = $i;
             $lectra->save();
 
             $auditoriaBulto = new AuditoriaBulto();
-            //$auditoriaBulto->dato_ax_id = $idSeleccionado;
             $auditoriaBulto->orden_id = $orden;
             $auditoriaBulto->cliente_id = $cliente;
             $auditoriaBulto->estatus = "proceso";
@@ -311,7 +311,6 @@ class AuditoriaCorteController extends Controller
             $auditoriaBulto->save();
 
             $auditoriaFinal = new AuditoriaFinal();
-            //$auditoriaFinal->dato_ax_id = $idSeleccionado;
             $auditoriaFinal->orden_id = $orden;
             $auditoriaFinal->cliente_id = $cliente;
             $auditoriaFinal->estatus = "proceso";
@@ -327,8 +326,8 @@ class AuditoriaCorteController extends Controller
     public function agregarEventoCorte(Request $request)
     {
         $activePage ='';
-        $orden_id = $request->input('orden_id');
-        $dato_ax_id = $request->input('dato_ax_id');
+        $orden_id = $request->input('orden_id'); 
+        $cliente_id = $request->input('cliente_id'); 
 
         // Obtener el máximo evento actual para la orden_id
         $maxEvento = EncabezadoAuditoriaCorte::where('orden_id', $orden_id)->max('evento');
@@ -343,7 +342,6 @@ class AuditoriaCorteController extends Controller
             'evento' => $nuevoEvento,
             'total_evento' => $nuevoEvento,
             'estatus' => "proceso",
-            'dato_ax_id' => $request->input('dato_ax_id'),
             'estilo_id' => $request->input('estilo_id'),
             'planta_id' => $request->input('planta_id'),
             'temporada_id' => $request->input('temporada_id'),
@@ -357,7 +355,6 @@ class AuditoriaCorteController extends Controller
         ]);
 
             $auditoriaMarcada = new AuditoriaMarcada();
-            $auditoriaMarcada->dato_ax_id = $dato_ax_id;
             $auditoriaMarcada->orden_id = $orden_id;
             $auditoriaMarcada->estatus = "proceso"; // Mantener el valor "proceso" para los demás registros
             $auditoriaMarcada->evento = $nuevoEvento;
@@ -367,28 +364,27 @@ class AuditoriaCorteController extends Controller
 
 
             $auditoriaTendido = new AuditoriaTendido();
-            $auditoriaTendido->dato_ax_id = $dato_ax_id;
             $auditoriaTendido->orden_id = $orden_id;
             $auditoriaTendido->estatus = "proceso";
             $auditoriaTendido->evento = $nuevoEvento;
             $auditoriaTendido->save();
 
             $lectra = new Lectra();
-            $lectra->dato_ax_id = $dato_ax_id;
-            $lectra->orden_id = $orden_id;
+            $lectra->orden_id = $orden_id; 
+            $lectra->cliente_id = $cliente_id;
             $lectra->evento = $nuevoEvento;
             $lectra->save();
 
             $auditoriaBulto = new AuditoriaBulto();
-            $auditoriaBulto->dato_ax_id = $dato_ax_id;
             $auditoriaBulto->orden_id = $orden_id;
+            $auditoriaBulto->cliente_id = $cliente_id;
             $auditoriaBulto->estatus = "proceso";
             $auditoriaBulto->evento = $nuevoEvento;
             $auditoriaBulto->save();
 
             $auditoriaFinal = new AuditoriaFinal();
-            $auditoriaFinal->dato_ax_id = $dato_ax_id;
             $auditoriaFinal->orden_id = $orden_id;
+            $auditoriaFinal->cliente_id = $cliente_id;
             $auditoriaFinal->estatus = "proceso";
             $auditoriaFinal->evento = $nuevoEvento;
             $auditoriaFinal->save();

@@ -81,7 +81,6 @@
                 @if ($encabezadoAuditoriaCorte && $encabezadoAuditoriaCorte->estatus == "proceso")
                 <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $datoAX->id }}">
                     <input type="hidden" name="orden" value="{{ $datoAX->op }}">
                     <input type="hidden" name="idEncabezadoAuditoriaCorte" value="{{ $encabezadoAuditoriaCorte->id }}">
                     <input type="hidden" name="qtysched_id" value="{{ $datoAX->qtysched }}">

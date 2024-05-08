@@ -97,7 +97,6 @@
                 </div>
                 <form method="POST" action="{{ route('auditoriaCorte.formEncabezadoAuditoriaCorte') }}">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $datoAX->id }}">
                     <input type="hidden" name="orden" value="{{ $datoAX->op }}">
                     <input type="hidden" name="estilo" value="{{ $datoAX->estilo }}">
                     <input type="hidden" name="planta" value="{{ $datoAX->planta }}">

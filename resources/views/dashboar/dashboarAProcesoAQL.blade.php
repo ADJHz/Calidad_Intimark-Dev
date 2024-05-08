@@ -113,7 +113,7 @@
                             <table class="table table-bordered table1">
                                 <thead class="thead-custom3 text-center">
                                     <tr>
-                                        <th>Jefes de Produccion</th> 
+                                        <th>Gerentes de Produccion</th> 
                                         <th>% Error</th>
                                         <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
@@ -155,7 +155,7 @@
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Jefes de Produccion / Team Leader</th>
+                                <th>Gerentes de Produccion / Team Leader</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>
@@ -216,7 +216,7 @@
                             <table class="table table-bordered table1">
                                 <thead class="thead-custom3 text-center">
                                     <tr>
-                                        <th>Jefes de Produccion</th> 
+                                        <th>Gerentes de Produccion</th> 
                                         <th>% Error</th>
                                         <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
@@ -232,12 +232,11 @@
                             </table>
                         </div>
                         <div class="col-md-4">
-                            <table class="table table-bordered table1">
+                            {{-- <table class="table table-bordered table1">
                                 <thead class="thead-custom3 text-center">
                                     <tr>
                                         <th>Team Leader</th> 
                                         <th>% Error</th>
-                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -248,7 +247,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            </table>
+                            </table> --}}
                         </div>
                     </div>
                     <hr>
@@ -258,7 +257,7 @@
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Jefes de Produccion / Team Leader</th>
+                                <th>Gerentes de Produccion</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>
@@ -318,7 +317,7 @@
                             <table class="table table-bordered table1">
                                 <thead class="thead-custom3 text-center">
                                     <tr>
-                                        <th>Jefes de Produccion</th> 
+                                        <th>Gerentes de Produccion</th> 
                                         <th>% Error</th>
                                         <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
@@ -360,7 +359,7 @@
                                 <th>Detalles</th>
                                 <th>Modulo</th>
                                 <th>OP</th>
-                                <th>Jefes de Produccion / Team Leader</th>
+                                <th>Gerentes de Produccion / Team Leader</th>
                                 <th>% Error</th>
                                 <!-- Aquí puedes agregar más encabezados si es necesario -->
                             </tr>

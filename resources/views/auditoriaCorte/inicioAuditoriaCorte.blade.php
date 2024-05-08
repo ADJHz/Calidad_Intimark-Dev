@@ -75,7 +75,7 @@
                                                     <tbody id="tablaBody">
                                                         @foreach ($DatoAXNoIniciado as $inicio)  
                                                             <tr>
-                                                                <td><a href="{{ route('auditoriaCorte.altaAuditoriaCorte', ['id' => $inicio->id, 'orden' => $inicio->op]) }}"
+                                                                <td><a href="{{ route('auditoriaCorte.altaAuditoriaCorte', ['orden' => $inicio->op]) }}"
                                                                         class="btn btn-primary">Acceder</a></td>
                                                                 <td>{{ $inicio->op }}</td>
                                                                 <td>{{ $inicio->estilo }}</td>
@@ -133,9 +133,7 @@
                                                                     <div>
                                                                         <form method="POST" action="{{ route('auditoriaCorte.agregarEventoCorte') }}">
                                                                             @csrf
-                                                                            <input type="hidden" name="dato_ax_id" value="{{ $encabezadoCorte->dato_ax_id }}">
                                                                             <input type="hidden" name="orden_id" value="{{ $encabezadoCorte->orden_id }}">
-                                                                            <input type="hidden" name="dato_ax_id" value="{{ $encabezadoCorte->dato_ax_id }}">
                                                                             <input type="hidden" name="estilo_id" value="{{ $encabezadoCorte->estilo_id }}">
                                                                             <input type="hidden" name="planta_id" value="{{ $encabezadoCorte->planta_id }}">
                                                                             <input type="hidden" name="temporada_id" value="{{ $encabezadoCorte->temporada_id }}">
