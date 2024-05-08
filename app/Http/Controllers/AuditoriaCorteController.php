@@ -57,6 +57,7 @@ class AuditoriaCorteController extends Controller
             ->get(),
             'DatoAXNoIniciado' => DatoAX::select('estilo', 'op')
                 ->distinct()
+                ->whereNotNull('op')
                 ->whereNotIn('id', function ($query) {
                     $query->select('id')
                         ->from('datos_auditorias')
