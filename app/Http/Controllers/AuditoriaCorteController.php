@@ -58,7 +58,8 @@ class AuditoriaCorteController extends Controller
             'DatoAXNoIniciado' => DatoAX::select('estilo', 'op')
                 ->distinct()
                 ->whereNotNull('op')
-                ->where('op', 'REGEXP', '^OP[0-9a-zA-Z_]+')
+                ->whereNotNull('sizename') // Descarta valores nulos
+                ->where('sizename', '<>', '') // Descarta valores vacíos
                 ->whereNotIn('id', function ($query) {
                     $query->select('id')
                         ->from('datos_auditorias')
@@ -115,6 +116,8 @@ class AuditoriaCorteController extends Controller
         $auditoriaBulto = AuditoriaBulto::where('id', $id)->first();
         $auditoriaFinal = AuditoriaFinal::where('id', $id)->first();
         $auditoriaMarcadaTalla = DatoAX::where('op', $orden)
+            ->whereNotNull('sizename') // Descartar valores NULL
+            ->where('sizename', '<>', '') // Descartar valores vacíos
             ->select('sizename')
             ->distinct()
             ->pluck('sizename');
