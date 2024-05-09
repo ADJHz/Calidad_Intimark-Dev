@@ -117,45 +117,25 @@ class HomeController extends Controller
 
 
             //apartado para mostrar daots de gerente de prodduccion, en este caso por dia
-            $gerentesProduccionAQL = AuditoriaAQL::where('jefe_produccion', 1)
+            $gerentesProduccion = AuditoriaAQL::where('jefe_produccion', 1)
                 ->whereDate('created_at', $fechaActual)
                 ->select('team_leader')
                 ->distinct()
                 ->get();
-
-            $gerentesProduccionAseguramiento = AseguramientoCalidad::where('jefe_produccion', 1)
-                ->whereDate('created_at', $fechaActual)
-                ->select('team_leader')
-                ->distinct()
-                ->get();
-
-            $gerentesProduccion = $gerentesProduccionAQL->merge($gerentesProduccionAseguramiento)->unique();
 
             $porcentajesErrorGerenteProduccion = [];
             $modulosPorGerenteProduccion = [];
 
-            foreach ($gerentesProduccion as $teamLeader) {
-                $teamLeaderName = $teamLeader->team_leader;
+            foreach ($gerentesProduccion as $gerenteProduccion) {
+                $teamLeader = $gerenteProduccion->team_leader;
 
-                $modulosUnicosAuditoria = AuditoriaAQL::where('team_leader', $teamLeaderName)
-                    ->where('jefe_produccion', 1)
+                $modulosUnicos = AuditoriaAQL::where('team_leader', $teamLeader)
                     ->whereDate('created_at', $fechaActual)
                     ->select('modulo')
                     ->distinct()
-                    ->count();
+                    ->count('modulo');
 
-                $modulosUnicosAseguramiento = AseguramientoCalidad::where('team_leader', $teamLeaderName)
-                    ->where('jefe_produccion', 1)
-                    ->whereDate('created_at', $fechaActual)
-                    ->select('modulo')
-                    ->distinct()
-                    ->count();
-
-                // Calcula la suma total de módulos únicos
-                $totalModulosUnicos = $modulosUnicosAuditoria + $modulosUnicosAseguramiento;
-
-                // Guarda la suma total en el array de módulos por gerente
-                $modulosPorGerenteProduccion[$teamLeaderName] = $totalModulosUnicos;
+                $modulosPorGerenteProduccion[$teamLeader] = $modulosUnicos;
 
                 $sumaAuditadaGerenteProduccion = AuditoriaAQL::where('team_leader', $teamLeader)
                     ->whereDate('created_at', $fechaActual)
@@ -165,14 +145,50 @@ class HomeController extends Controller
                     ->whereDate('created_at', $fechaActual)
                     ->sum('cantidad_rechazada');
 
-                // Calcula el porcentaje de error considerando la suma total de módulos únicos
-                $porcentajeErrorGerenteProduccion = ($totalModulosUnicos != 0 && $sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
+                $porcentajeErrorGerenteProduccion = ($sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
 
-                // Guarda el porcentaje de error
-                $porcentajesErrorGerenteProduccion[$teamLeaderName] = $porcentajeErrorGerenteProduccion;
+                $porcentajesErrorGerenteProduccion[$teamLeader] = $porcentajeErrorGerenteProduccion;
             }
 
             arsort($porcentajesErrorGerenteProduccion);
+
+
+
+            $gerentesProduccionProceso = AseguramientoCalidad::where('jefe_produccion', 1)
+                ->whereDate('created_at', $fechaActual)
+                ->select('team_leader')
+                ->distinct()
+                ->get();
+
+            $porcentajesErrorGerenteProduccionProceso = [];
+            $modulosPorGerenteProduccionProceso = [];
+
+            foreach ($gerentesProduccionProceso as $gerenteProduccion) {
+                $teamLeader = $gerenteProduccion->team_leader;
+
+                $modulosUnicos = AseguramientoCalidad::where('team_leader', $teamLeader)
+                    ->whereDate('created_at', $fechaActual)
+                    ->select('modulo')
+                    ->distinct()
+                    ->count('modulo');
+
+                $modulosPorGerenteProduccionProceso[$teamLeader] = $modulosUnicos;
+
+                $sumaAuditadaGerenteProduccion = AseguramientoCalidad::where('team_leader', $teamLeader)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_auditada');
+
+                $sumaRechazadaGerenteProduccion = AseguramientoCalidad::where('team_leader', $teamLeader)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_rechazada');
+
+                $porcentajeErrorGerenteProduccion = ($sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
+
+                $porcentajesErrorGerenteProduccionProceso[$teamLeader] = $porcentajeErrorGerenteProduccion;
+            }
+
+            arsort($porcentajesErrorGerenteProduccionProceso);
+
 
             return view('dashboard', compact('title', 'concentradoTotalAprobado', 'concentradoTotalRechazado', 'concentradoTotalPorcentaje',
                                     'conteoBultosDia', 'conteoPiezaConRechazoDia', 'conteoPiezaAceptadoDia',
@@ -182,7 +198,9 @@ class HomeController extends Controller
                                     'totalPorcentajeProceso', 'procesoAprobados', 'procesoRechazados',
                                     'totalPorcentajePlayera', 'playeraAprobados', 'playeraRechazados',
                                     'totalPorcentajeAQL', 'aQLAprobados', 'aQLRechazados', 
-                                    'porcentajesErrorGerenteProduccion', 'modulosPorGerenteProduccion'));
+                                    'porcentajesErrorGerenteProduccion', 'modulosPorGerenteProduccion',
+                                    'porcentajesErrorGerenteProduccionProceso', 'modulosPorGerenteProduccionProceso',
+                                    'data'));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios
             return redirect()->route('viewlistaFormularios');

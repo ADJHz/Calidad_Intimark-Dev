@@ -92,6 +92,47 @@
                     @endforeach
                 </tbody>
               </table>
+              <hr>
+              <table class="table table-bordered">
+                <thead class="thead-custom2 text-center">
+                    <tr>
+                        <th>Team Leader</th>
+                        <th>Cantidad de Módulos</th>
+                        <th>% Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($porcentajesErrorGerenteProduccionProceso as $teamLeader => $porcentajeError)
+                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                            <td>{{ $teamLeader }}</td>
+                            <td>{{ $modulosPorGerenteProduccionProceso[$teamLeader] }}</td>
+                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+              </table>
+              <hr>
+              <table class="table table-bordered">
+                <thead class="thead-custom2 text-center">
+                    <tr>
+                        <th>Team Leader</th>
+                        <th>Cantidad de Módulos</th>
+                        <th>% Error AQL</th>
+                        <th>% Error Proceso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data as $item)
+                        <tr>
+                            <td>{{ $item['team_leader'] }}</td>
+                            <td>{{ $item['modulos_unicos'] }}</td>
+                            <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                            <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
             </div>
           </div>
         </div>
