@@ -69,6 +69,7 @@ class AuditoriaCorteController extends Controller
                         });
                 })
                 ->whereNull('estatus')
+                ->where('period', '>', '202312') // Descarta valores menores o iguales a "202312"
                 ->get(),
             'DatoAXProceso' => DatoAX::whereNotIn('estatus', ['fin'])
                            ->whereNotNull('estatus')
@@ -118,6 +119,7 @@ class AuditoriaCorteController extends Controller
         $auditoriaMarcadaTalla = DatoAX::where('op', $orden)
             ->whereNotNull('sizename') // Descartar valores NULL
             ->where('sizename', '<>', '') // Descartar valores vacíos
+            ->where('period', '>', '202312') 
             ->select('sizename')
             ->distinct()
             ->pluck('sizename');
