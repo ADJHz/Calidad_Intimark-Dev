@@ -79,14 +79,14 @@
     </style>
 
     <script>
-        $(document).ready(function() {
+     $(document).ready(function() {
             // Inicializar Select2 para la orden
             $('#ordenSelect').select2({
                 placeholder: 'Seleccione una orden',
                 allowClear: true
             });
             $.ajax({
-                url: '/NoOrdenesOP',
+                url: '/NoOrdenes',
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -96,34 +96,19 @@
                     $('#ordenSelect').append($('<option>', {
                         disabled: true,
                         selected: true,
-                        text: 'Selecciona una opción'
                     }));
                     // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(index, value) {
-                        // Verificar si 'op', 'cpo' y 'salesid' existen en el objeto
-                        if (value.op !== undefined) {
-                            $('#ordenSelect').append($('<option>', {
-                                text: value.op
-                            }));
-                        }
-                        if (value.cpo !== undefined) {
-                            $('#ordenSelect').append($('<option>', {
-                                text: value.cpo
-                            }));
-                        }
-                        if (value.salesid !== undefined) {
-                            $('#ordenSelect').append($('<option>', {
-                                text: value.salesid
-                            }));
-                        }
+                    $.each(data, function(key, value) {
+                        $('#ordenSelect').append($('<option>', {
+                            text: value.OrdenCompra
+                        }));
                     });
                 },
                 error: function(error) {
                     console.error('Error al cargar opciones de ordenes: ', error);
                 }
             });
-
-            // Manejar clic en el botón de búsqueda
+    // Manejar clic en el botón de búsqueda
             $('#Buscar').click(function() {
                 var orden = $('#ordenSelect').val();
                 if (orden) {
@@ -311,7 +296,8 @@
                             // Agregar fila a la tabla
                             var fila = '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
-                                '<td style="text-align: center;">' + columnaOrden + '</td>' +
+                                '<td style="text-align: center;">' + columnaOrden +
+                                '</td>' +
                                 '<td style="text-align: center;">' + (item.estilo ? item
                                     .estilo : '') + '</td>' +
                                 '<td style="text-align: center;">' + (item
