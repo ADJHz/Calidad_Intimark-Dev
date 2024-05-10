@@ -79,36 +79,74 @@
     </style>
 
     <script>
-     $(document).ready(function() {
-            // Inicializar Select2 para la orden
-            $('#ordenSelect').select2({
-                placeholder: 'Seleccione una orden',
-                allowClear: true
-            });
-            $.ajax({
-                url: '/NoOrdenes',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar las opciones existentes
-                    $('#ordenSelect').empty();
-                    // Agregar la opción predeterminada
+      $(document).ready(function() {
+    // Inicializar Select2 para la orden
+    $('#ordenSelect').select2({
+        placeholder: 'Seleccione una orden',
+        allowClear: true
+    });
+
+    var currentPage = 1; // Página actual de resultados
+    var totalPages = 1; // Total de páginas de resultados
+    var searchTerm = ''; // Término de búsqueda actual
+
+    // Función para cargar la siguiente página de resultados
+    function loadNextPage() {
+        // Si hemos alcanzado la última página, detenemos la búsqueda
+        if (currentPage > totalPages) {
+            return;
+        }
+
+        $.ajax({
+            url: '/NoOrdenesOP',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                page: currentPage,
+                searchTerm: searchTerm // Enviamos el término de búsqueda al servidor
+            },
+            success: function(data) {
+                // Actualizamos el total de páginas
+                totalPages = data.last_page;
+                // Agregamos las nuevas opciones desde la respuesta del servidor
+                $.each(data.data, function(index, value) {
+                    // Agregar las opciones al select
                     $('#ordenSelect').append($('<option>', {
-                        disabled: true,
-                        selected: true,
+                        text: value.op || value.cpo || value.salesid
                     }));
-                    // Agregar las nuevas opciones desde la respuesta del servidor
-                    $.each(data, function(key, value) {
-                        $('#ordenSelect').append($('<option>', {
-                            text: value.OrdenCompra
-                        }));
-                    });
-                },
-                error: function(error) {
-                    console.error('Error al cargar opciones de ordenes: ', error);
+                });
+                // Incrementamos la página actual
+                currentPage++;
+                // Si no hemos encontrado el término de búsqueda y hay más páginas, cargamos la siguiente página
+                if (currentPage <= totalPages && !searchTerm) {
+                    loadNextPage();
                 }
-            });
-    // Manejar clic en el botón de búsqueda
+            },
+            error: function(error) {
+                console.error('Error al cargar opciones de ordenes: ', error);
+            }
+        });
+    }
+
+    // Evento de búsqueda del select
+    $('#ordenSelect').on('select2:open', function() {
+        // Limpiamos el select al abrir para evitar duplicados
+        $(this).empty();
+        // Reiniciamos las variables de página y término de búsqueda
+        currentPage = 1;
+        totalPages = 1;
+        searchTerm = '';
+        // Cargamos la primera página de resultados
+        loadNextPage();
+    });
+
+    // Evento de selección de búsqueda del select
+    $('#ordenSelect').on('select2:selecting', function(e) {
+        // Actualizamos el término de búsqueda
+        searchTerm = e.params.args.data.text;
+    });
+
+            // Manejar clic en el botón de búsqueda
             $('#Buscar').click(function() {
                 var orden = $('#ordenSelect').val();
                 if (orden) {
