@@ -201,7 +201,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button type="submit" class="btn btn-success">Añadir</button>
+                            <button type="submit" class="btn btn-success">Guardar</button>
                         @endif
                     </form>
                     <hr>

@@ -221,6 +221,7 @@
                                                                             <th>Accion</th>
                                                                             <th>Módulo</th>
                                                                             <th>Estilo</th>
+                                                                            <th>Gerente de Produccion</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -241,6 +242,7 @@
                                                                                 </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
                                                                                 <td>{{ $proceso->estilo }}</td>
+                                                                                <td>{{ $proceso->team_leader }}</td>
 
                                                                             </tr>
                                                                         @endforeach

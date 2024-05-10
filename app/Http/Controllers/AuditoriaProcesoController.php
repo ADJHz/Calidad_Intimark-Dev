@@ -207,6 +207,7 @@ class AuditoriaProcesoController extends Controller
         }
         //dd($registros, $fechaActual);
         // Calcula el porcentaje total
+        
         $total_porcentajeIndividual = $total_auditadaIndividual != 0 ? ($total_rechazadaIndividual / $total_auditadaIndividual) * 100 : 0;
         
         
@@ -313,12 +314,21 @@ class AuditoriaProcesoController extends Controller
         $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
             ->where('jefe_produccion', 1)
             ->first();
-        // dd($request->all());
+
+        //$diferenciaModulo = $request->modulo == $request->modulo_adicional;
+        //dd($diferenciaModulo, $request->all());
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
+        if(($request->modulo == "101A") && ($request->modulo_adicional == "101A")){
+            $nuevoRegistro->modulo = $request->modulo;
+            $nuevoRegistro->modulo_adicional = NULL;
+        }elseif($request->modulo_adicional != "101A"){
+            $nuevoRegistro->modulo = $request->modulo;
+            $nuevoRegistro->modulo_adicional = $request->modulo_adicional;
+        }
         $nuevoRegistro->modulo = $request->modulo;
         $nuevoRegistro->planta = $plantaBusqueda;
-        $nuevoRegistro->modulo_adicional = ($request->modulo == $request->modulo_adicional) ? NULL : $request->modulo_adicional;
+        //$nuevoRegistro->modulo_adicional = ($request->modulo == $request->modulo_adicional) ? NULL : $request->modulo_adicional;
         $nuevoRegistro->estilo = $request->estilo;
         $nuevoRegistro->cliente = $request->cliente;
         $nuevoRegistro->team_leader = $request->team_leader;
@@ -340,6 +350,9 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->operacion = $request->operacion;
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+        if($request->cantidad_rechazada > 0){
+            $nuevoRegistro->inicio_paro = Carbon::now();
+        }
         $nuevoRegistro->ac = $request->ac;
         $nuevoRegistro->pxp = $request->pxp;
 
@@ -355,6 +368,8 @@ class AuditoriaProcesoController extends Controller
             $nuevoTp->tp = $tp;
             $nuevoTp->save();
         }
+
+        
 
         return back()->with('success', 'Datos guardados correctamente.')->with('activePage', $activePage);
     }
@@ -409,6 +424,27 @@ class AuditoriaProcesoController extends Controller
         
 
         return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
+    }
+
+    public function cambiarEstadoInicioParo(Request $request)
+    {
+        $activePage ='';
+        $id = $request->idCambio;
+        //dd($id);
+        $registro = AseguramientoCalidad::find($id);
+        $registro->fin_paro = Carbon::now();
+        
+        // Calcular la duración del paro en minutos
+        $inicioParo = Carbon::parse($registro->inicio_paro);
+        $finParo = Carbon::parse($registro->fin_paro);
+        $minutosParo = $inicioParo->diffInMinutes($finParo);
+        
+        // Almacenar la duración en minutos
+        $registro->minutos_paro = $minutosParo;
+
+        $registro->save();
+
+        return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }
 
 }

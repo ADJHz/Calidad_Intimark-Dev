@@ -190,6 +190,90 @@ class HomeController extends Controller
             arsort($porcentajesErrorGerenteProduccionProceso);
 
 
+            $gerentesProduccionAQL = AuditoriaAQL::where('jefe_produccion', 1)
+                ->whereDate('created_at', $fechaActual)
+                ->select('team_leader')
+                ->distinct()
+                ->pluck('team_leader')
+                ->all();
+
+            $gerentesProduccionProceso = AseguramientoCalidad::where('jefe_produccion', 1)
+                ->whereDate('created_at', $fechaActual)
+                ->select('team_leader')
+                ->distinct()
+                ->pluck('team_leader')
+                ->all();
+
+            $gerentesProduccion = array_unique(array_merge($gerentesProduccionAQL, $gerentesProduccionProceso));
+
+            
+            $data = [];
+            //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion);
+            foreach ($gerentesProduccion as $gerente) {
+                $modulosUnicosAQL = AuditoriaAQL::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->select('modulo')
+                    ->distinct()
+                    ->get()
+                    ->pluck('modulo');
+            
+                $modulosUnicosProceso = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->select('modulo')
+                    ->distinct()
+                    ->get()
+                    ->pluck('modulo');
+            
+                $modulosUnicos = count(array_unique(array_merge($modulosUnicosAQL->toArray(), $modulosUnicosProceso->toArray())));
+            
+                $sumaAuditadaAQL = AuditoriaAQL::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_auditada');
+            
+                $sumaRechazadaAQL = AuditoriaAQL::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_rechazada');
+            
+                $sumaAuditadaProceso = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_auditada');
+            
+                $sumaRechazadaProceso = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_rechazada');
+            
+                $porcentajeErrorAQL = ($sumaAuditadaAQL != 0) ? ($sumaRechazadaAQL / $sumaAuditadaAQL) * 100 : 0;
+                $porcentajeErrorProceso = ($sumaAuditadaProceso != 0) ? ($sumaRechazadaProceso / $sumaAuditadaProceso) * 100 : 0;
+
+                $conteoOperario = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->where('utility', null)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('nombre');
+                $conteoUtility = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->where('utility', 1)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('nombre');
+                $conteoMinutos = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('minutos_paro');
+
+                $sumaMinutos = AseguramientoCalidad::where('team_leader', $gerente)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('minutos_paro');
+                $data[] = [
+                    'team_leader' => $gerente,
+                    'modulos_unicos' => $modulosUnicos,
+                    'porcentaje_error_aql' => $porcentajeErrorAQL,
+                    'porcentaje_error_proceso' => $porcentajeErrorProceso,
+                    'conteoOperario' => $conteoOperario,
+                    'conteoUtility' => $conteoUtility,
+                    'conteoMinutos' => $conteoMinutos,
+                    'sumaMinutos' => $sumaMinutos,
+                ];
+            }
+            
+
+            //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion, $data);
             return view('dashboard', compact('title', 'concentradoTotalAprobado', 'concentradoTotalRechazado', 'concentradoTotalPorcentaje',
                                     'conteoBultosDia', 'conteoPiezaConRechazoDia', 'conteoPiezaAceptadoDia',
                                     'conteoBultosDiaPlanta1', 'conteoPiezaConRechazoDiaPlanta1', 'conteoPiezaAceptadoDiaPlanta1',

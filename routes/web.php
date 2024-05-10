@@ -130,6 +130,7 @@ Route::post('/formFinalizarProceso', [AuditoriaProcesoController::class, 'formFi
 Route::get('/modules', [AuditoriaProcesoController::class, 'getModules'])->name('modules.getModules');
 Route::get('/names-by-module', [AuditoriaProcesoController::class, 'getNamesByModule'])->name('modules.getNamesByModule');
 Route::get('/utilities', [AuditoriaProcesoController::class, 'getUtilities'])->name('utilities.getUtilities');
+Route::post('/cambiarEstadoInicioParo', [AuditoriaProcesoController::class, 'cambiarEstadoInicioParo'])->name('aseguramientoCalidad.cambiarEstadoInicioParo');
 
 
 //Inicio apartado para seccion Auditoria AQL

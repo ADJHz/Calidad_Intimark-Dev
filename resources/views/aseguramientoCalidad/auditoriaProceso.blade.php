@@ -335,7 +335,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button type="submit" class="btn btn-success">Añadir</button>
+                            <button type="submit" class="btn btn-success">GUARDAR</button>
                         @endif
                     </form>
                     <hr>
@@ -417,6 +417,7 @@
                                 <table class="table">
                                     <thead class="thead-primary">
                                         <tr>
+                                            <th>Paro</th>
                                             <th>Nombre</th>
                                             <th>Operacion </th>
                                             <th>Piezas Auditadas</th>
@@ -434,6 +435,19 @@
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
+                                                <td>
+                                                    @if($registro->inicio_paro == NULL)
+                                                        -
+                                                    @elseif($registro->fin_paro != NULL)
+                                                        {{$registro->minutos_paro}}
+                                                    @elseif($registro->fin_paro == NULL)
+                                                        <form method="POST" action="{{ route('aseguramientoCalidad.cambiarEstadoInicioParo') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="idCambio" value="{{ $registro->id }}">
+                                                            <button type="submit" class="btn btn-primary">Fin Paro</button>
+                                                        </form>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="nombre"
                                                         value="{{ $registro->nombre }}" readonly>

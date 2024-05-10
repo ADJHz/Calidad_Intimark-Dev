@@ -117,6 +117,10 @@
                     <tr>
                         <th>Team Leader</th>
                         <th>Cantidad de Módulos</th>
+                        <th>Numero de Operarios</th>
+                        <th>Numero de Utility</th> 
+                        <th>Cantidad Paro</th>
+                        <th>Minutos Paro</th>
                         <th>% Error AQL</th>
                         <th>% Error Proceso</th>
                     </tr>
@@ -126,6 +130,10 @@
                         <tr>
                             <td>{{ $item['team_leader'] }}</td>
                             <td>{{ $item['modulos_unicos'] }}</td>
+                            <td>{{ $item['conteoOperario'] }}</td> 
+                            <td>{{ $item['conteoUtility'] }}</td>  
+                            <td>{{ $item['conteoMinutos'] }}</td> 
+                            <td>{{ $item['sumaMinutos'] }}</td> 
                             <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
                             <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
                         </tr>
