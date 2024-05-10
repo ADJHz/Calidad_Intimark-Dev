@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DatosAuditoriaEtiquetas as ModelsDatosAuditoriaEtiquetas;
 use App\Models\Cat_DefEtiquetas;
-use App\Models\DatoAX;
-use App\Models\DatosAX;
-use App\Models\ReporteAuditoriaEtiqueta;
+use App\Models\DatosAXOV;
 use App\Models\ReporteAuditoriaEtiquetasOP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,21 +18,23 @@ class DatosAuditoriaEtiquetasOP extends Controller
         ];
         return view('formulariosCalidad.auditoriaEtiquetasOP', compact('mesesEnEspanol'));
     }
-    public function NoOrdenesOP()
+    public function NoOrdenesOP(Request $request)
     {
-        $ordenes = DatosAX::select('op', 'cpo', 'salesid')
+        $perPage = $request->input('perPage', 1000); // Número de registros por página
+        $ordenes = DatosAXOV::select('op', 'cpo', 'salesid')
             ->distinct()
-            ->get();
+            ->paginate($perPage);
 
         return response()->json($ordenes);
     }
+
 
     public function buscarEstilosOP(Request $request)
     {
         $orden = $request->input('orden');
 
         // Buscar datos relacionados con la orden seleccionada
-        $estilos = DatosAX::where('op', $orden)
+        $estilos = DatosAXOV::where('op', $orden)
             ->orWhere('cpo', $orden)
             ->orWhere('salesid', $orden)
             ->select('estilo')
@@ -55,7 +55,7 @@ class DatosAuditoriaEtiquetasOP extends Controller
     private function obtenerEstadoAuditoriaOP($orden, $estilo)
     {
         // Obtener todos los registros relacionados con la orden y el estilo
-        $registros = DatosAX::where('op', $orden)
+        $registros = DatosAXOV::where('op', $orden)
             ->orWhere('cpo', $orden)
             ->orWhere('salesid', $orden)
             ->where('estilo', $estilo)
@@ -109,7 +109,7 @@ class DatosAuditoriaEtiquetasOP extends Controller
 
 
         // Buscar datos relacionados con el estilo especificado y la orden de compra
-        $datos = DatosAX::where('estilo', $estilo)
+        $datos = DatosAXOV::where('estilo', $estilo)
         ->where($columnaOrden, $orden) // Cambio realizado aquí
         ->where(function ($query) {
             $query->whereNull('statusOP')
@@ -207,7 +207,7 @@ class DatosAuditoriaEtiquetasOP extends Controller
                 }
 
                 // Buscar si existe un registro con el mismo ID en ModelsDatosAuditoriaEtiquetas
-                $registroExistenteModel = DatosAX::find($datos[$i]['id']);
+                $registroExistenteModel = DatosAXOV::find($datos[$i]['id']);
                 if ($registroExistenteModel) {
                     // Si existe un registro en ModelsDatosAuditoriaEtiquetas, actualizar solo su atributo 'status'
                     $registroExistenteModel->statusOP = 'Iniciado';
@@ -266,7 +266,7 @@ class DatosAuditoriaEtiquetasOP extends Controller
                 }
 
                 // Buscar si existe un registro con el ID de la fila seleccionada en ModelsDatosAuditoriaEtiquetas
-                $statusupdate = DatosAX::find($rowId);
+                $statusupdate = DatosAXOV::find($rowId);
                 if ($statusupdate) {
                     // Si existe un registro en ModelsDatosAuditoriaEtiquetas, actualizar solo su atributo 'status'
                     $statusupdate->update([
