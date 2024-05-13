@@ -12,6 +12,8 @@ use App\Models\CategoriaTipoProblema;
 use App\Models\CategoriaAccionCorrectiva;
 use App\Models\CategoriaUtility; 
 use App\Models\TpAseguramientoCalidad; 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificacionParo;
 
 use App\Models\EvaluacionCorte;
 use Carbon\Carbon; // Asegúrate de importar la clase Carbon
@@ -36,10 +38,12 @@ class AuditoriaProcesoController extends Controller
             'teamLeaderPlanta1' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark1')
+                ->where('estatus', 1)
                 ->get(),
             'teamLeaderPlanta2' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark2')
+                ->where('estatus', 1)
                 ->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
                 ->select('moduleid', 'itemid')
@@ -351,7 +355,11 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
         if($request->cantidad_rechazada > 0){
-            $nuevoRegistro->inicio_paro = Carbon::now();
+            $nuevoRegistro->inicio_paro = Carbon::now(); 
+
+            // Aquí envías el correo
+            //Mail::to('bteofilo@intimark.com.mx')
+            //    ->send(new NotificacionParo($nuevoRegistro));
         }
         $nuevoRegistro->ac = $request->ac;
         $nuevoRegistro->pxp = $request->pxp;

@@ -37,10 +37,12 @@ class AuditoriaAQLController extends Controller
             'teamLeaderPlanta1' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark1')
+                ->where('estatus', 1)
                 ->get(),
             'teamLeaderPlanta2' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark2')
+                ->where('estatus', 1)
                 ->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
                 ->select('moduleid', 'itemid')

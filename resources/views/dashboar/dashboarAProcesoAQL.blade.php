@@ -149,7 +149,7 @@
                         </div>
                     </div>                    
                     <hr>
-                    <table class="table table-bordered ">
+                    <table id="tablaDetallesPorModulo" class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
                                 <th>Detalles</th>
@@ -198,17 +198,24 @@
                                 <thead class="thead-custom1 text-center">
                                     <tr>
                                         <th>Cliente</th>
-                                        <th>% Error</th>
+                                        <th>% Error Proceso</th>
+                                        <th>% Error AQL</th>
                                         <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($porcentajesErrorPlanta1 as $cliente => $porcentajeError)
-                                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                                            <td>{{ $cliente }}</td>
-                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
+                                    @foreach ($dataClientePlanta1 as $clienteData)
+                                        <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $clienteData['cliente'] }}</td>
+                                            <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
+                                            <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
                                         </tr>
                                     @endforeach
+                                        <tr>
+                                            <td>GENERAL</td>
+                                            <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
+                                            <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
+                                        </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -232,18 +239,19 @@
                             </table>
                         </div>
                         <div class="col-md-4">
-                            {{-- <table class="table table-bordered table1">
-                                <thead class="thead-custom3 text-center">
+                            {{-- <table class="table  table-bordered table1">
+                                <thead class="thead-custom1 text-center">
                                     <tr>
-                                        <th>Team Leader</th> 
+                                        <th>Cliente</th>
                                         <th>% Error</th>
+                                        <!-- Aquí puedes agregar más encabezados si es necesario -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($porcentajesErrorTeamLeaderPlanta1 as $teamLeader => $porcentajeErrorPlanta1)
-                                        <tr class="{{ ($porcentajeErrorPlanta1 > 10 && $porcentajeErrorPlanta1 <= 15) ? 'error-bajo' : ($porcentajeErrorPlanta1 > 15 ? 'error-alto' : '') }}">
-                                            <td>{{ $teamLeader }}</td>
-                                            <td>{{ number_format($porcentajeErrorPlanta1, 2) }}%</td>
+                                    @foreach ($porcentajesErrorProcesoPlanta1 as $cliente => $porcentajeError)
+                                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
+                                            <td>{{ $cliente }}</td>
+                                            <td>{{ number_format($porcentajeError, 2) }}%</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -251,7 +259,54 @@
                         </div>
                     </div>
                     <hr>
-                    <table class="table table-bordered ">
+                    <table id="tablaProcesoAQL" class="table table-bordered">
+                        <thead class="thead-custom2 text-center">
+                            <tr>
+                                <th>Detalles</th>
+                                <th>Gerentes Produccion</th>
+                                <th>Cantidad de Módulos</th>
+                                <th>Numero de Operarios</th>
+                                <th>Numero de Utility</th> 
+                                <th>Cantidad Paro</th>
+                                <th>Minutos Paro</th>
+                                <th>Promedio Minutos Paro</th>
+                                <th>% Error AQL</th>
+                                <th>% Error Proceso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($dataGerentes as $item)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('dashboar.detallePorGerente', ['planta' => 'Intimark1', 'team_leader' => $item['team_leader'], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary" style="margin-right: 0;">Ver detalles</a>
+                                    </td>
+                                    <td>{{ $item['team_leader'] }}</td>
+                                    <td>{{ $item['modulos_unicos'] }}</td>
+                                    <td>{{ $item['conteoOperario'] }}</td> 
+                                    <td>{{ $item['conteoUtility'] }}</td>  
+                                    <td>{{ $item['conteoMinutos'] }}</td> 
+                                    <td>{{ $item['sumaMinutos'] }}</td> 
+                                    <td>{{ $item['promedioMinutosEntero'] }}</td>
+                                    <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                                    <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tr style="background: #ddd">
+                            <td style="background: white"></td>
+                            <td>Total</td>
+                            <td>{{ $dataGerentesTotales->sum('modulos_unicos') }}</td>
+                            <td>{{ $dataGerentesTotales->sum('conteoOperario') }}</td>
+                            <td>{{ $dataGerentesTotales->sum('conteoUtility') }}</td>
+                            <td>{{ $dataGerentesTotales->sum('conteoMinutos') }}</td>
+                            <td>{{ $dataGerentesTotales->sum('sumaMinutos') }}</td>
+                            <td>{{ $dataGerentesTotales->sum('promedioMinutosEntero') }}</td>
+                            <td>- -</td>
+                            <td>- -</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <table id="tablaDetallesPorModulo" class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
                                 <th>Detalles</th>
@@ -431,5 +486,33 @@
         }
     </style>
 
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+
+    <script>
+        $(document).ready( function () {
+            $('#tablaProcesoAQL').DataTable({
+                lengthChange: false,
+                searching: false
+            });
+        });
+    </script> 
+
+<script>
+    $(document).ready( function () {
+        $('#tablaDetallesPorModulo').DataTable({
+            lengthChange: false,
+            searching: false
+        });
+    });
+</script> 
 
 @endsection
