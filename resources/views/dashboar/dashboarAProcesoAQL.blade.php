@@ -193,10 +193,11 @@
                 <div class="card-body">
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                     <div class="row">
-                        <div class="col-md-4">
-                            <table class="table  table-bordered table1">
+                        <div class="col-md-5">
+                            <table id="tablaDetallesPorCliente" class="table  table-bordered table1">
                                 <thead class="thead-custom1 text-center">
                                     <tr>
+                                        <th>Detalle</th>
                                         <th>Cliente</th>
                                         <th>% Error Proceso</th>
                                         <th>% Error AQL</th>
@@ -206,12 +207,16 @@
                                 <tbody>
                                     @foreach ($dataClientePlanta1 as $clienteData)
                                         <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
+                                            <td>
+                                                <a href="{{ route('dashboar.detallePorCliente', ['planta' => 'Intimark1', 'cliente' => $clienteData['cliente'], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary" style="margin-right: 0;">Ver detalles</a>
+                                            </td>
                                             <td>{{ $clienteData['cliente'] }}</td>
                                             <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
                                             <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
                                         </tr>
                                     @endforeach
                                         <tr>
+                                            <td></td>
                                             <td>GENERAL</td>
                                             <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
                                             <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
@@ -238,7 +243,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {{-- <table class="table  table-bordered table1">
                                 <thead class="thead-custom1 text-center">
                                     <tr>
@@ -508,13 +513,21 @@
         });
     </script> 
 
-<script>
-    $(document).ready( function () {
-        $('#tablaDetallesPorModulo').DataTable({
-            lengthChange: false,
-            searching: false
+    <script>
+        $(document).ready( function () {
+            $('#tablaDetallesPorModulo').DataTable({
+                lengthChange: false,
+                searching: false
+            });
         });
-    });
-</script> 
+    </script> 
+    <script>
+        $(document).ready( function () {
+            $('#tablaDetallesPorCliente').DataTable({
+                lengthChange: false,
+                searching: false
+            });
+        });
+    </script> 
 
 @endsection

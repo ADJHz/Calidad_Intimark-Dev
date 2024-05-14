@@ -257,4 +257,5 @@ Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAPr
 Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL'); 
 Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL'])->name('dashboar.detalleXModuloAQL'); 
 Route::get('/detallePorGerente', [DashboardController::class, 'detallePorGerente'])->name('dashboar.detallePorGerente'); 
+Route::get('/detallePorCliente', [DashboardController::class, 'detallePorCliente'])->name('dashboar.detallePorCliente'); 
 

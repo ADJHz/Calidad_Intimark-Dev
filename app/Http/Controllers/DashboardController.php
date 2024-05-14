@@ -786,7 +786,7 @@ class DashboardController extends Controller
         //dd($request->all());
         $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
         $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
-
+        //dd($request->all());
         // Obtener el nombre del mes en español
         $meses = [
             1 => 'enero',
@@ -845,6 +845,91 @@ class DashboardController extends Controller
 
         return view('dashboar.detallePorGerente', compact('title', 'mostrarRegistroModulo', 'rangoInicial', 'rangoFinal',
                                                         'gerenteProduccion', 'mostrarRegistroOperario', 'mostrarRegistroUtility'));
+    }
+
+
+    public function detallePorCliente(Request $request)
+    {
+        $title = "";
+        dd($request->all());
+        $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
+        $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
+
+        // Obtener el nombre del mes en español
+        $meses = [
+            1 => 'enero',
+            2 => 'febrero',
+            3 => 'marzo',
+            4 => 'abril',
+            5 => 'mayo',
+            6 => 'junio',
+            7 => 'julio',
+            8 => 'agosto',
+            9 => 'septiembre',
+            10 => 'octubre',
+            11 => 'noviembre',
+            12 => 'diciembre'
+        ];
+
+        $rangoInicial = date('d', strtotime($rangoInicialShort)) . ' ' . $meses[date('n', strtotime($rangoInicialShort))] . ' ' . date('Y', strtotime($rangoInicialShort));
+        $rangoFinal = date('d', strtotime($rangofinShort)) . ' ' . $meses[date('n', strtotime($rangofinShort))] . ' ' . date('Y', strtotime($rangofinShort));
+
+        $clienteSeleccionado = $request->cliente; 
+
+
+        $datosAQLPlanta1TurnoNormal = AuditoriaAQL::where('cliente', $request->cliente)
+            ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('planta', 'Intimark1')
+            ->where('tiempo_extra', null)
+            ->select('modulo')
+            ->distinct()
+            ->get();
+
+        $datosProcesoPlanta1TurnoNormal = AseguramientoCalidad::where('cliente', $request->cliente)
+            ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('planta', 'Intimark1')
+            ->where('tiempo_extra', null)
+            ->select('modulo')
+            ->distinct()
+            ->get(); 
+
+        $modulosUnicosAQL = AuditoriaAQL::where('team_leader', $request->team_leader)
+            ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('planta', 'Intimark1')
+            ->select('modulo')
+            ->distinct()
+            ->get();
+
+        $modulosUnicosProceso = AseguramientoCalidad::where('team_leader', $request->team_leader)
+            ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('planta', 'Intimark1')
+            ->select('modulo')
+            ->distinct()
+            ->get();
+
+        $mostrarRegistroModulo = $modulosUnicosAQL->union($modulosUnicosProceso);
+
+        //dd($mostrarRegistroModulo, $modulosUnicosProceso, $modulosUnicosAQL);
+
+        $mostrarRegistroOperario = AseguramientoCalidad::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('utility', null)
+            ->where('planta', $request->planta)
+            ->where('team_leader', $request->team_leader)
+            ->select('nombre')
+            ->distinct()
+            ->get();
+        
+        $mostrarRegistroUtility = AseguramientoCalidad::whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
+            ->where('utility', 1)
+            ->where('planta', $request->planta)
+            ->where('team_leader', $request->team_leader)
+            ->select('nombre')
+            ->distinct()
+            ->get();
+
+
+        return view('dashboar.detallePorCliente', compact('title', 'mostrarRegistroModulo', 'rangoInicial', 'rangoFinal',
+                                                        'clienteSeleccionado', 'mostrarRegistroOperario', 'mostrarRegistroUtility'));
     }
 
 

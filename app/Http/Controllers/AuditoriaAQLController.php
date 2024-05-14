@@ -113,6 +113,7 @@ class AuditoriaAQLController extends Controller
 
     public function auditoriaAQL(Request $request)
     {
+        date_default_timezone_set('America/Mexico_City');
         
         $activePage ='';
         $mesesEnEspanol = [
@@ -241,6 +242,14 @@ class AuditoriaAQLController extends Controller
     public function formRegistroAuditoriaProceso(Request $request)
     {
         $activePage ='';
+        
+        // Obtener la fecha y hora actual en México
+        $fechaHoraActual = \Carbon\Carbon::now();
+
+        // Verificar el día de la semana
+        $diaSemana = $fechaHoraActual->dayOfWeek;
+
+        //dd($fechaHoraActual, $diaSemana);
         // Obtener el ID seleccionado desde el formulario
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
@@ -271,6 +280,27 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->talla = $request->talla; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+
+        // Verificar la hora para determinar el valor de "tiempo_extra"
+        if ($diaSemana >= 1 && $diaSemana <= 4) { // De lunes a jueves
+            if ($fechaHoraActual->hour >= 19) { // Después de las 7:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } elseif ($diaSemana == 5) { // Viernes
+            if ($fechaHoraActual->hour >= 14) { // Después de las 2:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } else { // Sábado y domingo
+            $nuevoRegistro->tiempo_extra = 1;
+        }
+
+        // Establecer manualmente created_at y updated_at
+        $nuevoRegistro->created_at = $fechaHoraActual;
+        $nuevoRegistro->updated_at = $fechaHoraActual;
         $nuevoRegistro->save();
 
          // Obtener el ID del nuevo registro
