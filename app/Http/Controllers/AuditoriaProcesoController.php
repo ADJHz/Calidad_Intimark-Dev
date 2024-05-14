@@ -311,6 +311,26 @@ class AuditoriaProcesoController extends Controller
     public function formRegistroAuditoriaProceso(Request $request)
     {
         $activePage ='';
+
+        //cambio de horario
+        $fecha = (localtime(time(), true));
+
+        if ($fecha["tm_isdst"] == 1) {
+            $hora_aux = $fecha["tm_hour"] - 1;
+            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
+            $hora_aux = $hora_aux . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
+        } else {
+            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
+            $hora_aux = $fecha["tm_hour"] . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
+        }
+
+        // Obtener la fecha y hora actual
+        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i:s', $hora_aux);
+
+        // Verificar el día de la semana
+        $diaSemana = $fechaHoraActual->dayOfWeek;
+
+
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
             ->first();
@@ -364,6 +384,27 @@ class AuditoriaProcesoController extends Controller
         $nuevoRegistro->ac = $request->ac;
         $nuevoRegistro->pxp = $request->pxp;
 
+
+        // Verificar la hora para determinar el valor de "tiempo_extra"
+        if ($diaSemana >= 1 && $diaSemana <= 4) { // De lunes a jueves
+            if ($fechaHoraActual->hour >= 19) { // Después de las 7:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } elseif ($diaSemana == 5) { // Viernes
+            if ($fechaHoraActual->hour >= 14) { // Después de las 2:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } else { // Sábado y domingo
+            $nuevoRegistro->tiempo_extra = 1;
+        }
+
+        // Establecer manualmente created_at y updated_at
+        $nuevoRegistro->created_at = $fechaHoraActual;
+        $nuevoRegistro->updated_at = $fechaHoraActual;
         $nuevoRegistro->save();
 
         // Obtener el ID del nuevo registro

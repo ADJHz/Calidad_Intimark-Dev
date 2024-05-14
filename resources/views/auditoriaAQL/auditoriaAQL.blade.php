@@ -81,7 +81,7 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProceso') }}">
+                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProcesoAQL') }}">
                         @csrf
                         <input type="hidden" class="form-control" name="area" id="area"
                             value="{{ $data['area'] }}">

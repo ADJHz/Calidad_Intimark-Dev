@@ -40,7 +40,7 @@
                 <div class="card-header card-header-primary">
                     <div class="row align-items-center justify-content-between">
                         <div class="col">
-                            <h3>GERENTE DE PRODUCCION {{$gerenteProduccion}} </h3>
+                            <h3>CLIENTE {{$clienteSeleccionado}} </h3>
                         </div>
                         <div class="col-auto">
                         </div>
@@ -64,7 +64,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mostrarRegistroModulo as $registro)
+                                    @foreach ($datosAQLPlanta1TurnoNormal as $registro)
                                         <tr>
                                             <td>
                                                 <input type="text" class="form-control" name="bulto"
@@ -83,14 +83,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mostrarRegistroOperario as $registro)
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control" name="bulto"
-                                                value="{{ $registro->nombre }}" readonly>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    
                                 </tbody>
                             </table> 
                         </div>
@@ -102,14 +95,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mostrarRegistroUtility as $registro)
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control" name="bulto"
-                                                value="{{ $registro->nombre }}" readonly>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    
                                 </tbody>
                             </table> 
                         </div>

@@ -239,17 +239,30 @@ class AuditoriaAQLController extends Controller
         return redirect()->route('auditoriaAQL.auditoriaAQL', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
     }
 
-    public function formRegistroAuditoriaProceso(Request $request)
+    public function formRegistroAuditoriaProcesoAQL(Request $request)
     {
         $activePage ='';
-        
-        // Obtener la fecha y hora actual en México
-        $fechaHoraActual = \Carbon\Carbon::now();
+
+        //cambio de horario
+        $fecha = (localtime(time(), true));
+
+        if ($fecha["tm_isdst"] == 1) {
+            $hora_aux = $fecha["tm_hour"] - 1;
+            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
+            $hora_aux = $hora_aux . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
+        } else {
+            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
+            $hora_aux = $fecha["tm_hour"] . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
+        }
+
+        // Obtener la fecha y hora actual
+        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i:s', $hora_aux);
 
         // Verificar el día de la semana
         $diaSemana = $fechaHoraActual->dayOfWeek;
 
-        //dd($fechaHoraActual, $diaSemana);
+
+        //dd($fechaHoraActual, $diaSemana, $fecha, $hora_aux);
         // Obtener el ID seleccionado desde el formulario
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')

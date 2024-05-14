@@ -851,7 +851,7 @@ class DashboardController extends Controller
     public function detallePorCliente(Request $request)
     {
         $title = "";
-        dd($request->all());
+        //dd($request->all());
         $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
         $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
 
@@ -881,18 +881,17 @@ class DashboardController extends Controller
             ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
             ->where('planta', 'Intimark1')
             ->where('tiempo_extra', null)
-            ->select('modulo')
-            ->distinct()
             ->get();
 
         $datosProcesoPlanta1TurnoNormal = AseguramientoCalidad::where('cliente', $request->cliente)
             ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
             ->where('planta', 'Intimark1')
             ->where('tiempo_extra', null)
-            ->select('modulo')
-            ->distinct()
             ->get(); 
 
+
+
+        
         $modulosUnicosAQL = AuditoriaAQL::where('team_leader', $request->team_leader)
             ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
             ->where('planta', 'Intimark1')
@@ -929,7 +928,7 @@ class DashboardController extends Controller
 
 
         return view('dashboar.detallePorCliente', compact('title', 'mostrarRegistroModulo', 'rangoInicial', 'rangoFinal',
-                                                        'clienteSeleccionado', 'mostrarRegistroOperario', 'mostrarRegistroUtility'));
+                                                        'clienteSeleccionado', 'datosAQLPlanta1TurnoNormal', 'datosProcesoPlanta1TurnoNormal'));
     }
 
 
