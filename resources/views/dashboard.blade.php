@@ -133,12 +133,12 @@
                     @endforeach
                       <tr style="background: #ddd">
                         <td>Total</td>
-                        <td>{{ $dataGerentesTotales->sum('modulos_unicos') }}</td>
-                        <td>{{ $dataGerentesTotales->sum('conteoOperario') }}</td>
-                        <td>{{ $dataGerentesTotales->sum('conteoUtility') }}</td>
-                        <td>{{ $dataGerentesTotales->sum('conteoMinutos') }}</td>
-                        <td>{{ $dataGerentesTotales->sum('sumaMinutos') }}</td>
-                        <td>{{ $dataGerentesTotales->sum('promedioMinutosEntero') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('modulos_unicos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoOperario') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoUtility') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoMinutos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('sumaMinutos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('promedioMinutosEntero') }}</td>
                         <td>- -</td>
                         <td>- -</td>
                     </tr>

@@ -208,6 +208,7 @@ class HomeController extends Controller
 
             
             $data = [];
+            $dataGerentesTotales = collect();
             //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion);
             foreach ($gerentesProduccion as $gerente) {
                 $modulosUnicosAQL = AuditoriaAQL::where('team_leader', $gerente)
@@ -297,6 +298,8 @@ class HomeController extends Controller
 
             
             $dataClientePlanta1 = [];
+            $totalPorcentajeErrorAQL = 0;
+            $totalPorcentajeErrorProceso =0;
             //dd($clientesAQLPlanta1, $clientesProcesoPlanta1, $clientesPlanta1);
             foreach ($clientesPlanta1 as $cliente) {
                 $sumaAuditadaAQL = AuditoriaAQL::where('cliente', $cliente)

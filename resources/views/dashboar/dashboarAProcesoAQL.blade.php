@@ -259,6 +259,7 @@
                         </div>
                     </div>
                     <hr>
+                    <h3>Gerentes de Produccion</h3>
                     <table id="tablaProcesoAQL" class="table table-bordered">
                         <thead class="thead-custom2 text-center">
                             <tr>
@@ -306,6 +307,7 @@
                         </tr>
                     </table>
                     <hr>
+                    <h3>Modulos</h3>
                     <table id="tablaDetallesPorModulo" class="table table-bordered ">
                         <thead class="thead-custom2 text-center">
                             <tr>
