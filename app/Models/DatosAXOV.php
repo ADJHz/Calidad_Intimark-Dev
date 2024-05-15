@@ -14,11 +14,11 @@ class DatosAXOV extends Model
         'op',
         'cpo',
         'salesid',
-        'estilo',
+        'Estilos',
         'inventcolorid',
         'sizename',
         'qty',
-        'statusOP',
+        'status',
         'custorname',
 
 
