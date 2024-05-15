@@ -312,21 +312,8 @@ class AuditoriaProcesoController extends Controller
     {
         $activePage ='';
 
-        //cambio de horario
-        $fecha = (localtime(time(), true));
-
-        if ($fecha["tm_isdst"] == 1) {
-            $hora_aux = $fecha["tm_hour"] - 1;
-            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
-            $hora_aux = $hora_aux . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
-        } else {
-            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
-            $hora_aux = $fecha["tm_hour"] . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
-        }
-
-        // Obtener la fecha y hora actual
-        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i', $hora_aux . ':00');
-        dd($fechaHoraActual);
+        $fechaHoraActual = now();
+        
         // Verificar el día de la semana
         $diaSemana = $fechaHoraActual->dayOfWeek;
 
