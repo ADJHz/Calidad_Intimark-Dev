@@ -56,11 +56,17 @@
                     @endif
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">
+                        <h3>AQL</h3>
+                        <div class="col-md-12">
                             <table class="table"> 
                                 <thead class="thead-primary">
                                     <tr>
-                                        <th>MODULOS</th>
+                                        <th>Modulo</th>
+                                        <th>Auditor</th>
+                                        <th>Estilo</th>
+                                        <th>Responsable</th>
+                                        <th>Motivo de defecto</th>
+                                        <th>Accion correctiva</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,32 +76,87 @@
                                                 <input type="text" class="form-control" name="bulto"
                                                 value="{{ $registro->modulo }}" readonly>
                                             </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->auditor }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->estilo }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->team_leader }}" readonly>
+                                            </td>
+                                            <td>
+                                                @foreach ($registro->tpAuditoriaAQL as $tp)
+                                                    {{ $tp->tp }},&nbsp;
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->ac }}" readonly>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table> 
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <h3>PROCESO</h3>
+                        <div class="col-md-12">
                             <table class="table"> 
                                 <thead class="thead-primary">
                                     <tr>
-                                        <th>OPERARIOS</th>
+                                        <th>Operador</th>
+                                        <th>Modulo</th>
+                                        <th>Auditor</th>
+                                        <th>Estilo</th>
+                                        <th>Responsable</th>
+                                        <th>Numero de paros </th>
+                                        <th>Motivo de defecto</th>
+                                        <th>Accion correctiva</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                </tbody>
-                            </table> 
-                        </div>
-                        <div class="col-md-4">
-                            <table class="table"> 
-                                <thead class="thead-primary">
-                                    <tr>
-                                        <th>UTILITY</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
+                                    @foreach ($datosProcesoPlanta1TurnoNormal as $registro)
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->nombre }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->modulo }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->auditor }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->estilo }}" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->team_leader }}" readonly>
+                                            </td>
+                                            <td>
+                                                
+                                                ({{ $registro->cantidad_rechazada > 0 ? $conteoRechazos : 0 }}) <!-- Mostrar el conteo si es mayor a 0 -->
+                                            </td>
+                                            <td>
+                                                @foreach ($registro->tpAseguramientoCalidad as $tp)
+                                                    {{ $tp->tp }},&nbsp;
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="bulto"
+                                                value="{{ $registro->ac }}" readonly>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table> 
                         </div>

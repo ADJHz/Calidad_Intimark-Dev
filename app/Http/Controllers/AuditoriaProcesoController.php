@@ -325,8 +325,8 @@ class AuditoriaProcesoController extends Controller
         }
 
         // Obtener la fecha y hora actual
-        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i:s', $hora_aux);
-
+        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i', $hora_aux . ':00');
+        dd($fechaHoraActual);
         // Verificar el día de la semana
         $diaSemana = $fechaHoraActual->dayOfWeek;
 

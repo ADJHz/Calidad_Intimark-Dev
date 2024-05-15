@@ -75,7 +75,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <table class="table  table-bordered table1">
                         <thead class="thead-custom2 text-center">
                             <tr>
@@ -93,7 +93,7 @@
                                     <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
                                 </tr>
                             @endforeach
-                                <tr>
+                                <tr style="background: #ddd">
                                     <td>GENERAL</td>
                                     <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
                                     <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>

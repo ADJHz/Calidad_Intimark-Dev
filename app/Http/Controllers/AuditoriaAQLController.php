@@ -293,6 +293,9 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->talla = $request->talla; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+        if($request->cantidad_rechazada > 0){
+            $nuevoRegistro->inicio_paro = Carbon::now(); 
+        }
 
         // Verificar la hora para determinar el valor de "tiempo_extra"
         if ($diaSemana >= 1 && $diaSemana <= 4) { // De lunes a jueves
@@ -380,6 +383,28 @@ class AuditoriaAQLController extends Controller
         
 
         return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
+    }
+
+
+    public function cambiarEstadoInicioParoAQL(Request $request)
+    {
+        $activePage ='';
+        $id = $request->idCambio;
+        //dd($id);
+        $registro = AuditoriaAQL::find($id);
+        $registro->fin_paro = Carbon::now();
+        
+        // Calcular la duración del paro en minutos
+        $inicioParo = Carbon::parse($registro->inicio_paro);
+        $finParo = Carbon::parse($registro->fin_paro);
+        $minutosParo = $inicioParo->diffInMinutes($finParo);
+        
+        // Almacenar la duración en minutos
+        $registro->minutos_paro = $minutosParo;
+
+        $registro->save();
+
+        return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }
 
 }

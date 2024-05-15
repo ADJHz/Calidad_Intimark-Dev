@@ -720,6 +720,8 @@ class DashboardController extends Controller
         $rangoInicialShort = substr($request->fecha_inicio, 0, 19); // Obtener los primeros 19 caracteres
         $rangofinShort = substr($request->fecha_fin, 0, 19); // Obtener los primeros 19 caracteres
 
+        $nombreModulo = $request->modulo;
+
         // Obtener el nombre del mes en español
         $meses = [
             1 => 'enero',
@@ -776,7 +778,9 @@ class DashboardController extends Controller
 
         $porcentajeBulto = $conteoBultos != 0 ? ($conteoPiezaConRechazo / $conteoBultos) * 100 : 0;
 
-        return view('dashboar.detalleXModuloAQL', compact('title', 'mostrarRegistro', 'rangoInicial', 'rangoFinal', 'registrosIndividual', 'registrosIndividualPieza', 'conteoBultos', 'conteoPiezaConRechazo', 'porcentajeBulto'));
+        return view('dashboar.detalleXModuloAQL', compact('title', 'mostrarRegistro', 'rangoInicial', 'rangoFinal', 
+                'registrosIndividual', 'registrosIndividualPieza', 'conteoBultos', 'conteoPiezaConRechazo', 'porcentajeBulto',
+                'nombreModulo'));
     }
 
 
@@ -877,19 +881,22 @@ class DashboardController extends Controller
         $clienteSeleccionado = $request->cliente; 
 
 
-        $datosAQLPlanta1TurnoNormal = AuditoriaAQL::where('cliente', $request->cliente)
+        $datosAQLPlanta1TurnoNormal = AuditoriaAQL::with('tpAuditoriaAQL')
+            ->where('cliente', $request->cliente)
             ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
             ->where('planta', 'Intimark1')
             ->where('tiempo_extra', null)
             ->get();
 
-        $datosProcesoPlanta1TurnoNormal = AseguramientoCalidad::where('cliente', $request->cliente)
+        $datosProcesoPlanta1TurnoNormal = AseguramientoCalidad::with('tpAseguramientoCalidad')
+            ->where('cliente', $request->cliente)
             ->whereBetween('created_at', [$request->fecha_inicio, $request->fecha_fin])
             ->where('planta', 'Intimark1')
             ->where('tiempo_extra', null)
-            ->get(); 
+            ->where('cantidad_rechazada', '>', 0) // Filtrar registros con cantidad_rechazada mayor a 0
+            ->get();
 
-
+        $conteoRechazos = $datosProcesoPlanta1TurnoNormal->where('cantidad_rechazada', '>', 0)->count();
 
         
         $modulosUnicosAQL = AuditoriaAQL::where('team_leader', $request->team_leader)
@@ -928,7 +935,8 @@ class DashboardController extends Controller
 
 
         return view('dashboar.detallePorCliente', compact('title', 'mostrarRegistroModulo', 'rangoInicial', 'rangoFinal',
-                                                        'clienteSeleccionado', 'datosAQLPlanta1TurnoNormal', 'datosProcesoPlanta1TurnoNormal'));
+                                                        'clienteSeleccionado', 'datosAQLPlanta1TurnoNormal', 'datosProcesoPlanta1TurnoNormal',
+                                                        'conteoRechazos'));
     }
 
 
