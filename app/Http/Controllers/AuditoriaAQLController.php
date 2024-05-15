@@ -372,4 +372,25 @@ class AuditoriaAQLController extends Controller
         return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
     }
 
+    public function cambiarEstadoInicioParoAQL(Request $request)
+    {
+        $activePage ='';
+        $id = $request->idCambio;
+        //dd($id);
+        $registro = AseguramientoCalidad::find($id);
+        $registro->fin_paro = Carbon::now();
+        
+        // Calcular la duración del paro en minutos
+        $inicioParo = Carbon::parse($registro->inicio_paro);
+        $finParo = Carbon::parse($registro->fin_paro);
+        $minutosParo = $inicioParo->diffInMinutes($finParo);
+        
+        // Almacenar la duración en minutos
+        $registro->minutos_paro = $minutosParo;
+
+        $registro->save();
+
+        return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
+    }
+
 }
