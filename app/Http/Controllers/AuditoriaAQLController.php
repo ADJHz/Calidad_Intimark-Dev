@@ -377,7 +377,7 @@ class AuditoriaAQLController extends Controller
         $activePage ='';
         $id = $request->idCambio;
         //dd($id);
-        $registro = AseguramientoCalidad::find($id);
+        $registro = AuditoriaAQL::find($id);
         $registro->fin_paro = Carbon::now();
         
         // Calcular la duración del paro en minutos
