@@ -40,11 +40,7 @@
                 <div class="card-header card-header-primary">
                     <div class="row align-items-center justify-content-between">
                         <div class="col">
-                            @if($rangoInicial == $rangoFinal)
-                                <h3 class="card-title">Detalle por modulo seleccionado por el dia {{$rangoInicial}}</h3>
-                            @else
-                                <h3 class="card-title">Detalle por modulo seleccionado de {{$rangoInicial}} al {{$rangoFinal}} </h3>
-                            @endif
+                            <h3 class="card-title">Modulo {{$nombreModulo}}</h3>
                         </div>
                         <div class="col-auto">
                         </div>
@@ -52,6 +48,11 @@
                 </div>
                 <hr>
                 <div class="card-body">
+                    @if($rangoInicial == $rangoFinal)
+                        <h3 class="card-title">Detalle por modulo seleccionado por el dia {{$rangoInicial}}</h3>
+                    @else
+                        <h3 class="card-title">Detalle por modulo seleccionado de {{$rangoInicial}} al {{$rangoFinal}} </h3>
+                    @endif
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                     <h3 style="font-weight: bold;">Piezas auditadas</h3>
                     <div class="row">

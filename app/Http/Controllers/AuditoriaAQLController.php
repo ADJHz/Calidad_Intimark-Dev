@@ -37,10 +37,12 @@ class AuditoriaAQLController extends Controller
             'teamLeaderPlanta1' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark1')
+                ->where('estatus', 1)
                 ->get(),
             'teamLeaderPlanta2' => CategoriaTeamLeader::orderByRaw("jefe_produccion != '' DESC")
                 ->orderBy('jefe_produccion')
                 ->where('planta', 'Intimark2')
+                ->where('estatus', 1)
                 ->get(),
             'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
                 ->select('moduleid', 'itemid')
@@ -111,6 +113,7 @@ class AuditoriaAQLController extends Controller
 
     public function auditoriaAQL(Request $request)
     {
+        date_default_timezone_set('America/Mexico_City');
         
         $activePage ='';
         $mesesEnEspanol = [
@@ -236,9 +239,17 @@ class AuditoriaAQLController extends Controller
         return redirect()->route('auditoriaAQL.auditoriaAQL', $data)->with('cambio-estatus', 'Iniciando en modulo: '. $data['modulo'])->with('activePage', $activePage);
     }
 
-    public function formRegistroAuditoriaProceso(Request $request)
+    public function formRegistroAuditoriaProcesoAQL(Request $request)
     {
         $activePage ='';
+
+        $fechaHoraActual= now();
+
+        // Verificar el día de la semana
+        $diaSemana = $fechaHoraActual ->dayOfWeek;
+
+
+        //dd($fechaHoraActual, $diaSemana, $fecha, $hora_aux);
         // Obtener el ID seleccionado desde el formulario
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
@@ -269,6 +280,30 @@ class AuditoriaAQLController extends Controller
         $nuevoRegistro->talla = $request->talla; 
         $nuevoRegistro->cantidad_auditada = $request->cantidad_auditada;
         $nuevoRegistro->cantidad_rechazada = $request->cantidad_rechazada;
+        if($request->cantidad_rechazada > 0){
+            $nuevoRegistro->inicio_paro = Carbon::now(); 
+        }
+
+        // Verificar la hora para determinar el valor de "tiempo_extra"
+        if ($diaSemana >= 1 && $diaSemana <= 4) { // De lunes a jueves
+            if ($fechaHoraActual->hour >= 19) { // Después de las 7:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } elseif ($diaSemana == 5) { // Viernes
+            if ($fechaHoraActual->hour >= 14) { // Después de las 2:00 pm
+                $nuevoRegistro->tiempo_extra = 1;
+            } else {
+                $nuevoRegistro->tiempo_extra = null;
+            }
+        } else { // Sábado y domingo
+            $nuevoRegistro->tiempo_extra = 1;
+        }
+
+        // Establecer manualmente created_at y updated_at
+        $nuevoRegistro->created_at = $fechaHoraActual;
+        $nuevoRegistro->updated_at = $fechaHoraActual;
         $nuevoRegistro->save();
 
          // Obtener el ID del nuevo registro
@@ -335,6 +370,28 @@ class AuditoriaAQLController extends Controller
         
 
         return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
+    }
+
+    public function cambiarEstadoInicioParoAQL(Request $request)
+    {
+        $activePage ='';
+        $id = $request->idCambio;
+        $datonulo= 0;
+        $registro = AuditoriaAQL::find($id);
+        //dd($request->all(), $registro); 
+        $registro->fin_paro = Carbon::now();
+        
+        // Calcular la duración del paro en minutos
+        $inicioParo = Carbon::parse($registro->inicio_paro);
+        $finParo = Carbon::parse($registro->fin_paro);
+        $minutosParo = $inicioParo->diffInMinutes($finParo);
+        
+        // Almacenar la duración en minutos
+        $registro->minutos_paro = $minutosParo;
+
+        $registro->save();
+
+        return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }
 
 }

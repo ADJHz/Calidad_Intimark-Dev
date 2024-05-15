@@ -73,54 +73,46 @@
             <div class="card-header-custom3">
               <p>&nbsp;AQL Gerente de Produccion por dia Planta 1</p>
             </div>
-            <div>
-              <table class="table table-bordered">
-                <thead class="thead-custom2 text-center">
-                    <tr>
-                        <th>Team Leader</th>
-                        <th>Cantidad de Módulos</th>
-                        <th>% Error</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($porcentajesErrorGerenteProduccion as $teamLeader => $porcentajeError)
-                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                            <td>{{ $teamLeader }}</td>
-                            <td>{{ $modulosPorGerenteProduccion[$teamLeader] }}</td>
-                            <td>{{ number_format($porcentajeError, 2) }}%</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-              </table>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                    <table class="table  table-bordered table1">
+                        <thead class="thead-custom2 text-center">
+                            <tr>
+                                <th>Cliente</th>
+                                <th>% Error Proceso</th>
+                                <th>% Error AQL</th>
+                                <!-- Aquí puedes agregar más encabezados si es necesario -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($dataClientePlanta1 as $clienteData)
+                                <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
+                                    <td>{{ $clienteData['cliente'] }}</td>
+                                    <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
+                                    <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
+                                </tr>
+                            @endforeach
+                                <tr style="background: #ddd">
+                                    <td>GENERAL</td>
+                                    <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
+                                    <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
               <hr>
               <table class="table table-bordered">
                 <thead class="thead-custom2 text-center">
                     <tr>
-                        <th>Team Leader</th>
-                        <th>Cantidad de Módulos</th>
-                        <th>% Error</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($porcentajesErrorGerenteProduccionProceso as $teamLeader => $porcentajeError)
-                        <tr class="{{ ($porcentajeError > 9 && $porcentajeError <= 15) ? 'error-bajo' : ($porcentajeError > 15 ? 'error-alto' : '') }}">
-                            <td>{{ $teamLeader }}</td>
-                            <td>{{ $modulosPorGerenteProduccionProceso[$teamLeader] }}</td>
-                            <td>{{ number_format($porcentajeError, 2) }}%</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-              </table>
-              <hr>
-              <table class="table table-bordered">
-                <thead class="thead-custom2 text-center">
-                    <tr>
-                        <th>Team Leader</th>
+                        <th>Gerentes Produccion</th>
                         <th>Cantidad de Módulos</th>
                         <th>Numero de Operarios</th>
                         <th>Numero de Utility</th> 
                         <th>Cantidad Paro</th>
                         <th>Minutos Paro</th>
+                        <th>Promedio Minutos Paro</th>
                         <th>% Error AQL</th>
                         <th>% Error Proceso</th>
                     </tr>
@@ -134,12 +126,24 @@
                             <td>{{ $item['conteoUtility'] }}</td>  
                             <td>{{ $item['conteoMinutos'] }}</td> 
                             <td>{{ $item['sumaMinutos'] }}</td> 
+                            <td>{{ $item['promedioMinutosEntero'] }}</td>
                             <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
                             <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
                         </tr>
                     @endforeach
+                      <tr style="background: #ddd">
+                        <td>Total</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('modulos_unicos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoOperario') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoUtility') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoMinutos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('sumaMinutos') }}</td>
+                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('promedioMinutosEntero') }}</td>
+                        <td>- -</td>
+                        <td>- -</td>
+                    </tr>
                 </tbody>
-            </table>
+              </table>
             
             </div>
           </div>
@@ -147,6 +151,30 @@
       </div>
         
       <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-azul1 card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">view_in_ar</i>
+              </div>
+              <p class="card-category"></p>
+              <h3 class="card-title">
+                <small>Auditoria AQL</small>
+              </h3>
+            </div>
+            <div class="card-footer">
+              <div>
+                <p>Metricas de datos a mostrar global</p>
+                <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
+                <p>Cantidad rechazada: {{$aQLRechazados}}</p>
+                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p> 
+
+                <a href="dashboarAProcesoAQL" class="btn btn-primary">Ver Detalles</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-primary card-header-icon">
@@ -223,30 +251,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-azul1 card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">view_in_ar</i>
-              </div>
-              <p class="card-category"></p>
-              <h3 class="card-title">
-                <small>Auditoria AQL</small>
-              </h3>
-            </div>
-            <div class="card-footer">
-              <div>
-                <p>Metricas de datos a mostrar global</p>
-                <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
-                <p>Cantidad rechazada: {{$aQLRechazados}}</p>
-                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p> 
-
-                <a href="dashboarAProcesoAQL" class="btn btn-primary">Ver Detalles</a>
-
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
       {{--
       <div class="row">
@@ -552,6 +557,14 @@
       padding: 1rem 1.5rem;
       border-bottom: 1px solid #ccc;
     }
+
+    /* Personalizar estilo del thead */
+    .thead-custom2 {
+            background-color: #0891ec; /* Ajusta el color hexadecimal a tu gusto */
+            color: #fff; /* Ajusta el color del texto si es necesario */
+            border: 1px solid #ddd; /* Ajusta el borde si es necesario */
+            padding: 10px; /* Ajusta el relleno si es necesario */
+        }
   </style>
 @endsection
 

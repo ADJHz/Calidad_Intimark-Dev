@@ -81,7 +81,7 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProceso') }}">
+                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProcesoAQL') }}">
                         @csrf
                         <input type="hidden" class="form-control" name="area" id="area"
                             value="{{ $data['area'] }}">
@@ -212,6 +212,7 @@
                             <table class="table table55"> 
                                 <thead class="thead-primary">
                                     <tr>
+                                        <th>PARO</th>
                                         <th># BULTO</th>
                                         <th>PIEZAS</th>
                                         <th>TALLA</th>
@@ -286,6 +287,7 @@
                                 <table class="table table55">
                                     <thead class="thead-primary">
                                         <tr>
+                                            <th>PARO</th>
                                             <th># BULTO</th>
                                             <th>PIEZAS</th>
                                             <th>TALLA</th>
@@ -301,6 +303,19 @@
                                     <tbody>
                                         @foreach ($mostrarRegistro as $registro)
                                             <tr>
+                                                <td>
+                                                    @if($registro->inicio_paro == NULL)
+                                                        -
+                                                    @elseif($registro->fin_paro != NULL)
+                                                        {{$registro->minutos_paro}}
+                                                    @elseif($registro->fin_paro == NULL)
+                                                        <form method="POST" action="{{ route('auditoriaAQL.cambiarEstadoInicioParoAQL') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="idCambio" value="{{ $registro->id }}">
+                                                            <button type="submit" class="btn btn-primary">Fin Paro</button>
+                                                        </form>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <input type="text" class="form-control" name="bulto"
                                                     value="{{ $registro->bulto }}" readonly>

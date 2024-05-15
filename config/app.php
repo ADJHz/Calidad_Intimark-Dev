@@ -67,7 +67,9 @@ return [
     |
     */
 
-    'timezone' => 'America/Mexico_City',
+    'timezone' => (date('I') == 1) ? 'America/Tegucigalpa' : 'America/Mexico_City',
+
+    /*Nota importante, esa condicion corrobora si existe un horario de verano entonces descartara la zona horario de mexico, si no lo mantendra */
 
     /*
     |--------------------------------------------------------------------------
