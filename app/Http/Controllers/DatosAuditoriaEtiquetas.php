@@ -166,7 +166,13 @@ class DatosAuditoriaEtiquetas extends Controller
             $modelo = ModelsDatosAuditoriaEtiquetas::class;
             $selectCampos = ['id', 'OrdenCompra', 'Estilos', 'Cantidad', 'Talla', 'Color'];
         } else {
-            $campoBusqueda = $tipoBusqueda;
+            // Mapeo de tipos de búsqueda a nombres de columna
+            $campoBusqueda = [
+                'OP' => 'op',
+                'PO' => 'cpo',
+                'OV' => 'salesid',
+            ][$tipoBusqueda];
+
             $modelo = DatosAXOV::class;
             $selectCampos = ['id', $campoBusqueda, 'Estilos', 'qty', 'sizename', 'inventcolorid'];
         }
