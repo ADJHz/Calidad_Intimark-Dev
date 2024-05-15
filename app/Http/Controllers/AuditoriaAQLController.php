@@ -243,23 +243,10 @@ class AuditoriaAQLController extends Controller
     {
         $activePage ='';
 
-        //cambio de horario
-        $fecha = (localtime(time(), true));
-
-        if ($fecha["tm_isdst"] == 1) {
-            $hora_aux = $fecha["tm_hour"] - 1;
-            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
-            $hora_aux = $hora_aux . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
-        } else {
-            $dia_aux = $fecha["tm_year"] . '-' . $fecha["tm_mon"] . '-' . $fecha["tm_mday"];
-            $hora_aux = $fecha["tm_hour"] . ':' . $fecha["tm_min"] . ':' . $fecha["tm_sec"];
-        }
-
-        // Obtener la fecha y hora actual
-        $fechaHoraActual = \Carbon\Carbon::createFromFormat('H:i:s', $hora_aux);
+        $fechaHoraActual= now();
 
         // Verificar el día de la semana
-        $diaSemana = $fechaHoraActual->dayOfWeek;
+        $diaSemana = $fechaHoraActual ->dayOfWeek;
 
 
         //dd($fechaHoraActual, $diaSemana, $fecha, $hora_aux);
@@ -383,28 +370,6 @@ class AuditoriaAQLController extends Controller
         
 
         return back()->with('success', 'Finalizacion aplicada correctamente.')->with('activePage', $activePage);
-    }
-
-
-    public function cambiarEstadoInicioParoAQL(Request $request)
-    {
-        $activePage ='';
-        $id = $request->idCambio;
-        //dd($id);
-        $registro = AuditoriaAQL::find($id);
-        $registro->fin_paro = Carbon::now();
-        
-        // Calcular la duración del paro en minutos
-        $inicioParo = Carbon::parse($registro->inicio_paro);
-        $finParo = Carbon::parse($registro->fin_paro);
-        $minutosParo = $inicioParo->diffInMinutes($finParo);
-        
-        // Almacenar la duración en minutos
-        $registro->minutos_paro = $minutosParo;
-
-        $registro->save();
-
-        return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }
 
 }
