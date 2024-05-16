@@ -353,7 +353,8 @@
                             // Agregar fila a la tabla
                             var fila = '<tr>' +
                                 '<td>' + (index + 1) + '</td>' +
-                                '<td style="text-align: center;">' + ordenSeleccionada + '</td>' +
+                                '<td style="text-align: center;">' + ordenSeleccionada +
+                                '</td>' +
                                 '<td style="text-align: center;">' + (item.Estilos ||
                                     item.Estilo) + '</td>' +
                                 '<td style="text-align: center;">' + (item[campos
@@ -370,15 +371,10 @@
                                 index + '_acordeon_' + estilo + '" value="0">' +
                                 '</td>' +
                                 '<td class="select-container" style="text-align: center;">' +
-                                (item.Tipo_Defectos ?
-                                    '<select class="form-control" id="tipoDefectos_' +
-                                    index + '">' +
-                                    '<option value="' + item.Tipo_Defectos + '">' + item
-                                    .Tipo_Defectos + '</option>' +
-                                    '</select>' :
-                                    '<select class="form-control" id="tipoDefectos_' +
-                                    index + '"></select>'
-                                ) +
+                                '<select class="form-control select2-multiple" id="tipoDefectos_' +
+                                item.id + '" multiple="multiple">' +
+                                // ID único basado en item.id
+                                '</select>' +
                                 '</td>' +
                                 '<td>' +
                                 '<div class="dropup-center dropup">' +
@@ -403,41 +399,49 @@
                                 '</tr>';
 
                             $('#miTabla tbody').append(fila);
-                        });
-                        // Cargar opciones del select mediante AJAX (fuera del bucle)
-                        $.ajax({
-                            url: '/obtenerTiposDefectos',
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function(options) {
-                                $.each(data, function(index, item) {
-                                    var selectHTML =
-                                        '<select class="form-control" id="tipoDefectos_' +
-                                        index + '">';
-                                    $.each(options, function(key, value) {
-                                        selectHTML +=
-                                            '<option value="' +
-                                            value.Defectos + '">' +
-                                            value
-                                            .Defectos + '</option>';
-                                    });
-                                    selectHTML += '</select>';
-                                    // Identificar select-container con un id único
-                                    var selectContainerId =
-                                        'select_container_' + index;
-                                    $('.select-container', '#collapse' +
-                                        index).attr('id',
-                                        selectContainerId).html(
-                                        selectHTML);
-                                });
-                            },
-                            error: function(error) {
-                                console.error(
-                                    'Error al cargar opciones del select: ',
-                                    error);
-                            }
+                            cargarOpcionesSelect(item, index);
                         });
 
+                        function cargarOpcionesSelect(item,
+                        index) { // Nueva función para cargar opciones
+                            $.ajax({
+                                url: '/obtenerTiposDefectos',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(options) {
+                                    var $select = $('#tipoDefectos_' + item
+                                    .id); // Seleccionar el select correcto usando el ID único
+
+                                    // Agregar opciones al select
+                                    $.each(options, function(key, value) {
+                                        var $option = $('<option>', {
+                                            value: value.Defectos,
+                                            text: value.Defectos
+                                        });
+
+                                        // Preseleccionar la opción si ya existe en item.Tipo_Defectos
+                                        if (item.Tipo_Defectos && item
+                                            .Tipo_Defectos.includes(value
+                                                .Defectos)) {
+                                            $option.prop('selected', true);
+                                        }
+
+                                        $select.append($option);
+                                    });
+
+                                    // Inicializar Select2 después de cargar las opciones
+                                    $select.select2({
+                                        placeholder: 'Selecciona tipos de defecto',
+                                        allowClear: true
+                                    });
+                                },
+                                error: function(error) {
+                                    console.error(
+                                        'Error al cargar opciones del select: ',
+                                        error);
+                                }
+                            });
+                        }
                     },
                     error: function(error) {
                         console.error('Error al buscar datos de auditoría por estilo: ', error);
@@ -445,7 +449,8 @@
                 });
             });
         });
-
+    </script>
+    <script>
         $(document).on('click', '#Saved', function() {
             var ordenSeleccionada = $('#ordenSelect').val();
             var tipoBusqueda = $('#tipoBusqueda').val();
