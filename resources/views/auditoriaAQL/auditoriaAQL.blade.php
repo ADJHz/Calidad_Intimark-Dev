@@ -81,129 +81,147 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProcesoAQL') }}">
-                        @csrf
-                        <input type="hidden" class="form-control" name="area" id="area"
-                            value="{{ $data['area'] }}">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead class="thead-primary">
-                                    <tr>
-                                        <th>MODULO</th>
-                                        <th>OP</th>
-                                        <th>CLIENTE</th>
-                                        <th>TEAM LEADER</th>
-                                        <th>AUDITOR</th>
-                                        <th>TURNO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="text" class="form-control" name="modulo" id="modulo"
-                                                value="{{ $data['modulo'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="op" id="op"
-                                                value="{{ $data['op'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="cliente" id="cliente"
-                                                value="{{ $datoUnicoOP->customername }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="team_leader" id="team_leader"
-                                                value="{{ $data['team_leader'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="auditor" id="auditor"
-                                                value="{{ $data['auditor'] }}" readonly></td>
-                                        <td><input type="text" class="form-control" name="turno" id="turno"
-                                                value="{{ $data['turno'] }}" readonly></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    @if((($conteoParos == 2) && ($finParoModular == false)) || (($conteoParos == 4) && ($finParoModular == false)))
+                        <div class="row">
+                            <form method="POST" action="{{ route('auditoriaAQL.cambiarEstadoInicioParoAQL') }}">
+                                @csrf
+                                <input type="hidden" name="finalizar_paro_modular" value="1">
+                                <button type="submit" class="btn btn-primary">Fin Paro Modular</button>
+                            </form>
                         </div>
-                        <hr>
-                        @if ($estatusFinalizar)
-                        @else
+                    @else
+                        <form method="POST" action="{{ route('auditoriaAQL.formRegistroAuditoriaProcesoAQL') }}">
+                            @csrf
+                            <input type="hidden" class="form-control" name="area" id="area"
+                                value="{{ $data['area'] }}">
                             <div class="table-responsive">
-                                <table class="table table32"> 
+                                <table class="table">
                                     <thead class="thead-primary">
                                         <tr>
-                                            <th># BULTO</th>
-                                            <th>PIEZAS</th>
-                                            <th>ESTILO</th>
-                                            <th>COLOR</th>
-                                            <th>TALLA</th>
-                                            <th>PIEZAS INSPECCIONADAS</th>
-                                            <th>PIEZAS RECHAZADAS</th>
-                                            <th>TIPO DE DEFECTO</th>
+                                            <th>MODULO</th>
+                                            <th>OP</th>
+                                            <th>CLIENTE</th>
+                                            <th>TEAM LEADER</th>
+                                            <th>AUDITOR</th>
+                                            <th>TURNO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>
-                                                <select name="bulto" id="bulto" class="form-control" required title="Por favor, selecciona una opción">
-                                                    <option value="">Selecciona una opción</option>
-                                                    @foreach ($datoBultos as $bulto)
-                                                        <option value="{{ $bulto->prodpackticketid }}" data-estilo="{{ $bulto->itemid }}" data-color="{{ $bulto->colorname }}" data-talla="{{ $bulto->inventsizeid }}" data-pieza="{{ $bulto->qty }}">
-                                                            {{ $bulto->prodpackticketid }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="pieza" id="pieza" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="estilo" id="estilo" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="color" id="color" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="talla" id="talla" readonly>
-                                            </td>
-                                            
-                                            <script>
-                                                $(document).ready(function() {
-                                                    $('#bulto').change(function() {
-                                                        var selectedOption = $(this).find(':selected');
+                                            <td><input type="text" class="form-control" name="modulo" id="modulo"
+                                                    value="{{ $data['modulo'] }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="op" id="op"
+                                                    value="{{ $data['op'] }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="cliente" id="cliente"
+                                                    value="{{ $datoUnicoOP->customername }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="team_leader" id="team_leader"
+                                                    value="{{ $data['team_leader'] }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="auditor" id="auditor"
+                                                    value="{{ $data['auditor'] }}" readonly></td>
+                                            <td><input type="text" class="form-control" name="turno" id="turno"
+                                                    value="{{ $data['turno'] }}" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            @if ($estatusFinalizar)
+                            @else
+                                <div class="table-responsive">
+                                    <table class="table table32"> 
+                                        <thead class="thead-primary">
+                                            <tr>
+                                                <th>NOMBRE</th>
+                                                <th># BULTO</th>
+                                                <th>PIEZAS</th>
+                                                <th>ESTILO</th>
+                                                <th>COLOR</th>
+                                                <th>TALLA</th>
+                                                <th>PIEZAS INSPECCIONADAS</th>
+                                                <th>PIEZAS RECHAZADAS</th>
+                                                <th>TIPO DE DEFECTO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <select name="nombre" id="nombre" class="form-control" required>
+                                                        @foreach($nombreProcesoToAQL as $proceso)
+                                                            <option value="{{ $proceso->name }}">{{ $proceso->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="bulto" id="bulto" class="form-control" required title="Por favor, selecciona una opción">
+                                                        <option value="">Selecciona una opción</option>
+                                                        @foreach ($datoBultos as $bulto)
+                                                            <option value="{{ $bulto->prodpackticketid }}" data-estilo="{{ $bulto->itemid }}" data-color="{{ $bulto->colorname }}" data-talla="{{ $bulto->inventsizeid }}" data-pieza="{{ $bulto->qty }}">
+                                                                {{ $bulto->prodpackticketid }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="pieza" id="pieza" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="estilo" id="estilo" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="color" id="color" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="talla" id="talla" readonly>
+                                                </td>
+                                                
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        $('#bulto').change(function() {
+                                                            var selectedOption = $(this).find(':selected');
+                                                            $('#pieza').val(selectedOption.data('pieza'));
+                                                            $('#estilo').val(selectedOption.data('estilo'));
+                                                            $('#color').val(selectedOption.data('color'));
+                                                            $('#talla').val(selectedOption.data('talla'));
+                                                        });
+                                                
+                                                        // Actualizar valores al cargar la página si una opción está seleccionada por defecto
+                                                        var selectedOption = $('#bulto').find(':selected');
                                                         $('#pieza').val(selectedOption.data('pieza'));
                                                         $('#estilo').val(selectedOption.data('estilo'));
                                                         $('#color').val(selectedOption.data('color'));
                                                         $('#talla').val(selectedOption.data('talla'));
                                                     });
-                                            
-                                                    // Actualizar valores al cargar la página si una opción está seleccionada por defecto
-                                                    var selectedOption = $('#bulto').find(':selected');
-                                                    $('#pieza').val(selectedOption.data('pieza'));
-                                                    $('#estilo').val(selectedOption.data('estilo'));
-                                                    $('#color').val(selectedOption.data('color'));
-                                                    $('#talla').val(selectedOption.data('talla'));
-                                                });
-                                            </script>                                            
-                                            
-                                            <td><input type="text" class="form-control" name="cantidad_auditada"
-                                                    id="cantidad_auditada" required></td>
-                                            <td><input type="text" class="form-control" name="cantidad_rechazada"
-                                                    id="cantidad_rechazada" required></td>
-                                            <td>
-                                                <select name="tp[]" id="tp" class="form-control" required multiple 
-                                                    title="Por favor, selecciona una opción">
-                                                    <option value="NINGUNO">NINGUNO</option>
-                                                    @if ($data['area'] == 'AUDITORIA AQL')
-                                                        @foreach ($categoriaTPProceso as $proceso)
-                                                            <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
-                                                            </option>
-                                                        @endforeach
-                                                    @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
-                                                        @foreach ($categoriaTPPlayera as $playera)
-                                                            <option value="{{ $playera->nombre }}">{{ $playera->nombre }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <button type="submit" class="btn btn-success">Guardar</button>
-                        @endif
-                    </form>
+                                                </script>                                            
+                                                
+                                                <td><input type="text" class="form-control" name="cantidad_auditada"
+                                                        id="cantidad_auditada" required></td>
+                                                <td><input type="text" class="form-control" name="cantidad_rechazada"
+                                                        id="cantidad_rechazada" required></td>
+                                                <td>
+                                                    <select name="tp[]" id="tp" class="form-control" required multiple 
+                                                        title="Por favor, selecciona una opción">
+                                                        <option value="NINGUNO">NINGUNO</option>
+                                                        @if ($data['area'] == 'AUDITORIA AQL')
+                                                            @foreach ($categoriaTPProceso as $proceso)
+                                                                <option value="{{ $proceso->nombre }}">{{ $proceso->nombre }}
+                                                                </option>
+                                                            @endforeach
+                                                        @elseif($data['area'] == 'AUDITORIA AQL PLAYERA')
+                                                            @foreach ($categoriaTPPlayera as $playera)
+                                                                <option value="{{ $playera->nombre }}">{{ $playera->nombre }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            @endif
+                        </form>
+                    @endif
                     <hr>
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                     @if ($mostrarRegistro)
@@ -312,7 +330,7 @@
                                                         <form method="POST" action="{{ route('auditoriaAQL.cambiarEstadoInicioParoAQL') }}">
                                                             @csrf
                                                             <input type="hidden" name="idCambio" value="{{ $registro->id }}">
-                                                            <button type="submit" class="btn btn-primary">Fin Paro</button>
+                                                            <button type="submit" class="btn btn-primary">Fin Paro AQL</button>
                                                         </form>
                                                     @endif
                                                 </td>
@@ -482,20 +500,20 @@
             /* Color del texto */
         }
 
-        .table32 th:nth-child(1) {
+        .table32 th:nth-child(2) {
             min-width: 150px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
-        .table32 th:nth-child(8) {
+        .table32 th:nth-child(9) {
             min-width: 200px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
-        .table32 th:nth-child(3) {
+        .table32 th:nth-child(4) {
             min-width: 100px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
 
-        .table32 th:nth-child(4) {
+        .table32 th:nth-child(5) {
             min-width: 150px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }

@@ -389,9 +389,6 @@ class AuditoriaProcesoController extends Controller
             $nuevoRegistro->tiempo_extra = 1;
         }
 
-        // Establecer manualmente created_at y updated_at
-        $nuevoRegistro->created_at = $fechaHoraActual;
-        $nuevoRegistro->updated_at = $fechaHoraActual;
         $nuevoRegistro->save();
 
         // Obtener el ID del nuevo registro

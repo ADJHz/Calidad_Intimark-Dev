@@ -113,7 +113,6 @@ class AuditoriaAQLController extends Controller
 
     public function auditoriaAQL(Request $request)
     {
-        date_default_timezone_set('America/Mexico_City');
         
         $activePage ='';
         $mesesEnEspanol = [
@@ -197,7 +196,31 @@ class AuditoriaAQLController extends Controller
 
         
  
+        $finParoModular = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
+            ->where('op', $data['op'])
+            ->where('team_leader', $data['team_leader'])
+            ->whereNotNull('fin_paro_modular')
+            ->exists();;
+        //dd($finParoModular);
+        $conteoParos = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $data['area'])
+            ->where('modulo', $data['modulo'])
+            ->where('op', $data['op'])
+            ->where('team_leader', $data['team_leader'])
+            ->where('cantidad_rechazada', '>', 0)
+            ->count();
+
+        $customerName = JobAQL::where('prodid', $data['op'])
+            ->pluck('customername')
+            ->first();
+        $nombreProcesoToAQL = AuditoriaProceso::where('moduleid', $data['modulo'])
+            //->where('customername', $customerName)
+            ->select('name')
+            ->get();
         
+        //dd($nombreProcesoToAQL, $data['modulo'], $customerName);
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
@@ -216,7 +239,10 @@ class AuditoriaAQLController extends Controller
             'conteoBultos' => $conteoBultos,  
             'conteoPiezaConRechazo' => $conteoPiezaConRechazo, 
             'porcentajeBulto' => $porcentajeBulto, 
-            'mostrarRegistro' => $mostrarRegistro]));
+            'mostrarRegistro' => $mostrarRegistro,
+            'conteoParos' => $conteoParos,
+            'finParoModular' => $finParoModular,
+            'nombreProcesoToAQL' => $nombreProcesoToAQL]));
     }
 
 
@@ -243,13 +269,11 @@ class AuditoriaAQLController extends Controller
     {
         $activePage ='';
 
-        $fechaHoraActual= now();
+        $fechaHoraActual= now(); 
 
         // Verificar el día de la semana
         $diaSemana = $fechaHoraActual ->dayOfWeek;
 
-
-        //dd($fechaHoraActual, $diaSemana, $fecha, $hora_aux);
         // Obtener el ID seleccionado desde el formulario
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
@@ -258,10 +282,21 @@ class AuditoriaAQLController extends Controller
         $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
             ->where('jefe_produccion', 1)
             ->first(); 
-        //dd($jefeProduccionBusqueda);
-        //dd($request->all());
+
+        $fechaActual = Carbon::now()->toDateString();
+        
+        $conteoParos = AuditoriaAQL::whereDate('created_at', $fechaActual)
+            ->where('area', $request->area)
+            ->where('modulo', $request->modulo)
+            ->where('op', $request->op)
+            ->where('team_leader', $request->team_leader)
+            ->where('cantidad_rechazada', '>', 0)
+            ->count();
+
+        //dd($request->all(), $conteoParos);
         $nuevoRegistro = new AuditoriaAQL();
         $nuevoRegistro->area = $request->area;
+        $nuevoRegistro->nombre = $request->nombre;
         $nuevoRegistro->modulo = $request->modulo;
         $nuevoRegistro->op = $request->op;
         $nuevoRegistro->cliente = $request->cliente;
@@ -301,9 +336,10 @@ class AuditoriaAQLController extends Controller
             $nuevoRegistro->tiempo_extra = 1;
         }
 
-        // Establecer manualmente created_at y updated_at
-        $nuevoRegistro->created_at = $fechaHoraActual;
-        $nuevoRegistro->updated_at = $fechaHoraActual;
+        if ((($conteoParos == 1) && ($request->cantidad_rechazada > 0)) || (($conteoParos == 3) && ($request->cantidad_rechazada > 0))) {
+            $nuevoRegistro->paro_modular = 1;
+        }
+
         $nuevoRegistro->save();
 
          // Obtener el ID del nuevo registro
@@ -376,20 +412,54 @@ class AuditoriaAQLController extends Controller
     {
         $activePage ='';
         $id = $request->idCambio;
-        $datonulo= 0;
+        
         $registro = AuditoriaAQL::find($id);
-        //dd($request->all(), $registro); 
-        $registro->fin_paro = Carbon::now();
-        
-        // Calcular la duración del paro en minutos
-        $inicioParo = Carbon::parse($registro->inicio_paro);
-        $finParo = Carbon::parse($registro->fin_paro);
-        $minutosParo = $inicioParo->diffInMinutes($finParo);
-        
-        // Almacenar la duración en minutos
-        $registro->minutos_paro = $minutosParo;
+       
+        if($request->finalizar_paro_modular == 1){
+            // Obtener la fecha actual
+            $fechaActual = Carbon::now()->toDateString();
+            
+            // Obtener la hora actual
+            $horaActual = Carbon::now()->toTimeString();
 
-        $registro->save();
+            // Buscar el segundo registro con datos en la columna "cantidad_rechazada"
+            $segundoRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('cantidad_rechazada', '>', 0)
+                ->orderBy('created_at', 'asc')
+                ->skip(1) // Saltar el primer registro
+                ->first();
+
+            // Verificar si se encontró el segundo registro
+            if ($segundoRegistro) {
+                // Actualizar la columna "fin_paro_modular" con la hora actual
+                $segundoRegistro->fin_paro_modular = $horaActual;
+
+                // Calcular la diferencia en minutos entre "inicio_paro" y "fin_paro_modular"
+                $inicioParo = Carbon::parse($segundoRegistro->inicio_paro);
+                $finParoModular = Carbon::parse($horaActual);
+                $diferenciaEnMinutos = $inicioParo->diffInMinutes($finParoModular);
+
+                // Actualizar la columna "minutos_paro_modular" con la diferencia en minutos
+                $segundoRegistro->minutos_paro_modular = $diferenciaEnMinutos;
+
+                // Guardar los cambios
+                $segundoRegistro->save();
+            }
+            //dd($request->all(), $registro); 
+
+        }else{
+            $registro->fin_paro = Carbon::now();
+            
+            // Calcular la duración del paro en minutos
+            $inicioParo = Carbon::parse($registro->inicio_paro);
+            $finParo = Carbon::parse($registro->fin_paro);
+            $minutosParo = $inicioParo->diffInMinutes($finParo);
+            
+            // Almacenar la duración en minutos
+            $registro->minutos_paro = $minutosParo;
+
+            $registro->save();
+        }
 
         return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }

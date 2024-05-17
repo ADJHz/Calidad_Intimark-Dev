@@ -444,7 +444,7 @@
                                                         <form method="POST" action="{{ route('aseguramientoCalidad.cambiarEstadoInicioParo') }}">
                                                             @csrf
                                                             <input type="hidden" name="idCambio" value="{{ $registro->id }}">
-                                                            <button type="submit" class="btn btn-primary">Fin Paro</button>
+                                                            <button type="submit" class="btn btn-primary">Fin Paro Proceso</button>
                                                         </form>
                                                     @endif
                                                 </td>
