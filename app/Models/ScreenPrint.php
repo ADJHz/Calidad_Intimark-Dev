@@ -21,7 +21,11 @@ class ScreenPrint extends Model
                 'Tecnica' ,
                 'Fibras',
                 'Porcen_Fibra',
+                'Piezas_Auditar',
                 'Tipo_Problema',
-                'Ac_Correctiva'
+                'Num_Problemas',
+                'Ac_Correctiva',
+                'created_at',
+                'updated_at'
             ];
 }

@@ -152,7 +152,9 @@ class CalidadScreenPrintController extends Controller
                 'Tecnica' => $item->Tecnica,
                 'Fibras' => $item->Fibras,
                 'Porcen_Fibra' => $item->Porcen_Fibra,
+                'Piezas_Auditar'=> $item->Piezas_Auditar,
                 'Tipo_Problema' => $tipoProblema,
+                'Num_Problemas' => $item->Num_Problemas,
                 'Ac_Correctiva' => $acCorrectiva,
                 'Status' => $item->Status,
             ];
@@ -180,11 +182,34 @@ class CalidadScreenPrintController extends Controller
         $tecnica = $request->input('Tecnica');
         $fibras = $request->input('Fibras');
         $porcentajeFibra = $request->input('Porcen_Fibra');
+        $pizasAuditar = $request->input('Piezas_Auditar');
         $tipoProblema = $request->input('Tipo_Problema');
+        $numProblemas =  $request->input('Num_Problemas');
         $acCorrectiva = $request->input('Ac_Correctiva');
-
+        Log::info('Datos recibidos en SendScreenPrint:', [
+            'addRowClicked' => $addRowClicked,
+            'Auditor' => $auditor,
+            'Cliente' => $cliente,
+            'Estilo' => $estilo,
+            'OP_Defec' => $opDefec,
+            'Tecnico' => $tecnico,
+            'Color' => $color,
+            'Num_Grafico' => $numGrafico,
+            'Tecnica' => $tecnica,
+            'Fibras' => $fibras,
+            'Porcen_Fibra' => $porcentajeFibra,
+            'Piezas_Auditar' => $pizasAuditar,
+            'Tipo_Problema' => $tipoProblema,
+            'Num_Problemas' => $numProblemas,
+            'Ac_Correctiva' => $acCorrectiva
+        ]);
         // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
         if ($addRowClicked) {
+            // Combinar los arrays en un solo string separado por comas
+            $tipoProblemaString = implode(', ', $tipoProblema);
+            $numProblemasString = implode(', ', $numProblemas);
+            $acCorrectivaString = implode(', ', $acCorrectiva);
+
             $screenPrint = ScreenPrint::create([
                 'Auditor' => $auditor,
                 'Cliente' => $cliente,
@@ -196,11 +221,12 @@ class CalidadScreenPrintController extends Controller
                 'Tecnica' => $tecnica,
                 'Fibras' => $fibras,
                 'Porcen_Fibra' => $porcentajeFibra,
-                'Tipo_Problema' => $tipoProblema,
-                'Ac_Correctiva' => $acCorrectiva,
-                'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
+                'Piezas_Auditar' => $pizasAuditar,
+                'Tipo_Problema' => $tipoProblemaString, // Guardar como string separado por comas
+                'Num_Problemas' => $numProblemasString, // Guardar como string separado por comas
+                'Ac_Correctiva' => $acCorrectivaString, // Guardar como string separado por comas
+                'Status' => 'Nuevo',
             ]);
-
             // Puedes realizar acciones adicionales si es necesario después de crear el nuevo registro
 
             return response()->json(['mensaje' => 'Datos guardados exitosamente', 'screenPrint' => $screenPrint]);
@@ -250,7 +276,9 @@ class CalidadScreenPrintController extends Controller
             'Tecnica' => $request->input('Tecnica'),
             'Fibras' => $request->input('Fibras'),
             'Porcen_Fibra' => $request->input('Porcen_Fibra'),
+            'Piezas_Auditar' => $request->input('Piezas_Auditar'),
             'Tipo_Problema' => $tipoProblema,
+            'Num_Problemas' => $request->input('Num_Problemas'),
             'Ac_Correctiva' => $acCorrectiva,
             'Status' => 'Update', // Puedes ajustar este campo según tus necesidades
         ]);
@@ -353,32 +381,37 @@ class CalidadScreenPrintController extends Controller
             // Obtener la fecha actual
             $today = Carbon::today();
 
-            // Obtener la cantidad total de registros para el día actual
-            $totalRegistros = ScreenPrint::whereDate('created_at', $today)->count();
+            // Obtener la suma de piezas auditadas para el día actual
+            $totalRegistros = ScreenPrint::whereDate('created_at', $today)
+                ->sum('Piezas_Auditar');
 
-            // Obtener la cantidad de registros con Tipo_Problema diferente de 'N/A'
-            $defectos = ScreenPrint::whereDate('created_at', $today)
+            // Obtener todos los registros con Tipo_Problema diferente de 'N/A' para el día actual
+            $registrosConDefectos = ScreenPrint::whereDate('created_at', $today)
                 ->where('Tipo_Problema', '<>', 'N/A')
-                ->count();
+                ->get();
+
+            // Contar el número total de defectos en todos los registros
+            $totalDefectos = 0;
+            foreach ($registrosConDefectos as $registro) {
+                $tiposProblema = explode(',', $registro->Tipo_Problema);
+                $totalDefectos += count($tiposProblema);
+            }
 
             // Calcular el porcentaje
-            $porcentaje = ($defectos / $totalRegistros) * 100;
+            $porcentaje = $totalRegistros > 0 ? ($totalDefectos / $totalRegistros) * 100 : 0;
 
-            // Puedes devolver la respuesta JSON con los datos adicionales
             $data = [
                 'success' => true,
                 'totalRegistros' => $totalRegistros,
-                'totalDefectos' => $defectos,
+                'totalDefectos' => $totalDefectos,
                 'porcentaje' => $porcentaje,
                 'message' => 'Datos calculados correctamente.',
             ];
 
             return response()->json($data);
         } catch (\Exception $e) {
-            // Log de errores
-            Log::error('Error en PorcenTotalDefec: ' . $e->getMessage());
+            Log::error('Error en PorcenScreen: ' . $e->getMessage());
 
-            // Manejar el error y devolver una respuesta JSON
             $data = [
                 'success' => false,
                 'message' => 'Error al calcular los datos.',
@@ -387,4 +420,5 @@ class CalidadScreenPrintController extends Controller
             return response()->json($data, 500);
         }
     }
+
 }
