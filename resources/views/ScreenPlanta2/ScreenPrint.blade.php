@@ -919,13 +919,21 @@
                 var input = $('<input>', {
                     type: 'number',
                     class: 'form-control',
-                    name: 'num_problemasR[]', // Asegúrate de que el nombre del input es correcto
+                    name: '#_problemasR[]',
                     placeholder: '# problemas de ' + option,
-                    style: 'white-space: nowrap; width: 150px;' // Puedes ajustar el ancho
+                    style: 'white-space: nowrap; width: 150px;'
                 });
+
+                // Establecer valor por defecto y readonly si la opción es "N/A"
+                if (option === 'N/A') {
+                    input.val(0);
+                    input.prop('readonly', true);
+                }
+
                 container.append(input);
             });
         }
+
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
             // Obtener el token CSRF
@@ -948,9 +956,12 @@
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
                 var numProblemas = [];
                 $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
-                    numProblemas.push($(this).val() || 0); // Asegura que se envíe 0 si el input está vacío
+                    var valor = $(this).val();
+                    numProblemas.push(valor === "" ? 0 :
+                    valor); // Envía 0 si está vacío, si no, envía el valor
                 });
-              // Crear objeto con todos los datos a enviar
+
+                // Crear objeto con todos los datos a enviar
 
                 $.ajax({
                     url: '/SendScreenPrint',
@@ -982,10 +993,6 @@
                         // Manejar errores si es necesario
                         console.log('Error en la solicitud POST:', error);
                     }
-                    complete: function() {
-                    // Recargar la página después de completar la solicitud
-                    location.reload();
-                }
                 });
             }
         });
@@ -1082,9 +1089,9 @@
                                 id + ':', status, error);
                         },
                         complete: function() {
-                    // Recargar la página después de completar la solicitud
-                    location.reload();
-                }
+                            // Recargar la página después de completar la solicitud
+                            location.reload();
+                        }
                     });
                 });
             });
@@ -1204,5 +1211,4 @@
             });
         });
     </script>
-
 @endsection

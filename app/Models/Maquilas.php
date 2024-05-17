@@ -21,7 +21,9 @@ class Maquilas extends Model
                 'Corte',
                 'Color',
                 'Talla',
+                'Piezas_Auditar',
                 'Tipo_Problema',
+                'Num_Problemas',
                 'Ac_Correctiva'
             ];
 }

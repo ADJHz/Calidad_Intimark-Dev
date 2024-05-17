@@ -61,7 +61,13 @@
                             <label for="inputGrafico">Ingresa # de Grafico:</label>
                             <input class="form-control" id="inputGrafico" name="inputGrafico" required>
                         </div>
+                        <div class="col-md-2">
+                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
+                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
+                                required>
+                        </div>
                     </div>
+                    <br>
                     <div class="col-md-2">
                         <button type="button" class="button" id="insertarFila">
                             <span class="button__text">Añadir</span>
@@ -162,9 +168,15 @@
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             # Grafico</th>
+                                         <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Piezas a auditar</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                             Tipo Defectos</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            # Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
                                             Acciones Correctivas</th>
@@ -351,10 +363,10 @@
                                 '';
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect"  name="acCorrectivaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
@@ -380,14 +392,18 @@
                                 '<td><input type="text" name="Num_Grafico" class="form-control" value="' +
                                 item.Num_Grafico + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
+                                '<td><input type="text" name="Piezas_Auditar" class="form-control" value="' +
+                                item.Piezas_Auditar + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tipo_Problemas" class="form-control" value="' +
                                 item.Tipo_Problema + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
+                                '<td><input type="text" name="Num_Problemas" class="form-control" value="' +
+                                item.Num_Problemas + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Ac_Correctiva" class="form-control" value="' +
                                 item.Ac_Correctiva + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                tipoProblemaCell +
-                                acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
                                 '>Guardar</button></td>' +
@@ -466,7 +482,8 @@
 
             select.select2({
                 placeholder: placeholder,
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -510,7 +527,8 @@
             select.empty();
             select.select2({
                 placeholder: 'Seleccione una opcion',
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -545,6 +563,7 @@
             var tecnico = $('#tecnicosSelect').val();
             var color = $('#inputColor').val();
             var numGrafico = $('#inputGrafico').val();
+            var piezasAuditar = $('#inputpiezasxbulto').val();
             var tipoProblema = $('#tipoProblemaSelect').val();
             var acCorrectiva = $('#acCorrectivaSelect').val();
 
@@ -564,7 +583,10 @@
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="num_graficoR[]" class="form-control" value="' +
                 numGrafico + '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="piezas_auditarR[]" class="form-control" value="' + piezasAuditar +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td id="problemasContainer' + lastRegisteredId + '"></td>' + // Contenedor para los inputs
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
@@ -575,12 +597,39 @@
             // Cargar opciones de los nuevos select
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
+            $('select[name="tipo_problemaR[]"]').last().on('change', function() {
+                generarInputsProblemas(this, lastRegisteredId);
+            });
         });
 
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
+
+        function generarInputsProblemas(selectElement, rowId) {
+            var selectedOptions = $(selectElement).val();
+            var container = $('#problemasContainer' + rowId);
+            container.empty();
+
+            selectedOptions.forEach(function(option) {
+                var input = $('<input>', {
+                    type: 'number',
+                    class: 'form-control',
+                    name: '#_problemasR[]',
+                    placeholder: '# problemas de ' + option,
+                    style: 'white-space: nowrap; width: 150px;'
+                });
+
+                // Establecer valor por defecto y readonly si la opción es "N/A"
+                if (option === 'N/A') {
+                    input.val(0);
+                    input.prop('readonly', true);
+                }
+
+                container.append(input);
+            });
+        }
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
             // Obtener el token CSRF
@@ -595,8 +644,15 @@
                 var tecnicoValue = $(this).closest('tr').find('[name="tecnicoR[]"]').val();
                 var colorValue = $(this).closest('tr').find('[name="colorR[]"]').val();
                 var numGraficoValue = $(this).closest('tr').find('[name="num_graficoR[]"]').val();
+                var piezasAuditarValue = $(this).closest('tr').find('[name="piezas_auditarR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
+                var numProblemas = [];
+                $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
+                    var valor = $(this).val();
+                    numProblemas.push(valor === "" ? 0 :
+                    valor); // Envía 0 si está vacío, si no, envía el valor
+                });
                 $.ajax({
                     url: '/SendPlancha',
                     method: 'POST',
@@ -610,7 +666,9 @@
                         Tecnico: tecnicoValue,
                         Color: colorValue,
                         Num_Grafico: numGraficoValue,
+                        Piezas_Auditar: piezasAuditarValue,
                         Tipo_Problema: tipoProblemaValue,
+                        Num_Problemas: numProblemas,
                         Ac_Correctiva: acCorrectivaValue
                     },
                     success: function(response) {
@@ -644,10 +702,11 @@
             var tecnicoValue = row.find('input[name="Tecnico"]').val();
             var colorValue = row.find('input[name="Color"]').val();
             var numGraficoValue = row.find('input[name="Num_Grafico"]').val();
+            var piezasAuditarValue = $(this).closest('tr').find('[name="Piezas_Auditar"]').val();
             // Obtener valores de los elementos select
-            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
-            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
-            // Continuar con la solicitud AJAX
+            var tipoProblemaValue = $(this).closest('tr').find('[name="Tipo_Problemas"]').val();
+            var numProblemasValue = $(this).closest('tr').find('[name="Num_Problemas"]').val();
+            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
             $.ajax({
                 url: '/UpdatePlancha/' + idValue,
                 method: 'PUT',
@@ -662,7 +721,9 @@
                     Tecnico: tecnicoValue,
                     Color: colorValue,
                     Num_Grafico: numGraficoValue,
+                    Piezas_Auditar: piezasAuditarValue,
                     Tipo_Problema: tipoProblemaValue,
+                    Num_Problemas: numProblemasValue,
                     Ac_Correctiva: acCorrectivaValue
                 },
                 success: function(response) {

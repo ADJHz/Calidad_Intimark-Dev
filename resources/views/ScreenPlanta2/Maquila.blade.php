@@ -49,9 +49,11 @@
                                     Maquina</label>
                                 <select class="custom-select my-1 mr-sm-2" id="inputTipoMaquina" name="inputTipoMaquina">
                                     <option selected>Seleccion tipo de maquina</option>
-                                    <option value="Eco1">Eco1</option>
-                                    <option value="Eco2">Eco2</option>
-                                    <option value="Digital">Digital</option>
+                                    <option value="Oval1">Oval1</option>
+                                    <option value="Oval2">Oval2</option>
+                                    <option value="Eco">Eco</option>
+                                    <option value="You">You</option>
+                                    <option value="Challenger">Challenger</option>
                                     <option value="Otra">Otra</option>
                                 </select>
                                 <input type="text" class="form-control my-1 mr-sm-2" id="otraTipoMaquina"
@@ -84,6 +86,11 @@
                                     <option value="XXL">XXL</option>
                                 </select>
                             </form>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
+                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
+                                required>
                         </div>
 
                     </div>
@@ -170,7 +177,7 @@
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
                                             Auditor</th>
-                                            <th
+                                        <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
                                             Descripción</th>
                                         <th
@@ -183,23 +190,29 @@
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 5%;">
                                             OP</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 7.1%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.1%;">
                                             Maquina</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3%">
                                             Tecnico</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
-                                           Corte</th>
+                                            Corte</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             Color</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.0%;">
                                             Talla</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Piezas a auditar</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.5%;">
                                             Tipo Defectos</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            # Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
                                             Acciones Correctivas</th>
@@ -285,10 +298,10 @@
                                 '';
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
@@ -323,14 +336,18 @@
                                 '<td><input type="text" name="Talla" class="form-control" value="' +
                                 item.Talla + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
+                                '<td><input type="text" name="Piezas_Auditar" class="form-control" value="' +
+                                item.Piezas_Auditar + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tipo_Problemas" class="form-control" value="' +
                                 item.Tipo_Problema + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
+                                '<td><input type="text" name="Num_Problemas" class="form-control" value="' +
+                                item.Num_Problemas + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Ac_Correctiva" class="form-control" value="' +
                                 item.Ac_Correctiva + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                tipoProblemaCell +
-                                acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
                                 '>Guardar</button></td>' +
@@ -409,7 +426,8 @@
 
             select.select2({
                 placeholder: placeholder,
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -453,7 +471,8 @@
             select.empty();
             select.select2({
                 placeholder: 'Seleccione una opcion',
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -467,11 +486,12 @@
             // Verificar si todos los campos están llenos
             var camposVacios = false;
             $('select, input').each(function() {
-                if ($(this).val() === "" && !(($(this).attr('id') === 'otraTipoMaquina') && ($('#inputMaquina').val() !== 'Otra'))) {
-            camposVacios = true;
-            return false; // Salir del bucle si se encuentra un campo vacío
-        }
-    });
+                if ($(this).val() === "" && !(($(this).attr('id') === 'otraTipoMaquina') && ($(
+                        '#inputMaquina').val() !== 'Otra'))) {
+                    camposVacios = true;
+                    return false; // Salir del bucle si se encuentra un campo vacío
+                }
+            });
 
             if (camposVacios) {
                 alert('Por favor, complete todos los campos antes de añadir una nueva fila.');
@@ -490,6 +510,7 @@
             var corte = $('#inputCorte').val();
             var color = $('#inputColor').val();
             var talla = $('#inputTalla').val();
+            var piezasAuditar = $('#inputpiezasxbulto').val();
             var tipoProblema = $('#tipoProblemaSelect').val();
             var acCorrectiva = $('#acCorrectivaSelect').val();
 
@@ -515,7 +536,10 @@
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="tallaR[]" class="form-control" value="' +
                 talla + '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="piezas_auditarR[]" class="form-control" value="' + piezasAuditar +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td id="problemasContainer' + lastRegisteredId + '"></td>' + // Contenedor para los inputs
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
@@ -526,12 +550,39 @@
             // Cargar opciones de los nuevos select
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
+            $('select[name="tipo_problemaR[]"]').last().on('change', function() {
+                generarInputsProblemas(this, lastRegisteredId);
+            });
         });
 
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
+
+        function generarInputsProblemas(selectElement, rowId) {
+            var selectedOptions = $(selectElement).val();
+            var container = $('#problemasContainer' + rowId);
+            container.empty();
+
+            selectedOptions.forEach(function(option) {
+                var input = $('<input>', {
+                    type: 'number',
+                    class: 'form-control',
+                    name: '#_problemasR[]',
+                    placeholder: '# problemas de ' + option,
+                    style: 'white-space: nowrap; width: 150px;'
+                });
+
+                // Establecer valor por defecto y readonly si la opción es "N/A"
+                if (option === 'N/A') {
+                    input.val(0);
+                    input.prop('readonly', true);
+                }
+
+                container.append(input);
+            });
+        }
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
             // Obtener el token CSRF
@@ -549,8 +600,15 @@
                 var corteValue = $(this).closest('tr').find('[name="corteR[]"]').val();
                 var colorValue = $(this).closest('tr').find('[name="colorR[]"]').val();
                 var tallaValue = $(this).closest('tr').find('[name="tallaR[]"]').val();
+                var piezasAuditarValue = $(this).closest('tr').find('[name="piezas_auditarR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
+                var numProblemas = [];
+                $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
+                    var valor = $(this).val();
+                    numProblemas.push(valor === "" ? 0 :
+                    valor); // Envía 0 si está vacío, si no, envía el valor
+                });
                 $.ajax({
                     url: '/SendMaquila',
                     method: 'POST',
@@ -567,7 +625,9 @@
                         Corte: corteValue,
                         Color: colorValue,
                         Talla: tallaValue,
+                        Piezas_Auditar: piezasAuditarValue,
                         Tipo_Problema: tipoProblemaValue,
+                        Num_Problemas: numProblemas,
                         Ac_Correctiva: acCorrectivaValue,
                     },
                     success: function(response) {
@@ -601,12 +661,14 @@
             var opDefecValue = row.find('input[name="OP_Defec"]').val();
             var maquinaValue = row.find('select[name="Maquina"]').val();
             var tecnicoValue = row.find('input[name="Tecnico"]').val();
-            var corteValue =  row.find('input[name="Corte"]').val();
+            var corteValue = row.find('input[name="Corte"]').val();
             var colorValue = row.find('input[name="Color"]').val();
             var tallaValue = row.find('input[name="Talla"]').val();
+            var piezasAuditarValue = $(this).closest('tr').find('[name="Piezas_Auditar"]').val();
             // Obtener valores de los elementos select
-            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
-            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
+            var tipoProblemaValue = $(this).closest('tr').find('[name="Tipo_Problemas"]').val();
+            var numProblemasValue = $(this).closest('tr').find('[name="Num_Problemas"]').val();
+            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
             // Continuar con la solicitud AJAX
             $.ajax({
                 url: '/UpdateMaquila/' + idValue,
@@ -625,7 +687,9 @@
                     Corte: corteValue,
                     Color: colorValue,
                     Talla: tallaValue,
+                    Piezas_Auditar: piezasAuditarValue,
                     Tipo_Problema: tipoProblemaValue,
+                    Num_Problemas: numProblemasValue,
                     Ac_Correctiva: acCorrectivaValue
                 },
                 success: function(response) {
@@ -639,7 +703,7 @@
                 },
                 complete: function() {
                     // Recargar la página después de completar la solicitud
-                 location.reload();
+                    location.reload();
                 }
             });
         });

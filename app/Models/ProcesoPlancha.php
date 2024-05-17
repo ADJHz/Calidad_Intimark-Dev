@@ -18,7 +18,9 @@ class ProcesoPlancha extends Model
                 'Tecnico',
                 'Color',
                 'Num_Grafico',
+                'Piezas_Auditar',
                 'Tipo_Problema',
+                'Num_Problemas',
                 'Ac_Correctiva'
             ];
 

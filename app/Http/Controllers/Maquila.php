@@ -107,7 +107,9 @@ public function OpcionesACCorrectiva()
             'Corte'  => $item->Corte,
             'Color' => $item->Color,
             'Talla' => $item->Talla,
+            'Piezas_Auditar'=> $item->Piezas_Auditar,
             'Tipo_Problema' => $tipoProblema,
+            'Num_Problemas' => $item->Num_Problemas,
             'Ac_Correctiva' => $acCorrectiva,
             'Status' => $item->Status,
         ];
@@ -136,11 +138,19 @@ public function SendMaquila(Request $request)
         $corte  = $request->input('Corte');
         $color = $request->input('Color');
         $talla = $request->input('Talla');
+        $pizasAuditar = $request->input('Piezas_Auditar');
         $tipoProblema = $request->input('Tipo_Problema');
+        $numProblemas =  $request->input('Num_Problemas');
         $acCorrectiva = $request->input('Ac_Correctiva');
 
         // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
         if ($addRowClicked) {
+            if (is_null($numProblemas)) {
+                $numProblemas = array_fill(0, count($tipoProblema), 0); // Array de ceros del mismo tamaño que $tipoProblema
+            }
+            $tipoProblemaString = implode(', ', $tipoProblema);
+            $numProblemasString = implode(', ', $numProblemas);
+            $acCorrectivaString = implode(', ', $acCorrectiva);
             $screenPrint = Maquilas::create([
                 'Auditor' => $auditor,
                 'Descripcion' => $descripcion,
@@ -152,8 +162,10 @@ public function SendMaquila(Request $request)
                 'Corte'  => $corte,
                 'Color' => $color,
                 'Talla' => $talla,
-                'Tipo_Problema' => $tipoProblema,
-                'Ac_Correctiva' => $acCorrectiva,
+                'Piezas_Auditar' => $pizasAuditar,
+                'Tipo_Problema' => $tipoProblemaString, // Guardar como string separado por comas
+                'Num_Problemas' => $numProblemasString, // Guardar como string separado por comas
+                'Ac_Correctiva' => $acCorrectivaString, // Guardar como string separado por comas
                 'Status' => 'Nuevo', // Cambiado de 'Guardado' a 'Nuevo'
             ]);
 
@@ -208,7 +220,9 @@ public function SendMaquila(Request $request)
            'Corte' => $request->input('Corte', $screenPrint->Corte),
            'Color' => $request->input('Color', $screenPrint->Color),
            'Talla' => $request->input('Talla', $screenPrint->Talla),
+           'Piezas_Auditar' => $request->input('Piezas_Auditar', $screenPrint->Piezas_Auditar),
            'Tipo_Problema' => $tipoProblema,
+           'Num_Problemas' => $request->input('Num_Problemas', $screenPrint->Num_Problemas),
            'Ac_Correctiva' => $acCorrectiva,
            'Status' => 'Update', // Puedes ajustar este campo según tus necesidades
        ]);
@@ -258,32 +272,37 @@ public function PorcenTotalDefecMaquila()
         // Obtener la fecha actual
         $today = Carbon::today();
 
-        // Obtener la cantidad total de registros para el día actual
-        $totalRegistros = Maquilas::whereDate('created_at', $today)->count();
+        // Obtener la suma de piezas auditadas para el día actual
+        $totalRegistros = Maquilas::whereDate('created_at', $today)
+            ->sum('Piezas_Auditar');
 
-        // Obtener la cantidad de registros con Tipo_Problema diferente de 'N/A'
-        $defectos = Maquilas::whereDate('created_at', $today)
+        // Obtener todos los registros con Tipo_Problema diferente de 'N/A' para el día actual
+        $registrosConDefectos = Maquilas::whereDate('created_at', $today)
             ->where('Tipo_Problema', '<>', 'N/A')
-            ->count();
+            ->get();
+
+        // Contar el número total de defectos en todos los registros
+        $totalDefectos = 0;
+        foreach ($registrosConDefectos as $registro) {
+            $tiposProblema = explode(',', $registro->Tipo_Problema);
+            $totalDefectos += count($tiposProblema);
+        }
 
         // Calcular el porcentaje
-        $porcentaje = ($defectos / $totalRegistros) * 100;
+        $porcentaje = $totalRegistros > 0 ? ($totalDefectos / $totalRegistros) * 100 : 0;
 
-        // Puedes devolver la respuesta JSON con los datos adicionales
         $data = [
             'success' => true,
             'totalRegistros' => $totalRegistros,
-            'totalDefectos' => $defectos,
+            'totalDefectos' => $totalDefectos,
             'porcentaje' => $porcentaje,
             'message' => 'Datos calculados correctamente.',
         ];
 
         return response()->json($data);
     } catch (\Exception $e) {
-        // Log de errores
-        Log::error('Error en PorcenTotalDefec: ' . $e->getMessage());
+        Log::error('Error en PorcenScreen: ' . $e->getMessage());
 
-        // Manejar el error y devolver una respuesta JSON
         $data = [
             'success' => false,
             'message' => 'Error al calcular los datos.',

@@ -21,12 +21,14 @@ class InspeccionEstampadoDHorno extends Model
                 'Tipo_Maquina',
                 'LeyendaSprint',
                 'Tecnica' ,
+                'Piezas_Auditar' ,
                 'Fibras',
                 'Porcen_Fibra',
                 'Hora',
                 'Bulto',
                 'Talla',
                 'Tipo_Problema',
+                'Num_Problemas' ,
                 'Ac_Correctiva'
             ];
 }

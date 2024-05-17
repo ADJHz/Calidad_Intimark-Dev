@@ -67,9 +67,11 @@
                                     Maquina</label>
                                 <select class="custom-select my-1 mr-sm-2" id="inputTipoMaquina" name="inputTipoMaquina">
                                     <option selected>Seleccion tipo de maquina</option>
-                                    <option value="Eco1">Eco1</option>
-                                    <option value="Eco2">Eco2</option>
-                                    <option value="Digital">Digital</option>
+                                    <option value="Oval1">Oval1</option>
+                                    <option value="Oval2">Oval2</option>
+                                    <option value="Eco">Eco</option>
+                                    <option value="You">You</option>
+                                    <option value="Challenger">Challenger</option>
                                     <option value="Otra">Otra</option>
                                 </select>
                                 <input type="text" class="form-control my-1 mr-sm-2" id="otraTipoMaquina"
@@ -85,6 +87,11 @@
                             <select class="form-control" id="tecnicaSelect" name="tecnicaSelect" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
+                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
+                                required>
                         </div>
                         <div class="col-md-2">
                             <label for="fibraSelect">Seleccion de tipo de fibra:</label>
@@ -195,13 +202,16 @@
                                             # Grafico</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
-                                            Tipo de MAquina</th>
+                                            Tipo de Maquina</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 4.5%;">
                                             Leyenda Sprint</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 3.5%;">
                                             Tecnica</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Piezas a auditar</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                             Fibras</th>
@@ -220,6 +230,9 @@
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                             Tipo Defectos</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            # Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
                                             Acciones Correctivas</th>
@@ -620,10 +633,10 @@
                                 '';
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
+                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect[]" multiple ' +
                                 readonlyAttribute + '"></select></td>';
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
@@ -658,6 +671,9 @@
                                 '<td><input type="text" name="Tecnica" class="form-control" value="' +
                                 item.Tecnica + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Piezas_Auditar" class="form-control" value="' +
+                                item.Piezas_Auditar + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Fibras" class="form-control" value="' +
                                 item.Fibras + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
@@ -676,11 +692,12 @@
                                 '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
                                 item.Tipo_Problema + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Num_Problemas" class="form-control" value="' +
+                                item.Num_Problemas + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
                                 '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
                                 item.Ac_Correctiva + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                tipoProblemaCell +
-                                acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
                                 '>Guardar</button></td>' +
@@ -759,7 +776,8 @@
 
             select.select2({
                 placeholder: placeholder,
-                allowClear: true
+                allowClear: true,
+                multiple: true,
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -803,7 +821,8 @@
             select.empty();
             select.select2({
                 placeholder: 'Seleccione una opcion',
-                allowClear: true
+                allowClear: true,
+                multiple: true,
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -842,6 +861,7 @@
             var tipoMaquinaText = $('#inputTipoMaquina option:selected').text();
             var leyendasprint = $('#inputLeyendaSprint').val();
             var tecnica = $('#tecnicaSelect').val();
+            var piezasAuditar = $('#inputpiezasxbulto').val();
             var fibras = $('#fibraSelect').val();
             var tipoProblema = $('#tipoProblemaSelect').val();
             var acCorrectiva = $('#acCorrectivaSelect').val();
@@ -878,6 +898,8 @@
                 leyendasprint + '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="tecnicaR[]" class="form-control" value="' + tecnica +
                 '" style="white-space: nowrap;"></td>' +
+                '<td><input type="text" name="piezas_auditarR[]" class="form-control" value="' + piezasAuditar +
+                '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="fibrasR[]" class="form-control" value="' + fibras.join(', ') +
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
@@ -889,6 +911,7 @@
                 '<td><input type="text" name="tallaR[]" class="form-control" value="' +
                 '" style="white-space: nowrap;"></td>' +
                 '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td id="problemasContainer' + lastRegisteredId + '"></td>' + // Contenedor para los inputs
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
@@ -899,12 +922,38 @@
             // Cargar opciones de los nuevos select
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
+            $('select[name="tipo_problemaR[]"]').last().on('change', function() {
+                generarInputsProblemas(this, lastRegisteredId);
+            });
         });
 
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
+        function generarInputsProblemas(selectElement, rowId) {
+            var selectedOptions = $(selectElement).val();
+            var container = $('#problemasContainer' + rowId);
+            container.empty();
+
+            selectedOptions.forEach(function(option) {
+                var input = $('<input>', {
+                    type: 'number',
+                    class: 'form-control',
+                    name: '#_problemasR[]',
+                    placeholder: '# problemas de ' + option,
+                    style: 'white-space: nowrap; width: 150px;'
+                });
+
+                // Establecer valor por defecto y readonly si la opción es "N/A"
+                if (option === 'N/A') {
+                    input.val(0);
+                    input.prop('readonly', true);
+                }
+
+                container.append(input);
+            });
+        }
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
             // Obtener el token CSRF
@@ -922,12 +971,18 @@
                 var tipoMaquinaValue = $(this).closest('tr').find('[name="tipo_maquinaR[]"]').val();
                 var leyendaSprintValue = $(this).closest('tr').find('[name="leyendasprintR[]"]').val();
                 var tecnicaValue = $(this).closest('tr').find('[name="tecnicaR[]"]').val();
+                var piezasAuditarValue = $(this).closest('tr').find('[name="piezas_auditarR[]"]').val();
                 var fibrasValue = $(this).closest('tr').find('[name="fibrasR[]"]').val();
                 var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibraR[]"]').val();
                 var horaValue = $(this).closest('tr').find('[name="horaR[]"]').val();
                 var bultoValue = $(this).closest('tr').find('[name="bultoR[]"]').val();
                 var tallaValue = $(this).closest('tr').find('[name="tallaR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
+                $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
+                    var valor = $(this).val();
+                    numProblemas.push(valor === "" ? 0 :
+                    valor); // Envía 0 si está vacío, si no, envía el valor
+                });
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
                 $.ajax({
                     url: '/SendInspeccionEstampadoHornot',
@@ -945,12 +1000,14 @@
                         Tipo_Maquina: tipoMaquinaValue,
                         LeyendaSPrint: leyendaSprintValue,
                         Tecnica: tecnicaValue,
+                        Piezas_Auditar: piezasAuditarValue,
                         Fibras: fibrasValue,
                         Porcen_Fibra: porcentajeFibraValue,
                         Hora: horaValue,
                         Bulto: bultoValue,
                         Talla: tallaValue,
                         Tipo_Problema: tipoProblemaValue,
+                        Num_Problemas: numProblemas,
                         Ac_Correctiva: acCorrectivaValue
                     },
                     success: function(response) {
@@ -961,6 +1018,7 @@
                         // Manejar errores si es necesario
                         console.log('Error en la solicitud POST:', error);
                     }
+
                 });
             }
         });
@@ -993,8 +1051,12 @@
             var bulto = row.find('input[name="Bulto"]').val();
             var talla = row.find('input[name="Talla"]').val();
             // Obtener valores de los elementos select
-            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
-            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
+            var piezasAuditarValue = $(this).closest('tr').find('[name="Piezas_Auditar"]').val();
+            // Obtener valores de los elementos select
+            var tipoProblemaValue = $(this).closest('tr').find('[name="Tipo_Problemas"]').val();
+            var numProblemasValue = $(this).closest('tr').find('[name="Num_Problemas"]').val();
+            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
+
             // Continuar con la solicitud AJAX
             $.ajax({
                 url: '/UpdateIsnpec/' + idValue,
@@ -1013,12 +1075,14 @@
                     Tipo_Maquina: tipo_maquina,
                     LeyendaSprint: leyendasprint,
                     Tecnica: tecnicaValue,
+                    Piezas_Auditar: piezasAuditarValue,
                     Fibras: fibrasValue,
                     Porcen_Fibra: porcentajeFibraValue,
                     Hora: hora,
                     Bulto: bulto,
                     Talla: talla,
                     Tipo_Problema: tipoProblemaValue,
+                    Num_Problemas: numProblemasValue,
                     Ac_Correctiva: acCorrectivaValue
                 },
                 success: function(response) {

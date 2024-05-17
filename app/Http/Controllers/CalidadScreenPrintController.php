@@ -205,6 +205,9 @@ class CalidadScreenPrintController extends Controller
         ]);
         // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
         if ($addRowClicked) {
+            if (is_null($numProblemas)) {
+                $numProblemas = array_fill(0, count($tipoProblema), 0); // Array de ceros del mismo tamaño que $tipoProblema
+            }
             // Combinar los arrays en un solo string separado por comas
             $tipoProblemaString = implode(', ', $tipoProblema);
             $numProblemasString = implode(', ', $numProblemas);
