@@ -12,7 +12,7 @@ use App\Models\CategoriaTeamLeader;
 use App\Models\CategoriaTipoProblema; 
 use App\Models\CategoriaAccionCorrectiva;  
 use App\Models\AuditoriaAQL;  
-use App\Models\DatoAX;
+use App\Models\CategoriaUtility;
 use App\Models\DatosAX;
 use App\Models\EvaluacionCorte; 
 use App\Models\TpAuditoriaAQL;  
@@ -142,10 +142,10 @@ class AuditoriaAQLController extends Controller
             ->where('area', $data['area'])
             ->get();
         $estatusFinalizar = AuditoriaAQL::whereDate('created_at', $fechaActual)
-        ->where('modulo', $data['modulo'])
-        ->where('area', $data['area'])
-        ->where('estatus', 1)
-        ->exists();
+            ->where('modulo', $data['modulo'])
+            ->where('area', $data['area'])
+            ->where('estatus', 1)
+            ->exists();
 
         $registros = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('modulo', $data['modulo'])
@@ -196,14 +196,29 @@ class AuditoriaAQLController extends Controller
 
         
  
-        $finParoModular = AuditoriaAQL::whereDate('created_at', $fechaActual)
+        //dd($finParoModular);
+        $registrosOriginales = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('area', $data['area'])
             ->where('modulo', $data['modulo'])
             ->where('op', $data['op'])
             ->where('team_leader', $data['team_leader'])
-            ->whereNotNull('fin_paro_modular')
-            ->exists();;
-        //dd($finParoModular);
+            ->where('cantidad_rechazada', '>', 0)
+            ->orderBy('created_at', 'asc') // Ordenar por created_at ascendente
+            ->get();
+
+        // Aplicar filtro adicional para registros 2 y 4
+        $registro2 = $registrosOriginales->get(1); // Obtener el segundo registro
+        $registro4 = $registrosOriginales->get(3); // Obtener el cuarto registro
+
+        // Verificar si los registros 2 y 4 cumplen con el criterio adicional
+        $evaluacionRegistro2 = $registro2 && is_null($registro2->fin_paro_modular); // Usar is_null() o el operador ??
+        $evaluacionRegistro4 = $registro4 && is_null($registro4->fin_paro_modular); // Usar is_null() o el operador ??
+
+        // Almacenar los resultados en variables
+        $finParoModular1 = $evaluacionRegistro2;
+        $finParoModular2 = $evaluacionRegistro4;
+
+        //dd($registrosOriginales, $registro2, $registro4, $evaluacionRegistro2, $evaluacionRegistro4, $finParoModular1, $finParoModular2);
         $conteoParos = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('area', $data['area'])
             ->where('modulo', $data['modulo'])
@@ -215,12 +230,28 @@ class AuditoriaAQLController extends Controller
         $customerName = JobAQL::where('prodid', $data['op'])
             ->pluck('customername')
             ->first();
-        $nombreProcesoToAQL = AuditoriaProceso::where('moduleid', $data['modulo'])
-            //->where('customername', $customerName)
-            ->select('name')
-            ->get();
+
+        $utilityPlanta1 = CategoriaUtility::where('planta', 'Intimark1')
+            ->where('estado', 1)
+            ->select('nombre')
+            ->get()
+            ->toArray();
         
-        //dd($nombreProcesoToAQL, $data['modulo'], $customerName);
+        $utilityPlanta2 = CategoriaUtility::where('planta', 'Intimark2')
+            ->where('estado', 1)
+            ->select('nombre')
+            ->get()
+            ->toArray();
+        
+        $nombreProcesoToAQL = AuditoriaProceso::where('moduleid', $data['modulo'])
+            ->select('name')
+            ->get()
+            ->toArray();
+        
+        // Fusionar los arrays
+        $nombreProcesoToAQLPlanta1 = array_merge($utilityPlanta1, $nombreProcesoToAQL);
+        $nombreProcesoToAQLPlanta2 = array_merge($utilityPlanta2, $nombreProcesoToAQL);
+        //dd($nombreProcesoToAQL, $utilityPlanta2, $utilityPlanta1, $nombreProcesoToAQLPlanta1, $nombreProcesoToAQLPlanta2);
         return view('auditoriaAQL.auditoriaAQL', array_merge($categorias, [
             'mesesEnEspanol' => $mesesEnEspanol, 
             'activePage' => $activePage,
@@ -241,8 +272,10 @@ class AuditoriaAQLController extends Controller
             'porcentajeBulto' => $porcentajeBulto, 
             'mostrarRegistro' => $mostrarRegistro,
             'conteoParos' => $conteoParos,
-            'finParoModular' => $finParoModular,
-            'nombreProcesoToAQL' => $nombreProcesoToAQL]));
+            'finParoModular1' => $finParoModular1,
+            'finParoModular2' => $finParoModular2,
+            'nombreProcesoToAQLPlanta1' => $nombreProcesoToAQLPlanta1,
+            'nombreProcesoToAQLPlanta2' => $nombreProcesoToAQLPlanta2,]));
     }
 
 
@@ -422,15 +455,21 @@ class AuditoriaAQLController extends Controller
             // Obtener la hora actual
             $horaActual = Carbon::now()->toTimeString();
 
-            // Buscar el segundo registro con datos en la columna "cantidad_rechazada"
+             // Obtener el segundo y cuarto registro
             $segundoRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
                 ->where('cantidad_rechazada', '>', 0)
                 ->orderBy('created_at', 'asc')
                 ->skip(1) // Saltar el primer registro
                 ->first();
 
-            // Verificar si se encontró el segundo registro
-            if ($segundoRegistro) {
+            $cuartoRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('cantidad_rechazada', '>', 0)
+                ->orderBy('created_at', 'asc')
+                ->skip(3) // Saltar los primeros tres registros
+                ->first();
+
+            // Evaluar el segundo registro
+            if ($segundoRegistro && is_null($segundoRegistro->minutos_paro_modular)) {
                 // Actualizar la columna "fin_paro_modular" con la hora actual
                 $segundoRegistro->fin_paro_modular = $horaActual;
 
@@ -445,6 +484,24 @@ class AuditoriaAQLController extends Controller
                 // Guardar los cambios
                 $segundoRegistro->save();
             }
+
+            // Evaluar el cuarto registro si el segundo ya tiene "minutos_paro_modular"
+            if ($segundoRegistro && !is_null($segundoRegistro->minutos_paro_modular) && $cuartoRegistro && is_null($cuartoRegistro->minutos_paro_modular)) {
+                // Actualizar la columna "fin_paro_modular" con la hora actual
+                $cuartoRegistro->fin_paro_modular = $horaActual;
+
+                // Calcular la diferencia en minutos entre "inicio_paro" y "fin_paro_modular"
+                $inicioParo = Carbon::parse($cuartoRegistro->inicio_paro);
+                $finParoModular = Carbon::parse($horaActual);
+                $diferenciaEnMinutos = $inicioParo->diffInMinutes($finParoModular);
+
+                // Actualizar la columna "minutos_paro_modular" con la diferencia en minutos
+                $cuartoRegistro->minutos_paro_modular = $diferenciaEnMinutos;
+
+                // Guardar los cambios
+                $cuartoRegistro->save();
+            }
+
             //dd($request->all(), $registro); 
 
         }else{

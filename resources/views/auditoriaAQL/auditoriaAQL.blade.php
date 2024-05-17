@@ -81,7 +81,7 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    @if((($conteoParos == 2) && ($finParoModular == false)) || (($conteoParos == 4) && ($finParoModular == false)))
+                    @if((($conteoParos == 2) && ($finParoModular1 == true)) || (($conteoParos == 4) && ($finParoModular2 == true)))
                         <div class="row">
                             <form method="POST" action="{{ route('auditoriaAQL.cambiarEstadoInicioParoAQL') }}">
                                 @csrf
@@ -146,9 +146,16 @@
                                             <tr>
                                                 <td>
                                                     <select name="nombre" id="nombre" class="form-control" required>
-                                                        @foreach($nombreProcesoToAQL as $proceso)
-                                                            <option value="{{ $proceso->name }}">{{ $proceso->name }}</option>
-                                                        @endforeach
+                                                        <option value="">Selecciona una opción</option>
+                                                        @if($auditorPlanta == 'Planta1')
+                                                            @foreach($nombreProcesoToAQLPlanta1 as $opcion)
+                                                                <option value="{{ $opcion['nombre'] ?? $opcion['name'] }}">{{ $opcion['nombre'] ?? $opcion['name'] }}</option>
+                                                            @endforeach
+                                                        @elseif($auditorPlanta == 'Planta2')
+                                                            @foreach($nombreProcesoToAQLPlanta2 as $opcion)
+                                                                <option value="{{ $opcion['nombre'] ?? $opcion['name'] }}">{{ $opcion['nombre'] ?? $opcion['name'] }}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 </td>
                                                 <td>
