@@ -1,5 +1,4 @@
 @extends('layouts.app', ['activePage' => 'ScreenPrint', 'titlePage' => __('Screen Print')])
-
 @section('content')
     <style>
         .negative-image {
@@ -73,6 +72,12 @@
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
                         </div>
+                        <div class="col-md-2">
+                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
+                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
+                                required>
+                        </div>
+
                     </div>
                     <div class="col-md-2">
                         <button type="button" class="button" id="insertarFila">
@@ -181,11 +186,17 @@
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
                                             Fibras</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.6%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 4.6%;">
                                             % de Fibras</th>
                                         <th
-                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 6.5%;">
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            Piezas a auditar</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.5%;">
                                             Tipo Defectos</th>
+                                        <th
+                                            style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 2.5%;">
+                                            # Defectos</th>
                                         <th
                                             style="text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; width: 8.7%;">
                                             Acciones Correctivas</th>
@@ -638,11 +649,11 @@
                                 '';
                             // Crear celdas para Tipo_Problema y Ac_Correctiva como select2
                             var tipoProblemaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect" ' +
-                                readonlyAttribute + '"></select></td>';
+                                '<td style="white-space: nowrap;"><select class="form-control tipoProblemaSelect" name="tipoProblemaSelect[]" multiple ' +
+                                readonlyAttribute + '></select></td>';
                             var acCorrectivaCell = isFinalizado ? '' :
-                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect" ' +
-                                readonlyAttribute + '"></select></td>';
+                                '<td style="white-space: nowrap;"><select class="form-control acCorrectivaSelect" name="acCorrectivaSelect[]" multiple ' +
+                                readonlyAttribute + '></select></td>';
                             // Crear la fila con las celdas modificadas
                             var row = '<tr>' +
                                 '<td><input type="text" name="id" class="form-control" value="' +
@@ -676,14 +687,18 @@
                                 '<td><input type="text" name="Porcen_Fibra" class="form-control" value="' +
                                 item.Porcen_Fibra + '" ' + readonlyAttribute +
                                 ' style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Tipo_ProblemF" class="form-control" value="' +
+                                '<td><input type="text" name="Piezas_Auditar" class="form-control" value="' +
+                                item.Piezas_Auditar + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Tipo_Problemas" class="form-control" value="' +
                                 item.Tipo_Problema + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                '<td><input type="text" name="Ac_CorrectivaF" class="form-control" value="' +
+                                '<td><input type="text" name="Num_Problemas" class="form-control" value="' +
+                                item.Num_Problemas + '" ' + readonlyAttribute +
+                                ' style="white-space: nowrap;"></td>' +
+                                '<td><input type="text" name="Ac_Correctiva" class="form-control" value="' +
                                 item.Ac_Correctiva + '" ' +
                                 'readonly style="white-space: nowrap;"></td>' +
-                                tipoProblemaCell +
-                                acCorrectivaCell +
                                 '<td><button type="button" class="btn btn-success guardarFila updateFile" ' +
                                 disabledAttribute + ' ' + hiddenAttribute +
                                 '>Guardar</button></td>' +
@@ -697,6 +712,7 @@
                                 $('.tipoProblemaSelect').select2({
                                     placeholder: 'Seleccione Tipo de Problema',
                                     allowClear: true,
+
                                 });
 
                                 $('.acCorrectivaSelect').select2({
@@ -762,7 +778,8 @@
 
             select.select2({
                 placeholder: placeholder,
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -806,7 +823,8 @@
             select.empty();
             select.select2({
                 placeholder: 'Seleccione una opcion',
-                allowClear: true
+                allowClear: true,
+                multiple: true
             });
             opciones.forEach(function(opcion) {
                 select.append('<option value="' + opcion + '">' + opcion + '</option>');
@@ -838,6 +856,7 @@
             var numGrafico = $('#inputGrafico').val();
             var tecnica = $('#tecnicaSelect').val();
             var fibras = $('#fibraSelect').val();
+            var piezasAuditar = $('#inputpiezasxbulto').val();
             var tipoProblema = $('#tipoProblemaSelect').val();
             var acCorrectiva = $('#acCorrectivaSelect').val();
 
@@ -867,7 +886,10 @@
                 '" style="white-space: nowrap;"></td>' +
                 '<td><input type="text" name="porcentaje_fibraR[]" class="form-control" value="' +
                 porcentajes.join(', ') + '" style="white-space: nowrap;"></td>' +
-                '<td><select class="form-control" name="tipo_problemaR[]" style="white-space: nowrap;"></select></td>' +
+                '<td><input type="text" name="piezas_auditarR[]" class="form-control" value="' + piezasAuditar +
+                '" style="white-space: nowrap;"></td>' +
+                '<td><select class="form-control" name="tipo_problemaR[]" multiple style="white-space: nowrap;"></select></td>' +
+                '<td id="problemasContainer' + lastRegisteredId + '"></td>' + // Contenedor para los inputs
                 '<td><select class="form-control" name="ac_correctivaR[]" style="white-space: nowrap;"></select></td>' +
                 '<td><button type="button" class="btn btn-success guardarFila updateFile" style="white-space: nowrap;">Guardar</button></td>' +
                 '<td><button type="button" class="btn btn-danger descartar" style="white-space: nowrap;" onclick="descartarClicked()">Descartar <i class="material-icons">delete</i></button></td>' +
@@ -877,11 +899,32 @@
             // Cargar opciones de los nuevos select
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
+            $('select[name="tipo_problemaR[]"]').last().on('change', function() {
+                generarInputsProblemas(this, lastRegisteredId);
+            });
         });
+
         $(document).ready(function() {
             cargarOpcionesACCorrectiva();
             cargarOpcionesTipoProblema();
         });
+
+        function generarInputsProblemas(selectElement, rowId) {
+            var selectedOptions = $(selectElement).val();
+            var container = $('#problemasContainer' + rowId);
+            container.empty();
+
+            selectedOptions.forEach(function(option) {
+                var input = $('<input>', {
+                    type: 'number',
+                    class: 'form-control',
+                    name: 'num_problemasR[]', // Asegúrate de que el nombre del input es correcto
+                    placeholder: '# problemas de ' + option,
+                    style: 'white-space: nowrap; width: 150px;' // Puedes ajustar el ancho
+                });
+                container.append(input);
+            });
+        }
         // Evento de clic en el botón "Guardar"
         $(document).on('click', '.guardarFila', function() {
             // Obtener el token CSRF
@@ -899,8 +942,15 @@
                 var tecnicaValue = $(this).closest('tr').find('[name="tecnicaR[]"]').val();
                 var fibrasValue = $(this).closest('tr').find('[name="fibrasR[]"]').val();
                 var porcentajeFibraValue = $(this).closest('tr').find('[name="porcentaje_fibraR[]"]').val();
+                var piezasAuditarValue = $(this).closest('tr').find('[name="piezas_auditarR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
+                var numProblemas = [];
+                $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
+                    numProblemas.push($(this).val() || 0); // Asegura que se envíe 0 si el input está vacío
+                });
+              // Crear objeto con todos los datos a enviar
+
                 $.ajax({
                     url: '/SendScreenPrint',
                     method: 'POST',
@@ -917,8 +967,11 @@
                         Tecnica: tecnicaValue,
                         Fibras: fibrasValue,
                         Porcen_Fibra: porcentajeFibraValue,
+                        Piezas_Auditar: piezasAuditarValue,
                         Tipo_Problema: tipoProblemaValue,
-                        Ac_Correctiva: acCorrectivaValue
+                        Ac_Correctiva: acCorrectivaValue,
+                        Num_Problemas: numProblemas,
+
                     },
                     success: function(response) {
                         // Realizar acciones adicionales si es necesario después de la respuesta exitosa
@@ -928,6 +981,10 @@
                         // Manejar errores si es necesario
                         console.log('Error en la solicitud POST:', error);
                     }
+                    complete: function() {
+                    // Recargar la página después de completar la solicitud
+                    location.reload();
+                }
                 });
             }
         });
@@ -954,9 +1011,12 @@
             var tecnicaValue = row.find('input[name="Tecnica"]').val();
             var fibrasValue = row.find('input[name="Fibras"]').val();
             var porcentajeFibraValue = row.find('input[name="Porcen_Fibra"]').val();
+            var piezasAuditarValue = $(this).closest('tr').find('[name="Piezas_Auditar"]').val();
             // Obtener valores de los elementos select
-            var tipoProblemaValue = row.find('.tipoProblemaSelect').val();
-            var acCorrectivaValue = row.find('.acCorrectivaSelect').val();
+            var tipoProblemaValue = $(this).closest('tr').find('[name="Tipo_Problemas"]').val();
+            var numProblemasValue = $(this).closest('tr').find('[name="Num_Problemas"]').val();
+            var acCorrectivaValue = row.find('input[name="Ac_Correctiva"]').val();
+
             // Continuar con la solicitud AJAX
             $.ajax({
                 url: '/UpdateScreenPrint/' + idValue,
@@ -975,7 +1035,9 @@
                     Tecnica: tecnicaValue,
                     Fibras: fibrasValue,
                     Porcen_Fibra: porcentajeFibraValue,
+                    Piezas_Auditar: piezasAuditarValue,
                     Tipo_Problema: tipoProblemaValue,
+                    Num_Problemas: numProblemasValue,
                     Ac_Correctiva: acCorrectivaValue
                 },
                 success: function(response) {
@@ -1019,9 +1081,9 @@
                                 id + ':', status, error);
                         },
                         complete: function() {
-                            // Recargar la página después de completar la solicitud
-                            // location.reload();
-                        }
+                    // Recargar la página después de completar la solicitud
+                    location.reload();
+                }
                     });
                 });
             });
@@ -1106,12 +1168,16 @@
                 success: function(response) {
                     // Realizar acciones adicionales si es necesario después de la respuesta exitosa
                     console.log(response);
-                    location.reload();
+
                 },
                 error: function(error) {
                     // Manejar errores si es necesario
                     console.log('Error en la solicitud POST:', error);
                 },
+                complete: function() {
+                    // Recargar la página después de completar la solicitud
+                    location.reload();
+                }
             });
         });
     </script>
@@ -1137,9 +1203,5 @@
             });
         });
     </script>
-    <script>
-        function descartarClicked() {
-            location.reload();
-        }
-    </script>
+
 @endsection
