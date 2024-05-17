@@ -67,16 +67,17 @@
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
+                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
+                                required>
+                        </div>
+                        <div class="col-md-2">
                             <label for="fibraSelect">Seleccion de tipo de fibra:</label>
                             <select class="form-control" id="fibraSelect" name="fibraSelect[]" required>
                                 <!-- Las opciones se cargarán dinámicamente aquí -->
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label for="inputpiezasxbulto">Ingresa piezas a auditar:</label>
-                            <input type="number" class="form-control" id="inputpiezasxbulto" name="inputpiezasxbulto"
-                                required>
-                        </div>
+
 
                     </div>
                     <div class="col-md-2">
