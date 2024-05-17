@@ -15,7 +15,11 @@ use App\Http\Controllers\AuditoriaAQLController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\DatosAuditoriaEtiquetasNoOP;
+use App\Http\Controllers\DatosAuditoriaEtiquetasNoOV;
+use App\Http\Controllers\DatosAuditoriaEtiquetasNoPO;
+use App\Http\Controllers\DatosAuditoriaEtiquetasUnivers;
+use App\Http\Controllers\selectTipoBusqueda;
 
 /*
 |--------------------------------------------------------------------------
@@ -225,7 +229,6 @@ Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers
 Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password'])->middleware('checkrole');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/auditoriaEtiquetas',  [DatosAuditoriaEtiquetas::class, 'auditoriaEtiquetas'])->name('formulariosCalidad.auditoriaEtiquetas')->middleware('checkroleandplant1');
-Route::get('/auditoriaEtiquetasOP',  [DatosAuditoriaEtiquetasOP::class, 'auditoriaEtiquetasOP'])->name('formulariosCalidad.auditoriaEtiquetasOP')->middleware('checkroleandplant1');
 Route::get('/inicioAuditoriaCorte', 'App\Http\Controllers\AuditoriaCorteController@inicioAuditoriaCorte')->name('auditoriaCorte.inicioAuditoriaCorte')->middleware('checkroleandplant1');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/ScreenPrint',  [CalidadScreenPrintController::class, 'ScreenPrint'])->name('ScreenPlanta2.ScreenPrint')->middleware('checkroleandplant2');
@@ -236,28 +239,28 @@ Route::get('/Maquila',  [Maquila::class, 'Maquilas'])->name('ScreenPlanta2.Maqui
 Route::view('/error', 'error')->name('error');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/NoOrdenes', [DatosAuditoriaEtiquetas::class, 'NoOrdenes']);
+Route::get('/NoOP', [DatosAuditoriaEtiquetas::class, 'NoOP']);
+Route::get('/NoPO', [DatosAuditoriaEtiquetas::class, 'NoPO']);
+Route::get('/NoOV', [DatosAuditoriaEtiquetas::class, 'NoOV']);
 Route::get('/buscarEstilos', [DatosAuditoriaEtiquetas::class, 'buscarEstilos']);
 Route::get('/buscarDatosAuditoriaPorEstilo', [DatosAuditoriaEtiquetas::class, 'buscarDatosAuditoriaPorEstilo']);
 Route::get('/obtenerTiposDefectos', [DatosAuditoriaEtiquetas::class, 'obtenerTiposDefectos']);
 Route::post('/guardarInformacion', [DatosAuditoriaEtiquetas::class, 'guardarInformacion']);
 Route::put('/actualizarStatus', [DatosAuditoriaEtiquetas::class, 'actualizarStatus']);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Route::get('/NoOrdenesOP', [DatosAuditoriaEtiquetasOP::class, 'NoOrdenesOP']);
-Route::get('/buscarEstilosOP', [DatosAuditoriaEtiquetasOP::class, 'buscarEstilosOP']);
-Route::get('/buscarDatosAuditoriaPorEstiloOP', [DatosAuditoriaEtiquetasOP::class, 'buscarDatosAuditoriaPorEstiloOP']);
-Route::get('/obtenerTiposDefectosOP', [DatosAuditoriaEtiquetasOP::class, 'obtenerTiposDefectosOP']);
-Route::post('/guardarInformacionOP', [DatosAuditoriaEtiquetasOP::class, 'guardarInformacionOP']);
-Route::put('/actualizarStatusOP', [DatosAuditoriaEtiquetasOP::class, 'actualizarStatusOP']);
-
 // Apartado para detalles dashboard
-
 Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso');
 Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera');
 
 Route::get('/dashboarAProceso', [DashboardController::class, 'dashboarAProceso'])->name('dashboar.dashboarAProceso');
 Route::get('/dashboarAProcesoPlayera', [DashboardController::class, 'dashboarAProcesoPlayera'])->name('dashboar.dashboarAProcesoPlayera');
-Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL'); 
-Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL'])->name('dashboar.detalleXModuloAQL'); 
-Route::get('/detallePorGerente', [DashboardController::class, 'detallePorGerente'])->name('dashboar.detallePorGerente'); 
-Route::get('/detallePorCliente', [DashboardController::class, 'detallePorCliente'])->name('dashboar.detallePorCliente'); 
+
+Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL');
+Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL'])->name('dashboar.detalleXModuloAQL');
+
+Route::get('/dashboarAProcesoAQL', [DashboardController::class, 'dashboarAProcesoAQL'])->name('dashboar.dashboarAProcesoAQL');
+Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL'])->name('dashboar.detalleXModuloAQL');
+Route::get('/detallePorGerente', [DashboardController::class, 'detallePorGerente'])->name('dashboar.detallePorGerente');
+Route::get('/detallePorCliente', [DashboardController::class, 'detallePorCliente'])->name('dashboar.detallePorCliente');
+
 
