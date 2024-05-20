@@ -218,7 +218,7 @@ class AuditoriaAQLController extends Controller
         $finParoModular1 = $evaluacionRegistro2;
         $finParoModular2 = $evaluacionRegistro4;
 
-        //dd($registrosOriginales, $registro2, $registro4, $evaluacionRegistro2, $evaluacionRegistro4, $finParoModular1, $finParoModular2);
+        
         $conteoParos = AuditoriaAQL::whereDate('created_at', $fechaActual)
             ->where('area', $data['area'])
             ->where('modulo', $data['modulo'])
@@ -227,6 +227,7 @@ class AuditoriaAQLController extends Controller
             ->where('cantidad_rechazada', '>', 0)
             ->count();
 
+        //dd($conteoParos, $registrosOriginales, $registro2, $registro4, $evaluacionRegistro2, $evaluacionRegistro4, $finParoModular1, $finParoModular2);
         $customerName = JobAQL::where('prodid', $data['op'])
             ->pluck('customername')
             ->first();
@@ -455,14 +456,24 @@ class AuditoriaAQLController extends Controller
             // Obtener la hora actual
             $horaActual = Carbon::now()->toTimeString();
 
+            //dd($request->all());
+
              // Obtener el segundo y cuarto registro
             $segundoRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('modulo', $request->modulo)
+                ->where('op', $request->op)
+                ->where('team_leader', $request->team_leader)
+                ->where('area', $request->area)
                 ->where('cantidad_rechazada', '>', 0)
                 ->orderBy('created_at', 'asc')
                 ->skip(1) // Saltar el primer registro
                 ->first();
 
             $cuartoRegistro = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->where('modulo', $request->modulo)
+                ->where('op', $request->op)
+                ->where('team_leader', $request->team_leader)
+                ->where('area', $request->area)
                 ->where('cantidad_rechazada', '>', 0)
                 ->orderBy('created_at', 'asc')
                 ->skip(3) // Saltar los primeros tres registros

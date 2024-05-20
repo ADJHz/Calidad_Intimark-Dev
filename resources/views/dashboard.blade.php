@@ -60,9 +60,9 @@
               <p>&nbsp;AQL por dia Planta 2</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta2}}</h4>
               <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDiaPlanta2}}</h4>
               <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDiaPlanta2}}</h4>
+              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta2}}</h4>
             </div>
           </div>
         </div>
@@ -144,7 +144,65 @@
                     </tr>
                 </tbody>
               </table>
+              <hr>
+              <table class="table table-bordered">
+                <thead class="thead-custom2 text-center">
+                    <tr>
+                        <th>Gerentes Produccion (AQL)</th>
+                        <th>Cantidad de Módulos</th>
+                        <th>Numero de Operarios</th>
+                        <th>Cantidad Paro</th>
+                        <th>Minutos Paro</th>
+                        <th>Promedio Minutos Paro</th>
+                        <th>Cantidad Paro Modular</th>
+                        <th>% Error AQL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($dataAQL as $item)
+                        <tr>
+                            <td>{{ $item['team_leader'] }}</td>
+                            <td>{{ $item['modulos_unicos'] }}</td> 
+                            <td>{{ $item['conteoOperario'] }}</td> 
+                            <td>{{ $item['conteoMinutos'] }}</td>
+                            <td>{{ $item['sumaMinutos'] }}</td>
+                            <td>{{ $item['promedioMinutosEntero'] }}</td> 
+                            <td>{{ $item['conteParoModular'] }}</td> 
+                            <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
             
+            <table class="table table-bordered">
+                <thead class="thead-custom2 text-center">
+                    <tr>
+                        <th>Gerentes Produccion (Proceso)</th>
+                        <th>Cantidad de Módulos</th>
+                        <th>Numero de Operarios</th>
+                        <th>Numero de Utility</th>
+                        <th>Cantidad Paro</th>
+                        <th>Minutos Paro</th>
+                        <th>Promedio Minutos Paro</th>
+                        <th>% Error Proceso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($dataProceso as $item)
+                        <tr>
+                            <td>{{ $item['team_leader'] }}</td>
+                            <td>{{ $item['modulos_unicos'] }}</td>
+                            <td>{{ $item['conteoOperario'] }}</td>
+                            <td>{{ $item['conteoUtility'] }}</td>
+                            <td>{{ $item['conteoMinutos'] }}</td>
+                            <td>{{ $item['sumaMinutos'] }}</td>
+                            <td>{{ $item['promedioMinutosEntero'] }}</td>
+                            <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
             </div>
           </div>
         </div>
