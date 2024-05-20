@@ -23,46 +23,21 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row"> 
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <p>&nbsp;AQL por dia general</p>
+              <p>&nbsp;AQL por dia</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDia}}</h4>
-              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDia}}</h4>
-              <h4 class="card-title">Total de registros: {{$conteoBultosDia}}</h4>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <p>&nbsp;AQL por dia Planta 1</p>
+              <p>&nbsp;PROCESO por dia</p>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDiaPlanta1}}</h4>
-              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDiaPlanta1}}</h4>
-              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta1}}</h4>
-            </div>
-            {{--
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i>
-              </div>
-            </div>
-            --}}
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-stats">
-            <div class="card-header-custom3">
-              <p>&nbsp;AQL por dia Planta 2</p>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title">Total de Aceptados: {{$conteoPiezaAceptadoDiaPlanta2}}</h4>
-              <h4 class="card-title">Total de Rechazos: {{$conteoPiezaConRechazoDiaPlanta2}}</h4>
-              <h4 class="card-title">Total de registros: {{$conteoBultosDiaPlanta2}}</h4>
             </div>
           </div>
         </div>
@@ -222,13 +197,8 @@
             </div>
             <div class="card-footer">
               <div>
-                <p>Metricas de datos a mostrar global</p>
-                <p>Cantidad Aceptada: {{$aQLAprobados}}</p>
-                <p>Cantidad rechazada: {{$aQLRechazados}}</p>
-                <p>Porcentaje de errores: {{$totalPorcentajeAQL}}%</p> 
-
+                <p>Datos</p>
                 <a href="dashboarAProcesoAQL" class="btn btn-primary">Ver Detalles</a>
-
               </div>
             </div>
           </div>
@@ -251,10 +221,6 @@
               </div> --}}
               <div>
                 <p>Metricas de datos a mostrar</p>
-                <p>Cantidad Aceptada: {{$corteAprobados}}</p>
-                <p>Cantidad rechazada: {{$corteRechazados}}</p>
-                <p>Porcentaje de errores: {{$porcentajeTotalCorte}}%</p>
-
                 <a href="" class="btn btn-primary">Ver Detalles</a>
 
               </div>
@@ -275,10 +241,6 @@
             <div class="card-footer">
               <div>
                 <p>Metricas de datos a mostrar</p>
-                <p>Cantidad Aceptada: {{$procesoAprobados}}</p>
-                <p>Cantidad rechazada: {{$procesoRechazados}}</p>
-                <p>Porcentaje de errores: {{$totalPorcentajeProceso}}%</p>
-
                 <a href="dashboarAProceso" class="btn btn-primary">Ver Detalles</a>
 
               </div>
@@ -299,10 +261,6 @@
             <div class="card-footer">
               <div>
                 <p>Metricas de datos a mostrar</p>
-                <p>Cantidad Aceptada: {{$playeraAprobados}}</p>
-                <p>Cantidad rechazada: {{$playeraRechazados}}</p>
-                <p>Porcentaje de errores: {{$totalPorcentajePlayera}}%</p>
-
                 <a href="dashboarAProcesoPlayera" class="btn btn-primary">Ver Detalles</a>
 
               </div>
