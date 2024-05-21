@@ -42,9 +42,7 @@
                   <P>Pocentaje Planta San Bartolo: {{$generalAQLPlanta2}}% </P>
                 </div>  
                 <div class="col-md-6">
-                  <P>Pocentaje general: {{$generalAQL}}% </P>
-                  <P>Pocentaje Planta Ixtlahuaca: {{$generalAQLPlanta1}}% </P>
-                  <P>Pocentaje Planta San Bartolo: {{$generalAQLPlanta2}}% </P>
+                  <canvas id="comparativeChart" width="200" height="200"></canvas>
                 </div>
                   
               </div>
@@ -70,9 +68,7 @@
                   <P>Pocentaje Planta San Bartolo: {{$generalProcesoPlanta2}}% </P>
                 </div>  
                 <div class="col-md-6">
-                  <P>Pocentaje general: {{$generalProceso}}% </P>
-                  <P>Pocentaje Planta Ixtlahuaca: {{$generalProcesoPlanta1}}% </P>
-                  <P>Pocentaje Planta San Bartolo: {{$generalProcesoPlanta2}}% </P>
+                  <canvas id="comparativeChartProceso" width="200" height="200"></canvas>
                 </div>
                   
               </div>
@@ -675,6 +671,8 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
+    <!-- canvas char -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 
@@ -756,5 +754,63 @@
       });
     });
   </script> 
+
+  <script>
+    var ctx = document.getElementById('comparativeChart').getContext('2d');
+    var comparativeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Planta Ixtlahuaca', 'Planta San Bartolo'],
+            datasets: [{
+                label: 'Comparativa de porcentajes',
+                data: [{{$generalAQLPlanta1}}, {{$generalAQLPlanta2}}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    var ctx = document.getElementById('comparativeChartProceso').getContext('2d');
+    var comparativeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Planta Ixtlahuaca', 'Planta San Bartolo'],
+            datasets: [{
+                label: 'Comparativa de porcentajes',
+                data: [{{$generalProcesoPlanta1}}, {{$generalProcesoPlanta2}}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  </script>
   
 @endpush
