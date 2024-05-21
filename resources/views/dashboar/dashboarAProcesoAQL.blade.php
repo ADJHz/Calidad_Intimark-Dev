@@ -194,7 +194,7 @@
                     <!--Desde aqui inicia la edicion del codigo para mostrar el contenido-->
                     <div class="row">
                         <div class="col-md-5">
-                            <table id="tablaDetallesPorCliente" class="table  table-bordered table1">
+                            <table id="tablaDetallesPorCliente" class="table  table-bordered">
                                 <thead class="thead-custom1 text-center">
                                     <tr>
                                         <th>Detalle</th>
@@ -430,7 +430,7 @@
                             @foreach ($porcentajesErrorModuloPlanta2 as $modulo => $porcentajeErrorModuloPlanta2)
                                 <tr class="{{ ($porcentajeErrorModuloPlanta2 > 9 && $porcentajeErrorModuloPlanta2 <= 15) ? 'error-bajo' : ($porcentajeErrorModuloPlanta2 > 15 ? 'error-alto' : '') }}">
                                     <td>
-                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta2[$modulo], 'op' => $operacionesPorModuloPlanta2[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta2[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary" style="margin-right: 0;">Ver detalles</a>
+                                        <a href="{{ route('dashboar.detalleXModuloAQL', ['modulo' => $moduloPorModuloPlanta2[$modulo], 'op' => $operacionesPorModuloPlanta2[$modulo], 'team_leader' => $teamLeaderPorModuloPlanta2[$modulo], 'fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]) }}" class="btn btn-secondary" style="margin-right: 0;">Ver detalles</a> 
                                     </td>
                                     <td>{{ $moduloPorModuloPlanta2[$modulo] }}</td>
                                     <td>{{ $operacionesPorModuloPlanta2[$modulo] }}</td>
@@ -494,21 +494,29 @@
     </style>
 
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 
     <!-- DataTables JavaScript -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
 
     <script>
         $(document).ready( function () {
             $('#tablaProcesoAQL').DataTable({
                 lengthChange: false,
-                searching: false
+                searching: false,
+                paging: true,
+                pageLength: 10,
+                autoWidth: false,
+                responsive: true,
+                columnDefs: [
+                    { orderable: false, targets: [0] } // Aquí deshabilitas la ordenación para las columnas 2, 3 y 4 (índices 1, 2, 3)
+                ]
             });
         });
     </script> 
@@ -517,7 +525,14 @@
         $(document).ready( function () {
             $('#tablaDetallesPorModulo').DataTable({
                 lengthChange: false,
-                searching: false
+                searching: false,
+                paging: true,
+                pageLength: 10,
+                autoWidth: false,
+                responsive: true,
+                columnDefs: [
+                    { orderable: false, targets: [0] } // Aquí deshabilitas la ordenación para las columnas 2, 3 y 4 (índices 1, 2, 3)
+                ]
             });
         });
     </script> 
@@ -525,7 +540,14 @@
         $(document).ready( function () {
             $('#tablaDetallesPorCliente').DataTable({
                 lengthChange: false,
-                searching: false
+                searching: false,
+                paging: true,
+                pageLength: 10,
+                autoWidth: false,
+                responsive: true,
+                columnDefs: [
+                    { orderable: false, targets: [0] } // Aquí deshabilitas la ordenación para las columnas 2, 3 y 4 (índices 1, 2, 3)
+                ]
             });
         });
     </script> 

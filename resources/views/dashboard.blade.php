@@ -84,23 +84,15 @@
         <div class="col-md-12">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <h3 style="font-weight: bold;"><i class="material-icons">select_all</i> Detalles generales por dia: AQL y PROCESO</h3>
-              <div class="row">
-                <div class="col-md-12 text-left mb-3">
-                    <button class="btn btn-primary" onclick="showSection('clientes')">Clientes <i class="material-icons">sensor_occupied</i></button>
-                    <button class="btn btn-primary" onclick="showSection('gerentes')">Gerentes de Producción &nbsp;<i class="material-icons">view_in_ar</i>&nbsp;<i class="material-icons">cable</i></button>
-                    <button class="btn btn-primary" onclick="showSection('modulos')">Módulos &nbsp;<i class="material-icons">view_in_ar</i>&nbsp;<i class="material-icons">cable</i></button>
-                    <a href="dashboarAProcesoAQL" class="btn btn-primary">Detalles por fechas</a>
-                </div>
-            </div> 
+              <h3 style="font-weight: bold;"><i class="material-icons">select_all</i> Detalles generales por dia: AQL y PROCESO <a href="dashboarAProcesoAQL" class="btn btn-primary">Detalles por fechas</a></h3>
             </div>
             <div class="card-body">
               <div class="container-fluid">
                 
                 <!-- Sección de Clientes -->
-                <div id="clientes" class="section" style="display: none;">
+                <div id="clientes" class="section"  >
                   <div class="col-md-6">
-                      <table class="table  table-bordered table1">
+                      <table id="tablaClientes" class="table  table-bordered table1">
                         <h3 style="text-align: left" >Clientes &nbsp;<i class="material-icons">sensor_occupied</i></h3>
                           <thead class="thead-cliente text-center">
                               <tr>
@@ -111,26 +103,26 @@
                               </tr>
                           </thead>
                           <tbody>
-                              @foreach ($dataClientePlanta1 as $clienteData)
+                              @foreach ($dataCliente as $clienteData)
                                   <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
                                       <td>{{ $clienteData['cliente'] }}</td>
                                       <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
                                       <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
                                   </tr>
                               @endforeach
-                                  <tr style="background: #ddd">
-                                      <td>GENERAL</td>
-                                      <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
-                                      <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
-                                  </tr>
                           </tbody>
+                          <tr style="background: #ddd">
+                            <td>GENERAL</td>
+                            <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
+                            <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
+                          </tr>
                       </table>
                   </div>
                 </div>
                 <!-- Sección de Gerentes de Producción -->
-                <div id="gerentes" class="section" style="display: none;">
+                <div id="gerentes" class="section"  >
                   <div class="container-fluid">
-                    <table class="table table-bordered">
+                    <table id="tablaDinamico" class="table table-bordered">
                       <h3 style="text-align: left">Gerentes Produccion (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
                       <thead class="thead-custom2 text-center">
                           <tr>
@@ -160,7 +152,7 @@
                       </tbody>
                   </table>
                   <hr>
-                  <table class="table table-bordered">
+                  <table id="tablaDinamico2" class="table table-bordered">
                       <h3 style="text-align: left">Gerentes Produccion (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
                       <thead class="thead-proceso text-center">
                           <tr>
@@ -192,9 +184,9 @@
                 </div>
               </div>
               <!-- Sección de Módulos -->
-              <div id="modulos" class="section" style="display: none;">
+              <div id="modulos" class="section"  >
                 <div class="container-fluid">
-                  <table class="table table-bordered">
+                  <table id="tablaDinamico3" class="table table-bordered">
                     <h3 style="text-align: left">Modulo (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
                     <thead class="thead-custom2 text-center">
                         <tr>
@@ -222,7 +214,7 @@
                     </tbody>
                   </table>
                   <hr>
-                  <table class="table table-bordered">
+                  <table id="tablaDinamico4" class="table table-bordered">
                     <h3 style="text-align: left">Modulo (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
                     <thead class="thead-proceso text-center">
                         <tr>
@@ -671,6 +663,21 @@
 @endsection
 
 @push('js')
+
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+    <!-- DataTables JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+
+
+
   <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
@@ -690,5 +697,64 @@
         document.getElementById(sectionId).style.display = 'block';
     }
     </script>
+
+  <script>
+    $(document).ready(function() {
+        $('#tablaDinamico').DataTable({
+          lengthChange: false,
+          searching: false,
+          paging: true,
+          pageLength: 10,
+          autoWidth: false,
+          responsive: true,
+      });
+    });
+    
+
+    $(document).ready(function() {
+        $('#tablaClientes').DataTable({
+          lengthChange: false,
+          searching: false,
+          paging: true,
+          pageLength: 10,
+          autoWidth: false,
+          responsive: true,
+          //columnDefs: [
+              //{ orderable: false, targets: [1, 2, 3] } // Aquí deshabilitas la ordenación para las columnas 2, 3 y 4 (índices 1, 2, 3)
+          //]
+      });
+    });
+
+    $(document).ready(function() {
+        $('#tablaDinamico2').DataTable({
+          lengthChange: false,
+          searching: false,
+          paging: true,
+          pageLength: 10,
+          autoWidth: false,
+          responsive: true,
+      });
+    });
+    $(document).ready(function() {
+        $('#tablaDinamico3').DataTable({
+          lengthChange: false,
+          searching: false,
+          paging: true,
+          pageLength: 10,
+          autoWidth: false,
+          responsive: true,
+      });
+    });
+    $(document).ready(function() {
+        $('#tablaDinamico4').DataTable({
+          lengthChange: false,
+          searching: false,
+          paging: true,
+          pageLength: 10,
+          autoWidth: false,
+          responsive: true,
+      });
+    });
+  </script> 
   
 @endpush
