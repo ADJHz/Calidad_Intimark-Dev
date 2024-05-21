@@ -62,8 +62,7 @@ class HomeController extends Controller
             $generalAQLPlanta2 = calcularPorcentaje(AuditoriaAQL::class, $fechaActual, 'Intimark2');
 
             //apartado para mostrar datos de gerente de prodduccion, en este caso por dia  AuditoriaAQL
-            $gerentesProduccion = AuditoriaAQL::where('jefe_produccion', 1)
-                ->whereDate('created_at', $fechaActual)
+            $gerentesProduccion = AuditoriaAQL::whereDate('created_at', $fechaActual)
                 ->select('team_leader')
                 ->distinct()
                 ->get();
@@ -99,8 +98,7 @@ class HomeController extends Controller
 
 
             //apartado para mostrar datos de gerente de prodduccion, en este caso por dia AseguramientoCalidad  
-            $gerentesProduccionProceso = AseguramientoCalidad::where('jefe_produccion', 1)
-                ->whereDate('created_at', $fechaActual)
+            $gerentesProduccionProceso = AseguramientoCalidad::whereDate('created_at', $fechaActual)
                 ->select('team_leader')
                 ->distinct()
                 ->get();
@@ -135,8 +133,7 @@ class HomeController extends Controller
             arsort($porcentajesErrorGerenteProduccionProceso);
 
             //apartado para mostrar datos de gerente de prodduccion, en este caso por dia AseguramientoCalidad y AuditoriaAQL
-            $gerentesProduccionAQL = AuditoriaAQL::where('jefe_produccion', 1)
-                ->whereDate('created_at', $fechaActual)
+            $gerentesProduccionAQL = AuditoriaAQL::whereDate('created_at', $fechaActual)
                 ->select('team_leader')
                 ->distinct()
                 ->pluck('team_leader')
@@ -195,8 +192,7 @@ class HomeController extends Controller
                 ];
             }
 
-            $gerentesProduccionProceso = AseguramientoCalidad::where('jefe_produccion', 1)
-                ->whereDate('created_at', $fechaActual)
+            $gerentesProduccionProceso = AseguramientoCalidad::whereDate('created_at', $fechaActual)
                 ->select('team_leader')
                 ->distinct()
                 ->pluck('team_leader')
@@ -420,12 +416,141 @@ class HomeController extends Controller
 
             }
 
+
+
+
+            //apartado para mostrar datos de gerente de prodduccion, en este caso por dia AseguramientoCalidad y AuditoriaAQL
+            $modulosAQL = AuditoriaAQL::whereDate('created_at', $fechaActual)
+                ->select('modulo')
+                ->distinct()
+                ->pluck('modulo')
+                ->all();
+
+            $dataModuloAQL = [];
+            foreach ($modulosAQL as $modulo) {
+                $modulosUnicosAQL = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->select('modulo')
+                    ->distinct()
+                    ->get()
+                    ->pluck('modulo');
+        
+                $modulosUnicos = $modulosUnicosAQL->count();
+        
+                $sumaAuditadaAQL = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_auditada');
+        
+                $sumaRechazadaAQL = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_rechazada');
+        
+                $porcentajeErrorAQL = ($sumaAuditadaAQL != 0) ? ($sumaRechazadaAQL / $sumaAuditadaAQL) * 100 : 0;
+
+                $conteoOperario = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->distinct('nombre')
+                    ->count('nombre');
+
+                $conteoMinutos = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('minutos_paro');
+        
+                $conteParoModular = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('minutos_paro_modular');
+
+                $sumaMinutos = AuditoriaAQL::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('minutos_paro');
+        
+                $promedioMinutos = $conteoMinutos != 0 ? $sumaMinutos / $conteoMinutos : 0;
+                $promedioMinutosEntero = ceil($promedioMinutos);
+        
+                $dataModuloAQL[] = [
+                    'modulo' => $modulo,
+                    'modulos_unicos' => $modulosUnicos,
+                    'porcentaje_error_aql' => $porcentajeErrorAQL,
+                    'conteoOperario' => $conteoOperario,
+                    'conteoMinutos' => $conteoMinutos,
+                    'sumaMinutos' => $sumaMinutos,
+                    'promedioMinutosEntero' => $promedioMinutosEntero,
+                    'conteParoModular' => $conteParoModular,
+                ];
+            }
+
+            $moduloProceso = AseguramientoCalidad::whereDate('created_at', $fechaActual)
+                ->select('modulo')
+                ->distinct()
+                ->pluck('modulo')
+                ->all();
+
+            $dataModuloProceso = [];
+            foreach ($moduloProceso as $modulo) {
+                $modulosUnicosProceso = AseguramientoCalidad::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->select('modulo')
+                    ->distinct()
+                    ->get()
+                    ->pluck('modulo');
+        
+                $modulosUnicos = $modulosUnicosProceso->count();
+        
+                $sumaAuditadaProceso = AseguramientoCalidad::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_auditada');
+        
+                $sumaRechazadaProceso = AseguramientoCalidad::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('cantidad_rechazada');
+        
+                $porcentajeErrorProceso = ($sumaAuditadaProceso != 0) ? ($sumaRechazadaProceso / $sumaAuditadaProceso) * 100 : 0;
+        
+                $conteoOperario = AseguramientoCalidad::where('modulo', $modulo)
+                    ->where('utility', null)
+                    ->whereDate('created_at', $fechaActual)
+                    ->distinct('nombre')
+                    ->count('nombre');
+        
+                $conteoUtility = AseguramientoCalidad::where('modulo', $modulo)
+                    ->where('utility', 1)
+                    ->whereDate('created_at', $fechaActual)
+                    ->distinct('nombre')
+                    ->count('nombre');
+        
+                $conteoMinutos = AseguramientoCalidad::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->count('minutos_paro');
+        
+                $sumaMinutos = AseguramientoCalidad::where('modulo', $modulo)
+                    ->whereDate('created_at', $fechaActual)
+                    ->sum('minutos_paro');
+        
+                $promedioMinutos = $conteoMinutos != 0 ? $sumaMinutos / $conteoMinutos : 0;
+                $promedioMinutosEntero = ceil($promedioMinutos);
+        
+                $dataModuloProceso[] = [
+                    'modulo' => $modulo,
+                    'modulos_unicos' => $modulosUnicos,
+                    'porcentaje_error_proceso' => $porcentajeErrorProceso,
+                    'conteoOperario' => $conteoOperario,
+                    'conteoUtility' => $conteoUtility,
+                    'conteoMinutos' => $conteoMinutos,
+                    'sumaMinutos' => $sumaMinutos,
+                    'promedioMinutosEntero' => $promedioMinutosEntero,
+                ];
+            }
+
+
+
+
+
             //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion, $data);
             return view('dashboard', compact('title', 'porcentajesErrorGerenteProduccion', 'modulosPorGerenteProduccion',
                                     'porcentajesErrorGerenteProduccionProceso', 'modulosPorGerenteProduccionProceso',
                                     'data', 'dataGerentesTotales',
                                     'dataClientePlanta1', 'totalPorcentajeErrorAQL', 'totalPorcentajeErrorProceso',
-                                    'dataAQL', 'dataProceso',
+                                    'dataAQL', 'dataProceso', 'dataModuloAQL', 'dataModuloProceso',
                                     'generalProceso', 'generalAQL', 'generalAQLPlanta1', 'generalAQLPlanta2','generalProcesoPlanta1', 'generalProcesoPlanta2'));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios

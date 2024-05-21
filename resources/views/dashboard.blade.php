@@ -84,140 +84,173 @@
         <div class="col-md-12">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <h3 style="font-weight: bold;"><i class="material-icons">select_all</i> Detalles generales: AQL y PROCESO</h3>
+              <h3 style="font-weight: bold;"><i class="material-icons">select_all</i> Detalles generales por dia: AQL y PROCESO</h3>
+              <div class="row">
+                <div class="col-md-12 text-left mb-3">
+                    <button class="btn btn-primary" onclick="showSection('clientes')">Clientes <i class="material-icons">sensor_occupied</i></button>
+                    <button class="btn btn-primary" onclick="showSection('gerentes')">Gerentes de Producción &nbsp;<i class="material-icons">view_in_ar</i>&nbsp;<i class="material-icons">cable</i></button>
+                    <button class="btn btn-primary" onclick="showSection('modulos')">Módulos &nbsp;<i class="material-icons">view_in_ar</i>&nbsp;<i class="material-icons">cable</i></button>
+                    <a href="dashboarAProcesoAQL" class="btn btn-primary">Detalles por fechas</a>
+                </div>
+            </div> 
             </div>
             <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                    <table class="table  table-bordered table1">
-                      <h3 style="text-align: left" >Clientes &nbsp;<i class="material-icons">sensor_occupied</i></h3>
-                        <thead class="thead-cliente text-center">
-                            <tr>
-                                <th>Cliente</th>
-                                <th>% Error Proceso</th>
-                                <th>% Error AQL</th>
-                                <!-- Aquí puedes agregar más encabezados si es necesario -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($dataClientePlanta1 as $clienteData)
-                                <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
-                                    <td>{{ $clienteData['cliente'] }}</td>
-                                    <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
-                                    <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
-                                </tr>
-                            @endforeach
-                                <tr style="background: #ddd">
-                                    <td>GENERAL</td>
-                                    <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
-                                    <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
-                                </tr>
-                        </tbody>
-                    </table>
+              <div class="container-fluid">
+                
+                <!-- Sección de Clientes -->
+                <div id="clientes" class="section" style="display: none;">
+                  <div class="col-md-6">
+                      <table class="table  table-bordered table1">
+                        <h3 style="text-align: left" >Clientes &nbsp;<i class="material-icons">sensor_occupied</i></h3>
+                          <thead class="thead-cliente text-center">
+                              <tr>
+                                  <th>Cliente</th>
+                                  <th>% Error Proceso</th>
+                                  <th>% Error AQL</th>
+                                  <!-- Aquí puedes agregar más encabezados si es necesario -->
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach ($dataClientePlanta1 as $clienteData)
+                                  <tr class="{{ ($clienteData['porcentajeErrorProceso'] > 9 && $clienteData['porcentajeErrorProceso'] <= 15) ? 'error-bajo' : ($clienteData['porcentajeErrorProceso'] > 15 ? 'error-alto' : '') }}">
+                                      <td>{{ $clienteData['cliente'] }}</td>
+                                      <td>{{ number_format($clienteData['porcentajeErrorProceso'], 2) }}%</td>
+                                      <td>{{ number_format($clienteData['porcentajeErrorAQL'], 2) }}%</td>
+                                  </tr>
+                              @endforeach
+                                  <tr style="background: #ddd">
+                                      <td>GENERAL</td>
+                                      <td>{{ number_format($totalPorcentajeErrorProceso, 2) }}%</td>
+                                      <td>{{ number_format($totalPorcentajeErrorAQL, 2) }}%</td>
+                                  </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+                <!-- Sección de Gerentes de Producción -->
+                <div id="gerentes" class="section" style="display: none;">
+                  <div class="container-fluid">
+                    <table class="table table-bordered">
+                      <h3 style="text-align: left">Gerentes Produccion (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
+                      <thead class="thead-custom2 text-center">
+                          <tr>
+                              <th>Gerentes Produccion (AQL)</th>
+                              <th>Cantidad de Módulos</th>
+                              <th>Numero de Operarios</th>
+                              <th>Cantidad Paro</th>
+                              <th>Minutos Paro</th>
+                              <th>Promedio Minutos Paro</th>
+                              <th>Cantidad Paro Modular</th>
+                              <th>% Error AQL</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach ($dataAQL as $item)
+                              <tr>
+                                  <td>{{ $item['team_leader'] }}</td>
+                                  <td>{{ $item['modulos_unicos'] }}</td> 
+                                  <td>{{ $item['conteoOperario'] }}</td> 
+                                  <td>{{ $item['conteoMinutos'] }}</td>
+                                  <td>{{ $item['sumaMinutos'] }}</td>
+                                  <td>{{ $item['promedioMinutosEntero'] }}</td> 
+                                  <td>{{ $item['conteParoModular'] }}</td> 
+                                  <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                              </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+                  <hr>
+                  <table class="table table-bordered">
+                      <h3 style="text-align: left">Gerentes Produccion (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
+                      <thead class="thead-proceso text-center">
+                          <tr>
+                              <th>Gerentes Produccion (Proceso)</th>
+                              <th>Cantidad de Módulos</th>
+                              <th>Numero de Operarios</th>
+                              <th>Numero de Utility</th>
+                              <th>Cantidad Paro</th>
+                              <th>Minutos Paro</th>
+                              <th>Promedio Minutos Paro</th>
+                              <th>% Error Proceso</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach ($dataProceso as $item)
+                              <tr>
+                                  <td>{{ $item['team_leader'] }}</td>
+                                  <td>{{ $item['modulos_unicos'] }}</td>
+                                  <td>{{ $item['conteoOperario'] }}</td>
+                                  <td>{{ $item['conteoUtility'] }}</td>
+                                  <td>{{ $item['conteoMinutos'] }}</td>
+                                  <td>{{ $item['sumaMinutos'] }}</td>
+                                  <td>{{ $item['promedioMinutosEntero'] }}</td>
+                                  <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                              </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
                 </div>
               </div>
-              <hr>
-              {{-- <table class="table table-bordered">
-                <thead class="thead-custom2 text-center">
-                    <tr>
-                        <th>Gerentes Produccion</th>
-                        <th>Cantidad de Módulos</th>
-                        <th>Numero de Operarios</th>
-                        <th>Numero de Utility</th> 
-                        <th>Cantidad Paro</th>
-                        <th>Minutos Paro</th>
-                        <th>Promedio Minutos Paro</th>
-                        <th>% Error AQL</th>
-                        <th>% Error Proceso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $item)
+              <!-- Sección de Módulos -->
+              <div id="modulos" class="section" style="display: none;">
+                <div class="container-fluid">
+                  <table class="table table-bordered">
+                    <h3 style="text-align: left">Modulo (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
+                    <thead class="thead-custom2 text-center">
                         <tr>
-                            <td>{{ $item['team_leader'] }}</td>
-                            <td>{{ $item['modulos_unicos'] }}</td>
-                            <td>{{ $item['conteoOperario'] }}</td> 
-                            <td>{{ $item['conteoUtility'] }}</td>  
-                            <td>{{ $item['conteoMinutos'] }}</td> 
-                            <td>{{ $item['sumaMinutos'] }}</td> 
-                            <td>{{ $item['promedioMinutosEntero'] }}</td>
-                            <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
-                            <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                            <th>Modulo (AQL)</th>
+                            <th>Numero de Operarios</th>
+                            <th>Cantidad Paro</th>
+                            <th>Minutos Paro</th>
+                            <th>Promedio Minutos Paro</th>
+                            <th>Cantidad Paro Modular</th>
+                            <th>% Error AQL</th>
                         </tr>
-                    @endforeach
-                      <tr style="background: #ddd">
-                        <td>Total</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('modulos_unicos') }}</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoOperario') }}</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoUtility') }}</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('conteoMinutos') }}</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('sumaMinutos') }}</td>
-                        <td>{{ $dataGerentesTotales->isEmpty() ? 0 : $dataGerentesTotales->sum('promedioMinutosEntero') }}</td>
-                        <td>- -</td>
-                        <td>- -</td>
-                    </tr>
-                </tbody>
-              </table>
-              <hr> --}}
-              <table class="table table-bordered">
-                <h3 style="text-align: left">Gerentes Produccion (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
-                <thead class="thead-custom2 text-center">
-                    <tr>
-                        <th>Gerentes Produccion (AQL)</th>
-                        <th>Cantidad de Módulos</th>
-                        <th>Numero de Operarios</th>
-                        <th>Cantidad Paro</th>
-                        <th>Minutos Paro</th>
-                        <th>Promedio Minutos Paro</th>
-                        <th>Cantidad Paro Modular</th>
-                        <th>% Error AQL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($dataAQL as $item)
+                    </thead>
+                    <tbody>
+                        @foreach ($dataModuloAQL as $item)
+                            <tr>
+                                <td>{{ $item['modulo'] }}</td> 
+                                <td>{{ $item['conteoOperario'] }}</td> 
+                                <td>{{ $item['conteoMinutos'] }}</td>
+                                <td>{{ $item['sumaMinutos'] }}</td>
+                                <td>{{ $item['promedioMinutosEntero'] }}</td> 
+                                <td>{{ $item['conteParoModular'] }}</td> 
+                                <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                  <hr>
+                  <table class="table table-bordered">
+                    <h3 style="text-align: left">Modulo (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
+                    <thead class="thead-proceso text-center">
                         <tr>
-                            <td>{{ $item['team_leader'] }}</td>
-                            <td>{{ $item['modulos_unicos'] }}</td> 
-                            <td>{{ $item['conteoOperario'] }}</td> 
-                            <td>{{ $item['conteoMinutos'] }}</td>
-                            <td>{{ $item['sumaMinutos'] }}</td>
-                            <td>{{ $item['promedioMinutosEntero'] }}</td> 
-                            <td>{{ $item['conteParoModular'] }}</td> 
-                            <td>{{ number_format($item['porcentaje_error_aql'], 2) }}%</td>
+                            <th>Modulo (Proceso)</th>
+                            <th>Numero de Operarios</th>
+                            <th>Numero de Utility</th>
+                            <th>Cantidad Paro</th>
+                            <th>Minutos Paro</th>
+                            <th>Promedio Minutos Paro</th>
+                            <th>% Error Proceso</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            
-            <table class="table table-bordered">
-                <h3 style="text-align: left">Gerentes Produccion (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
-                <thead class="thead-proceso text-center">
-                    <tr>
-                        <th>Gerentes Produccion (Proceso)</th>
-                        <th>Cantidad de Módulos</th>
-                        <th>Numero de Operarios</th>
-                        <th>Numero de Utility</th>
-                        <th>Cantidad Paro</th>
-                        <th>Minutos Paro</th>
-                        <th>Promedio Minutos Paro</th>
-                        <th>% Error Proceso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($dataProceso as $item)
-                        <tr>
-                            <td>{{ $item['team_leader'] }}</td>
-                            <td>{{ $item['modulos_unicos'] }}</td>
-                            <td>{{ $item['conteoOperario'] }}</td>
-                            <td>{{ $item['conteoUtility'] }}</td>
-                            <td>{{ $item['conteoMinutos'] }}</td>
-                            <td>{{ $item['sumaMinutos'] }}</td>
-                            <td>{{ $item['promedioMinutosEntero'] }}</td>
-                            <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($dataModuloProceso as $item)
+                            <tr>
+                                <td>{{ $item['modulo'] }}</td>
+                                <td>{{ $item['conteoOperario'] }}</td>
+                                <td>{{ $item['conteoUtility'] }}</td>
+                                <td>{{ $item['conteoMinutos'] }}</td>
+                                <td>{{ $item['sumaMinutos'] }}</td>
+                                <td>{{ $item['promedioMinutosEntero'] }}</td>
+                                <td>{{ number_format($item['porcentaje_error_proceso'], 2) }}%</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -644,4 +677,18 @@
       md.initDashboardPageCharts();
     });
   </script>
+
+  <script>
+    function showSection(sectionId) {
+        // Ocultar todas las secciones
+        var sections = document.getElementsByClassName('section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = 'none';
+        }
+    
+        // Mostrar la sección seleccionada
+        document.getElementById(sectionId).style.display = 'block';
+    }
+    </script>
+  
 @endpush
