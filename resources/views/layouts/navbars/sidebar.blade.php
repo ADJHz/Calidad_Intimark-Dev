@@ -18,6 +18,12 @@
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
+                <li class="nav-item{{ $activePage == 'reporteriaInterna' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('reporteriaInterna.reporteriaInterna') }}">
+                        <i class="material-icons">query_stats</i>
+                        <p>{{ __('Reporteria Interna') }}</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ $activePage == 'profile' || $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
                         <i class="material-icons">admin_panel_settings</i>
