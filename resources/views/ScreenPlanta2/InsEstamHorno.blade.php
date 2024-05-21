@@ -978,6 +978,7 @@
                 var bultoValue = $(this).closest('tr').find('[name="bultoR[]"]').val();
                 var tallaValue = $(this).closest('tr').find('[name="tallaR[]"]').val();
                 var tipoProblemaValue = $(this).closest('tr').find('[name="tipo_problemaR[]"]').val();
+                var numProblemas = [];
                 $(this).closest('tr').find('input[name="num_problemasR[]"]').each(function() {
                     var valor = $(this).val();
                     numProblemas.push(valor === "" ? 0 :
