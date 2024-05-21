@@ -7,7 +7,6 @@ use App\Http\Controllers\AuditoriaCorteController;
 use App\Http\Controllers\EvaluacionCorteController;
 use App\Http\Controllers\CalidadProcesoPlancha;
 use App\Http\Controllers\DatosAuditoriaEtiquetas;
-use App\Http\Controllers\DatosAuditoriaEtiquetasOP;
 use App\Http\Controllers\InspeccionEstampadoHorno;
 use  App\Http\Controllers\AuditoriaProcesoCorteController;
 use App\Http\Controllers\AuditoriaProcesoController;
@@ -15,11 +14,7 @@ use App\Http\Controllers\AuditoriaAQLController;
 use App\Http\Controllers\Maquila;
 use App\Http\Controllers\viewlistaFormularios;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DatosAuditoriaEtiquetasNoOP;
-use App\Http\Controllers\DatosAuditoriaEtiquetasNoOV;
-use App\Http\Controllers\DatosAuditoriaEtiquetasNoPO;
-use App\Http\Controllers\DatosAuditoriaEtiquetasUnivers;
-use App\Http\Controllers\selectTipoBusqueda;
+use App\Http\Controllers\reporteriaInternaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,4 +258,4 @@ Route::get('/detalleXModuloAQL', [DashboardController::class, 'detalleXModuloAQL
 Route::get('/detallePorGerente', [DashboardController::class, 'detallePorGerente'])->name('dashboar.detallePorGerente');
 Route::get('/detallePorCliente', [DashboardController::class, 'detallePorCliente'])->name('dashboar.detallePorCliente');
 
-
+Route::get('/reporteriaInterna',[reporteriaInternaController::class, 'reporteriaInterna'])->name('reporteriaInterna.reporteriaInterna')->middleware('checkrole');
