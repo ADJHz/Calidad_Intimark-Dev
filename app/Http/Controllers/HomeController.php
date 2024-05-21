@@ -35,6 +35,31 @@ class HomeController extends Controller
         // Verifica si el usuario tiene los roles 'Administrador' o 'Gerente de Calidad'
         if (Auth::check() && (Auth::user()->hasRole('Administrador') || Auth::user()->hasRole('Gerente de Calidad'))) {
 
+            //una funcion dentro de una funcion?
+            function calcularPorcentaje($modelo, $fecha, $planta = null) {
+                $query = $modelo::whereDate('created_at', $fecha);
+            
+                if ($planta) {
+                    $query->where('planta', $planta);
+                }
+            
+                $data = $query->selectRaw('SUM(cantidad_auditada) as cantidad_auditada, SUM(cantidad_rechazada) as cantidad_rechazada')
+                              ->first();
+            
+                return $data->cantidad_auditada != 0 ? number_format(($data->cantidad_rechazada / $data->cantidad_auditada) * 100, 2) : 0;
+            }
+            
+            // Información General
+            $generalProceso = calcularPorcentaje(AseguramientoCalidad::class, $fechaActual);
+            $generalAQL = calcularPorcentaje(AuditoriaAQL::class, $fechaActual);
+            
+            // Planta 1 Ixtlahuaca
+            $generalProcesoPlanta1 = calcularPorcentaje(AseguramientoCalidad::class, $fechaActual, 'Intimark1');
+            $generalAQLPlanta1 = calcularPorcentaje(AuditoriaAQL::class, $fechaActual, 'Intimark1');
+            
+            // Planta 2 San Bartolo
+            $generalProcesoPlanta2 = calcularPorcentaje(AseguramientoCalidad::class, $fechaActual, 'Intimark2');
+            $generalAQLPlanta2 = calcularPorcentaje(AuditoriaAQL::class, $fechaActual, 'Intimark2');
 
             //apartado para mostrar datos de gerente de prodduccion, en este caso por dia  AuditoriaAQL
             $gerentesProduccion = AuditoriaAQL::where('jefe_produccion', 1)
@@ -400,7 +425,8 @@ class HomeController extends Controller
                                     'porcentajesErrorGerenteProduccionProceso', 'modulosPorGerenteProduccionProceso',
                                     'data', 'dataGerentesTotales',
                                     'dataClientePlanta1', 'totalPorcentajeErrorAQL', 'totalPorcentajeErrorProceso',
-                                    'dataAQL', 'dataProceso'));
+                                    'dataAQL', 'dataProceso',
+                                    'generalProceso', 'generalAQL', 'generalAQLPlanta1', 'generalAQLPlanta2','generalProcesoPlanta1', 'generalProcesoPlanta2'));
         } else {
             // Si el usuario no tiene esos roles, redirige a listaFormularios
             return redirect()->route('viewlistaFormularios');

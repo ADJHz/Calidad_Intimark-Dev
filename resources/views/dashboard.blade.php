@@ -11,7 +11,7 @@
       color: #fff; /* Texto en blanco para contraste */
     }
     .card-header-custom3 {
-      background-image: linear-gradient(to left, rgba(174, 197, 224, 0.918), #2196F3); /* Gradiente de izquierda a derecha */
+      background-image: linear-gradient(to left, #4CAF50, #4CAF50); /* Gradiente de izquierda a derecha */
       color: #fff; /* Texto en blanco para contraste */
     }
 
@@ -25,19 +25,57 @@
       <div class="row"> 
         <div class="col-md-6">
           <div class="card card-stats">
-            <div class="card-header-custom3">
-              <p>&nbsp;AQL por dia</p>
+            <div class="card-header card-header-azul1 card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">view_in_ar</i>
+              </div>
+              <p class="card-category"></p>
+              <h3 class="card-title" style="text-align: left; font-weight: bold;">
+                Auditoria AQL por dia
+              </h3>
             </div>
-            <div class="card-body">
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <P>Pocentaje general: {{$generalAQL}}% </P>
+                  <P>Pocentaje Planta Ixtlahuaca: {{$generalAQLPlanta1}}% </P>
+                  <P>Pocentaje Planta San Bartolo: {{$generalAQLPlanta2}}% </P>
+                </div>  
+                <div class="col-md-6">
+                  <P>Pocentaje general: {{$generalAQL}}% </P>
+                  <P>Pocentaje Planta Ixtlahuaca: {{$generalAQLPlanta1}}% </P>
+                  <P>Pocentaje Planta San Bartolo: {{$generalAQLPlanta2}}% </P>
+                </div>
+                  
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="card card-stats">
-            <div class="card-header-custom3">
-              <p>&nbsp;PROCESO por dia</p>
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">cable</i>
+              </div>
+              <p class="card-category"></p>
+              <h3 class="card-title" style="text-align: left; font-weight: bold;">
+                Auditoria PROCESO por dia
+              </h3>
             </div>
-            <div class="card-body">
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <P>Pocentaje general: {{$generalProceso}}% </P>
+                  <P>Pocentaje Planta Ixtlahuaca: {{$generalProcesoPlanta1}}% </P>
+                  <P>Pocentaje Planta San Bartolo: {{$generalProcesoPlanta2}}% </P>
+                </div>  
+                <div class="col-md-6">
+                  <P>Pocentaje general: {{$generalProceso}}% </P>
+                  <P>Pocentaje Planta Ixtlahuaca: {{$generalProcesoPlanta1}}% </P>
+                  <P>Pocentaje Planta San Bartolo: {{$generalProcesoPlanta2}}% </P>
+                </div>
+                  
+              </div>
             </div>
           </div>
         </div>
@@ -46,13 +84,14 @@
         <div class="col-md-12">
           <div class="card card-stats">
             <div class="card-header-custom3">
-              <p>&nbsp;AQL Gerente de Produccion por dia Planta 1</p>
+              <h3 style="font-weight: bold;"><i class="material-icons">select_all</i> Detalles generales: AQL y PROCESO</h3>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                     <table class="table  table-bordered table1">
-                        <thead class="thead-custom2 text-center">
+                      <h3 style="text-align: left" >Clientes &nbsp;<i class="material-icons">sensor_occupied</i></h3>
+                        <thead class="thead-cliente text-center">
                             <tr>
                                 <th>Cliente</th>
                                 <th>% Error Proceso</th>
@@ -78,7 +117,7 @@
                 </div>
               </div>
               <hr>
-              <table class="table table-bordered">
+              {{-- <table class="table table-bordered">
                 <thead class="thead-custom2 text-center">
                     <tr>
                         <th>Gerentes Produccion</th>
@@ -119,8 +158,9 @@
                     </tr>
                 </tbody>
               </table>
-              <hr>
+              <hr> --}}
               <table class="table table-bordered">
+                <h3 style="text-align: left">Gerentes Produccion (AQL) &nbsp;<i class="material-icons">view_in_ar</i></h3>
                 <thead class="thead-custom2 text-center">
                     <tr>
                         <th>Gerentes Produccion (AQL)</th>
@@ -150,7 +190,8 @@
             </table>
             
             <table class="table table-bordered">
-                <thead class="thead-custom2 text-center">
+                <h3 style="text-align: left">Gerentes Produccion (Proceso) &nbsp;<i class="material-icons">cable</i></h3>
+                <thead class="thead-proceso text-center">
                     <tr>
                         <th>Gerentes Produccion (Proceso)</th>
                         <th>Cantidad de Módulos</th>
@@ -183,7 +224,7 @@
         </div>
       </div>
         
-      <div class="row">
+      {{-- <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-azul1 card-header-icon">
@@ -215,10 +256,10 @@
               </h3>
             </div>
             <div class="card-footer">
-              {{-- <div class="stats">
+              <div class="stats">
                 <i class="material-icons text-danger">warning</i>
                 <a href="#brayam"></a>
-              </div> --}}
+              </div>
               <div>
                 <p>Metricas de datos a mostrar</p>
                 <a href="" class="btn btn-primary">Ver Detalles</a>
@@ -268,7 +309,7 @@
           </div>
         </div>
         
-      </div>
+      </div> --}}
       {{--
       <div class="row">
         <div class="col-lg-6 col-md-12">
@@ -581,6 +622,18 @@
             border: 1px solid #ddd; /* Ajusta el borde si es necesario */
             padding: 10px; /* Ajusta el relleno si es necesario */
         }
+    .thead-cliente {
+            background-color: #ca600a; /* Ajusta el color hexadecimal a tu gusto */
+            color: #fff; /* Ajusta el color del texto si es necesario */
+            border: 1px solid #ddd; /* Ajusta el borde si es necesario */
+            padding: 10px; /* Ajusta el relleno si es necesario */
+        }
+    .thead-proceso {
+            background-color: #DB2164; /* Ajusta el color hexadecimal a tu gusto */
+            color: #fff; /* Ajusta el color del texto si es necesario */
+            border: 1px solid #ddd; /* Ajusta el borde si es necesario */
+            padding: 10px; /* Ajusta el relleno si es necesario */
+        } 
   </style>
 @endsection
 
