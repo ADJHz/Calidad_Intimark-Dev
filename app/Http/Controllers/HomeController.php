@@ -303,16 +303,38 @@ class HomeController extends Controller
                 $queryModulo->where('planta', $planta);
             }
 
-            $modulosUnicos = $queryModulo->distinct()->count('modulo');
+            $modulosUnicos = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->distinct()
+                                ->count('modulo');
 
-            $sumaAuditadaAQL = $queryModulo->sum('cantidad_auditada');
-            $sumaRechazadaAQL = $queryModulo->sum('cantidad_rechazada');
+            $sumaAuditadaAQL = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('cantidad_auditada');
+                                
+            $sumaRechazadaAQL = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('cantidad_rechazada');
+
             $porcentajeErrorAQL = ($sumaAuditadaAQL != 0) ? ($sumaRechazadaAQL / $sumaAuditadaAQL) * 100 : 0;
 
-            $conteoOperario = $queryModulo->distinct('nombre')->count('nombre');
-            $conteoMinutos = $queryModulo->count('minutos_paro');
-            $conteParoModular = $queryModulo->count('minutos_paro_modular');
-            $sumaMinutos = $queryModulo->sum('minutos_paro');
+            $conteoOperario = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->distinct()
+                                ->count('nombre');
+                                
+            $conteoMinutos = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->count('minutos_paro');
+
+            $conteParoModular = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->count('minutos_paro_modular');
+
+            $sumaMinutos = AuditoriaAQL::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('minutos_paro');
+
             $promedioMinutos = $conteoMinutos != 0 ? $sumaMinutos / $conteoMinutos : 0;
             $promedioMinutosEntero = ceil($promedioMinutos);
 
@@ -353,15 +375,41 @@ class HomeController extends Controller
                 $queryModulo->where('planta', $planta);
             }
 
-            $modulosUnicos = $queryModulo->distinct()->count('modulo');
-            $sumaAuditadaProceso = $queryModulo->sum('cantidad_auditada');
-            $sumaRechazadaProceso = $queryModulo->sum('cantidad_rechazada');
+            $modulosUnicos = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->distinct()
+                                ->count('modulo');
+
+            $sumaAuditadaProceso = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('cantidad_auditada');
+
+            $sumaRechazadaProceso = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('cantidad_rechazada');
+
             $porcentajeErrorProceso = ($sumaAuditadaProceso != 0) ? ($sumaRechazadaProceso / $sumaAuditadaProceso) * 100 : 0;
 
-            $conteoOperario = $queryModulo->where('utility', null)->distinct('nombre')->count('nombre');
-            $conteoUtility = $queryModulo->where('utility', 1)->distinct('nombre')->count('nombre');
-            $conteoMinutos = $queryModulo->count('minutos_paro');
-            $sumaMinutos = $queryModulo->sum('minutos_paro');
+            $conteoOperario = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->where('utility', null)
+                                ->distinct()
+                                ->count('nombre');
+
+            $conteoUtility = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->where('utility', 1)
+                                ->distinct()
+                                ->count('nombre');
+
+            $conteoMinutos = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->count('minutos_paro');
+
+            $sumaMinutos = AseguramientoCalidad::where('modulo', $modulo)
+                                ->whereDate('created_at', $fecha)
+                                ->sum('minutos_paro');
+
             $promedioMinutos = $conteoMinutos != 0 ? $sumaMinutos / $conteoMinutos : 0;
             $promedioMinutosEntero = ceil($promedioMinutos);
 
