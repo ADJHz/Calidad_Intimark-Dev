@@ -145,7 +145,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataModuloAQL as $item)
+                                                @foreach ($dataModuloAQLGeneral as $item)
                                                     <tr>
                                                         <td>{{ $item['modulo'] }}</td>
                                                         <td>{{ $item['conteoOperario'] }}</td>
@@ -173,7 +173,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataModuloProceso as $item)
+                                                @foreach ($dataModuloProcesoGeneral as $item)
                                                     <tr>
                                                         <td>{{ $item['modulo'] }}</td>
                                                         <td>{{ $item['conteoOperario'] }}</td>
@@ -209,7 +209,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataAQL as $item)
+                                                @foreach ($dataGerentesAQLGeneral as $item)
                                                     <tr>
                                                         <td>{{ $item['team_leader'] }}</td>
                                                         <td>{{ $item['modulos_unicos'] }}</td>
@@ -239,7 +239,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataProceso as $item)
+                                                @foreach ($dataGerentesProcesoGeneral as $item)
                                                     <tr>
                                                         <td>{{ $item['team_leader'] }}</td>
                                                         <td>{{ $item['modulos_unicos'] }}</td>
@@ -320,7 +320,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataModuloAQL as $item)
+                                              @foreach ($dataModuloAQLPlanta1 as $item)
                                                   <tr>
                                                       <td>{{ $item['modulo'] }}</td>
                                                       <td>{{ $item['conteoOperario'] }}</td>
@@ -348,7 +348,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataModuloProceso as $item)
+                                              @foreach ($dataModuloProcesoPlanta1 as $item)
                                                   <tr>
                                                       <td>{{ $item['modulo'] }}</td>
                                                       <td>{{ $item['conteoOperario'] }}</td>
@@ -384,7 +384,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataAQL as $item)
+                                              @foreach ($dataGerentesAQLPlanta1 as $item)
                                                   <tr>
                                                       <td>{{ $item['team_leader'] }}</td>
                                                       <td>{{ $item['modulos_unicos'] }}</td>
@@ -414,7 +414,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataProceso as $item)
+                                              @foreach ($dataGerentesProcesoPlanta1 as $item)
                                                   <tr>
                                                       <td>{{ $item['team_leader'] }}</td>
                                                       <td>{{ $item['modulos_unicos'] }}</td>
@@ -495,7 +495,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataModuloAQL as $item)
+                                              @foreach ($dataModuloAQLPlanta2 as $item)
                                                   <tr>
                                                       <td>{{ $item['modulo'] }}</td>
                                                       <td>{{ $item['conteoOperario'] }}</td>
@@ -523,7 +523,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataModuloProceso as $item)
+                                              @foreach ($dataModuloProcesoPlanta2 as $item)
                                                   <tr>
                                                       <td>{{ $item['modulo'] }}</td>
                                                       <td>{{ $item['conteoOperario'] }}</td>
@@ -559,7 +559,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataAQL as $item)
+                                              @foreach ($dataGerentesAQLPlanta2 as $item)
                                                   <tr>
                                                       <td>{{ $item['team_leader'] }}</td>
                                                       <td>{{ $item['modulos_unicos'] }}</td>
@@ -589,7 +589,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              @foreach ($dataProceso as $item)
+                                              @foreach ($dataGerentesProcesoPlanta2 as $item)
                                                   <tr>
                                                       <td>{{ $item['team_leader'] }}</td>
                                                       <td>{{ $item['modulos_unicos'] }}</td>
