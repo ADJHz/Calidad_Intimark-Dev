@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AseguramientoCalidad;  
 use App\Models\AuditoriaAQL;  
-use Carbon\Carbon; // Asegúrate de importar la clase Carbon
+use App\Models\TpAseguramientoCalidad;  
+use App\Models\TpAuditoriaAQL;  
+use Carbon\Carbon; // Asegúrate de importar la clase Carbon 
+use Illuminate\Support\Facades\DB; // Importa la clase DB
 
 class HomeController extends Controller
 {
@@ -57,76 +60,6 @@ class HomeController extends Controller
             $generalProcesoPlanta2 = calcularPorcentaje(AseguramientoCalidad::class, $fechaActual, 'Intimark2');
             $generalAQLPlanta2 = calcularPorcentaje(AuditoriaAQL::class, $fechaActual, 'Intimark2');
 
-            //apartado para mostrar datos de gerente de prodduccion, en este caso por dia  AuditoriaAQL
-            $gerentesProduccion = AuditoriaAQL::whereDate('created_at', $fechaActual)
-                ->select('team_leader')
-                ->distinct()
-                ->get();
-
-            $porcentajesErrorGerenteProduccion = [];
-            $modulosPorGerenteProduccion = [];
-
-            foreach ($gerentesProduccion as $gerenteProduccion) {
-                $teamLeader = $gerenteProduccion->team_leader;
-
-                $modulosUnicos = AuditoriaAQL::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->select('modulo')
-                    ->distinct()
-                    ->count('modulo');
-
-                $modulosPorGerenteProduccion[$teamLeader] = $modulosUnicos;
-
-                $sumaAuditadaGerenteProduccion = AuditoriaAQL::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->sum('cantidad_auditada');
-
-                $sumaRechazadaGerenteProduccion = AuditoriaAQL::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->sum('cantidad_rechazada');
-
-                $porcentajeErrorGerenteProduccion = ($sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
-
-                $porcentajesErrorGerenteProduccion[$teamLeader] = $porcentajeErrorGerenteProduccion;
-            }
-
-            arsort($porcentajesErrorGerenteProduccion);
-
-
-            //apartado para mostrar datos de gerente de prodduccion, en este caso por dia AseguramientoCalidad  
-            $gerentesProduccionProceso = AseguramientoCalidad::whereDate('created_at', $fechaActual)
-                ->select('team_leader')
-                ->distinct()
-                ->get();
-
-            $porcentajesErrorGerenteProduccionProceso = [];
-            $modulosPorGerenteProduccionProceso = [];
-
-            foreach ($gerentesProduccionProceso as $gerenteProduccion) {
-                $teamLeader = $gerenteProduccion->team_leader;
-
-                $modulosUnicos = AseguramientoCalidad::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->select('modulo')
-                    ->distinct()
-                    ->count('modulo');
-
-                $modulosPorGerenteProduccionProceso[$teamLeader] = $modulosUnicos;
-
-                $sumaAuditadaGerenteProduccion = AseguramientoCalidad::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->sum('cantidad_auditada');
-
-                $sumaRechazadaGerenteProduccion = AseguramientoCalidad::where('team_leader', $teamLeader)
-                    ->whereDate('created_at', $fechaActual)
-                    ->sum('cantidad_rechazada');
-
-                $porcentajeErrorGerenteProduccion = ($sumaAuditadaGerenteProduccion != 0) ? ($sumaRechazadaGerenteProduccion / $sumaAuditadaGerenteProduccion) * 100 : 0;
-
-                $porcentajesErrorGerenteProduccionProceso[$teamLeader] = $porcentajeErrorGerenteProduccion;
-            }
-
-            arsort($porcentajesErrorGerenteProduccionProceso);
 
             // Obtención y cálculo de datos generales para AQL y Proceso
             $dataGerentesAQLGeneral = $this->getDataGerentesProduccionAQL($fechaActual);
@@ -138,8 +71,7 @@ class HomeController extends Controller
             $dataGerentesProcesoPlanta1 = $this->getDataGerentesProduccionProceso($fechaActual, 'Intimark1');
             $dataGerentesProcesoPlanta2 = $this->getDataGerentesProduccionProceso($fechaActual, 'Intimark2');
  
-            
-            
+
 
              // Datos generales
             $dataGeneral = $this->obtenerDatosClientesPorFiltro($fechaActual);
@@ -152,9 +84,6 @@ class HomeController extends Controller
             // Datos planta Intimark2
             $dataPlanta2 = $this->obtenerDatosClientesPorFiltro($fechaActual, 'Intimark2');
             $totalPlanta2 = $this->calcularTotales($dataPlanta2['dataCliente']);
-
-
-
 
             //apartado para mostrar datos de gerente de prodduccion, en este caso por dia AseguramientoCalidad y AuditoriaAQL
         // Obtención y cálculo de datos generales para AQL y Proceso
@@ -172,10 +101,16 @@ class HomeController extends Controller
 
         //dd($dataModuloAQLGeneral, $dataModuloProcesoGeneral, $dataModuloAQLPlanta1, $dataModuloAQLPlanta2, $dataModuloProcesoPlanta1, $dataModuloProcesoPlanta2);
 
+        // Consulta para obtener los 3 valores más repetidos de 'tp' excluyendo 'NINGUNO'
+        $topDefectosAQL = TpAuditoriaAQL::select('tp', DB::raw('count(*) as total'))
+            ->where('tp', '!=', 'NINGUNO')
+            ->groupBy('tp')
+            ->orderBy('total', 'desc')
+            ->limit(3)
+            ->get();
 
             //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion, $data);
-            return view('dashboard', compact('title', 'porcentajesErrorGerenteProduccion', 'modulosPorGerenteProduccion',
-                                    'porcentajesErrorGerenteProduccionProceso', 'modulosPorGerenteProduccionProceso',
+            return view('dashboard', compact('title', 'topDefectosAQL',
                                     'dataModuloAQLPlanta1', 'dataModuloAQLPlanta2', 'dataModuloProcesoPlanta1', 'dataModuloProcesoPlanta2',
                                     'dataModuloAQLGeneral', 'dataModuloProcesoGeneral',
                                     'dataGerentesAQLGeneral', 'dataGerentesProcesoGeneral', 'dataGerentesAQLPlanta1', 'dataGerentesAQLPlanta2', 'dataGerentesProcesoPlanta1', 'dataGerentesProcesoPlanta2',

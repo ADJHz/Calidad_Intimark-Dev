@@ -84,7 +84,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 ">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">disc_full</i>
+                            </div>
+                            <p class="card-category"></p>
+                            <h3 class="card-title" style="text-align: left; font-weight: bold;">
+                                Top 3 defectos
+                            </h3>
+                        </div>
+                        <hr>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>TP</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($topDefectosAQL as $tp)
+                                        <tr>
+                                            <td>{{ $tp->tp }}</td>
+                                            <td>{{ $tp->total }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-stats">
