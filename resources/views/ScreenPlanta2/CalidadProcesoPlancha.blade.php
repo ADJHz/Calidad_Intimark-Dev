@@ -806,4 +806,9 @@
             });
         });
     </script>
+      <script>
+        function descartarClicked() {
+            location.reload();
+        }
+    </script>
 @endsection
