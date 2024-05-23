@@ -129,6 +129,7 @@ class AuditoriaAQLController extends Controller
         //dd($request->all(), $data);
 
         $datoBultos = JobAQL::whereIn('prodid', (array) $data['op'])
+            ->where('moduleid', $data['modulo'])
             ->select('prodpackticketid', 'qty', 'itemid', 'colorname', 'inventsizeid')
             ->distinct()
             ->get();
