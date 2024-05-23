@@ -44,13 +44,15 @@ class AuditoriaAQLController extends Controller
                 ->where('planta', 'Intimark2')
                 ->where('estatus', 1)
                 ->get(),
-            'auditoriaProcesoIntimark1' =>  AuditoriaProceso::where('prodpoolid', 'Intimark1')
-                ->select('moduleid', 'itemid')
+            'auditoriaProcesoIntimark1' =>  JobAQL::whereBetween('moduleid', ['100A', '199A'])
+                ->select('moduleid')
                 ->distinct()
+                ->orderBy('moduleid', 'asc')
                 ->get(),
-            'auditoriaProcesoIntimark2' => AuditoriaProceso::where('prodpoolid', 'Intimark2')
-                ->select('moduleid', 'itemid')
+            'auditoriaProcesoIntimark2' => JobAQL::whereBetween('moduleid', ['200A', '299A'])
+                ->select('moduleid')
                 ->distinct()
+                ->orderBy('moduleid', 'asc')
                 ->get(), 
             'procesoActualAQL' => AuditoriaAQL::where('estatus', NULL)
                 ->where('area', 'AUDITORIA AQL')
@@ -312,7 +314,7 @@ class AuditoriaAQLController extends Controller
         $plantaBusqueda = AuditoriaProceso::where('moduleid', $request->modulo)
             ->pluck('prodpoolid')
             ->first();
-        //
+        //dd($plantaBusqueda);
         $jefeProduccionBusqueda = CategoriaTeamLeader::where('nombre', $request->team_leader)
             ->where('jefe_produccion', 1)
             ->first(); 

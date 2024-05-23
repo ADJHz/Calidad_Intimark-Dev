@@ -110,14 +110,14 @@
                                                 <option value="" selected>Selecciona una opción</option>
                                                 <!-- Agrega el atributo selected aquí -->
                                                 @if ($auditorPlanta == 'Planta1')
-                                                    @foreach ($auditoriaProcesoIntimark1 as $moduloP1)
+                                                    @foreach ($auditoriaProcesoIntimark1 as $moduloP1) 
                                                         <option value="{{ $moduloP1->moduleid }}"
                                                             data-itemid="{{ $moduloP1->itemid }}">
                                                             {{ $moduloP1->moduleid }}
                                                         </option>
                                                     @endforeach
                                                 @elseif($auditorPlanta == 'Planta2')
-                                                    @foreach ($auditoriaProcesoIntimark2 as $moduloP2)
+                                                    @foreach ($auditoriaProcesoIntimark2 as $moduloP2) 
                                                         <option value="{{ $moduloP2->moduleid }}"
                                                             data-itemid="{{ $moduloP2->itemid }}">
                                                             {{ $moduloP2->moduleid }}

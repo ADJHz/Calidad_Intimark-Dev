@@ -108,9 +108,16 @@ class HomeController extends Controller
             ->orderBy('total', 'desc')
             ->limit(3)
             ->get();
+        // Consulta para obtener los 3 valores más repetidos de 'tp' excluyendo 'NINGUNO'
+        $topDefectosProceso = TpAseguramientoCalidad::select('tp', DB::raw('count(*) as total'))
+            ->where('tp', '!=', 'NINGUNO')
+            ->groupBy('tp')
+            ->orderBy('total', 'desc')
+            ->limit(3)
+            ->get();
 
             //dd($gerentesProduccionAQL, $gerentesProduccionProceso, $gerentesProduccion, $data);
-            return view('dashboard', compact('title', 'topDefectosAQL',
+            return view('dashboard', compact('title', 'topDefectosAQL', 'topDefectosProceso',
                                     'dataModuloAQLPlanta1', 'dataModuloAQLPlanta2', 'dataModuloProcesoPlanta1', 'dataModuloProcesoPlanta2',
                                     'dataModuloAQLGeneral', 'dataModuloProcesoGeneral',
                                     'dataGerentesAQLGeneral', 'dataGerentesProcesoGeneral', 'dataGerentesAQLPlanta1', 'dataGerentesAQLPlanta2', 'dataGerentesProcesoPlanta1', 'dataGerentesProcesoPlanta2',
