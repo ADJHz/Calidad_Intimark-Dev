@@ -256,7 +256,7 @@
                     @if ($mostrarRegistro)
                         @if ($estatusFinalizar)
                             <h2>Registro</h2>
-                            <table class="table table55"> 
+                            <table class="table table56"> 
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>PARO</th>
@@ -274,6 +274,10 @@
                                 <tbody>
                                     @foreach ($mostrarRegistro as $registro)
                                         <tr>
+                                            <td>
+                                                <input type="text" class="form-control" name="minutos_paro"
+                                                value="&nbsp;{{ $registro->minutos_paro }}" readonly>
+                                            </td>
                                             <td>
                                                 <input type="text" class="form-control" name="bulto"
                                                 value="{{ $registro->bulto }}" readonly>
@@ -550,6 +554,11 @@
 
         .table55 th:nth-child(1) {
             min-width: 150px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table56 th:nth-child(1) {
+            min-width: 10px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
         
