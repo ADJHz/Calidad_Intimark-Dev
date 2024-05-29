@@ -206,10 +206,26 @@
                                                     });
                                                 </script>                                            
                                                 
-                                                <td><input type="text" class="form-control" name="cantidad_auditada"
+                                                <td><input type="numbre" class="form-control" name="cantidad_auditada"
                                                         id="cantidad_auditada" required></td>
-                                                <td><input type="text" class="form-control" name="cantidad_rechazada"
-                                                        id="cantidad_rechazada" required></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_rechazada" id="cantidad_rechazada" required>
+                                                </td>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                      $('#cantidad_rechazada').on('input', function() {
+                                                        const cantidadRechazada = parseInt($(this).val());
+                                                        const nombreSelect = $('#nombre');
+                                                  
+                                                        if (cantidadRechazada === 0) {
+                                                          nombreSelect.prop('required', false);
+                                                        } else {
+                                                          nombreSelect.prop('required', true);
+                                                        }
+                                                      });
+                                                    });
+                                                  </script>
+                                                  
                                                 <td>
                                                     <select name="tp[]" id="tp" class="form-control" required multiple 
                                                         title="Por favor, selecciona una opción">

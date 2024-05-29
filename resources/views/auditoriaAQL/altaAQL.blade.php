@@ -106,20 +106,19 @@
                                         </td>
                                         <td>
                                             <select name="modulo" id="modulo" class="form-control" required
-                                                title="Por favor, selecciona una opción">
+                                                title="Por favor, selecciona una opción" onchange="cargarOrdenesOP()">
                                                 <option value="" selected>Selecciona una opción</option>
-                                                <!-- Agrega el atributo selected aquí -->
                                                 @if ($auditorPlanta == 'Planta1')
-                                                    @foreach ($auditoriaProcesoIntimark1 as $moduloP1) 
+                                                    @foreach ($auditoriaProcesoIntimark1 as $moduloP1)
                                                         <option value="{{ $moduloP1->moduleid }}"
-                                                            data-itemid="{{ $moduloP1->itemid }}">
+                                                            data-modulo="{{ $moduloP1->moduleid }}">
                                                             {{ $moduloP1->moduleid }}
                                                         </option>
                                                     @endforeach
                                                 @elseif($auditorPlanta == 'Planta2')
-                                                    @foreach ($auditoriaProcesoIntimark2 as $moduloP2) 
+                                                    @foreach ($auditoriaProcesoIntimark2 as $moduloP2)
                                                         <option value="{{ $moduloP2->moduleid }}"
-                                                            data-itemid="{{ $moduloP2->itemid }}">
+                                                            data-modulo="{{ $moduloP2->moduleid }}">
                                                             {{ $moduloP2->moduleid }}
                                                         </option>
                                                     @endforeach
@@ -127,16 +126,10 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="op" id="op" class="form-control" required 
-                                            title="Por favor, selecciona una opción">
-                                            <option value="" selected>Selecciona una opción</option>
-                                            <!-- Agrega el atributo selected aquí -->
-                                            @foreach ($ordenOPs as $orden)
-                                                <option value="{{ $orden->prodid }}">
-                                                    {{ $orden->prodid }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                            <select name="op" id="op" class="form-control" required
+                                                title="Por favor, selecciona una opción">
+                                                <option value="" selected>Selecciona una opción</option>
+                                            </select>
                                         </td>
                                         <td>
                                             <select name="team_leader" id="team_leader" class="form-control" required
@@ -201,7 +194,7 @@
                                 </button>
                             </h2>
                         </div>
-                
+
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                             data-parent="#accordionExample">
                             <div class="card-body">
@@ -212,13 +205,14 @@
                                             <div class="card">
                                                 <div class="card-header" id="headingOne5">
                                                     <h2 class="mb-0">
-                                                        <button class="btn btn-danger btn-block" type="button" data-toggle="collapse"
-                                                            data-target="#collapseOne5" aria-expanded="true" aria-controls="collapseOne5">
+                                                        <button class="btn btn-danger btn-block" type="button"
+                                                            data-toggle="collapse" data-target="#collapseOne5"
+                                                            aria-expanded="true" aria-controls="collapseOne5">
                                                             En Proceso
                                                         </button>
                                                     </h2>
                                                 </div>
-                                
+
                                                 <div id="collapseOne5" class="collapse show" aria-labelledby="headingOne5"
                                                     data-parent="#accordionExample5">
                                                     <div class="card-body">
@@ -235,21 +229,39 @@
                                                                     @php
                                                                         $valoresMostrados = [];
                                                                     @endphp
-                                                                    @foreach($procesoActualAQL as $proceso)
+                                                                    @foreach ($procesoActualAQL as $proceso)
                                                                         @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
                                                                             <tr>
                                                                                 <td>
-                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                    <form method="POST"
+                                                                                        action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
                                                                                         @csrf
-                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
-                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
-                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                        <input type="hidden"
+                                                                                            name="area"
+                                                                                            value="{{ $proceso->area }}">
+                                                                                        <input type="hidden"
+                                                                                            name="modulo"
+                                                                                            value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="op"
+                                                                                            value="{{ $proceso->op }}">
+                                                                                        <input type="hidden"
+                                                                                            name="estilo"
+                                                                                            value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="cliente"
+                                                                                            value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden"
+                                                                                            name="team_leader"
+                                                                                            value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden"
+                                                                                            name="auditor"
+                                                                                            value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden"
+                                                                                            name="turno"
+                                                                                            value="{{ $proceso->turno }}">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary">Acceder</button>
                                                                                     </form>
                                                                                 </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
@@ -257,11 +269,13 @@
                                                                                 <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
                                                                             </tr>
                                                                             @php
-                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                                $valoresMostrados[$proceso->area][
+                                                                                    $proceso->modulo
+                                                                                ][$proceso->op] = true;
                                                                             @endphp
                                                                         @endif
                                                                     @endforeach
-                                                                </tbody>                                                                
+                                                                </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -276,15 +290,16 @@
                                             <div class="card">
                                                 <div class="card-header" id="headingOne6">
                                                     <h2 class="mb-0">
-                                                        <button class="btn btn-success btn-block" type="button" data-toggle="collapse"
-                                                            data-target="#collapseOne6" aria-expanded="true" aria-controls="collapseOne6">
+                                                        <button class="btn btn-success btn-block" type="button"
+                                                            data-toggle="collapse" data-target="#collapseOne6"
+                                                            aria-expanded="true" aria-controls="collapseOne6">
                                                             Finalizado
                                                         </button>
                                                     </h2>
                                                 </div>
-                                
-                                                <div id="collapseOne6" class="collapse show" aria-labelledby="headingOne6"
-                                                    data-parent="#accordionExample6">
+
+                                                <div id="collapseOne6" class="collapse show"
+                                                    aria-labelledby="headingOne6" data-parent="#accordionExample6">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
                                                             <table class="table">
@@ -299,21 +314,39 @@
                                                                     @php
                                                                         $valoresMostrados = [];
                                                                     @endphp
-                                                                    @foreach($procesoFinalAQL as $proceso)
+                                                                    @foreach ($procesoFinalAQL as $proceso)
                                                                         @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
                                                                             <tr>
                                                                                 <td>
-                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                    <form method="POST"
+                                                                                        action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
                                                                                         @csrf
-                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
-                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
-                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                        <input type="hidden"
+                                                                                            name="area"
+                                                                                            value="{{ $proceso->area }}">
+                                                                                        <input type="hidden"
+                                                                                            name="modulo"
+                                                                                            value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="op"
+                                                                                            value="{{ $proceso->op }}">
+                                                                                        <input type="hidden"
+                                                                                            name="estilo"
+                                                                                            value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="cliente"
+                                                                                            value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden"
+                                                                                            name="team_leader"
+                                                                                            value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden"
+                                                                                            name="auditor"
+                                                                                            value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden"
+                                                                                            name="turno"
+                                                                                            value="{{ $proceso->turno }}">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary">Acceder</button>
                                                                                     </form>
                                                                                 </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
@@ -321,7 +354,9 @@
                                                                                 <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
                                                                             </tr>
                                                                             @php
-                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                                $valoresMostrados[$proceso->area][
+                                                                                    $proceso->modulo
+                                                                                ][$proceso->op] = true;
                                                                             @endphp
                                                                         @endif
                                                                     @endforeach
@@ -339,8 +374,8 @@
                         </div>
                     </div>
                 </div>
-                {{--Fin del apartado del primer acordeon externo--}}
-                {{--Inicio del Segundo acordeon externo--}}
+                {{-- Fin del apartado del primer acordeon externo --}}
+                {{-- Inicio del Segundo acordeon externo --}}
                 <div class="accordion" id="accordionExample">
                     <div class="card">
                         <div class="card-header" id="headingOne">
@@ -351,7 +386,7 @@
                                 </button>
                             </h2>
                         </div>
-                
+
                         <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne"
                             data-parent="#accordionExample">
                             <div class="card-body">
@@ -362,15 +397,16 @@
                                             <div class="card">
                                                 <div class="card-header" id="headingOne5">
                                                     <h2 class="mb-0">
-                                                        <button class="btn btn-danger btn-block" type="button" data-toggle="collapse"
-                                                            data-target="#collapseTwo5" aria-expanded="true" aria-controls="collapseTwo5">
+                                                        <button class="btn btn-danger btn-block" type="button"
+                                                            data-toggle="collapse" data-target="#collapseTwo5"
+                                                            aria-expanded="true" aria-controls="collapseTwo5">
                                                             En Proceso
                                                         </button>
                                                     </h2>
                                                 </div>
-                                
-                                                <div id="collapseTwo5" class="collapse show" aria-labelledby="headingOne5"
-                                                    data-parent="#accordionExample5">
+
+                                                <div id="collapseTwo5" class="collapse show"
+                                                    aria-labelledby="headingOne5" data-parent="#accordionExample5">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
                                                             <table class="table">
@@ -385,21 +421,39 @@
                                                                     @php
                                                                         $valoresMostrados = [];
                                                                     @endphp
-                                                                    @foreach($playeraActualAQL as $proceso)
+                                                                    @foreach ($playeraActualAQL as $proceso)
                                                                         @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
                                                                             <tr>
                                                                                 <td>
-                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                    <form method="POST"
+                                                                                        action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
                                                                                         @csrf
-                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
-                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
-                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                        <input type="hidden"
+                                                                                            name="area"
+                                                                                            value="{{ $proceso->area }}">
+                                                                                        <input type="hidden"
+                                                                                            name="modulo"
+                                                                                            value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="op"
+                                                                                            value="{{ $proceso->op }}">
+                                                                                        <input type="hidden"
+                                                                                            name="estilo"
+                                                                                            value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="cliente"
+                                                                                            value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden"
+                                                                                            name="team_leader"
+                                                                                            value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden"
+                                                                                            name="auditor"
+                                                                                            value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden"
+                                                                                            name="turno"
+                                                                                            value="{{ $proceso->turno }}">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary">Acceder</button>
                                                                                     </form>
                                                                                 </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
@@ -407,11 +461,13 @@
                                                                                 <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
                                                                             </tr>
                                                                             @php
-                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                                $valoresMostrados[$proceso->area][
+                                                                                    $proceso->modulo
+                                                                                ][$proceso->op] = true;
                                                                             @endphp
                                                                         @endif
                                                                     @endforeach
-                                                                </tbody>                                                                
+                                                                </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -426,15 +482,16 @@
                                             <div class="card">
                                                 <div class="card-header" id="headingOne6">
                                                     <h2 class="mb-0">
-                                                        <button class="btn btn-success btn-block" type="button" data-toggle="collapse"
-                                                            data-target="#collapseTwo6" aria-expanded="true" aria-controls="collapseTwo6">
+                                                        <button class="btn btn-success btn-block" type="button"
+                                                            data-toggle="collapse" data-target="#collapseTwo6"
+                                                            aria-expanded="true" aria-controls="collapseTwo6">
                                                             Finalizado
                                                         </button>
                                                     </h2>
                                                 </div>
-                                
-                                                <div id="collapseTwo6" class="collapse show" aria-labelledby="headingOne6"
-                                                    data-parent="#accordionExample6">
+
+                                                <div id="collapseTwo6" class="collapse show"
+                                                    aria-labelledby="headingOne6" data-parent="#accordionExample6">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
                                                             <table class="table">
@@ -449,21 +506,39 @@
                                                                     @php
                                                                         $valoresMostrados = [];
                                                                     @endphp
-                                                                    @foreach($playeraFinalAQL as $proceso)
+                                                                    @foreach ($playeraFinalAQL as $proceso)
                                                                         @if (!isset($valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op]))
                                                                             <tr>
                                                                                 <td>
-                                                                                    <form method="POST" action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
+                                                                                    <form method="POST"
+                                                                                        action="{{ route('auditoriaAQL.formAltaProcesoAQL') }}">
                                                                                         @csrf
-                                                                                        <input type="hidden" name="area" value="{{ $proceso->area }}">
-                                                                                        <input type="hidden" name="modulo" value="{{ $proceso->modulo }}">
-                                                                                        <input type="hidden" name="op" value="{{ $proceso->op }}">
-                                                                                        <input type="hidden" name="estilo" value="{{ $proceso->estilo }}">
-                                                                                        <input type="hidden" name="cliente" value="{{ $proceso->cliente }}">
-                                                                                        <input type="hidden" name="team_leader" value="{{ $proceso->team_leader }}">
-                                                                                        <input type="hidden" name="auditor" value="{{ $proceso->auditor }}">
-                                                                                        <input type="hidden" name="turno" value="{{ $proceso->turno }}">
-                                                                                        <button type="submit" class="btn btn-primary">Acceder</button>
+                                                                                        <input type="hidden"
+                                                                                            name="area"
+                                                                                            value="{{ $proceso->area }}">
+                                                                                        <input type="hidden"
+                                                                                            name="modulo"
+                                                                                            value="{{ $proceso->modulo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="op"
+                                                                                            value="{{ $proceso->op }}">
+                                                                                        <input type="hidden"
+                                                                                            name="estilo"
+                                                                                            value="{{ $proceso->estilo }}">
+                                                                                        <input type="hidden"
+                                                                                            name="cliente"
+                                                                                            value="{{ $proceso->cliente }}">
+                                                                                        <input type="hidden"
+                                                                                            name="team_leader"
+                                                                                            value="{{ $proceso->team_leader }}">
+                                                                                        <input type="hidden"
+                                                                                            name="auditor"
+                                                                                            value="{{ $proceso->auditor }}">
+                                                                                        <input type="hidden"
+                                                                                            name="turno"
+                                                                                            value="{{ $proceso->turno }}">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary">Acceder</button>
                                                                                     </form>
                                                                                 </td>
                                                                                 <td>{{ $proceso->modulo }}</td>
@@ -471,11 +546,13 @@
                                                                                 <!-- Agrega aquí el resto de las columnas que deseas mostrar -->
                                                                             </tr>
                                                                             @php
-                                                                                $valoresMostrados[$proceso->area][$proceso->modulo][$proceso->op] = true;
+                                                                                $valoresMostrados[$proceso->area][
+                                                                                    $proceso->modulo
+                                                                                ][$proceso->op] = true;
                                                                             @endphp
                                                                         @endif
                                                                     @endforeach
-                                                                </tbody>                                                                
+                                                                </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -489,8 +566,8 @@
                         </div>
                     </div>
                 </div>
-                {{--Fin del Segundo Acordeon Externo--}}
-                
+                {{-- Fin del Segundo Acordeon Externo --}}
+
                 <!--Fin de la edicion del codigo para mostrar el contenido-->
             </div>
         </div>
@@ -533,6 +610,30 @@
                 $('#estilo').val(itemid);
             });
         });
+    </script>
+
+    <script>
+        function cargarOrdenesOP() {
+            var moduloSeleccionado = $('#modulo').val();
+
+            $.ajax({
+                url: '/cargarOrdenesOP',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    modulo: moduloSeleccionado
+                },
+                method: 'POST',
+                success: function(data) {
+                    $('#op').empty(); // Limpiar el select de ordenesOP
+                    $('#op').append('<option value="">Selecciona una opción</option>');
+
+                    data.forEach(function(orden) {
+                        $('#op').append('<option value="' + orden.prodid + '">' + orden.prodid +
+                            '</option>');
+                    });
+                }
+            });
+        }
     </script>
 
 
