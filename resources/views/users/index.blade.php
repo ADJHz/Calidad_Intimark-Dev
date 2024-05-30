@@ -122,14 +122,14 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-        
+
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('FCC-009-B') }}</p>
                                         <p style="text-align: center;">{{ __('AUDITORIA FINAL A.Q.L') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-        
+
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('FCC-008') }}</p>
                                         <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>
