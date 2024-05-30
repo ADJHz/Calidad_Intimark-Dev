@@ -206,10 +206,26 @@
                                                     });
                                                 </script>                                            
                                                 
-                                                <td><input type="text" class="form-control" name="cantidad_auditada"
+                                                <td><input type="numbre" class="form-control" name="cantidad_auditada"
                                                         id="cantidad_auditada" required></td>
-                                                <td><input type="text" class="form-control" name="cantidad_rechazada"
-                                                        id="cantidad_rechazada" required></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="cantidad_rechazada" id="cantidad_rechazada" required>
+                                                </td>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                      $('#cantidad_rechazada').on('input', function() {
+                                                        const cantidadRechazada = parseInt($(this).val());
+                                                        const nombreSelect = $('#nombre');
+                                                  
+                                                        if (cantidadRechazada === 0) {
+                                                          nombreSelect.prop('required', false);
+                                                        } else {
+                                                          nombreSelect.prop('required', true);
+                                                        }
+                                                      });
+                                                    });
+                                                  </script>
+                                                  
                                                 <td>
                                                     <select name="tp[]" id="tp" class="form-control" required multiple 
                                                         title="Por favor, selecciona una opción">
@@ -240,7 +256,7 @@
                     @if ($mostrarRegistro)
                         @if ($estatusFinalizar)
                             <h2>Registro</h2>
-                            <table class="table table55"> 
+                            <table class="table table56"> 
                                 <thead class="thead-primary">
                                     <tr>
                                         <th>PARO</th>
@@ -258,6 +274,10 @@
                                 <tbody>
                                     @foreach ($mostrarRegistro as $registro)
                                         <tr>
+                                            <td>
+                                                <input type="text" class="form-control" name="minutos_paro"
+                                                value="&nbsp;{{ $registro->minutos_paro }}" readonly>
+                                            </td>
                                             <td>
                                                 <input type="text" class="form-control" name="bulto"
                                                 value="{{ $registro->bulto }}" readonly>
@@ -534,6 +554,11 @@
 
         .table55 th:nth-child(1) {
             min-width: 150px;
+            /* Ajusta el ancho mínimo según tu necesidad */
+        }
+
+        .table56 th:nth-child(1) {
+            min-width: 10px;
             /* Ajusta el ancho mínimo según tu necesidad */
         }
         

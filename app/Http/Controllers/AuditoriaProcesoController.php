@@ -328,14 +328,23 @@ class AuditoriaProcesoController extends Controller
 
         //$diferenciaModulo = $request->modulo == $request->modulo_adicional;
         //dd($diferenciaModulo, $request->all());
+        $modulo = $request->modulo;
+        // Extraer la parte numérica del módulo
+        $modulo_num = intval(substr($modulo, 0, 3));
         $nuevoRegistro = new AseguramientoCalidad();
         $nuevoRegistro->area = $request->area;
-        if(($request->modulo == "101A") && ($request->modulo_adicional == "101A")){
-            $nuevoRegistro->modulo = $request->modulo;
-            $nuevoRegistro->modulo_adicional = NULL;
-        }elseif($request->modulo_adicional != "101A"){
-            $nuevoRegistro->modulo = $request->modulo;
-            $nuevoRegistro->modulo_adicional = $request->modulo_adicional;
+        if($modulo_num >= 100 && $modulo_num < 200){
+            if(($request->modulo == "101A") && ($request->modulo_adicional == "101A")){
+                $nuevoRegistro->modulo_adicional = NULL;
+            }elseif($request->modulo_adicional != "101A"){
+                $nuevoRegistro->modulo_adicional = $request->modulo_adicional;
+            }
+        }elseif($modulo_num >= 200 && $modulo_num < 300){
+            if(($request->modulo == "201A") && ($request->modulo_adicional == "201A")){
+                $nuevoRegistro->modulo_adicional = NULL;
+            }elseif($request->modulo_adicional != "201A"){
+                $nuevoRegistro->modulo_adicional = $request->modulo_adicional;
+            }
         }
         $nuevoRegistro->modulo = $request->modulo;
         $nuevoRegistro->planta = $plantaBusqueda;

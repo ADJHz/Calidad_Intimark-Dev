@@ -47,8 +47,9 @@
                                 <i class="material-icons">dashboard</i>
                                 <p>{{ __('Dashboard') }}</p>
                             </a>
+                        </li>
                     @endif
-                    </li>
+
                     @if (auth()->check() && (auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')))
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
@@ -84,12 +85,51 @@
                         </a>
                         <div class="collapse" id="laravelExamples">
                             <ul class="nav">
-                 @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta1')
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}">
-                                        <i class="material-icons">edit_document</i>
-                                        <p>{{ __('FCC-014') }}</p>
-                                        <p style="text-align: center;">{{ __('AUDITORIA ETIQUETAS') }}</p>
+                                @if (auth()->check() &&
+                                        (auth()->user()->hasRole('Auditor') ||
+                                            auth()->user()->hasRole('Administrador') ||
+                                            auth()->user()->hasRole('Gerente de Calidad')) &&
+                                        auth()->user()->Planta == 'Planta1')
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                            href="{{ route('formulariosCalidad.auditoriaEtiquetas') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('FCC-014') }}</p>
+                                            <p style="text-align: center;">{{ __('AUDITORIA ETIQUETAS') }}</p>
+
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('auditoriaCorte.inicioAuditoriaCorte') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('FCC-010') }}</p>
+                                            <p style="text-align: center;">{{ __('AUDITORIA CORTE') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                            href="{{ route('evaluacionCorte.inicioEvaluacionCorte') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('F-4') }}</p>
+                                            <p style="text-align: center;">{{ __('EVALUACION DE CORTE') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                            href="{{ route('auditoriaProcesoCorte.altaProcesoCorte') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('FCC-04') }}</p>
+                                            <p style="text-align: center;">{{ __('AUDITORIA PROCESO DE CORTE') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('aseguramientoCalidad.altaProceso') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('FCC-001') }}</p>
+                                            <p style="text-align: center;">{{ __('AUDITORIA DE PROCESOS') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
 
                                     </a>
                                 </li>
@@ -133,28 +173,33 @@
                                         <i class="material-icons">edit_document</i>
                                         <p>{{ __('FCC-008') }}</p>
                                         <p style="text-align: center;">{{ __('CONTROL DE CALIDAD EMPAQUE') }}</p>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
                                 @endif
- @if (auth()->check() && (auth()->user()->hasRole('Auditor') || auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Gerente de Calidad')) && auth()->user()->Planta == 'Planta2')
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('ScreenPlanta2.ScreenPrint') }}">
-                                        <i class="material-icons">edit_document</i>
-                                        <p>{{ __('Screen Print') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('ScreenPlanta2.InsEstamHorno') }}">
-                                        <i class="material-icons">edit_document</i>
-                                        <p>{{ __('Inspección Después De Horno') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}">
-                                        <i class="material-icons">edit_document</i>
-                                        <p>{{ __('Proceso Plancha') }}</p>
-                                    </a>
-                                </li>
+                                @if (auth()->check() &&
+                                        (auth()->user()->hasRole('Auditor') ||
+                                            auth()->user()->hasRole('Administrador') ||
+                                            auth()->user()->hasRole('Gerente de Calidad')) &&
+                                        auth()->user()->Planta == 'Planta2')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('ScreenPlanta2.ScreenPrint') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('Screen Print') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('ScreenPlanta2.InsEstamHorno') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('Inspección Después De Horno') }}</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                            href="{{ route('ScreenPlanta2.CalidadProcesoPlancha') }}">
+                                            <i class="material-icons">edit_document</i>
+                                            <p>{{ __('Proceso Plancha') }}</p>
+                                        </a>
+                                    </li>
                                 @endif
                     </li>
                 </ul>
