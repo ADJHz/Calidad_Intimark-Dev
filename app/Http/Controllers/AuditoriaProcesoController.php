@@ -489,4 +489,19 @@ class AuditoriaProcesoController extends Controller
         return back()->with('success', 'Fin de Paro Aplicado.')->with('activePage', $activePage);
     }
 
+    public function storeCategoriaTipoProblema(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'area' => 'required|string|max:255',
+        ]);
+
+        $categoriaTipoProblema = new CategoriaTipoProblema();
+        $categoriaTipoProblema->nombre = strtoupper($request->nombre);
+        $categoriaTipoProblema->area = $request->area;
+        $categoriaTipoProblema->estado = 1;
+        $categoriaTipoProblema->save();
+
+        return response()->json(['success' => true]);
+    }
 }
