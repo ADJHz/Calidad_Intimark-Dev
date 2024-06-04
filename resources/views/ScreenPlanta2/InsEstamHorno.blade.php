@@ -859,20 +859,14 @@
             addRowClicked = true;
 
             // Verificar si todos los campos están llenos
-            var camposVacios = false;
+
             $('select, input').each(function() {
                 if ($(this).val() === "" && !(($(this).attr('id') === 'otraTipoMaquina') && ($(
                         '#inputTipoMaquina').val() !== 'Otra'))) {
-                    camposVacios = true;
+
                     return false; // Salir del bucle si se encuentra un campo vacío
                 }
             });
-
-            if (camposVacios) {
-                alert('Por favor, complete todos los campos antes de añadir una nueva fila.');
-                return; // Detener la ejecución si hay campos vacíos
-            }
-
             lastRegisteredId++;
 
             var auditor = '{{ Auth::user()->name }}';
@@ -1014,32 +1008,7 @@
                     valor); // Envía 0 si está vacío, si no, envía el valor
                 });
                 var acCorrectivaValue = $(this).closest('tr').find('[name="ac_correctivaR[]"]').val();
-                 // Construye un mensaje con todos los datos
-        var alertMessage = `
-            Auditor: ${auditorValue}\n
-            Cliente: ${clienteValue}\n
-            Estilo: ${estiloValue}\n
-            OP_Defec: ${opDefecValue}\n
-            Panel: ${panelValue}\n
-            Tecnico: ${tecnicoValue}\n
-            Color: ${colorValue}\n
-            Num_Grafico: ${numGraficoValue}\n
-            Tipo_Maquina: ${tipoMaquinaValue}\n
-            LeyendaSPrint: ${leyendaSprintValue}\n
-            Tecnica: ${tecnicaValue}\n
-            Piezas_Auditar: ${piezasAuditarValue}\n
-            Fibras: ${fibrasValue}\n
-            Porcen_Fibra: ${porcentajeFibraValue}\n
-            Hora: ${horaValue}\n
-            Bulto: ${bultoValue}\n
-            Talla: ${tallaValue}\n
-            Tipo_Problema: ${tipoProblemaValue}\n
-            Num_Problemas: ${numProblemas.join(', ')}\n
-            Ac_Correctiva: ${acCorrectivaValue}
-        `;
 
-        // Muestra el alert
-        alert(alertMessage);
                 $.ajax({
                     url: '/SendInspeccionEstampadoHornot',
                     method: 'POST',
