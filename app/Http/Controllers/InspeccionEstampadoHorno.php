@@ -146,6 +146,7 @@ class InspeccionEstampadoHorno extends Controller
                 'Cliente' => $item->Cliente,
                 'Estilo' => $item->Estilo,
                 'OP_Defec' => $item->OP_Defec,
+                'Panel'=> $item->Panel,
                 'Tecnico' => $item->Tecnico,
                 'Color' => $item->Color,
                 'Num_Grafico' => $item->Num_Grafico,
@@ -181,6 +182,7 @@ class InspeccionEstampadoHorno extends Controller
         $cliente = $request->input('Cliente');
         $estilo = $request->input('Estilo');
         $opDefec = $request->input('OP_Defec');
+        $panel = $request->input('Panel');
         $tecnico = $request->input('Tecnico');
         $color = $request->input('Color');
         $numGrafico = $request->input('Num_Grafico');
@@ -196,6 +198,7 @@ class InspeccionEstampadoHorno extends Controller
         $tipoProblema = $request->input('Tipo_Problema');
         $numProblemas =  $request->input('Num_Problemas');
         $acCorrectiva = $request->input('Ac_Correctiva');
+
         // Crear un nuevo registro con 'Nuevo' como valor para la columna 'Status' si ambos botones fueron presionados
         if ($addRowClicked) {
             if (is_null($numProblemas)) {
@@ -211,6 +214,7 @@ class InspeccionEstampadoHorno extends Controller
                 'Cliente' => $cliente,
                 'Estilo' => $estilo,
                 'OP_Defec' => $opDefec,
+                'Panel' => $panel,
                 'Tecnico' => $tecnico,
                 'Color' => $color,
                 'Num_Grafico' => $numGrafico,
@@ -271,6 +275,7 @@ class InspeccionEstampadoHorno extends Controller
             'Cliente' => $request->input('Cliente', $screenPrint->Cliente),
             'Estilo' => $request->input('Estilo', $screenPrint->Estilo),
             'OP_Defec' => $request->input('OP_Defec', $screenPrint->OP_Defec),
+            'Panel'=> $request->input('Panel',$screenPrint->Panel),
             'Tecnico' => $request->input('Tecnico', $screenPrint->Tecnico),
             'Color' => $request->input('Color', $screenPrint->Color),
             'Num_Grafico' => $request->input('Num_Grafico', $screenPrint->Num_Grafico),

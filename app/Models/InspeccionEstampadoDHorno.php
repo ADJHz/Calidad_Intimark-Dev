@@ -15,6 +15,7 @@ class InspeccionEstampadoDHorno extends Model
                 'Cliente',
                 'Estilo' ,
                 'OP_Defec',
+                'Panel',
                 'Tecnico',
                 'Color',
                 'Num_Grafico',
